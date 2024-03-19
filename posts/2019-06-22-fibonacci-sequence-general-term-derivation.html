@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Doubt is the greatest enemy.">
+
+
+
+
+<title>Fibonacci 序列通项公式推导 | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Fibonacci 序列通项公式推导</h1>
+        </header>
+
+        <div class="post-content">
+            <p>Fibonacci sequence: $a_1 &#x3D; 1, a_2 &#x3D; 1, a_n &#x3D; a_{n-1} + a_{n-2}$</p>
+<p>Derivation:</p>
+<p>Let $a_n + x a_{n-1} &#x3D; y(a_{n-1} + x a_{n-2})$</p>
+<p>$a_n + x a_{n - 1} &#x3D; y a_{n-1} + xya_{n-2}$</p>
+<p>$a_{n} &#x3D; (y-x) a_{n-1} + x y a_{n-2}$</p>
+<p>Then:</p>
+<p>$\begin{cases} y - x &#x3D; 1 \ xy &#x3D; 1 \end{cases} \Rightarrow \begin{cases} x &#x3D; \frac{\sqrt{5} - 1}{2} \ y &#x3D; \frac{\sqrt{5} + 1}{2} \end{cases}$</p>
+<p>$a_n + \frac{\sqrt{5} - 1}{2} a_{n-1} &#x3D;\frac{\sqrt{5} + 1}{2} (a_{n-1} + \frac{\sqrt{5} - 1}{2} a_{n-2})$</p>
+<p>Let: $b_n &#x3D; a_n + \frac{\sqrt{5} - 1}{2} a_{n-1}$</p>
+<p>Then: $b_n &#x3D; \frac{\sqrt{5}+1}{2}b_{n-1}$</p>
+<p>And: $b_2 &#x3D; a_2 + \frac{\sqrt{5} - 1}{2} a_1 &#x3D; 1 + \frac{\sqrt{5} - 1}{2} &#x3D; \frac{\sqrt{5} + 1}{2}$</p>
+<p>So: $b_n &#x3D; (\frac{\sqrt{5} + 1}{2}) ^ {n-1}$</p>
+<p>$b_n &#x3D; \frac{(\frac{\sqrt{5} + 1}{2}) ^ {n-1} \sqrt{5}}{\sqrt{5}} \ &#x3D; \frac{(\frac{\sqrt{5} + 1}{2}) ^ {n-1} \frac{2\sqrt{5}}{2}}{\sqrt{5}} \ &#x3D; \frac{(\frac{\sqrt{5} + 1}{2}) ^ {n-1} (\frac{1 + \sqrt{5}}{2} - \frac{1 - \sqrt{5}}{2}))}{\sqrt{5}} \ &#x3D; \frac{(\frac{1 + \sqrt{5}}{2}) ^ {n} - (\frac{1 - \sqrt{5}}{2})(\frac{\sqrt{5} + 1}{2}) ^ {n-1}}{\sqrt{5}} &#x3D; \frac{(\frac{1 + \sqrt{5}}{2}) ^ {n}}{\sqrt{5}} - \frac{(\frac{1 - \sqrt{5}}{2})(\frac{1 + \sqrt{5}}{2}) ^ {n-1}}{\sqrt{5}}$</p>
+<p>$\because b_n &#x3D; a_n + \frac{\sqrt{5} - 1}{2} a_{n-1}$</p>
+<p>$\therefore a_n -\frac{(\frac{1 + \sqrt{5}}{2}) ^ {n}}{\sqrt{5}} &#x3D; \frac{1 - \sqrt{5}}{2} a_{n-1} - \frac{(\frac{1 - \sqrt{5}}{2})(\frac{1 + \sqrt{5}}{2})^{n-1}}{\sqrt{5}}$</p>
+<p>$a_n -\frac{(\frac{1 + \sqrt{5}}{2}) ^ {n}}{\sqrt{5}} &#x3D; \frac{1 - \sqrt{5}}{2} ( a_{n-1} - \frac{(\frac{1 + \sqrt{5}}{2})^{n-1}}{\sqrt{5}} )$</p>
+<p>Let: $C_n &#x3D; a_n - \frac{(\frac{1 + \sqrt{5}}{2}) ^ {n}}{\sqrt{5}}$</p>
+<p>$C_1 &#x3D; a_1 - \frac{(\frac{1 + \sqrt{5}}{2}) ^ {1}}{\sqrt{5}} &#x3D; \frac{\sqrt{5} - 1}{2\sqrt{5}}$</p>
+<p>$C_n &#x3D; \frac{\sqrt{5} - 1}{2\sqrt{5}} (\frac{1 - \sqrt{5}}{2})^{n-1}$</p>
+<p>Then:</p>
+<p>$a_n &#x3D; \frac{(\frac{1 + \sqrt{5}}{2}) ^ {n}}{\sqrt{5}} + C_n \ &#x3D; \frac{(\frac{1 + \sqrt{5}}{2}) ^ {n}}{\sqrt{5}} + \frac{\sqrt{5} - 1}{2\sqrt{5}} (\frac{1 - \sqrt{5}}{2})^{n-1} \ &#x3D; \frac{(\frac{1+\sqrt{5}}{2})^{n} - (\frac{1-\sqrt{5}}{2})^{n}}{\sqrt{5}}$</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">June 22, 2019&nbsp;&nbsp;20:36:55</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.com/posts/2019-06-22-fibonacci-sequence-general-term-derivation.html">https://ismdeep.com/posts/2019-06-22-fibonacci-sequence-general-term-derivation.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Math/">#Math</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

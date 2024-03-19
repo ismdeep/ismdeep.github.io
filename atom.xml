@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ismdeep</title>
+  
+  <subtitle>Doubt is the greatest enemy.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ismdeep.com/"/>
+  <updated>2024-03-19T11:32:53.638Z</updated>
+  <id>https://ismdeep.com/</id>
+  
+  <author>
+    <name>ismdeep</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Deploy IPFS with Nginx in Docker</title>
+    <link href="https://ismdeep.com/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html"/>
+    <id>https://ismdeep.com/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html</id>
+    <published>2024-03-19T11:29:23.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>This post is mainly to help reader to deploy an IPFS service with nginx proxy which provides basic authorizations.</p><p>A quick start is the following steps.</p><p>Some basic requirements:</p><ul><li>Docker should already be installed on your computer.</li><li>Basic Linux terminal skills.</li></ul><h1 id="Create-files"><a href="#Create-files" class="headerlink" title="Create files"></a>Create files</h1><ol><li><p>Create folder</p><pre><code>$ mkdir ipfs$ cd ipfs</code></pre></li><li><p>Create <code>docker-compose.yaml</code></p><pre><code>version: &#39;3&#39;services:  ipfs:    container_name: ipfs    image: ipfs/kubo:latest    volumes:      - ./data/:/data/ipfs/    ports:      - &#39;8080:8080&#39;    restart: always  nginx:    container_name: nginx    image: nginx:latest    ports:      - &#39;5001:5001&#39;    volumes:      - &#39;./default.conf:/etc/nginx/conf.d/default.conf:ro&#39;      - &#39;./htpasswd:/htpasswd:ro&#39;    restart: always</code></pre></li><li><p>Create <code>htpasswd</code></p><pre><code>ljiang:$apr1$nShUpvO7$hizri44cnQwto/zQ0y3Ka0</code></pre></li><li><p>Create <code>default.conf</code></p><pre><code>server &#123;    listen 5001;    server_name _;    client_max_body_size 2048000m;    location / &#123;        proxy_pass http://ipfs:5001;        proxy_set_header Host $host;        proxy_set_header X-Real-IP $remote_addr;        proxy_set_header X-Forwarded-Proto $scheme;        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;        auth_basic           &quot;Administrator’s Area&quot;;        auth_basic_user_file /htpasswd;    &#125;&#125;</code></pre></li></ol><h1 id="Init-IPFS-Data"><a href="#Init-IPFS-Data" class="headerlink" title="Init IPFS Data"></a>Init IPFS Data</h1><ol><li><p>Make data folder</p><pre><code>$ mkdir -p ./data/</code></pre></li><li><p>Init data</p><pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs init</code></pre></li></ol><h1 id="Set-IPFS-config"><a href="#Set-IPFS-config" class="headerlink" title="Set IPFS config"></a>Set IPFS config</h1><ol><li><p>Set Addresses</p><pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.API &#39;&quot;/ip4/0.0.0.0/tcp/5001&quot;&#39;$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.Gateway &#39;&quot;/ip4/0.0.0.0/tcp/8080&quot;&#39;</code></pre></li><li><p>Set API</p><pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin &#39;[&quot;*&quot;]&#39;$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods &#39;[&quot;GET&quot;, &quot;PUT&quot;, &quot;POST&quot;]&#39;</code></pre></li></ol><h1 id="Start-IPFS"><a href="#Start-IPFS" class="headerlink" title="Start IPFS"></a>Start IPFS</h1><pre><code>$ docker-compose up -d</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This post is mainly to help reader to deploy an IPFS service with nginx proxy which provides basic authorizations.&lt;/p&gt;
+&lt;p&gt;A quick start i
+      
+    
+    </summary>
+    
+    
+      <category term="IPFS" scheme="https://ismdeep.com/tags/IPFS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Sending File via Netcat</title>
+    <link href="https://ismdeep.com/posts/2024-03-11-sending-file-via-netcat.html"/>
+    <id>https://ismdeep.com/posts/2024-03-11-sending-file-via-netcat.html</id>
+    <published>2024-03-11T07:04:33.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>For example, your want send a file named hello.zip from client to server which ip and port are <code>192.168.56.102</code> and <code>8080</code></p><p>On your server:</p><pre><code>$ nc -l -p 8080 -q 1 &gt; hello.zip &lt; /dev/null</code></pre><p>On your client:</p><pre><code>$ cat hello.zip | nc 192.168.56.102 8080</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;For example, your want send a file named hello.zip from client to server which ip and port are &lt;code&gt;192.168.56.102&lt;/code&gt; and &lt;code&gt;8080
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Network" scheme="https://ismdeep.com/tags/Network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Backup Docker Compose Services</title>
+    <link href="https://ismdeep.com/posts/2024-03-01-backup-docker-compose-services.html"/>
+    <id>https://ismdeep.com/posts/2024-03-01-backup-docker-compose-services.html</id>
+    <published>2024-03-01T06:19:13.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>See: <a href="https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884">https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884</a></p><script src="https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884.js"></script>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;See: &lt;a href=&quot;https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884&quot;&gt;https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Create Linux OS Rootfs for Build Docker Images</title>
+    <link href="https://ismdeep.com/posts/2024-03-01-create-linux-os-rootfs-for-build-docker-images.html"/>
+    <id>https://ismdeep.com/posts/2024-03-01-create-linux-os-rootfs-for-build-docker-images.html</id>
+    <published>2024-03-01T00:48:25.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Create-Linux-OS-ROOTFS"><a href="#Create-Linux-OS-ROOTFS" class="headerlink" title="Create Linux OS ROOTFS"></a>Create Linux OS ROOTFS</h1><ol><li><p>Create an output folder</p><pre><code># mkdir -p /output/</code></pre></li><li><p>Create rootfs.tar</p><pre><code># cd /# tar cf /output/rootfs.tar --exclude=/proc --exclude=/dev --exclude=/boot --exclude=/run --exclude=/sys --exclude=/output /</code></pre></li><li><p>Compress tar file with xz</p><pre><code># xz -v -T 0 /output/rootfs.tar</code></pre></li></ol><h1 id="Build-Docker-Image"><a href="#Build-Docker-Image" class="headerlink" title="Build Docker Image"></a>Build Docker Image</h1><p>Build docker image from scratch with rootfs.tar.xz</p><pre><code>FROM scratchADD ./rootfs.tar.xz /</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Create-Linux-OS-ROOTFS&quot;&gt;&lt;a href=&quot;#Create-Linux-OS-ROOTFS&quot; class=&quot;headerlink&quot; title=&quot;Create Linux OS ROOTFS&quot;&gt;&lt;/a&gt;Create Linux OS ROOT
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tips for Writing Bash Script</title>
+    <link href="https://ismdeep.com/posts/2024-02-24-tips-for-writing-bash-script.html"/>
+    <id>https://ismdeep.com/posts/2024-02-24-tips-for-writing-bash-script.html</id>
+    <published>2024-02-24T08:07:36.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>Bash (Bourne Again SHell) is a popular command-line shell and scripting language. It is commonly used on Unix-like operating systems, including Linux.</p><h1 id="1-Writing-functions"><a href="#1-Writing-functions" class="headerlink" title="1. Writing functions"></a>1. Writing functions</h1><p>Bash functions are a way to group a set of commands and logic into a reusable block in a Bash script. They allow you to encapsulate common tasks or complex sequences of commands into a single callable entity. Here’s an example of how to define and use a Bash function:</p><pre><code class="bash">function hello() &#123;  ...&#125;</code></pre><p>or</p><pre><code class="bash">hello() &#123;  ...&#125;</code></pre><p><strong>Note: bash function will only return the return code of the last command that run in function.</strong></p><p>For example: the <code>hello</code> function will not catch the return code of <code>command1</code></p><pre><code class="bash">hello() &#123;  command1  command2&#125;</code></pre><p>If you care about the execution results of all instructions throughout the entire function process, you need to use the “&amp;&amp;” symbol to chain all the commands together. Such as:</p><pre><code class="bash">hello() &#123;  command1 &amp;&amp; \  command2&#125;</code></pre><h1 id="2-set-e"><a href="#2-set-e" class="headerlink" title="2. set -e"></a>2. set -e</h1><p><code>set -e</code> is a common command used in Bash scripts. It sets an error handling flag that causes the script to exit immediately if any command within the script fails.</p><pre><code class="bash">#!/bin/bashset -e# Some commands here...command1command2#...# If any command fails, the script will exit here</code></pre><h1 id="3-realpath"><a href="#3-realpath" class="headerlink" title="3. realpath"></a>3. realpath</h1><p><code>realpath</code> is a command in bash that is used to get the absolute path of a file or directory. </p><h1 id="4-dirname"><a href="#4-dirname" class="headerlink" title="4. dirname"></a>4. dirname</h1><p><code>dirname</code> is a built-in command in Bash scripts that returns the directory name part of a given path or the directory path of a given file path.</p><h1 id="5-BASH-SOURCE"><a href="#5-BASH-SOURCE" class="headerlink" title="5. BASH_SOURCE"></a>5. BASH_SOURCE</h1><p><code>BASH_SOURCE</code> is an internal variable in the Bash shell. It holds the path of the script or function that is currently being executed.</p><p>You can get absolute path of the bash script file you are running.</p><pre><code class="bash">#!/usr/bin/env bashset -ebash_script=&quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;</code></pre><p>And set the dirctory where bash script in as working directory.</p><pre><code class="bash">#!/usr/bin/env bashset -eworkdir=&quot;$(realpath &quot;$(dirname &quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;)&quot;)&quot;cd &quot;$&#123;workdir&#125;&quot;</code></pre><h1 id="6-confirm-via-read"><a href="#6-confirm-via-read" class="headerlink" title="6. confirm via read"></a>6. confirm via read</h1><p>In Bash, you can use the <code>read</code> command to prompt for confirm input from the user. Here’s an example of how to write a confirm input in Bash:</p><pre><code class="bash">read -p &quot;Are you sure [y/n]? &quot; -r nameif [[ ! $name =~ ^[Yy]$ ]]then  echo &quot;==&gt; Aborted&quot;  exit 0fi</code></pre><h1 id="7-variable-requirement"><a href="#7-variable-requirement" class="headerlink" title="7. variable requirement"></a>7. variable requirement</h1><p>The naive way to check if a variable is empty.</p><pre><code class="bash">if [ &quot;$&#123;variable&#125;&quot; == &quot;&quot; ]; then  ...fi</code></pre><p>The tidy code could be like:</p><pre><code class="bash">a=&quot;$&#123;variable:?&#125;&quot;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Bash (Bourne Again SHell) is a popular command-line shell and scripting language. It is commonly used on Unix-like operating systems, inc
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="Bash" scheme="https://ismdeep.com/tags/Bash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>List all credentials from jenkins</title>
+    <link href="https://ismdeep.com/posts/2024-02-22-list-all-credentials-from-jenkins.html"/>
+    <id>https://ismdeep.com/posts/2024-02-22-list-all-credentials-from-jenkins.html</id>
+    <published>2024-02-22T08:51:21.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>This post is mainly to help your list all credentials from Jenkins.</p><p>Run the following code in <code>Dashboard -&gt; Manage Jenkins -&gt; Tools and Actions -&gt; Script Console</code></p><pre><code class="groovy">import com.cloudbees.plugins.credentials.Credentialsimport com.cloudbees.plugins.credentials.CredentialsProviderCredentialsProvider.lookupCredentials(Credentials.class, Jenkins.instance, null, null).each &#123; c -&gt;    def className = c.properties.class.toString()    def p = c.properties    println(&quot;ID: $&#123;c.id&#125;&quot;)    println(&quot;Scope: $&#123;c.scope&#125;&quot;)    println(&quot;Description: $&#123;c.description&#125;&quot;)    println(&quot;Type: $&#123;className.substring(className.lastIndexOf(&#39;.&#39;) + 1)&#125;&quot;)    switch (c.properties.class.toString()) &#123;        case &#39;class com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl&#39;:            println(&quot;Username: $&#123;p.username&#125;&quot;)            println(&quot;Password: $&#123;p.password&#125;&quot;)            break        case &#39;class com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey&#39;:            println(&quot;Username: $&#123;p.username&#125;&quot;)            println(&quot;Private Key: |&quot;)            println(&quot;$&#123;p.privateKey&#125;&quot;)            break        case &#39;class org.jenkinsci.plugins.plaincredentials.impl.FileCredentialsImpl&#39;:            println(&quot;Filename: $&#123;p.fileName&#125;&quot;)            println(&quot;File Content: |&quot;)            println(&quot;$&#123;new String(c.getSecretBytes().getPlainData())&#125;&quot;)            break        case &#39;class org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl&#39;:            println(&quot;Secret: $&#123;p.secret&#125;&quot;)            break        default:            println(&quot;WARN: unknown credential type&quot;)            println(&quot;credential properties: $&#123;p.toString()&#125;&quot;)    &#125;    println(&quot;------------------------------------------------------------------------------&quot;)&#125;</code></pre><p>Or use the more tidy code</p><pre><code class="groovy">com.cloudbees.plugins.credentials.SystemCredentialsProvider.getInstance().getCredentials().forEach&#123;  it.properties.each &#123; prop, val -&gt;    println(prop + &quot; = &quot; + val)  &#125;  println(&quot;----------------------------------------------------&quot;)&#125;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This post is mainly to help your list all credentials from Jenkins.&lt;/p&gt;
+&lt;p&gt;Run the following code in &lt;code&gt;Dashboard -&amp;gt; Manage Jenkins
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.com/tags/DevOps/"/>
+    
+      <category term="Jenkins" scheme="https://ismdeep.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>First things you should do after install jetbrains IDE</title>
+    <link href="https://ismdeep.com/posts/2024-02-07-first-things-you-should-do-after-install-jetbrains-ides.html"/>
+    <id>https://ismdeep.com/posts/2024-02-07-first-things-you-should-do-after-install-jetbrains-ides.html</id>
+    <published>2024-02-07T02:37:49.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>JetBrains produces a suite of integrated development environments (IDEs) that are highly regarded by developers for their productivity-boosting features and user-friendly interfaces. Some of the most popular JetBrains IDEs include IntelliJ IDEA, PyCharm, WebStorm, PhpStorm, RubyMine, GoLand and etc.</p><p>Here are some things you need to prepare in advance before using them formally.</p><h1 id="Disable-IDE-await"><a href="#Disable-IDE-await" class="headerlink" title="Disable IDE await"></a>Disable IDE await</h1><p>“ide.await.scope.completion” to be a registry option that can be toggled to alter the behavior of JetBrains IDEs during shutdown. Sometimes when you close the IDE, it gets stuck at the ‘Closing Project’ dialog.</p><p>Here’s a breakdown of the steps outlined in the workaround:</p><ol><li>Select “Help” from the main menu of IDE.</li><li>Choose “Find Action.”</li><li>Type “Registry…” and select it from the search results.</li><li>In the opened list of registry options, find and disable the “ide.await.scope.completion” option.</li></ol><h1 id="Shortcut-for-Open-in-Terminal"><a href="#Shortcut-for-Open-in-Terminal" class="headerlink" title="Shortcut for Open in Terminal"></a>Shortcut for Open in Terminal</h1><ol><li>Select “File” from the main menu of IDE.</li><li>Choose “Setting”</li><li>Select “Keymap” in the open dialog.</li><li>Go to “Plugin” - “Terminal” - “Open in Terminal”</li><li>Set a shortcut for “Open in Terminal”, “Ctrl + T” is recommended.</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;JetBrains produces a suite of integrated development environments (IDEs) that are highly regarded by developers for their productivity-bo
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="JetBrains" scheme="https://ismdeep.com/tags/JetBrains/"/>
+    
+      <category term="Tools" scheme="https://ismdeep.com/tags/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Install Docker CE on UOS Server 1050e</title>
+    <link href="https://ismdeep.com/posts/2024-01-27-install-docker-ce-on-uos-server-1050e.html"/>
+    <id>https://ismdeep.com/posts/2024-01-27-install-docker-ce-on-uos-server-1050e.html</id>
+    <published>2024-01-27T08:41:46.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>Let’s quick start.</p><h1 id="Prepare-docker-ce-repo"><a href="#Prepare-docker-ce-repo" class="headerlink" title="Prepare docker-ce.repo"></a>Prepare docker-ce.repo</h1><pre><code>$ curl -L https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo$ sed -i &#39;s+https://download.docker.com+https://mirrors.ustc.edu.cn/docker-ce+&#39; /etc/yum.repos.d/docker-ce.repo$ sed -i &#39;s+$releasever+8+&#39; /etc/yum.repos.d/docker-ce.repo</code></pre><h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><pre><code>$ yum install -y docker-ce</code></pre><h1 id="Enable-system-service"><a href="#Enable-system-service" class="headerlink" title="Enable system service"></a>Enable system service</h1><pre><code>$ systemctl enable docker$ systemctl start docker</code></pre><h1 id="Check-service-status"><a href="#Check-service-status" class="headerlink" title="Check service status"></a>Check service status</h1><pre><code>$ systemctl status docker</code></pre><p>The result should show like below. Active status should be <code>running</code>.</p><pre><code>[root@localhost ~]# systemctl status docker● docker.service - Docker Application Container Engine   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)   Active: active (running) since Sat 2024-01-27 16:52:24 CST; 10s ago     Docs: https://docs.docker.com Main PID: 12132 (dockerd)    Tasks: 7   Memory: 32.7M   CGroup: /system.slice/docker.service           └─12132 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Let’s quick start.&lt;/p&gt;
+&lt;h1 id=&quot;Prepare-docker-ce-repo&quot;&gt;&lt;a href=&quot;#Prepare-docker-ce-repo&quot; class=&quot;headerlink&quot; title=&quot;Prepare docker-ce.repo
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+      <category term="UOS" scheme="https://ismdeep.com/tags/UOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Open files with system-associated editor in JetBrains IDE</title>
+    <link href="https://ismdeep.com/posts/2023-07-26-jetbrains-ide-open-file-with-system-associated-applications.html"/>
+    <id>https://ismdeep.com/posts/2023-07-26-jetbrains-ide-open-file-with-system-associated-applications.html</id>
+    <published>2023-07-26T13:43:19.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>The JetBrains series of IDEs are obviously very powerful and have become essential development tools for many developers.</p><p>However, I encountered a minor issue while using them: I prefer to edit certain files using the system-associated editor rather than the built-in Markdown editor in JetBrains IDE. For instance, Markdown files.</p><p>When you want to use a system-associated editor instead of the built-in editor in JetBrains IDE for certain files, you can follow these steps:</p><ol><li>Open your JetBrains IDE (e.g., IntelliJ IDEA, PyCharm, etc.).</li><li>Go to “File” -&gt; “Settings” (or “IntelliJ IDEA” -&gt; “Preferences” on macOS) from the menu bar.</li><li>In the Settings window, navigate to the “Editor” section and select “File Types”.</li><li>In the “File Types” tab, locate the file type for which you want to use the system-associated editor, such as Markdown files.</li><li>After selecting the file type, you will see the file extensions for that file type listed in the “Registered patterns” text box below the “Registered patterns” list.</li><li>Enter or edit the file extensions for the system-associated editor in the text box, separating each extension with a semicolon. For example, if you want the system-associated editor to handle Markdown files, you can enter *.md.</li><li>Click the “Apply” or “OK” button to save your settings.</li></ol><p>After completing these steps, the system will use the associated editor to open the specified file types instead of the built-in editor in JetBrains IDE.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;The JetBrains series of IDEs are obviously very powerful and have become essential development tools for many developers.&lt;/p&gt;
+&lt;p&gt;However,
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="JetBrains" scheme="https://ismdeep.com/tags/JetBrains/"/>
+    
+      <category term="Tools" scheme="https://ismdeep.com/tags/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Lightweight Deepin Linux</title>
+    <link href="https://ismdeep.com/posts/2023-07-04-lightweight-deepin.html"/>
+    <id>https://ismdeep.com/posts/2023-07-04-lightweight-deepin.html</id>
+    <published>2023-07-04T10:29:18.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>Deepin Linux is a Debian-based Linux distribution known for its visually appealing desktop environment and user-friendly interface. It’s developed by Chinese software company Deepin Technology Co., Ltd. Deepin features the Deepin Desktop Environment (DDE), which offers a sleek and intuitive interface similar to macOS, with a dock at the bottom, a global menu bar at the top, and various animations and effects.</p><p>Aside from its aesthetics, Deepin also provides a range of built-in applications, including a file manager, music player, video player, and more, all designed to integrate seamlessly with the desktop environment. It’s known for its simplicity and elegance, making it a popular choice for users who prefer a polished and modern Linux experience.</p><p>Deepin Linux also includes its own software center, which provides users with access to a wide range of applications for installation and updates. It’s available in multiple languages and is used by people around the world who appreciate its user-friendly approach and attractive design.</p><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>After system startup, it will consume 1.2GB of memory by default.</p><pre><code>root@deepin:~# free -mh              total        used        free      shared  buff/cache   availableMem:          7.7Gi       1.2Gi       4.7Gi        22Mi       1.9Gi       6.3GiSwap:            0B          0B          0B</code></pre><h1 id="Disable-services"><a href="#Disable-services" class="headerlink" title="Disable services"></a>Disable services</h1><pre><code>systemctl disable lightdmsystemctl disable dde-filemanager-daemonsystemctl disable deepin-accounts-daemonsystemctl disable deepin-devicemanager-server</code></pre><h1 id="Effectiveness"><a href="#Effectiveness" class="headerlink" title="Effectiveness"></a>Effectiveness</h1><p>After disabling some unnecessary services using the above methods, the system now only consumes 347MB of memory.</p><pre><code>root@server:~# free -mh              total        used        free      shared  buff/cache   availableMem:          7.7Gi       347Mi       7.2Gi       2.0Mi       183Mi       7.1GiSwap:            0B          0B          0B</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Deepin Linux is a Debian-based Linux distribution known for its visually appealing desktop environment and user-friendly interface. It’s 
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Deepin" scheme="https://ismdeep.com/tags/Deepin/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>To solve Terminator split screen divider transparent background problem</title>
+    <link href="https://ismdeep.com/posts/2023-07-03-terminator-transparent-problem-solved.html"/>
+    <id>https://ismdeep.com/posts/2023-07-03-terminator-transparent-problem-solved.html</id>
+    <published>2023-07-03T12:31:27.000Z</published>
+    <updated>2024-03-19T11:32:53.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>To solve the issue of Terminator terminal emulator’s split screen divider having a transparent background, you can try the following steps:</p><p>In the Linux desktop environment, Terminator is a highly versatile terminal tool that allows for multiple horizontal and vertical splits of the current page. However, there is an issue where the divider between splits is transparent, <strong>which can sometimes make it difficult to distinguish between the split blocks</strong>.</p><p>If you want to use a solid color as the background for the split line, you can use the following method:</p><h2 id="Edit-terminator-py"><a href="#Edit-terminator-py" class="headerlink" title="Edit terminator.py"></a>Edit terminator.py</h2><p>Edit Terminator source code file <code>/usr/share/terminator/terminatorlib/terminator.py</code>. Please note that modifying this file requires <code>root</code> permissions.</p><p>Search <code>background_type</code>, this should be in about line 495。</p><pre><code>            if profiles[profile][&#39;background_type&#39;] == &#39;transparent&#39;:                bgalpha = profiles[profile][&#39;background_darkness&#39;]</code></pre><p>Replace these two lines with:</p><pre><code>            if profiles[profile][&#39;background_type&#39;] == &#39;image&#39;:                backgound_image = profiles[profile][&#39;background_image&#39;]            if profiles[profile][&#39;background_type&#39;] == &#39;transparent&#39; or profiles[profile][&#39;background_type&#39;] == &#39;image&#39;:                bgalpha = profiles[profile][&#39;background_darkness&#39;]</code></pre><h2 id="Add-a-css-file"><a href="#Add-a-css-file" class="headerlink" title="Add a css file"></a>Add a css file</h2><p>Add a <code>~/.config/gtk-3.0/gtk.css</code> file in the user’s home directory with the following content:</p><pre><code>.terminator-terminal-window separator &#123;  background: #303030;&#125;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;To solve the issue of Terminator terminal emulator’s split screen divider having a transparent background, you can try the following step
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://ismdeep.com/tags/Ubuntu/"/>
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】现代软件工程 - 第二部分：测试</title>
+    <link href="https://ismdeep.com/posts/2023-07-02-modern-software-engineering-part-2-testing.html"/>
+    <id>https://ismdeep.com/posts/2023-07-02-modern-software-engineering-part-2-testing.html</id>
+    <published>2023-07-02T15:23:53.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>“如果调试是清除软件缺陷的过程，那么编程一定是把它们放进去的行为”。—— Edsger Djikstra</p></blockquote><p>编写自动化软件测试就像和自己玩电话游戏–当你误解了信息是什么时，你是唯一可以责备的人。如果你为自己的代码写测试，这已经够难的了，但是考虑到你为别人写的代码写测试，而这些代码本来就没有被测试。现在，这就像试图理解一张在蓝色牛仔裤口袋里洗过的纸上的信息是什么……三次!</p><p>这是在被测试的代码已经写完之后才写的测试。现在考虑一下先写测试的做法–这就像和自己玩高手过招，先写一些看似合理的规范或测试，以确保你要写的解决方案会 “做正确的事”。但是，如果你学过计算机科学，那么这听起来非常像解决停止问题–只是更糟糕，因为现在你不仅需要向自己证明，还需要向编译器&#x2F;解释器证明你希望它做的事情是正确的。</p><p>那么，为什么在过去的20年里，测试一直是现代软件工程实践中不可或缺的一部分–无论是测试优先还是测试最后，我们专业的软件工程师仍然需要考虑如何测试和验证软件以满足需求。</p><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>又到了故事时间。</p><p>上次在第一部分中，我写到我是如何艰难地学会了如何设计系统以适应现代的扩展性、可靠性、可用性、可维护性和安全性要求。设计一个解决方案只能到此为止，因为到了最后，这个解决方案需要被实施–有时，它必须由一个团队或多个团队来完成。</p><p>你可以想象，跨团队的协调工作将是问题的主要来源，但我们是否可以做些什么来减少这种负担？自动测试来了–特别是那种指定行为而不是测试实现的测试。</p><p>当我在Friendster工作的时候，我可以知道我所从事的服务的客户端到底期望什么。然而，这并不是完全明确的–我们有一个我们所遵循的协议（这是在协议缓冲区流行之前）和一些被这些客户端调用的URI。语义并没有完全阐明，但我们有一个忠实的听众–我可以阅读客户端的代码，并从当前的实现中找出期望。</p><p>这一点很重要–我们不是创建一个全新的协议或创建一个新的合同，而是从已知的需求开始，我们可以把这些需求写成自动测试。我首先要做的几件事之一是把这些测试变成我可以编程的规范，并逐步把实现带到满足要求的地步。这项工作产生了两个产品：</p><ul><li>C++网络库–一个性能相当好的HTTP客户端和服务器的C++实现，我正在重写的服务将在此基础上集成。</li><li>memcache++库 - 一个性能合理的C++实现的memcache客户端，支持分片和虚拟节点池。</li></ul><p>这两个开源解决方案都是内部定义的技术要求的结果。我们从一个现有的系统开始，将其分解成各个组成部分，然后逐步实施这些解决方案，直到我们可以将非业务关键部分作为开源软件共享。</p><p>你可能会问，为什么我需要从测试开始？因为测试允许我以一种渐进和可预测的方式来填充解决方案以满足需求。有了测试，我和审查我所写的代码的人就能理解需求是什么，并通过运行测试自动验证它们。这使我们能够逐步获得我们所需要的信心，我们得到了一个满足我们需求的解决方案。</p><p>有了测试，我就可以专注于什么是必要的和足够的功能，同时让我有信心重构和改进解决方案，并快速验证我是否破坏了编码需求的测试。通过让测试涵盖需求，我已经能够捕捉到许多错误，并快速地交付功能，在此过程中无畏地进行重构。</p><p>那是在2007-2008年左右，很多这些概念（如测试驱动开发和行为驱动开发）刚刚开始流行，但通常是在企业软件行业。在这里，我把其中一些好的想法应用到了微服务和水平可扩展的系统中!</p><p>快进了几年，我们现在到了2023年，测试在某些圈子里已经变成了一个肮脏的词（TDD和BDD往往烧毁了很多人，主要是由于对原则的误解），并且已经成为一种事后的想法，我们要求我们的副驾驶为我们写的代码做单元测试。这有点可惜，因为采用正确测试的高性能软件工程团队在适应不断变化的需求和改进解决方案的实施方面的自由度是非常有价值的，那些没有及早投资的团队往往会在很晚的时候才意识到，测试本来可以拯救他们的重大故障，由于错误爬到生产中而导致的不眠之夜，或者由于解决方案质量差和速度低而失去业务。</p><p>在这篇文章中，我将写更多关于测试在现代软件工程中的作用，以及如何正确地进行测试使你和你的团队在行业中取得成功。</p><h1 id="测试水平"><a href="#测试水平" class="headerlink" title="测试水平"></a>测试水平</h1><p>在我们进一步讨论之前，最好先了解测试的不同级别或类别。如果你以前没有写过测试，知道有一个相当健全的测试术语分类法可能会有好处，这样你至少可以跟上围绕它们发生的讨论。</p><ul><li>用户验收测试 —— 通常是自动测试，确保软件系统符合终端用户的要求。模拟终端用户通常包括驱动软件的用户界面（基于浏览器的网络用户界面的自动测试，本地应用程序用户界面的应用程序驱动程序，API服务客户端等），以执行用户会做的事情，并观察这些行动的结果，看它是否符合软件的验收标准。这通常是最高级别的测试，涵盖了整个软件系统的所有内容。</li><li>系统测试 —— 通常是对系统的功能和非功能属性进行测试的自动化测试。在这里，一个系统可以是一个完全集成的应用，也可以是一个带有相关组件的子系统。系统测试通常比用户验收测试（UATs）更全面。</li><li>集成测试 —— 典型的自动化测试，测试在集成环境中作为子系统工作的多个组件的相互作用（通常是测试线束或应用程序支架），这有利于集成组件的布线和测试。集成测试通常是对一个完整解决方案的逻辑子系统进行测试，这些子系统一起工作以提供一组特定的功能。</li><li>单元测试 —— 典型的自动化测试，对单个组件（不一定是单个类）的功能进行隔离测试。依赖关系可以由功能相当的实现来代替，以便于以受控的方式（有时是故意的）来模拟这些依赖关系。</li></ul><p>在某些情况下，你可能会遇到需要有人工或人类驱动的测试来覆盖一些不可预测的或组合巨大的可能性空间（考虑计算机游戏，人工智能模型，控制系统等）。这些在软件工程行业中仍然有很好的地位，但在这篇文章中，我将专注于自动化测试案例。</p><p>现在我们有了一些定义，让我们深入了解一些现代软件工程的测试方法以及它是如何改变我们解决问题的方式的。</p><h1 id="测试驱动开发"><a href="#测试驱动开发" class="headerlink" title="测试驱动开发"></a>测试驱动开发</h1><p>测试驱动开发或TDD是一种实现软件的方法论，首先将测试（或规范）写成可执行代码，看到测试失败（先是红色），实现一个解决方案以满足需求，看到测试成功（绿色），重构解决方案的可读性和灵活性，同时保持测试成功运行（保持绿色），并进行迭代。下面是对这个方法论中每个步骤的更多解释：</p><ul><li><strong>写一个失败的测试来代表一个需求。</strong> 这可能使用一个还不存在的类，或一个还没有实现的方法，或一个还没有被现有实现处理的情况，或一些系统还没有执行的新行为–不管新的需求是什么，写一个测试来代表这个需求，作为可执行的东西，并且最初失败。这一步让我们思考缺失的功能，以及它在任何层次上的使用方式–测试可以是UAT，系统测试，集成测试，或单元测试。</li><li>实施解决方案以满足需求（绿色）。满足需求的初始实现可能是最简单的工作，或者是一个简单的 “返回测试期望的东西”（我知道，这感觉像是作弊，但相信这个过程……），只是为了让你看到测试 “变绿”。这一步迫使我们思考解决这个问题的最直接的方法，这样我们就可以进入下一步，重新做这个循环。</li><li>无情地重构，同时保持测试的绿色（保持绿色）。不要在这里通过第2步，因为软件工程的肉发生在这一步，在这里我们可以看一下测试和实现中使用的接口，看看我们是否正在接近一个更可维护和灵活的解决方案，或者我们是否需要更多的测试来找到模式。你拥有的覆盖系统功能的测试越多，你就越需要重构，不仅是实现，还有测试–如果你也遵循领域驱动设计，这可以让你细化系统中的模型，这样你对解决方案的理解就会随着模型的变化而不断发展。</li><li>迭代。当你在不同的层次（UATs，系统测试，集成测试，单元测试）覆盖了越来越多的系统功能和非功能需求时，你将不可避免地发现一些需求不再是需求，现有的需求由于新的业务需求而略有变化，你可能不得不从某些子系统重新开始。认识到什么时候去增加测试，删除测试，优化性能或效率，或者只是叫它完成并继续前进，是整个过程的一个重要部分。只要你还没有完成，就回到第1步。</li></ul><p>请注意，即使你已经有了一个没有测试的代码库，你也可以开始遵循TDD。你可以自上而下（从UATs到单元测试）或自下而上（从单元测试到UATs），并在此过程中开始重构你的接口，让你觉得更有信心代表逻辑组件或领域模型。</p><p>从一开始就遵循TDD有很多好处：</p><ul><li>你在写测试的时候不得不考虑需求和设计。难以测试的代码通常意味着它没有遵循良好的设计实践。如果你发现你不能很好地表达测试，意味着你没有很好地理解需求，这迫使你在写测试之前首先要理解需求是什么。</li><li>你有更多的信心，你所拥有的解决方案甚至在到达生产之前就能满足要求。提前发现问题可以使你免受生产中可预见的麻烦。它还允许你专注于解决已经存在的指导问题，而不是等了很久才知道你是否满足了需求，当它上线时。与其把时间花在调试上，不如把时间花在解决其他问题上，并自信地逐步交付价值。</li><li>你有时间去整理，使之变得漂亮。TDD明确地将重构的时间作为开发过程的一部分–而不是推迟到以后的事情。如果你时间紧迫，需要推迟重构，那么它也可以在以后再进行，因为你的测试代表了需求的状态，而且实施质量可以作为过程的一部分得到改善。</li></ul><p>这也很好，但我们也需要承认TDD的成本和一些缺点。</p><ul><li>编写和运行自动化测试并不便宜。有些种类的测试比其他的更难写，而且它们也不是都能产生同样的价值。编写UATs可能需要特定测试框架的专业知识，或者在模拟生产部署时，需要使用不容易获得的特殊硬件（例如强大的GPU或FPGA）。有些需要全面部署多个服务，为测试目的而建立这些服务可能不符合成本效益，因此可能会走一些弯路。</li><li>要显示测试代码的价值是很难的，特别是当它被看作是一种机会成本时。很多人仍然认为测试是浪费时间，因为重要的是运送工作的东西–如果他们在生产中失败了，我们就黑掉它，因为我们需要赚足够的钱，这样资金就不会用完。不幸的是，用运送代码到生产中来代替测试，意味着你每次部署代码和新功能时，都在为你的解决方案和业务的有效性冒险。尽管TDD是一个很好的做法，而且有大量的成功案例表明为什么遵循TDD是一个好主意，除非有效的测试覆盖率被看作是对未来故障和需求变化的保险政策，那么它将是一个难点。</li><li>当你把有效的测试和100%的测试覆盖率混为一谈时，你会有一个糟糕的时间。TDD并不是要达到100%的测试覆盖率，而是专注于将需求表现为可执行的测试。只要你想，你可以有很多测试，只要它们能代表你正在构建的系统的重要内容。拥有100%的测试覆盖率并不代表你的测试在代表解决方案的重要内容方面有多有效。它可能是一个较小的测试集在确保你要解决的问题被解决方面得到了最好的价值。</li></ul><p>TDD并不是我们在这个世界上遇到的所有软件质量问题的万能药。然而，它是一种实践，可以帮助保持重要的焦点，以便我们可以有信心地设计满足需求的系统。</p><h1 id="自动测试"><a href="#自动测试" class="headerlink" title="自动测试"></a>自动测试</h1><p>如果你已经遵循TDD，那很好。但如果你不这样做，你有可以在以下情况下自动运行的测试仍然很重要：</p><ul><li>在开发时，在 “内部开发者循环 “中。如果你不能在你的集成开发环境或你的工作站中运行测试，以快速验证你的解决方案正在做他们应该做的事情，那么你会有一个糟糕的时间。确保自动化测试能够快速构建&#x2F;运行，并且能够代表重要的需求，这是一个重要的生产力提升器，值得投资。如果你除了写自动化测试，开发人员可以在他们的工作站上运行，你已经达到了自动化测试的80%的好处。</li><li>维护一个回归测试套件。每当提出或发现bug时，首先应该做的是用失败的测试来重现它。这样你就可以把修复错误的过程当作另一个需求来管理，把它表达为一个捕捉回归的测试（这意味着，软件不会表现出一个在过去已经被修复的错误）。你把越多的bug变成回归测试，你就越能更广泛地表达系统上的实际需求，并防止它们在未来反复出现。</li><li>也要测试系统的非功能方面。非功能需求指的是与功能没有严格联系的系统质量–如吞吐量、延迟、资源消耗、最低负载要求，以及其他可观察的属性。自动化这些需求可以让你把它们变成设计和实现需求的一部分，这样在对系统进行修改的时候，它们总是被考虑在内。</li></ul><p>自动化测试正在成为提供具有竞争力和更高质量的软件系统的关键工具，特别是在我们今天看到的现代软件工程实践中。鉴于我们正在构建和部署的系统的复杂性和关键性，很难看到我们如何能够在没有自动化测试的情况下向前管理。</p><h1 id="现代测试技术"><a href="#现代测试技术" class="headerlink" title="现代测试技术"></a>现代测试技术</h1><p>假设你已经实现了自动化测试，你有UATs、系统测试、集成测试和单元测试，你可以运行。你也有一个回归测试套件和非功能需求表达为自动化测试。你如何将你的测试实践带到现代软件工程时代？</p><p>特别是对于那些在云中作为分布式系统开发和部署的软件，在像Kubernetes这样的环境中协调，控制平面分别管理工作负载和资源的放置和管理，公共云供应商为网络存在和地理多样性提供管理资源，应用程序的架构变得越来越复杂。测试这些应用程序变得非常困难和昂贵。</p><p>以下是管理这种复杂性需要考虑的几件事，并确保你能跟上现代大规模全球可用服务的需求：</p><ul><li>投资于持续集成和持续交付。在你的软件投入生产之前进行测试，只能让你的测试达到一定程度，但生产的现实情况在开发中很少被预料到。有一种方法可以将在集成环境中测试过的代码以可控和安全的方式持续地运送到生产中，这是能够使你的解决方案适应生产的现实的关键。因为你已经投资了测试，你在生产中发现的错误可以被表述为失败的测试，并自动通过你的持续集成（CI）和持续部署（CD）管道运行。这减少了上市时间，缩短了工程团队的反馈周期。</li><li>投资于模糊测试和自动故障查找。有大量的解决方案可以在你依赖的系统中自动注入故障，无论是远程API服务还是内部组件。Fuzzing是一种测试方法，它使用随机生成的输入来发现潜在的安全漏洞或意外问题。虽然不能取代手写的测试，但这些测试可以增强你为你的系统编写的需求驱动的测试，以便在开发过程的早期发现潜在的故障。</li><li>使用尽可能多的生产暴露来测试你的系统。在生产中进行小规模的测试（也被称为金丝雀测试），可以让你的系统得到最真实的测试。将生产中的测试作为应用程序交付和部署管道中的一个关键环节。</li><li>利用人工智能和LLMs来增加你的测试覆盖率。如果你能获得GitHub Copilot或类似的技术，考虑使用它们（在咨询了法律顾问关于这对你的公司和代码的影响后）来填补你现有系统的单元、集成和系统测试。或者，如果你开始使用TDD，考虑用AI自动化来减少内循环中开发这些测试的时间。毕竟，如果开发人员花在编码测试上的时间是一个问题，那么AI应该是减少这种成本的一个好方法。）</li></ul><p>随着系统变得越来越复杂，因为它们是分布式的，处理的规模也越来越大，自动化测试对于确保我们正在开发的各种交互式系统的质量和正确性只会更加重要。</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>编写和维护有效的自动化测试，代表软件系统的关键要求，正成为今天软件工程专业人员的追求和重要技能。拥有测试专家的日子已经一去不复返了，就像现在每个人都是开发人员和运营工程师一样。现代软件工程要求每个软件工程从业者都知道并理解自动化测试的价值，它如何影响我们交付给客户的软件系统的稳健性、质量和有效性。</p><p>在一天结束时，软件工程是关于建立正确的东西来解决正确的问题。知道解决这个问题的要求是什么，是能够有效解决这个问题的关键。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;“如果调试是清除软件缺陷的过程，那么编程一定是把它们放进去的行为”。—— Edsger Djikstra&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;编写自动化软件测试就像和自己玩电话游戏–当你误解了信息是什么时，你是唯一可以责备的人。如果你为自己的
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="Repost" scheme="https://ismdeep.com/tags/Repost/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】现代软件工程 - 第一部分：系统设计</title>
+    <link href="https://ismdeep.com/posts/2023-06-21-modern-software-engineering-a-series-part-1-system-design.html"/>
+    <id>https://ismdeep.com/posts/2023-06-21-modern-software-engineering-a-series-part-1-system-design.html</id>
+    <published>2023-06-21T03:22:24.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<p>在80年代末90年代初长大的我，对电脑的接触几乎仅限于游戏机（我认为是Atari 800和Commodore 64游戏机，因为我只看到过在它们上面运行的游戏）或早期的x86系统。直到2000年我上了大学，我才掌握了一台Sun Microsystems SPARC工作站、UNIX和我可以在家里Intel 486机器上安装的Slackware Linux.</p><p>那时，软件开发主要是指在你的机器上本地运行的软件，或者，如果你有机会的话，在时间共享的计算机上运行的软件，其处理能力明显高于你，可以做商业相关的事情。我记得，在大学里听说过一个计算机科学家使用的程序，它需要一个多核处理器来生成数千个学生的课程表；生成和打印课程表需要数周时间。直到今天，我仍然不确定程序运行时间还是打印到纸上时间哪个更长。</p><p>今天，大多数正在开发的软件要么在云上运行，要么在需要访问云的设备上运行，要么为同样在云上运行的其他软件提供动力。在密闭空间内工作的软件系统（如嵌入式软件系统），如果不能在其他地方获得更强大的计算平台，那是非常罕见的。会计系统现在压缩了大量的数据，这些数据被托管在公司内部或外部的数据仓库的服务器群中。销售系统现在由第三方管理客户关系，并由更多的第三方或内部开发人员开发插件。</p><p>但是，今天这些软件系统是如何建立的，以服务数百到数百万的用户，同时还能保持我们对今天使用的软件所期望的性能和响应性？</p><p>作为一个有20年之久的软件工程师，我见过许多系统从堆栈的每个层面被开发出来。从DOS时代的中断处理程序到JavaScript驱动的动画，甚至是无代码的报告生成。几周前，我甚至让ChatGPT-4根据我给它的一些描述来生成一些我想要的Python代码！但这是另一个故事！但这是另一个故事了。</p><p>在这篇文章中，我写的是系统设计，它如何成为现代软件工程实践的一个关键部分，以及它将是人类软件工程师在中短期内仍能提供价值的关键领域之一。</p><h1 id="系统设计的重要性"><a href="#系统设计的重要性" class="headerlink" title="系统设计的重要性"></a>系统设计的重要性</h1><p>很久以前，我是一家公司的软件工程师，这家公司在处理他们自己带来的成功的负荷方面存在问题。我把这家公司称为Friendster。当我加入这家公司时，我所负责的项目已经很晚了，而且有许多与内存管理有关的错误。他们的核心服务（是的，在2007年我们这样称呼它之前，它是一个微服务）是用C++编写的，但有内存泄漏，处理请求的时间太长，而且被设计为在自己的内存中缓存和提供数据。它需要是无状态的，但最后却变成了有状态的。</p><p>在项目进行了几周后，我恳求高级工程领导层放弃这个服务的迭代，而是从头开始写一些符合要求的东西；这将是对现有实施的一个直接替换。我们有一个最后期限，因为该服务只能再处理几个月的增长，然后它就不能再以重新水化的方式处理缓存的大小。</p><p>重新启动服务所花的时间比它能保持的时间还要长，直到内存泄漏使它瘫痪。这是一个 “赌上我的职业生涯 “的时刻，但我几乎没有这个时间。我们必须让它运转起来。</p><p>系统设计开始了。我们做的第一件事是列出系统必须满足的要求，依赖服务（PHP前端代码）和这个核心服务之间的合同是什么，以及一个关于我们如何满足三个关键的非技术要求的计划：性能、效率和弹性。</p><p>系统设计涉及到了解系统必须执行其功能的约束条件，所需的功能是什么，以及相对于所有其他属性而言，系统的哪些属性是重要的。一旦你有了这些定义，你就可以开始设计一个符合要求的系统，并系统地规划出解决方案的交付。</p><h1 id="系统设计的组成部分"><a href="#系统设计的组成部分" class="headerlink" title="系统设计的组成部分"></a>系统设计的组成部分</h1><p>当我们谈及系统设计时，通常有几个组成部分：</p><ul><li>架构 —— 整体解决方案是什么样子的？它是否涉及多个子系统？是否有单独的组件组成一个整体？它们是如何相互作用的，以及它们之间的关系如何？</li><li>拓扑结构 —— 解决方案是否有分层？如果这是一个分布式系统，组件服务在物理上或逻辑上的位置是什么？</li><li>底层设计 —— 你定义了哪些接口，系统的不同部分通过这些接口进行交互？你是否有具体的算法来处理解决方案的关键部分（性能、效率、吞吐量、复原力等）？</li></ul><p>首先要了解一些事情，比如：系统是自成一体的（即：不会访问外部资源）还是分布式的？它是否会有一个用户界面，或者是非交互式的（例如，它是否会生成一份打印出来的报告，或者它在运行过程中是否需要来自人为或其他系统的输入？）它是否需要处理大量的流量？它是在任何时候只有十个人使用，还是在任何时候有千万个用户使用它？</p><p>一旦你对其中一些问题有了答案，通过系统设计原则做出决定就会更容易。</p><h1 id="系统设计的原则"><a href="#系统设计的原则" class="headerlink" title="系统设计的原则"></a>系统设计的原则</h1><p>在这个现代社会中，设计软件系统的几个关键原则直到系统需要扩展时才完全出现——从一个单用户系统到一个应该能够同时处理成千上万甚至数百万用户的系统。以下是我们将在本文中介绍的一些内容：</p><ul><li>可扩展性</li><li>可靠性</li><li>可维护性</li><li>可利用性</li><li>安全性</li></ul><h2 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h2><p>当一个系统可以在资源成比例增长的情况下被部署来处理负载的增长时，它就是可扩展的。一个系统的扩展系数被定义为服务于系统负载增长所需的资源量的增长。我们在软件系统中会遇到两种典型的扩展情况：垂直扩展和水平扩展。</p><p>垂直扩展是指为软件系统提供更多的空间或单机资源以处理需求的增长。考虑一下网络附加存储设备的情况。你通过设备提供的存储越多，它能存储的数据就越多。如果你需要它处理更多的并发连接和I&#x2F;O操作（IOPs），你通常需要增加计算能力和网络接口来处理增加的负载。</p><p>横向扩展是指用软件的副本复制一个系统或多台机器，以处理需求的增长。考虑一下隐藏在负载均衡器后面的静态网络内容服务器的情况。添加更多的服务器可以让更多的客户连接并从网络服务器上下载内容，当负载减弱后，网络服务器的数量可以缩减到适合当前需求的规模。</p><p>有些系统可以处理混合或对角线的扩展。例如，一些分布式数据库架构允许分割计算和存储节点，这样，计算重的工作负载可以使用具有更多计算资源的节点。相反，IOPs的重度工作负载可以在存储+计算节点上运行。例如，流处理应用程序可能会分离出需要更多内存和计算的工作负载（例如，事件源或分析工作负载），并适当地扩展这些工作负载，并独立于IOPs的重型工作负载（例如，压缩和归档）。</p><h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><p>当一个系统能够容忍部分故障和恢复而不严重降低服务质量时，它就是可靠的。一个系统的可靠性的一部分包括其在延迟、吞吐量和遵守商定的操作范围方面的可预测性。</p><p>确保系统可靠性的通常方法包括以下内容：</p><ul><li>设置系统冗余以支持透明或最小中断的故障切换。</li><li>在内部错误或输入引起的故障的情况下，建立容错机制。</li><li>明确界定延迟、吞吐量和可用性的合同和目标。</li><li>设置足够的备用容量，以满足负荷的突发和有机增长。</li><li>服务质量保障措施，强制执行费率限制和客户&#x2F;业务隔离。</li><li>在过载或灾难性故障的情况下，实施优雅的服务退化。</li></ul><p>构建可靠系统需要记住的关键一点是，以一种定义明确的方式处理潜在的故障，使依赖系统能够做出反应。这意味着如果有输入可能导致系统对所有人都可用，那么它就不是一个可靠的系统。同样地，如果系统依赖于另一个可能不可靠的系统，那么它应该用策略来处理不可靠的问题，以确保可靠性。</p><h2 id="可维护性"><a href="#可维护性" class="headerlink" title="可维护性"></a>可维护性</h2><p>当以相应的努力来改变一个系统，并以最小的用户干扰来部署时，这个系统是可维护的。这就要求在实施系统的时候，假定需求会发生变化，并且系统有足够的灵活性来处理可预见的方向变化。这也意味着要确保代码的可读性，以便下一组维护者（可能是同一个团队，但在未来用新的眼光来看待它）能够维护软件，并使其进化以满足未来的需求。</p><p>没有人愿意被困在维护那些僵化的、难以改变的、没有良好组织的、文件化程度低的、设计不良的、未经测试的、胡乱拼凑的软件。</p><p>确保代码质量高是卓越工程的一部分，体现了专业精神和优秀的工艺。这不仅是一件好事，而且众所周知，它可以让高功能和高性能的工程团队提供可以改变和扩展的软件，以持续提供价值。</p><h2 id="可用性"><a href="#可用性" class="headerlink" title="可用性"></a>可用性</h2><p>如果你的服务不可用，它可能不存在。</p><p>系统设计应该解决一个系统应该如何保持可用性，以保持与客户和系统用户的相关性。这意味着：</p><ul><li>引入冗余机制处理基础系统故障。</li><li>拥有备份和恢复方案和操作指南，使系统从硬故障中恢复过来。</li><li>从系统中去除尽可能多的单点故障。</li><li>除了横向可扩展性，还要有区域性的复制，并建立内容交付网络（在适当的地方），使你的数据可用。</li><li>从客户的角度监测你的系统的可用性，以更好地了解你的系统是如何为客户服务的。</li></ul><p>在我职业生涯的早期，我了解到，一个不稳定和不可用的系统有时会成为失去客户信任的最大原因。一旦你失去了客户的信任，就很难重新获得信任。</p><h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p>系统设计应该把安全作为一个关键环节来解决，特别是在互联网连接系统的时代，安全威胁和漏洞会对我们的客户和系统的使用者造成实际伤害。构建安全软件的目标并不是要达到完美，而是要了解漏洞和攻击所涉及的风险。拥有一个适当的安全威胁模型和一个系统的方法来理解风险所在，以及哪些类型的威胁值得优先考虑和设计缓解措施，是安全设计和工程实践的开始。</p><p>今天，随着我们的软件系统成为现代社会更多部分的关键任务服务的一部分，安全不再是可有可无的了。在我们设计的系统中，从一开始就认真对待安全问题，使我们更接近于能够更好地依赖我们所建立和部署的软件，以满足我们用户的需求。赢得客户的信任已经很不容易了，只需要一个漏洞就可以失去很好的一部分信任。</p><h1 id="现代设计模式"><a href="#现代设计模式" class="headerlink" title="现代设计模式"></a>现代设计模式</h1><p>鉴于以上几个方面，现代分布式系统的一些模式已经出现，以不同的方式解决了这些方面的一些问题。让我们来探讨一下我们今天看到的关于系统设计的五个方面的一些比较流行的设计模式。</p><h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>随着分布式系统的兴起，其重点是通过冗余建立可靠性和规模，通过横向扩展建立效率和性能，以及通过将系统的部分解耦为独立运行的服务来建立弹性，”微服务 “一词通过实现以下几点而得到普及：</p><ul><li>将独立服务的开发、部署、操作和维护与在更大的商业运作中拥有这些服务的团队联系起来。我们可以通过直接为外部客户提供服务或通过API间接为内部客户提供服务来做到这一点。</li><li>允许微服务根据需求独立扩展。</li><li>通过一个定义明确的合同提供服务，允许实施者发展成为一个独立的服务或一个服务系统。</li></ul><p>通过我们的方面来看，微服务有吸引人的特性，如果适用于用例的话，这使它成为一个好的模式：</p><ul><li>可扩展性：无状态的微服务通常被设计成可横向扩展的，也可以从纵向扩展中受益。在容器化协调环境（如Kubernetes集群）中部署微服务的情况下，微服务甚至可以在相同的节点上运行，从而更好地利用现有的硬件，并根据需求扩展可用的容量。一个缺点是，当一个微服务的规模和关键性在一个微服务图中增长时，部署的复杂性。</li><li>可靠性：无状态的微服务通常被托管在负载平衡器后面，并在地理上分布，以避免区域性故障占用所有系统的容量。用无状态微服务建立可靠性的一个缺点是，存储系统通常需要和微服务的实现&#x2F;部署一样可靠，甚至比它更可靠。有状态的微服务就会受到两种方法中最糟糕的影响，可靠性的成本通常是以过度配置的形式来处理潜在的中断。</li><li>可维护性：实现通过API提供的定义明确且稳定的合同的微服务，允许客户针对该API进行编程，并且实现可以独立发展。然而，协调API的变化涉及潜在的昂贵的客户端迁移和跨团队协调，引入了一个微服务拥有多个积极支持的版本的时期，直到最后的客户端从旧的实现中迁移出来。随着越来越多的客户开始与微服务互动，这种情况只会变得更糟。</li><li>可用性：微服务通常依靠部署环境和外部基础设施来满足客户的可用性要求。这样做的坏处是依赖部署微服务的特定基础设施来提供高可用性解决方案。像服务网和软件负载平衡器这样的系统成为基础设施的关键部分，不再由实施者控制。这可能是一件好事，但也可能是一个持续的维护来源，因为这些系统也有更新周期和运营成本。</li><li>安全性：认证、授权、身份管理和凭证管理可以委托给中间件或通过外部机制（如Kubernetes中的工作负载身份），微服务实施可以专注于整合相关的业务逻辑。与可用性一样，缺点是解决方案的这些外部部分成为基础设施的关键部分，在微服务实施的基础上带来自己的运营成本。</li></ul><p>微服务是分解大型应用的一个好方法，在这里可以确定需要自己的扩展和可靠性域的逻辑分区。不过，当从头开始时，从一开始就设计微服务是不太理想的，因为有可能将服务分解成太小的碎片。微服务之间的通信成本–通常为HTTP或gRPC请求–是很重要的，只有在必要时才应该产生。确定功能是否适合于一个服务的一个好方法是遵循领域驱动设计或功能分解这样的做法。</p><h2 id="Serverless"><a href="#Serverless" class="headerlink" title="Serverless"></a>Serverless</h2><p>如同在基于微服务的解决方案中，使用无服务器实现进一步将服务请求的关键功能部分委托给底层基础设施。如果在微服务中，服务是由一个持久化进程提供的，那么无服务器解决方案通常只实现一个入口点，以处理对一个端点的请求（通常是通过HTTP或gRPC的URI）。在无服务器部署中，没有配置实际的服务器，而是由部署环境根据需要启动资源来处理进来的请求。有时，这些资源会停留一段时间，以摊销启动它们的成本，但这只是一个实施细节。</p><p>让我们通过系统设计的各个方面来看看无服务器解决方案是如何叠加的：</p><ul><li>可扩展性：无服务器解决方案与微服务一样具有横向可扩展性，甚至更强，因为它们被设计为可按需调整规模。这种方法的缺点是需要更多的控制，并将扩展功能完全委托给底层无服务器基础设施。</li><li>可靠性：无服务器的可靠性取决于水平扩展和网络流量路由的能力。这与微服务解决方案有相同的缺点。</li><li>可维护性：无服务器的实现比微服务更易维护，因为它专注于处理请求的业务逻辑，并尽量减少模板。这与微服务所存在的API进化问题相同。</li><li>可用性：无服务器部署的可用性与它们所部署的环境一样。这也有同样的问题，底层基础设施变得比解决方案本身更重要。</li><li>安全性：无服务器的实现完全依赖于底层基础设施的安全配置。这也有同样的问题，底层基础设施变得比实际解决方案本身更关键。</li></ul><p>无服务器解决方案，或功能即服务，是一种非常有吸引力的方式，通过关注业务逻辑和价值，让底层基础设施处理服务的可扩展性、可靠性和可用性，来进行原型设计甚至部署生产级解决方案。这是一个典型的起点，可以让一个具有最小运营负担的解决方案启动和运行，对于大多数原型来说，这是一个证明我们假设的好方法。这也是一个典型的经验，一旦这些解决方案达到了扩展的极限，与运行这些相关的成本就变得足够高。这些都变成了根据所需规模调整的更优化的微服务实现。</p><h2 id="事件驱动"><a href="#事件驱动" class="headerlink" title="事件驱动"></a>事件驱动</h2><p>然而，有些问题领域不需要在线交易处理，而微服务和无服务器的实现并不完全符合要求。考虑到可以在后台或在有资源的情况下处理事务的情况。另一种情况是后台处理活动，其结果不一定是互动的。</p><p>事件驱动的系统遵循的模式是有一个事件源和事件汇，事件（消息）分别来自和被发送。处理是由订阅者和发布者分别对这些源和汇进行的。事件驱动系统的一个例子是一个聊天机器人，它可以参与许多对话（事件源和汇），并在它们进来时处理消息。</p><p>分布式事件驱动系统可以有多个并发的消息处理程序在相同的源上等待，可能会发布太多的汇，作为其他消息处理程序的源。这种通过汇和源将处理器连锁起来的模式被称为事件管道。通常情况下，汇和源有一个单一的实现，提供一个消息队列接口，并根据通过系统的消息需求来进行扩展。许多分布式队列管理系统也可以有效地从对角线扩展中获益，比如Apache Kafka、RabbitMQ等。</p><p>让我们通过我们的五个方面来研究分布式事件驱动系统：</p><ul><li>可扩展性：消息&#x2F;事件代理实现和消息处理程序都可以独立扩展。当处理太多的消息&#x2F;事件时，一些缺点就会出现，对事件代理的需求增长远远超过系统的可用容量。</li><li>可靠性：好的消息代理实现提供高水平的可靠性，不创建自己的消息代理实现是个好主意。缺点是对满足可靠性需求的解决方案的依赖性（例如，处理金融交易与处理聊天室的即时信息路由有很大不同）。</li><li>可维护性：如果你使用像协议缓冲区这样灵活的消息交换格式，那么在使用相同的数据描述语言的同时进化消息的写入者和读取者也是合理的。这仍然需要协调，但不像在实时交易处理系统中演变API合同那样繁琐（如在微服务和无服务器实现中）。</li><li>可用性：由于消息通常存储在耐用介质中，事件驱动的系统通常更容易实现可用性，特别是由于它们通常是非交互式应用。可用性的代价可能来自陈旧的消息和无限制的队列处理延迟。</li><li>安全性：事件驱动的系统必须管理独立于身份和证书的数据可用性。确保只有某些服务或消息处理器可以访问特定的消息队列或日志，这成为一项全职工作，因为更多不同的数据会通过系统被挖掘出来。</li></ul><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>现代软件工程需要设计可扩展、可靠、可维护、可用和安全的系统。设计分布式系统需要非常严格的要求，因为现代系统的现实复杂性随着社会对更好的软件服务的需求而增长。我们回顾了分布式系统的三种现代设计模式，并研究了设计良好的系统的五个方面。</p><p>作为软件工程师，我们负责设计系统，解决现代分布式系统的关键问题。</p><p>在该系列的下一篇文章中，我将会写到测试及其在现代软件工程中的作用。</p><p>【转自】 <a href="https://betterprogramming.pub/modern-software-engineering-a-series-part-1-system-design-d689fabae772">https://betterprogramming.pub/modern-software-engineering-a-series-part-1-system-design-d689fabae772</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在80年代末90年代初长大的我，对电脑的接触几乎仅限于游戏机（我认为是Atari 800和Commodore 64游戏机，因为我只看到过在它们上面运行的游戏）或早期的x86系统。直到2000年我上了大学，我才掌握了一台Sun Microsystems SPARC工作站、UN
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="Repost" scheme="https://ismdeep.com/tags/Repost/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux通用802.1x认证方法</title>
+    <link href="https://ismdeep.com/posts/2023-03-13-linux-802-1x-authorization.html"/>
+    <id>https://ismdeep.com/posts/2023-03-13-linux-802-1x-authorization.html</id>
+    <published>2023-03-13T03:42:04.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="什么是-802-1X"><a href="#什么是-802-1X" class="headerlink" title="什么是 802.1X ?"></a>什么是 802.1X ?</h1><p>IEEE 802.1X是一种网络访问控制（NAC）协议，它定义了一种在网络交换机或接入点上进行认证的标准方式。它是一个端口级别的访问控制协议，通过端口的身份验证来控制网络上的主机是否有权访问资源。IEEE 802.1X提供了一种允许网络管理员验证用户的身份、检查设备是否满足最低安全标准并允许或拒绝访问网络的方法。 </p><p>使用IEEE 802.1X，网络管理员可以防止未经授权的设备、病毒或其他恶意软件进入网络并对网络进行攻击。此外，它也提供了一种机制来保护网络免受暴力破解、ARP欺骗和MAC地址欺骗等攻击形式。因此，IEEE 802.1X可以增加网络的安全性以确保网络的保密性和数据完整性。</p><h1 id="Linux环境"><a href="#Linux环境" class="headerlink" title="Linux环境"></a>Linux环境</h1><p>Linux下网络配置工具不同的发行版之间略有不同，而且有些发行版默认的网络工具存在问题，会导致认证失败的问题。</p><p>本文提供一种基于Docker的认证方法。</p><p>首先当然需要安装 Docker 和 docker-compose</p><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="docker-compose-配置"><a href="#docker-compose-配置" class="headerlink" title="docker-compose 配置"></a>docker-compose 配置</h2><p>Dockerfile</p><pre><code>FROM debian:11RUN set -e; \    apt-get update; \    apt-get upgrade -y; \    apt-get install -y net-tools wpasupplicant</code></pre><p>docker-compose.yaml</p><pre><code>version: &#39;3&#39;services:  uniteos:    build:      context: ./      dockerfile: Dockerfile    command: wpa_supplicant -D wired -i enp3s0 -c /wpa.conf -dd -t    network_mode: host    volumes:      - ./wpa.conf:/wpa.conf:ro    restart: always</code></pre><h2 id="wpa-配置文件"><a href="#wpa-配置文件" class="headerlink" title="wpa 配置文件"></a>wpa 配置文件</h2><p>wpa.conf</p><pre><code>ctrl_interface=/var/run/wpa_supplicantctrl_interface_group=rootap_scan=0network=&#123;  key_mgmt=IEEE8021X  eap=PEAP  phase2=&quot;autheap=GTC&quot;  identity=&quot;&lt;username&gt;&quot;  password=&quot;&lt;password&gt;&quot;  priority=2&#125;</code></pre><h1 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h1><pre><code>docker-compose up -d</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;什么是-802-1X&quot;&gt;&lt;a href=&quot;#什么是-802-1X&quot; class=&quot;headerlink&quot; title=&quot;什么是 802.1X ?&quot;&gt;&lt;/a&gt;什么是 802.1X ?&lt;/h1&gt;&lt;p&gt;IEEE 802.1X是一种网络访问控制（NAC）协议，它定义了一种
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+      <category term="802.1x" scheme="https://ismdeep.com/tags/802-1x/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过 godepgraph 优化Go项目代码结构</title>
+    <link href="https://ismdeep.com/posts/2023-02-15-optimize-golang-project-code-structure-with-godepgraph.html"/>
+    <id>https://ismdeep.com/posts/2023-02-15-optimize-golang-project-code-structure-with-godepgraph.html</id>
+    <published>2023-02-15T09:19:12.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在Golang项目开发过程中，发现一些启动依赖关系搞不清楚的问题。项目中会使用 <code>init()</code> 函数进行初始化，然而一个项目会有多个可执行程序，比如： </p><ul><li>A 程序仅调用 A 应用应该调用的 init 代码，结果在开发过程中，却使得 A 应用调用了其他应用程序的 init 代码。然而这种问题，在构建阶段是无法发现的。</li><li>原本规划好了调用层级，比如大致调用层级关系如： app层 -&gt; internal层 -&gt; pkg层</li></ul><p>本文将介绍如何使用 godepgraph 工具解决 Golang 项目开发过程中优化代码结构。</p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="bash">go install github.com/kisielk/godepgraph@latest</code></pre><h1 id="基础运行"><a href="#基础运行" class="headerlink" title="基础运行"></a>基础运行</h1><pre><code class="bash">godepgraph github.com/ismdeep/station/cmd/server</code></pre><p>输出如下：</p><pre><code>digraph godep &#123;splines=orthonodesep=0.4ranksep=0.8node [shape=&quot;box&quot;,style=&quot;rounded,filled&quot;]edge [arrowsize=&quot;0.5&quot;]&quot;bufio&quot; [label=&quot;bufio&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/bufio&quot; target=&quot;_blank&quot;];&quot;bytes&quot; [label=&quot;bytes&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/bytes&quot; target=&quot;_blank&quot;];&quot;compress/bzip2&quot; [label=&quot;compress/bzip2&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/bzip2&quot; target=&quot;_blank&quot;];&quot;compress/flate&quot; [label=&quot;compress/flate&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/flate&quot; target=&quot;_blank&quot;];&quot;compress/gzip&quot; [label=&quot;compress/gzip&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/gzip&quot; target=&quot;_blank&quot;];&quot;compress/zlib&quot; [label=&quot;compress/zlib&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/zlib&quot; target=&quot;_blank&quot;];&quot;container/list&quot; [label=&quot;container/list&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/container/list&quot; target=&quot;_blank&quot;];&quot;unicode&quot; [label=&quot;unicode&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode&quot; target=&quot;_blank&quot;];&quot;unicode/utf16&quot; [label=&quot;unicode/utf16&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode/utf16&quot; target=&quot;_blank&quot;];&quot;unicode/utf8&quot; [label=&quot;unicode/utf8&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode/utf8&quot; target=&quot;_blank&quot;];&quot;unsafe&quot; [label=&quot;unsafe&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unsafe&quot; target=&quot;_blank&quot;];&#125;</code></pre><p>但是这样的输出显示是有太多是我们不想去关心的。可以通过以下参数进行筛选。</p><h1 id="筛选"><a href="#筛选" class="headerlink" title="筛选"></a>筛选</h1><p>通过 <code>-onlyprefixes</code> 可以筛选仅以某个包名为前缀的包。</p><pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server</code></pre><h1 id="结合-graphviz-可视化依赖树"><a href="#结合-graphviz-可视化依赖树" class="headerlink" title="结合 graphviz 可视化依赖树"></a>结合 graphviz 可视化依赖树</h1><p>首先安装 graphviz 包</p><pre><code>sudo apt updatesudo apt install -y graphviz</code></pre><p>产生依赖关系树并输出svg图片</p><pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server | dot -Tsvg -o server.svg</code></pre><p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2023/02/16/8a02a3a4014094adbd2ddd1e283c5ec6-86bbd4.svg" alt="server"></p><h1 id="小技巧-sed"><a href="#小技巧-sed" class="headerlink" title="小技巧 sed"></a>小技巧 sed</h1><p>从上图来看，包名前缀也是比较多余，可以通过 sed 命令清理掉。</p><pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server | sed &#39;s/github\.com\/ismdeep\/station\///g&#39; | dot -Tsvg -o server.svg</code></pre><p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2023/02/16/a7e48b23290bd455f8ba6b356d548874-5625ac.svg" alt="server"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近在Golang项目开发过程中，发现一些启动依赖关系搞不清楚的问题。项目中会使用 &lt;code&gt;init()&lt;/code&gt; 函数进行初始化，然而一个项目会有多个可执行程序，比如： &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A 程序仅调用 A 应用应该调用的 init 代码，结果在开发过程
+      
+    
+    </summary>
+    
+    
+      <category term="Go" scheme="https://ismdeep.com/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>tmux</title>
+    <link href="https://ismdeep.com/posts/2022-11-06-tmux.html"/>
+    <id>https://ismdeep.com/posts/2022-11-06-tmux.html</id>
+    <published>2022-11-06T14:53:31.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<p>Easy way to use tmux.</p><span id="more"></span><h2 id="Show-session-list"><a href="#Show-session-list" class="headerlink" title="Show session list"></a>Show session list</h2><pre><code class="bash">tmux ls</code></pre><h2 id="Create-a-new-session"><a href="#Create-a-new-session" class="headerlink" title="Create a new session"></a>Create a new session</h2><pre><code class="bash">tmux new -s &lt;session-name&gt;</code></pre><h2 id="Attach-a-session"><a href="#Attach-a-session" class="headerlink" title="Attach a session"></a>Attach a session</h2><pre><code class="bash">tmux attach -t &lt;session-name&gt;</code></pre><p>or</p><pre><code class="bash">tmux a -t &lt;session-name&gt;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Easy way to use tmux.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>30道常见Vue面试题</title>
+    <link href="https://ismdeep.com/posts/2022-06-16-30-vue-interview-questions.html"/>
+    <id>https://ismdeep.com/posts/2022-06-16-30-vue-interview-questions.html</id>
+    <published>2022-06-16T07:51:09.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-说说你对SPA单页面的理解，它的优缺点分别是什么？"><a href="#1-说说你对SPA单页面的理解，它的优缺点分别是什么？" class="headerlink" title="1. 说说你对SPA单页面的理解，它的优缺点分别是什么？"></a>1. 说说你对SPA单页面的理解，它的优缺点分别是什么？</h1><p>SPA ( single-page application ）仅在Web 页面初始化时加载相应的 HTML、JavaScript和CSS.一旦页面加载完成，SPA 不会因为用户的操作而进行页面的重新加载或跳转；取而代之的是利用路由机制实现 HTML 内容的变换，UI与用户的交互避免页面的重新加载。</p><p><strong>优点：</strong></p><ul><li>用户体验好、快，内容的改变不需要重新加载整个页面，避免了不必要的跳转和重复渲染；</li></ul><p>基于上面一点，SPA 相对对服务器压力小；前后端职责分离，架构清晰，前端进行交互逻辑，后端负责数据处理；</p><p><strong>缺点：</strong></p><ul><li>初次加载耗时多：为实现单页 Web 应用功能及显示效果，需要在加载页面的时候将JavaScript、css 统一加载，部分页面按需加载；</li><li>前进后退路由管理：由于单页应用在一个页面中显示所有的内容，所以不能使用浏览器的前进后退功能，所有的页面切换需要自己建立堆栈管理；</li><li>SEO 难度较大：由于所有的内容都在一个页面中动态替换显示，所以在 SEO 上其有着天然的弱势。</li></ul><h1 id="2-v-show与v-if有什么区别？"><a href="#2-v-show与v-if有什么区别？" class="headerlink" title="2. v-show与v-if有什么区别？"></a>2. v-show与v-if有什么区别？</h1><p><strong>v-if</strong> 是真正的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建；也是<strong>情性</strong>的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。</p><p><strong>v-show</strong> 就简单得多 ——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 的“display” 属性进行切换。</p><p>所以，v-if 适用于在运行时很少改变条件，不需要频繁切换条件的场景；v-show 则适用于需要非常频繁切换条件的场景。</p><h1 id="3-class与style如何动态绑定？"><a href="#3-class与style如何动态绑定？" class="headerlink" title="3. class与style如何动态绑定？"></a>3. class与style如何动态绑定？</h1><p>class可以通过对象语法和数组语法进行动态绑定：</p><ul><li><p>对象语法：</p><pre><code>&lt;div v-bind:class=&quot;&#123; &#39;active&#39;: isActive, &#39;text-danger&#39;: hasError &#125;&quot;&gt;&lt;/div&gt;data: &#123;  isActive: true,  hasError: false&#125;</code></pre></li><li><p>数组语法：</p><pre><code>&lt;div v-bind:class=&quot;[isActive ? activeClass : &#39;&#39;, errorClass]&quot;&gt;&lt;/div&gt;data: &#123;  activeClass: &#39;active&#39;,  errorClass: &#39;text-danger&#39;&#125;</code></pre></li></ul><p>style也可以通过对象语法和数组语法进行动态绑定：</p><ul><li><p>对象语法：</p><pre><code>&lt;div v-bind:style=&quot;&#123; color: activeColor, fontSize: fontSize + &#39;px&#39; &#125;&quot;&gt;&lt;/div&gt;data: &#123;  activeColor: &#39;red&#39;,  fontSize: 30&#125;</code></pre></li><li><p>数组语法： </p><pre><code>&lt;div v-bind:style=&quot;[styleColor, styleSize]&quot;&gt;&lt;/div&gt;data: &#123;  styleColor: &#123;  color: &#39;red&#39;  styleSize:&#123;    fontSize:&quot;&#39;23px&#39;  &#125;&#125;</code></pre></li></ul><h1 id="4-怎样理解Vue的单向数据流？"><a href="#4-怎样理解Vue的单向数据流？" class="headerlink" title="4. 怎样理解Vue的单向数据流？"></a>4. 怎样理解Vue的单向数据流？</h1><p>所有的 prop 都使得其父子 prop 之间形成了一个单向下行鄉定：父级prop 的更新会向下流动到子组件中，但是反过来则不行。这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p><p>额外的，每次父级组件发生更新时，子组件中所有的prop 都将会刷新为最新的值。这意味着你不应该在一个子组件内部改变 prop。如果你这样做了，vue 会在浏览器的控制台中发出警告。子组件想修改时，只能通过 $emit 派发一个自定义事件，父组件接收到后，由父组件修改。</p><p>有两种常见的试图改变一个prop 的情形：</p><ul><li><p><strong>这个prop 用来传递一个初始值；这个子组件接下来希望将其作为一个本地的 prop数据来使用。</strong>在这种情况下，最好定义一个本地的data 属性并将这个 prop 用作其初始值：</p><pre><code>props: [&#39;initialCounter&#39;],data: function() &#123;  return &#123;    counter: this.initialCounter  &#125;&#125;</code></pre></li><li><p><strong>这个prop 以一种原始的值传入且需要进行转换</strong>。在这种情况下，最好使用这个prop 的值来定义一个计算属性</p><pre><code>props: [&#39;size&#39;]computed: &#123;  normalizedSize: function() &#123;    return this.size.trim().toLowerCase()  &#125;&#125;</code></pre></li></ul><h1 id="5-computed和watch的区别和运用的场景？"><a href="#5-computed和watch的区别和运用的场景？" class="headerlink" title="5. computed和watch的区别和运用的场景？"></a>5. computed和watch的区别和运用的场景？</h1><p><strong>computed</strong>：是计算属性，依赖其它属性值，并且 computed 的值有缓存，只有它依赖的属性值发生改变，下一次获取 computed 的值时才会重新计算 computed 的值；</p><p><strong>watch</strong>：更多的是「观察」的作用，类似于某些数据的监听回调，每当监听的数据变化时都会执行回调进行后续操作；</p><p><strong>运用场景：</strong></p><ul><li>当我们需要进行数值计算，并且依赖于其它数据时，应该使用 computed， 因为可以利用computed 的缓存特性，避免每次获取值时，都要重新计算;</li><li>当我们需要在数据变化时执行异步或开销较大的操作时，应该使用watch，使用watch 选项允许我们执行异步操作（访问一个 API)，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的。</li></ul><h1 id="6-直接给一个数组项赋值，Vue能检测到变化吗？"><a href="#6-直接给一个数组项赋值，Vue能检测到变化吗？" class="headerlink" title="6. 直接给一个数组项赋值，Vue能检测到变化吗？"></a>6. 直接给一个数组项赋值，Vue能检测到变化吗？</h1><p>由于JavaScript 的限制，vue 不能检测到以下数组的变动：</p><ul><li>当你利用索引直接设置一个数组项时，例如：<code>vm.items[indexOfltem] = newValue</code></li><li>当你修改数组的长度时，例如：<code>vm.items.length = newLength</code></li></ul><p>为了解决第一个问题，Vue 提供了以下操作方法：</p><pre><code class="javascript">// Vue.setVue.set(vm.items, indexOfItem, newValue)// vm.$set, Vue.set的一个别名vm.$set(vm.items, indexOfItem, newValue)// Array.prototype.splicevm.items.splice(indexOfItem, 1, newValue)</code></pre><p>为了解决第二个问题，Vue提供了一下操作方法：</p><pre><code class="javascript">// Array.prototype.splicevm.items.splice(newLength)</code></pre><h1 id="7-谈谈你对Vue生命周期的理解？"><a href="#7-谈谈你对Vue生命周期的理解？" class="headerlink" title="7. 谈谈你对Vue生命周期的理解？"></a>7. 谈谈你对Vue生命周期的理解？</h1><p>(1) 生命周期是什么？</p><p>Vue实例有一个完整的生命周期，也就是从开始创建、初始化数据、编译模版、挂载Dom-＞渲染、更新-＞渲染、卸载等一系列过程，我们称这是 vue 的生命周期。</p><p>(2) 各个生命周期的作用</p><table><thead><tr><th>生命周期</th><th>描述</th></tr></thead><tbody><tr><td>beforeCreate</td><td>组件实例被创建之初，组件的属性生效之前</td></tr><tr><td>created</td><td>组件实例已经完全创建，属性也绑定，但真实 dom 还没有生成，$el 还不可用</td></tr><tr><td>beforeMount</td><td>在挂载开始之前被调用：相关的render 函数首次被调用</td></tr><tr><td>mounted</td><td>el被新创建的 vm.$el替换，并挂载到实例上去之后调用该钩子</td></tr><tr><td>beforeUpdate</td><td>组件数据更新之前调用，发生在虚拟 DOM 打补丁之前</td></tr><tr><td>update</td><td>组件数据更新之后</td></tr><tr><td>activated</td><td>keep-alive 专属，组件被激活时调用</td></tr><tr><td>deactivated</td><td>keep-alive 专属，组件被销毁时调用</td></tr><tr><td>beforeDestroy</td><td>组件销毁前调用</td></tr><tr><td>destroyed</td><td>组件销毁后调用</td></tr></tbody></table><h1 id="8-Vue的父组件和子组件生命周期钩子函数执行顺序？"><a href="#8-Vue的父组件和子组件生命周期钩子函数执行顺序？" class="headerlink" title="8. Vue的父组件和子组件生命周期钩子函数执行顺序？"></a>8. Vue的父组件和子组件生命周期钩子函数执行顺序？</h1><p>Vue的父组件和子组件生命周期钩子函数执行顺序可以归类为以下4部分：</p><ul><li>加载渲染过程</li><li>子组件更新过程</li><li>父组件更新过程</li><li>销毁过程</li></ul><h1 id="9-在哪个生命周期内调用异步请求？"><a href="#9-在哪个生命周期内调用异步请求？" class="headerlink" title="9. 在哪个生命周期内调用异步请求？"></a>9. 在哪个生命周期内调用异步请求？</h1><p>可以在钩子西数 created、beforeMount、mounted 中进行调用，因为在这三个钩子函数中，data 己经创建，可以将服务端端返回的数据进行赋值。但是本人推荐在created 钩子西数中调用异步请求，因为在 created 钩子西数中调用异步请求有以下优点：</p><ul><li>能更怏获取到服务端数据，减少页面 loading 时间；</li><li>ssr 不支持 beforeMount、mounted 钩子函数，所以放在created 中有助于一致性；</li></ul><h1 id="10-在什么阶段才能访问操作DOM？"><a href="#10-在什么阶段才能访问操作DOM？" class="headerlink" title="10. 在什么阶段才能访问操作DOM？"></a>10. 在什么阶段才能访问操作DOM？</h1><p>在钩子函数 mounted 被调用前，vue 已经将编译好的模板挂载到页面上，所以在mounted 中可以访问操作 DOM。 vue 具体的生命周期示意图可以参见如下，理解了整个生命周期各个阶段的操作，关于生命周期相关的面试题就难不倒你了。</p><h1 id="11-父组件可以监听到子组件的生命周期吗？"><a href="#11-父组件可以监听到子组件的生命周期吗？" class="headerlink" title="11. 父组件可以监听到子组件的生命周期吗？"></a>11. 父组件可以监听到子组件的生命周期吗？</h1><p>比如有父组件 Parent 和子组件 Child，如果父组件监听到子组件挂载 mounted 就做一些逻辑处理，可以通过以下写法实现：</p><pre><code>/ Parent.vue&lt;Child @mounted= &quot;doSomething&quot; /&gt;// Child.vuemounted()&#123;  this.$emit(&quot;mounted&quot;);&#125;</code></pre><p>以上需要手动通过 $emit 触发父组件的事件，更简单的方式可以在父组件引用子组件时通过 @hook 来监听即可，如下所示：</p><pre><code>// Parent.vue&lt;Child @hook:mounted= &quot;doSomething&quot;&gt;&lt;/Child&gt;doSomething()&#123;  console.log(&#39;父组件监听到 mounted 钩子函数...&#39;)&#125;// Child.vuemounted()&#123;  console.log(&#39;子组件触发mounted 钩子函数...&#39;)&#125;// 以上输出顺序为：// 子组件触发mounted钩子函数.// 父组件监听到mounted钩子函数.当然 @hook 方法不仅仅是可以监听 mounted，其它的生命周期事件，例如：created, updated 等都可以监听。</code></pre><h1 id="12-谈谈你对keep-alive的了解？"><a href="#12-谈谈你对keep-alive的了解？" class="headerlink" title="12. 谈谈你对keep-alive的了解？"></a>12. 谈谈你对keep-alive的了解？</h1><p>keep-alive 是 vue 内置的一个组件，可以使被包含的组件保留状态，避免重新渲染，其有以下特性：</p><ul><li>一般结合路由和动态组件一起使用，用于缓存组件；</li><li>提供 include 和exclude 属性，两者都支持宇符串或正则表达式，include 表示只有名称匹配的组件会被缓存，exclude 表示任何名称匹配的组件都不会被缓存，其中 exclude 的优先级比 include 高；</li><li>对应两个钩子函数 activated 和 deactivated，当组件被激活时，触发钩子函数activated， 当组件被移除时，触发钩子函数 deactivated.</li></ul><h1 id="13-组件中-data-为什么是一个函数？"><a href="#13-组件中-data-为什么是一个函数？" class="headerlink" title="13. 组件中 data 为什么是一个函数？"></a>13. 组件中 data 为什么是一个函数？</h1><p>为什么组件中的 data 必须是一个函数，然后return 一个对象，而new vue 实例里，data 可以直接是一个对象？</p><pre><code class="javascript">// datadata() &#123;  return &#123;    message:&quot;子组件&quot;,    childName:this.name  &#125;&#125;// new Vuenew Vue(&#123;  el: &#39;#app&#39;,  router,  template: &#39;&lt;App/&gt;,  components: &#123;App&#125;&#125;)</code></pre><p>因为组件是用来复用的，且JS里对象是引用关系，如果组件中 data 是一个对象，那么这样作用域没有隔离，子组件中的data 属性值会相互影响，如果组件中 data 选项是一个西数，那么每个实例可以维护一份被返回对象的独立的拷贝，组件实例之间的data 属性值不会互相影响；而new vue 的实例，是不会被复用的，因此不存在引用对象的问题。</p><h1 id="14-v-model-的原理？"><a href="#14-v-model-的原理？" class="headerlink" title="14. v-model 的原理？"></a>14. v-model 的原理？</h1><p>我们在 vue 项目中主要使用 v-model 指令在表单 input、textarea、select 等元素上创建双向数据绑定，我们知道 v-model 本质上不过是语法糖，v-model 在内部为不同的输入元素使用不同的属性并抛出不同的事件：</p><ul><li>text 和textarea 元素使用 value 属性和input 事件；</li><li>checkbox 和radio 使用 checked 属性和change 事件；</li><li>select 字段将value 作为 prop并将change 作为事件。</li></ul><p>以input 表单元素为例：</p><pre><code class="javascript">&lt;input v-model=&#39;something&#39;&gt;</code></pre><p>相当于</p><pre><code>&lt;input v-bind:value =&quot;something&quot; v-on:input=&quot;something = Sevent.target.value&quot;&gt;</code></pre><p>如果在自定义组件中，v-model 默认会利用名为 value 的prop 和名为 input 的事件，<br>如下所示：<br>父组件：</p><pre><code>&lt;ModelChild -model= &quot;message&quot;&gt;&lt;/ModelChild&gt;</code></pre><p>子组件：</p><pre><code class="javascript">&lt;div&gt;&#123;&#123;value&#125;&#125;&lt;/div&gt;props:&#123;  value: String&#125;,methods: &#123;  test()&#123;    this. $emit (&#39;input&#39;, &quot;小红&quot;)  &#125;,&#125;,</code></pre><h1 id="15-vue-组件间通信有哪几种方式？"><a href="#15-vue-组件间通信有哪几种方式？" class="headerlink" title="15. vue 组件间通信有哪几种方式？"></a>15. vue 组件间通信有哪几种方式？</h1><p>Vue组件间通信是面试常考的知识点之一，这题有点类似于开放题，你回答出越多方法当然越加分，表明你对 vue 掌握的越熟练。vue 组件问通信只要指以下 3 类通信：父子组件通信、隔代组件通信、兄弟组件通信，下面我们分别介绍每种通信方式且会说明此种方法可适用于哪类组件间通信。<br>(1)  props &#x2F; $emit 适用 父子组件通信</p><p>这种方法是 vue 组件的基础，相信大部分同学耳闻能详，所以此处就不举例展开介绍。</p><p>(2) ref 与 $parent &#x2F; $children 适用 父子组件通信</p><ul><li>ref：如果在普通的 DOM 元素上使用，引1用指向的就是DOM 元素；如果用在子组件上，引用就指向组件实例；</li><li>$parent &#x2F; $children：访问父&#x2F; 子实例</li></ul><p>(3) EventBus($emit &#x2F; $on）适用于 父子、隔代、兄弟组件通信</p><p>这种方法通过一个空的 vue 实例作为中央事件总线（事件中心），用它来触发事件和监听事件，从而实现任何组件间的通信，包括父子、隔代、兄弟组件。</p><p>(4) $attrs&#x2F;$listeners 适用于 隔代组件通信</p><ul><li>$attrs：包含了父作用域中不被 prop 所识别(且获取）的特性绑定（class 和stvle除外）。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定（class 和style 除外），并且可以通过 v-bind&#x3D;”$attrs” 传入内部组件。通常配合inheritAttrs 选项一起使用。</li><li>$listeners：包含了父作用域中的(不含 native 修饰器的）v-on 事件监听器。它可以通过 v-On&#x3D;”$listeners” 传入内部组件。</li></ul><p>(5) provide &#x2F; inject 适用于隔代组件通信</p><p>祖先组件中通过 provider 来提供变量，然后在子孙组件中通过 inject 来注入变量。provide &#x2F; inject API 主要解决了跨级组件间的通信问题，不过它的使用场景，主要是子组件获取上级组件的状态，跨级组件间建立了一种主动提供与依赖注入的关系。</p><p>(6) Vuex 适用于 父子、隔代、兄弟组件通信</p><p>Vuex 是一个专为 vuejs 应用程序开发的状态管理模式。每一个vuex 应用的核心就是store（仓库）。“store” 基本上就是一个容器，它包含着你的应用中大部分的状态（ state ）。</p><ul><li>Vuex 的状态存储是响应式的。当 vue 组件从 store 中读取状态的时候，若 store中的状态发生变化，那么相应的组件也会相应地得到高效更新。</li><li>改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation。这样使得我们可以方便地跟踪每一个状态的变化。</li></ul><h1 id="16-你使用过-vuex-吗？"><a href="#16-你使用过-vuex-吗？" class="headerlink" title="16. 你使用过 vuex 吗？"></a>16. 你使用过 vuex 吗？</h1><p>Vuex是一个专为Vue.js应用程序开发的状态管理模式。每一个Vuex应用的核心就是store(仓库)。“store”基本上就是一个容器，它包含着你的应用中大部分的状态（ state ）。</p><p>(1) vuex 的状态存储是响应式的。当 vue 组件从 store 中读取状态的时候，若 store中的状态发生变化，那么相应的组件也会相应地得到高效更新。<br>(2) 改变 store 中的状态的唯一途径就是显式地提交 (commit) mutation。这样使得我们可以方便地跟踪每一个状态的变化。</p><p>主要包括以下几个模块：</p><ul><li>State：定义了应用状态的数据结构，可以在这里设置默认的初始状态。</li><li>Getter：允许组件从 Store 中获取数据，mapGetters 辅助函数仅仅是将 store 中的getter 映射到局部计算属性。</li><li>Mutation：是唯一更改store 中状态的方法，且必须是同步函数。</li><li>Action：用于提交mutation， 而不是直接变更状态，可以包含任意异步操作。</li><li>Module：允许将单一的Store 拆分为多个store 且同时保存在单一的状态树中。</li></ul><h1 id="17-使用过-Vue-SSR-吗？说说SSR？"><a href="#17-使用过-Vue-SSR-吗？说说SSR？" class="headerlink" title="17. 使用过 Vue SSR 吗？说说SSR？"></a>17. 使用过 Vue SSR 吗？说说SSR？</h1><p>Vue.js是构建客户端应用程序的框架。默认情况下，可以在浏览器中输出Vue组件进行生成DOM 和操作DOM。然而，也可以将同一个组件渲染为服务端的 HTML字符串，将它们直接发送到浏览器，最后将这些静态标记”激活”为客户端上完全可交互的应用程序。</p><p>即：SSR大致的意思就是vue在客户端将标签渲染成的整个html 片段的工作在服务端完成，服务端形成的html 片段直接返回给客户端这个过程就叫做服务端渲染。</p><p><strong>服务端渲染 SSR 的优缺点如下：</strong><br>(1) 服务端渲染的优点：</p><ul><li>更好的SEO：因为 SPA 页面的内容是通过 Ajax 获取，而搜素引擎爬取工具并不会等待 Ajax 异步完成后再抓取页面内容，所以在 SPA 中是抓取不到页面通过Ajax 荻取到的内容；而 SSR 是直接由服务端返回已经渲染好的页面（数据已经包含在页面中），所以搜索引擎爬取工具可以抓取渲染好的页面；</li><li>更快的内容到达时间（首屏加载更快）：SPA 会等待所有vue 编译后的 is 文件都下载完成后，才开始进行页面的渲染，文件下载等需要一定的时间等，所以首屏渲染需要一定的时间;SSR 直接由服务端渲染好页 面直接返回显示，无需等待下载 is 文件及再去渲染等，所以 SSR 有更快的内容到达时间；</li></ul><p>(2) 服务端渲染的缺点：</p><ul><li>更多的开发条件限制：例如服务端渲染只支持 beforcreate 和 created 两个钩子函数，这会导致一些外部扩展库需要特殊处理，才能在服务端渲染应用程序中运行；并且与可以部署在任何静态文件服务器上的完全静态单页面应用程序 SPA 不同，服务端渲染应用程序，需要处于 Node js server 运行环境；</li><li>更多的服务器负载：在Node js 中渲染完整的应用程序，显然会比仅仅提供静态文件的server 更加大量占用CPU 资源 (CPU-intensive-CPU 密集)，因此如果你预料在高流量环境（high traffic）下使用，请准备相应的服务器负载，并明智地采用缓存策略。</li></ul><h1 id="18-vue-router-路由模式有几种？"><a href="#18-vue-router-路由模式有几种？" class="headerlink" title="18. vue-router 路由模式有几种？"></a>18. vue-router 路由模式有几种？</h1><p>vue-router 有3种路由模式：hash、history、abstract，对应的源码如下所示：</p><pre><code class="javascript">switch(mode) &#123;  case &#39;history&#39;:    this.history = new HTML5History(this, options.base)    break  case &#39;hash&#39;:    this.history = new HashHistory(this, options.base, this.fallback)    break  case &#39;abstract&#39;:    this. history = new AbstractHistory(this, options.base)    break  default:    if (process.env.NODE ENV!== &#39;production&#39;) &#123;      assert(false, &quot;invalid mode: $&#123;mode&#125;&quot;)    &#125;&#125;</code></pre><p>其中，3种路由模式的说明如下：</p><ul><li>hash: 使用 URLhash 值来作路由。支持所有浏览器，包括不支持 HTML5 History API 的浏览器；</li><li>history: 依赖 HTML5 History API 和服务器配置。具体可以查看 HTML5 History 模式；</li><li>abstract: 支持所有 Javascript 运行环境，如 Node.js 服务器端。如果发现没有浏览器的 APl，路由会自动强制进入这个模式。</li></ul><h1 id="19-能说下-vue-router-中常用的-hash-和-history-路由模式实现原理吗？"><a href="#19-能说下-vue-router-中常用的-hash-和-history-路由模式实现原理吗？" class="headerlink" title="19. 能说下 vue-router 中常用的 hash 和 history 路由模式实现原理吗？"></a>19. 能说下 vue-router 中常用的 hash 和 history 路由模式实现原理吗？</h1><p>(1) hash 模式的实现原理</p><p>早期的前端路由的实现就是基于 location.hash 来实现的。其实现原理很简单，location.hash 的值就是URL 中＃后面的内容。比如下面这个网站，它的location.hash 的值为”#search’：</p><p><a href="https://www.word.com/#search">https://www.word.com#search</a></p><p>hash 路由模式的实现主要是基于下面几个特性：</p><ul><li>URL 中 hash 值只是客户端的一种状态，也就是说当向服务器端发出请求时，hash 部分不会被发送；</li><li>hash 值的改变，都会在浏览器的访问历史中增加一个记录。因此我们能通过浏览器的回退、前进按钮控制hash 的切换；</li><li>可以通过a标签，并设置href 属性，当用户点击这个标签后，URL的hash 值会发生改变；或者使用 Javascript 来对 loaction.hash 进行赋值，改变 URL 的 hash 值；</li><li>我们可以使用 hashchange 事件来监听 hash 值的变化，从而对页面进行跳转（渲染)。</li></ul><p>(2) history 模式的实现原理</p><p>HTML5 提供了 History API 来实现 URL 的变化。其中做最主要的 API 有以下两个：<code>history.pushState()</code> 和 <code>history.repalceState()</code> 。这两个 API可以在不进行刷新的情况下，操作浏览器的历史纪录。唯一不同的是，前者是新增一个历史记录，后者是直接替换当前的历史记录，如下所示：</p><pre><code>window.history.pushState(null, null, path);window.history.replaceState(null, null, path);</code></pre><p>history 路由模式的实现主要基于存在下面几个特性：</p><ul><li>pushState 和 repalceState 两个 API 来操作实现 URL 的变化；</li><li>我们可以使用 popstate 事件来监听 url 的变化，从而对页面进行跳转（渲染)；</li><li><code>history.pushState()</code> 或 <code>history.replaceState()</code> 不会触发 popstate 事件，这时我们需要手动触发页面跳转（渲染）。</li></ul><h1 id="20-什么是-MVVM"><a href="#20-什么是-MVVM" class="headerlink" title="20. 什么是 MVVM?"></a>20. 什么是 MVVM?</h1><p>ModelView-ViewModel (MvvM)是一个软件架构设计模式，由微软 WPF 和Silverlight 的架构师 Ken Cooper 和Ted Peters 开发，是一种简化用户界面的事件驱动编程方式。由 John Gossman（同样也是 WPF 和 Silverlight 的架构师）于2005年在他的博客上发表MVVM 源自于经典的 Model-View-Controller (MVC)模式，MvVM 的出现促进了前端开发与后端业务逻辑的分离，极大地提高了前端开发效率，MVVM 的核心是ViewModel 层，它就像是一个中转站 (value converter)，负责转换Model 中的数据对象来让数据变得更容易管理和使用，该层向上与视图层进行双向数据绑定，向下与Model 层通过接口请求进行数据交互，起呈上启下作用。</p><p>(1) View 层<br>View 是视图层，也就是用户界面。前端主要由 HTML 和CSS 来构建。<br>(2) Model 层<br>Model 是指数据模型，泛指后端进行的各种业务逻辑处理和数据操控，对于前端来说就是后端提供的 api 接口。</p><h1 id="21-Vue-是如何实现数据双向绑定的？"><a href="#21-Vue-是如何实现数据双向绑定的？" class="headerlink" title="21. Vue 是如何实现数据双向绑定的？"></a>21. Vue 是如何实现数据双向绑定的？</h1><p>Vue 数据双向鄉定主要是指：数据变化更新视图，视图变化更新数据。</p><p>即：</p><ul><li>输入框内容变化时，Data 中的数据同步 变化。即 View&#x3D;＞Data 的变化。</li><li>Data 中的数据变化时，文本节点的内容同步变化。即Data &#x3D;＞ View 的变化。其中，View 变化更新 Data，可以通过事件监听的方式来实现，所以 vue 的数据双向绑定的工作主要是如何根据 Data 变化更新 View。</li></ul><p>vue 主要通过以下 4个步骤来实现数据双向绑定的</p><ul><li>实现一个监听器 Observer：对数据对象进行遍历，包括子属性对象的属性，利用Object.defineProperty()对属性都加上 setter 和 getter。这样的话，给这个对象的某个值赋值，就会触发 setter， 那么就能监听到了数据变化。</li><li>实现个解析器 Compile：解析 vue 模板指令，将模板中的变量都替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，调用更新函数进行数据更新。</li><li>实现一个订阅者 Watcher：Watcher 订阅者是 Observer 和 Compile 之间通信的桥梁主要的任务是订阅 Observer 中的属性值变化的消息，当收到属性值变化的消息时，触发解析器 Compile 中对应的更新函数。</li><li>实现一个订阅器 Dep：订阅器采用 发布-订阅 设计模式，用来收集订阅者 Watcher ，对监听器 Observer 和订阅者 Watcher 进行统一管理。</li></ul><h1 id="22-vue-框架怎么实现对象和数组的监听？"><a href="#22-vue-框架怎么实现对象和数组的监听？" class="headerlink" title="22. vue 框架怎么实现对象和数组的监听？"></a>22. vue 框架怎么实现对象和数组的监听？</h1><p>如果被问到 vue 怎么实现数据双向绑定，大家肯定都会回答通过 Object.defineProperty() 对数据进行劫持，但是 Object.defineProperty() 只能对属性进行数据劫持，不能对整个对象进行劫持，同理无法对数组进行劫持，但是我们在使用 vue框架中都知道，vue 能检测到对象和数组（部分方法的操作）的变化，那它是怎么实现的呢？我们查看相关代码如下：</p><pre><code class="javascript">/*** Observe a list of Array items.*/observeArray(items: Array&lt;any&gt;) &#123;  for (let i = 0, | = items.length; i &lt; I; i++) &#123;    observe(items[i]) // observe 功能为监测数据的变化  &#125;&#125;/*** 对属性进行递归遍历*/let childob = !shallow &amp;&amp; observe(val) // observe 功能为监测数据的变化</code></pre><p>通过以上 vue 源码部分 查看，我们就能知道 vue 框架是通过遍历数组 和递归遍历对象，从而达到利用 Object.defineProperty( 也能对对象和数组（部分方法的操作）进行监听。</p><h1 id="23-Proxy-与-Object-defineProperty-优劣对比"><a href="#23-Proxy-与-Object-defineProperty-优劣对比" class="headerlink" title="23. Proxy 与 Object.defineProperty 优劣对比"></a>23. Proxy 与 Object.defineProperty 优劣对比</h1><p><strong>Proxy 的优势如下：</strong></p><ul><li>Proxy 可以直接监听对象而非属性；</li><li>Proxy 可以直接监听数组的变化；</li><li>Proxy 有多达13种拦截方法，不限于 apply、ownkeys、delete Property、has 等等是 Object.defineProperty 不具备的；</li><li>Proxy 返回的是一个新对象,我们可以只操作新的对象达到目的,而 Object.defineProperty 只能遍历对象属性直接修改；</li><li>Proxy 作为新标准将受到浏览器厂商重点持续的性能优化，也就是传说中的新标准的性能红利；</li></ul><p>Object.defineProperty 的优势如下：</p><ul><li>兼容性好，支持 1E9，而Proxy 的存在浏览器兼容性问题,而且无法用 polyfill 磨平，因此vue 的作者才声明需要等到下个大版本（3.0）才能用 Proxy 重写。</li></ul><h1 id="24-Vue-怎么用vm-set-）-解决对象新增属性不能响应的问题？"><a href="#24-Vue-怎么用vm-set-）-解决对象新增属性不能响应的问题？" class="headerlink" title="24. Vue 怎么用vm.$set(） 解决对象新增属性不能响应的问题？"></a>24. Vue 怎么用vm.$set(） 解决对象新增属性不能响应的问题？</h1><p>受现代 JavaScript 的限制，vue 无法检测到对象属性的添加或删除。由于 vue 会在初始化实例时对属性执行 getter&#x2F;setter 转化，所以属性必须在 data 对象上存在才能让vue 将它转换为响应式的。但是vue 提供了 Vue.set (object, propertyName, value) &#x2F; vm.$set (object, propertyName, value) 来实现为对象添加响应式属性，那框架本身是如何实现的呢？<br>我们查看对应的 vue 源码：vue&#x2F;src&#x2F;core&#x2F;instance&#x2F;index.js</p><pre><code class="javascript">export function set (target: Array&lt;any&gt; | Object, key: any, val: any): any &#123;  // target 为数组  if (Array.isArray(target) &amp;&amp; isValidArrayIndex(key)) &#123;    // 修改数组的长度，避免索引&gt;数组长度导致splcie()执行有误    target.length = Math.max(target.length, key)    //利用数组的splice变异方法触发响应式    target.splice(key, 1, val)    return val  &#125;  // key 已经存在，直接修改属性值  if (key in target &amp;&amp; !(key in Object.prototype)) &#123;    target[key] = val    return val  &#125;    const ob = (target: any)._ob_    // target 本身就不是响应式数据,直接赋值  if (!ob) &#123;    target[key] = val    return val  &#125;  // 对属性进行响应式处理  defineReactive(ob.value, key, val)  ob.dep.notify()  return val&#125;</code></pre><p>我们阅读以上源码可知，vm.$set 的实现原理是：</p><ul><li>如果目标是数组，直接使用数组的splice 方法触发相应式；</li><li>如果目标是对象，会先判读属性是否存在、对象是否是响应式，最终如果要对属性进行响应式处理，则是通过调用 define Reactive 方法进行响应式处理。</li></ul><h1 id="25-虛拟-DOM-的优缺点？"><a href="#25-虛拟-DOM-的优缺点？" class="headerlink" title="25. 虛拟 DOM 的优缺点？"></a>25. 虛拟 DOM 的优缺点？</h1><p><strong>优点：</strong></p><ul><li>保证性能下限：框架的虛拟 DOM 需要适配任何上层 API 可能产生的操作，它的些 DOM 操作的实现必须是普适的，所以它的性能并不是最优的；但是比起粗暴的DOM操作性能要好很多，因此框架的虚拟 DOM 至少可以保证在你不需要手动优化的情況下，依然可以提供还不错的性能，即保证性能的下限；</li><li>无需手动操作 DOM：我们不再需要手动去操作 DOM，只需要写好 View-Model 的代码逻辑，框架会根据虛拟 DOM 和 数据双向绑定，帮我们以可预期的方式更新视图，极大提高我们的开发效率；</li><li>跨平台：虚拟 DOM 本质上是Javascript 对象,而 DOM 与平台强相关，相比之下虛拟 DOM 可以进行更方便地跨平台操作，例如服务器渲染、weex 开发等等。</li></ul><p><strong>缺点：</strong></p><ul><li>无法进行极致优化：虽然虛拟 DOM+合理的优化，足以应对绝大部分应用的性能需求，但在一些性能要求极高的应用中虛拟 DOM 无法进行针对性的极致优化。</li></ul><h1 id="26-虚拟-DOM-实现原理？"><a href="#26-虚拟-DOM-实现原理？" class="headerlink" title="26. 虚拟 DOM 实现原理？"></a>26. 虚拟 DOM 实现原理？</h1><p>虛拟 DOM 的实现原理主要包括以下3部分：</p><ul><li>用Javascript 对象模拟真实 DOM 树，对真实DOM 进行抽象；</li><li>diff 算法一比较两棵虚拟 DOM树的差异；</li><li>pach 算法 一将两个虚拟 DOM 对象的差异应用到真正的 DOM树。</li></ul><h1 id="27-Vue中的key有什么作用？"><a href="#27-Vue中的key有什么作用？" class="headerlink" title="27. Vue中的key有什么作用？"></a>27. Vue中的key有什么作用？</h1><p>key 是为 Vue 中 Vnode 的唯一标记，通过这个key，我们的diff 操作可以更准确、更快速。vue 的 diff 过程可以概括为：oldCh 和newCh 各有两个头尾的变量 oldStartindex、oldEndindex 和 newStartindex、newEndlindex，它们会新节点和旧节点会进行两两对比，即一共有4种比较方式：newStartindex 和 oldStartindex 、newEndIndex 和 oldEndindex、newStartIndex 和 oldEndIndex , newEndIndex 和oldStartindex， 如果以上 4种比较都没匹配，如果设置了key，就会用key 再进行比较，在比较的过程中，遍历会往中间靠，一旦 StartIndex＞EndIndex 表明 oldCh 和 newCh 至少有一个已经遍历完了，就会结束比较。</p><p>所以 vue 中 key 的作用是：key是为vue 中 vnode 的唯一标记，通过这个key，我们的 diff 操作可以更准确、更快速。</p><p>更准确：因为带 key 就不是就地复用了，在sameNode 函数 a.key &#x3D;&#x3D;&#x3D; b.key 对比中可以避免就地复用的情况。所以会更加准确。</p><p>更快速：利用key 的唯一性生成map 对象来获取对应节点，比遍历方式更快，源码如下：</p><pre><code class="javascript">function createKeyToOldIdx (children, beginIdx, endIdx)&#123;  let i, key  const map = 0  for (i = beginIdx; i &lt;= endIdx; ++i) &#123;    key = children[i].key    if (isDef(key)) map[key] = i  &#125;  return map&#125;</code></pre><h1 id="28-你有对Vue项目进行哪些优化？"><a href="#28-你有对Vue项目进行哪些优化？" class="headerlink" title="28. 你有对Vue项目进行哪些优化？"></a>28. 你有对Vue项目进行哪些优化？</h1><p>(1) 代码层面的优化</p><ul><li>v-if 和 v-show 区分使用场景</li><li>computed 和watch 区分使用场景</li><li>v-for 遍历必须为 item 添加 key，且避免同时使用 v-if</li><li>长列表性能优化</li><li>事件的销毁</li><li>图片资源懒加载</li><li>路由懒加载</li><li>第三方插件的按需引入</li><li>优化无限列表性能</li><li>服务端渲染 SSR or 预渲染</li></ul><p>(2) Webpack 层面的优化</p><ul><li>webpack 对图片进行压缩</li><li>减少ES6 转为 ES5 的冗余代码</li><li>提取公共代码</li><li>模板预编译</li><li>提取组件的 cSS</li><li>优化 SourceMap</li><li>构建结果输出分析</li><li>vue 项目的编译优化</li></ul><p>(3) 基础的Web技术的优化</p><ul><li>开启 gzip 压缩</li><li>浏览器缓存</li><li>CDN的使用</li><li>使用 Chrome Performance 查找性能瓶颈</li></ul><h1 id="29-对于的Vue3-0特性你有什么了解的吗？"><a href="#29-对于的Vue3-0特性你有什么了解的吗？" class="headerlink" title="29. 对于的Vue3.0特性你有什么了解的吗？"></a>29. 对于的Vue3.0特性你有什么了解的吗？</h1><p>Vue 3.0 的目标是让 Vue 核心变得更小、更快、更强大，因此 Vue 3.0 增加以下这些新特性：</p><p>(1) 监测机制的改变</p><p>3.0 将带来基于代理 Proxy 的 observer 实现，提供全语言覆盖的反应性跟踪。这消除了 vue 2 当中基于 Object.defineProperty 的实现所存在的很多限制：</p><ul><li>只能监测属性，不能监测对象</li><li>检测属性的添加和删除；</li><li>检测数组索引和长度的变更；</li><li>支持 Map、Set、WeakMap 和 Weak Seto</li></ul><p>新的 observer 还提供了以下特性：</p><ul><li>用于创建observable 的公开 API。这为中小规模场景提供了简单轻量级的跨组件状态管理解决方案。</li><li>默认采用惰性观察。在2.x 中，不管反应式数据有多大，都会在启动时被观察到，如果你的数据集很大，这可能会在应用启动时带来明显的开销。在3.x中，只观察用于渲染应用程序最初可见部分的数据。</li><li>更精确的变更通知。在2.x中，通过 vue.set 强制添加新属性将导致依赖于该对象的watcher 收到变更通知。在3.x中，只有依赖于特定属性的watcher 才会收到通知。</li><li>不可变的 observable：我们可以创建值的“不可变”版本（即使是嵌套属性），除非系统在内部暂时将其“解禁”。这个机制可用于冻结 prop 传递或 vuex 状态树以外的变化。</li><li>更好的调试功能：我们可以使用新的renderTracked 和 renderTriggered 钩子精确地跟踪组件在什么时候以及为什么重新渲染。</li></ul><p>(2) 模板</p><p>模板方面没有大的变更，只改了作用域插槽，2.× 的机制导致作用域插槽变了，父组件会重新渲染，而3.0把作用域插槽改成了函数的方式，这样只会影响子组件的重新渲染，提升了渲染的性能。同时，对于render 西数的方面，vue3.0 也会进行一系列更改来方便习惯直接使用 api 来生成 vdom.</p><p>(3) 对象式的组件声明方式</p><p>Vue2.x 中的组件是通过声明的方式传入一系列 option，和Type Script 的结合需要通过一 些装饰器的方式来做，量然能实现功能，但是比较麻烦。3.0 修改了组件的声明方式，改成了类式的写法，这样使得和 Type Script 的结合变得很容易。</p><p>此外，Vue 的源码也改用了 Type Script 来写。其实当代码的功能复杂之后，必须有。个静态类型系统来做一些辅助管理。现在 vue3.0 也全面改用 TypeScript 来重写了，更是使得对外暴露的 api 更容易结合 TypeScript。静态类型系统对于复杂代码的维护确实很有必要。</p><p>(4) 其它方面的更改</p><p>Vue 3.0 的改变是全面的，上面只涉及到主要的 3个方面，还有一些其他的更改：</p><ul><li>支持自定义渲染器，从而使得 weex 可以通过自定义渲染器的方式来扩展，而不是直接fork 源码来改的方式。</li><li>支持 Fragment （多个根节点） 和Protal（在dom 其他部分渲染组建内容）组件，针对一些特殊的场景做了处理。</li><li>基于 treeshaking 优化，提供了更多的内置功能。</li></ul><h1 id="30-说说你使用-vue-框架踩过最大的坑是什么？怎么解决的？"><a href="#30-说说你使用-vue-框架踩过最大的坑是什么？怎么解决的？" class="headerlink" title="30. 说说你使用 vue 框架踩过最大的坑是什么？怎么解决的？"></a>30. 说说你使用 vue 框架踩过最大的坑是什么？怎么解决的？</h1>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-说说你对SPA单页面的理解，它的优缺点分别是什么？&quot;&gt;&lt;a href=&quot;#1-说说你对SPA单页面的理解，它的优缺点分别是什么？&quot; class=&quot;headerlink&quot; title=&quot;1. 说说你对SPA单页面的理解，它的优缺点分别是什么？&quot;&gt;&lt;/a&gt;1. 说
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="Vue" scheme="https://ismdeep.com/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《技术的本质》读书分享</title>
+    <link href="https://ismdeep.com/posts/2022-04-16-the-nature-of-technology.html"/>
+    <id>https://ismdeep.com/posts/2022-04-16-the-nature-of-technology.html</id>
+    <published>2022-04-16T04:50:10.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<p>人类技术发展史向我们展示了一个这样的趋势：那就是重大创新发生的时间间隔正在不断的缩短。从农业革命到工业革命用了8000年。从工业革命到电灯泡的产生，只花了120年。之后的90年，人类就登上了月球。再往后20里年互联网就出现了，紧接着仅仅过了九年，在21世纪初，人类基因组测序就完成了。技术正在不动声色地创造着这个时代所有的重大议题和惊人的巨变。技术决定者我们将关注什么，为什么新的东西兴奋不已。</p><p>《技术的本质》这本书讲述的并不是一项一项具体的技术，或者是某些将要出炉的新技术。作者最想告诉我们的是<strong>技术是什么</strong>，以及<strong>技术是如何进化的</strong>。</p><p>《技术的本质》这本书作者是著名的技术思想家、经济学家布莱恩·阿瑟教授，他涉猎了非常多的领域，包括电子工程、数学、经济学等等。但是，半个世纪以来，他一直在研究和追踪唯一一个重要的课题，那就是<strong>路径依赖性</strong>。也就是研究人的行为如何依赖于过去的全部行为。由此，他把这个研究应用到了很多的领域，其中就包括技术的进化和发展。可以说，阿瑟是少有的可以称为既是狐狸型通才又是刺猬型专才的人。阿瑟教授曾经担任过斯坦福大学人口研究与经济学系的主任。也正是在那一年，他成为了斯坦福大学历史上最年轻的终身教授。随后，他在经济学泰斗、诺贝尔奖获得者阿罗教授的邀请之下，加入了圣塔菲研究所。他这一待，就是20多年，成为了这座跨科学研究圣殿当中当之无愧的元老级人物。阿瑟教授的研究，对于深入了解创新贡献很大。在1990年的时候，他就获得了专门颁给那些研究创新问题的顶尖学者的熊彼特奖。阿瑟教授对于技术本质的探寻，为技术创新的发展带来了很多重要的洞见，比如 Java 语言的开发就用到了他的思想。在高科技投资领域，阿瑟教授的很多观点都是决策者必须要掌握的风向标。在《技术的本质》这本书里，阿塞教授就告诉我们，技术并不是死的，而是活生生的，它有自己的进化方向，也有自己的行事逻辑。他在写作这本书的时候，讲了很多引人入胜的例子，从人类最初是怎么打造粗陋的石器，到怎么完成了复杂的石油冶炼，怎么从简易的莱特兄弟的飞行器到火箭和航天飞机的发明，还有基因编辑、水力发电、养殖蜜蜂等等。</p><p>通过这些林林总总技术进化和创新的例子色也提出了不少新的概念，比如说自创生、垫脚石、技术活跃、技术体等等。同时，他也提出了很多新的见解，比如说科学和经济是技术的副产品，又比如新技术先是对精神的建构，之后才是对物质的建构。接下来，我将通过三个部分来讲述《技术的本质》这本书中最重要的内容，分别是：</p><ul><li>第一部分，技术是什么？技术在本质上具有什么样的特性。</li><li>第二部分，技术是如何进化的？即新技术它是怎么产生的。</li><li>第三部分，技术的进化怎么推动了经济的进化？也就是活生生的技术是怎么让经济自身生生不息的繁衍。</li></ul><h1 id="技术是什么"><a href="#技术是什么" class="headerlink" title="技术是什么"></a>技术是什么</h1><p>首先，技术是什么，换句话说，技术从本质上来讲具有什么特性？技术从本质上来讲是自创生的，也就是说记述自己，创造了自己。如果我们去仔细观察任何一项新技术，就会发现所有新技术都不是无中生有被发明出来的，新技术都是从现存技术当中组合出来的。一组新的要素技术可以无限构成新的组合。比如黏合剂，既可以把它涂在玻璃纸的背面，成为透明胶带；也可以把它用在波音飞机的消音版上来抵抗声波的震动。你还可以把它用在高尔夫球杆上，在强烈的撞击之下，碳素纤维和碳依然能够牢牢的粘在一起。甚至，还可以把它涂在带电的玻璃表面，装到显示器上，这就成了智能手机的触摸屏。再比如全球定位系统，可以把它安装在飞机、轮船、汽车上进行导航，还可以用它来辅助土地勘探、规划土地耕种等等。某一项技术，就像是化学反应当中一个高度活跃的成分，虽然只是参与了各种技术组合当中的一项功能，但是却主导着这些不同的组合，它可以在无限的组合当中和其他的技术匹配在一起，为不同的目的进一步组合成各种各样的可能性。</p><p>书中，作者就给出了有关技术的三层定义，第一层定义也是最基础的一个定义，那就是<strong>技术是实现人的目的的一种手段</strong>，从这个角度来看，技术是单数的。它可以是一种方法，比如语音识别算法，也可以是一个过程，比如说化学工程当中的过滤法，还可以是一项装置，比如一个柴油发动机。从这个层面来说，技术可以是简单的，也可以是复杂的，可以是物质的，也可以是非物质的。当我们在强调技术是一种软件的时候，我们看到的就是过程和方法，而当我们强调技术是一种硬件的时候，我们看到的就是具体的物理设备。技术的第二层定义，指的是<strong>它是实践和元器件的集成</strong>。从这个视角上来看，技术常常是复数的是技术的集合，或者叫做技术的工具箱。那当我们提到电子技术或者是生物技术的时候，就是指技术的这第二层定义。那技术的第三层定义指的是，<strong>它可以是运用在某种文化当中的装置和工程实践的结合</strong>。换句话说，这层定义是指技术是人类所有过去和现存技术的总和，是产生于对各种各样的自然现象的应用。从这个角度上来看，技术具有更普遍的意义。比如当凯文凯利在他的演讲当中说，技术就是和硅谷相关的一切，那这个时候他指的就是技术的这第三层定义。</p><p>本书中，作者谈论的技术更多是基于第二层和第三层定义，而他谈论的重点尤其在于技术是如何进化的。</p><h1 id="技术的进化"><a href="#技术的进化" class="headerlink" title="技术的进化"></a>技术的进化</h1><p>技术是如何进化的，即新技术是怎么产生的。关于技术的进化，这样的讨论和观点其实从很早以前就开始了。1859年，达尔文出版了有关生物进化的《物种起源》，仅仅四年之后英国著名的作家塞缪尔·巴特勒，就提出了机械王国的理论，他写了一篇影响广泛的文章——《机械中的达尔文》。巴特勒，他提出的观点就是在努力的把技术塞进一个类似达尔文生物进化论的理论框架里面去。如今大家都知道，达尔文提出的生物进化两个最主要的机制就是变异和选择。如果我们来分析一些特定技术的时候，确实能够看到跟生物进化机制相类似的一些情况。比如说像火车的进化，就是通过变异和选择逐渐发展出了蒸汽机车，电力机车，磁悬浮列车等等。但是，用达尔文的进化理论来解释技术，有些地方就很难解释得通。比如说，很多新技术实现的是飞跃式的创新，也就是说在面对同样一个要实现的目标的时候，新技术会用完全不同的原理来实现它，一点儿都看不到前任技术的痕迹。比如说，就拿书籍出版来举例吧，人类先是发明了用笔和纸来抄写书籍，接着活字印刷术出现了，而发展到现代，出现了数码印刷机，每一次的进化都完全颠覆了以往技术。这样的例子还有很多，比如说像是激光喷气式飞机、雷达等等。这些技术，他们在刚刚出现的时候，跟以前解决同样问题的技术，使用的原理也是完全不一样的。也就是说很多新技术不是任何其他先前技术的变种，也不是在以往技术的基础上稳步积累形成的。这些情况，用变异和选择的机制完全解释不通。所以如果想要解释这种完全颠覆的新技术是怎么来的，那么就一定存在一套其他的新理论。作者就认为技术进化的机制就是组合进化。最初很简单的技术通过组合成一个一个的技术模块，发展出了越来越多的复杂技术形式。如果我们把进化的机制比喻成人。那么它更像是一个喜欢古代小玩意儿的人，而不是一个天才的发明家。这个人，并不是在从无到有地发明出一些东西，而是把现有的一些部件进行连接组合，推陈出新，制造出一个新的东西。古腾堡发明印刷机，就是一个经典的技术组合进化，它更像是一种拼装，而不是无中生有的全新突破。在印刷机这项独立发明出现之前，已经具备了很多的关键元素。比如说活字印刷术，是在公元前四世纪由毕升发明的。又比如螺旋压榨技术，最初它使用于葡萄酒压榨机的。还有油墨和纸张的生产技术，这些也都被发明出来了。</p><p>另外，古腾堡还曾经做过金匠，凭借着对这一行的了解，他又对活字印刷系统整体进行了一些改进。所以，古腾堡发明印刷机并不是突如其来的一种全新技术，而是把各个不同领域的现存成熟技术拼装在了一起。这些拼装在一起的技术模块，每一个都可以实现不同的功能，这些功能相互联系，共同服务于一个核心目标。然而，这种模块化的组合并不是技术进化的唯一机制。比如说激光技术，它的用途非常多，在农业生产当中，激光可以用在育种、除草、灭虫、检验作物基因等等方面儿，在日常生活当中，激光唱片、激光录像都是最常见的。在医疗当中，激光可以用作钻头、手术刀、焊枪等等，而在军事当中，激光可以用在坦克、舰艇、飞机等等武器装备上，还可以用在雷达上和激光制导炸弹上。机关的应用，是如此的广泛，但是当你追溯它的发展进程的时候，就会发现它并不是从某些特定的技术，比如说在农业当中，他不是从化学农药进化而来的，在武器当中，他也不是由弓箭制造技术发展而来的，在医疗当中，也并不是从制陶工艺而来的。所以一定有另外的超出组合进化的机制在起着作用。作者就认为，这第二个重要的机制就是捕捉现象。它指的是技术能够持续发现新的自然现象，并且带着特定的目的去驾驭这些现象。比如瑞士发明家维斯特劳注意到宠物狗身上沾满了带刺的苍耳之后，他就发明了尼龙搭扣。又比如，谷歌的创始人拉里佩奇和谢尔盖布林他们就观察到，人们在日常检索内容的时候，会利用文章之间的交叉引用，他们就根据这个现象开发出了谷歌后台的超链接搜索算法。作者在这本书当中用一句话给出了很精辟的概括，那就是技术的本质就是对现象的有目的的编程。我给你讲一个故事，你就能很好的理解这句话了。高露洁公司，曾经被一个难题困扰了几十年。你肯定听说过含氟牙膏，据说，可以帮助孩子预防龋齿，那制造这种牙膏的时候，就需要把氟化物的粉末加到牙膏管里去。可是，这道工序常常会把氟化物的粉尘弄得到处都是。高露洁的专家们就研究了几十年，但是都不能有效解决这个问题。最后，他们决定向社会广泛求助，提供高额奖金来悬赏解决方案。最后，一位粒子物理学专家提供了一种方法解决了这个难题。他捕捉到的现象非常的简单，那就是带电的粉尘可以被塑料吸附。所以他就想办法让这些氟化物粉末带电，同时，把一个塑料管接地，这样带电的粉尘就会自动进到塑料管里，不会弄的到处都是了。这个解决方法实在是太简单了，但是却完美解决了困扰高露洁工程师长达几十年之久的大难题。</p><p>自然现象是新技术赖以产生的必不可少的源泉。所有的技术，不论是多么简单，或者是多么复杂，实际上，都应用了一种或者是几种现象。比如说，实际上，它用到了两个自然现象，一个是化学物质燃烧带来的热能可以转化为动能，这个现象，带来了发动机，让卡车可以实现自动推进。另一个是圆的东西滚动起来，比方的东西摩擦力小，这个现象带来了轮子，让卡车更容易移动。如此看来，一辆卡车的实质其实就是一个平台加上一个车厢，这个平台能够自动推进儿，车厢装载着人或者是货物，平台能够让车厢更容易的移动。卡车就是把两个现象结合在一起的，但最近日本某家汽车公司，他们真的把这两个现象分开进行设计，再组合起来使用，产生了新的创意。你可以看到这种新型的概念车，它分成了平台和车厢两部分，可以根据需要随意组合，你可以为平台匹配上不同功能和尺寸的车厢，这样就可以实现更多的装载移动的功能。平台匹配上封闭的带座位的车厢就成为了一个旅游大巴，平台匹配上一个大翻斗，就变成了一辆工程用车。所以，今后你要购买汽车的时候，可以变成分开购买底部的可移动平台和各种不同功能的车厢，这样的话你就相当于可以通过不同的组合拥有了很多量不同功能的汽车。</p><p>技术的进化机制，就是组合进化。作者告诉我们，每个技术都是通过对一组固定的现象用不同的方式进行编程创造出来的。随着时间的推移，新的现象、核心的技术会不断的加入进化。所有的技术归根到底都来自自然现象，所有的技术最终都是这些现象的奏鸣曲。</p><h1 id="技术进化推动经济进化"><a href="#技术进化推动经济进化" class="headerlink" title="技术进化推动经济进化"></a>技术进化推动经济进化</h1><p>技术的进化怎么推动了经济的进化，也就是说活生生的技术，它是怎么让经济启动了自身生生不息的繁衍。作者认为，众多的技术结合在一起，就创造出了我们称之为经济的东西，他把经济定义为一套安排和活动。社会，可以借助这套系统来满足所有的需求，构成经济的整套安排，包括所有的制度、方法和与它对应的技术，比如说诊所和外科手术，市场和定价系统，金融系统和监管体系等等，这些安排都是实现人类各种需求的手段。经济从技术当中浮现，新技术带来新的解决方案，但同时也会带来新的问题和新的需求。而经济就是技术的一种表达，技术进化会引发经济的进化。作者就认为，在理解新技术带动新经济的过程当中有两个概念非常的重要，一个是<strong>重新域定</strong>，域是领域的域，定是定位的定。另一个是<strong>标准工程</strong>。这两个概念都和创新密切相关，我先来说说什么是重新域定。所谓的玉，通常指的是一个范畴，比如时间的范畴就可以叫做时间域，空间的范畴就可以叫做空间域。那么同样的道理，我们可以把一组技术组成的工具箱和它相应的应用规范叫做这种技术的范畴，也就是技术域。这组技术，他们有共同的能力，捕捉了共同的自然现象，可以完成共同的目标。</p><p>比如说无线电工程就是一个域，数字技术也是一个域。这样，域定这个词的意思也就好理解了，那就是说，我们在开展一项任务之前，要确定具体使用哪些技术范畴。比如，一位建筑师要开始设计一个新的办公大楼，他可能会选择玻璃钢架结构，也可能会选择花岗岩。那么这个过程，就叫做域定，也就是要确定使用哪套技术工具箱和对应的规范。说到这里，重新域定的含义也就非常明确了，他指的是，你为了实现某个需求，放弃了原来使用的技术规范，</p><p>重新选择了一套新的规范。这个过程非常重要，会产生新的技术，带来颠覆性的改变，甚至你可以说重新域定这个概念，它会重新定义一个时代和它的边界。通常这会是一个伟大创意的诞生，也是一次改变世界的创举。比如说，人类运输史的发展，就是不断进行重新域定的过程。最开始，人类运输使用的是陆地域，学会开凿运河之后，运输就进入了由驳船、船夫、船闸等等构成的运河域。当发明飞机以后，运输就进入了航空域。陆地运输、水路运输和航空运输这三次重新域定，就是对人类运输史的创新。又比如，以前我们听音乐的时候，使用的是黑胶唱片，处理信息的方式是模拟，后来，我们听音乐用CD，处理信息的方式是数据。这也是一次重新域定。还比如，你可以从这个视角来看待零售出现，互联网之前，日常购物行为发生在线下实体商店，当电子商务时代来临的时候，日常购物行为发生在线上的网络商店，而现在的新零售时代，日常购物行为同时发生在线上和线下。这里日常购物行为是一项贯穿始终的就任务，而这项任务被我们在线上线下进行不断的重新表达，这就是零售业的重新域定，也是零售业的不断创新。说到这里，我们得出的结论就很重要了，那就是所有的创新都是在新的可能的世界当中，把旧的任务不断进行重新表达的过程。用这个思路来看待问题，会让你在技术急剧的变化当中更好地把握变与不变的本质。</p><p>接下来，作者又提到了标准工程。如果你看过任何一本工程手册就会发现，里面有许多的标准问题的解决方案，比如说耦合旋转轴的19种方法，15种不同的凸轮结构，或者是五种振荡器的使用方法等等。这一类的手册，提供了标准的解决方案来解决那些重复性的问题。他也可以是对特定的技术用途提供特定的改进方案，那这套标准问题解决方案经过反复使用和验证之后，就会成为通用模式，这个时候它就变成了一个新的技术架构，我们就把它叫做标准工程。</p><p>标准工程对创新带来的贡献是非常大的，他和重新域定带来创新的方式却又是非常不一样的。标准工程是对现有技术带来的标准问题提供标准的解决方案，然后，随着经验的累积产生一些微小的进步。这些微小的进步聚集在一起，被反复使用。那通过这个过程促使技术随着时间变化和进步。所以说标准工程也可以说是由微小进步的聚集所带来的缓慢创新。在20世纪初的时候，瑞士的工程师吗雅尔他就用标准工程这个创新方法创造了一系列的大桥。</p><p>这些桥采用的都是通用技术，根本不新鲜。比如说她用的材料就是常见的钢筋混凝土，而它采用的结构是当时被广为接受的形式，也就是由固定在桥拱上的构建来支撑桥面。马雅尔所做的创新，仅仅是在普通的材料和普通的结构形式之上，进行了一个微小的改进。他在桥面上加了一个平板，放在了桥拱顶部，然后，把平板的两端固定在桥墩上。这样一来，整个桥所承担的重量就被更均匀地分散在了整个结构上。这个解决方案同时也让桥拱和桥面的重量很轻，但是却有足够的强度。马雅尔的这个创新性的方案就让整个设计变得既有效又经济。就是这些普通的技术要素组合在一起却能够使得整体上呈现出了一种流动和和谐。建筑评论家就说，马雅尔建造的大桥是有史以来最美丽的混凝土大桥。这座大桥不仅是一个技术产品，更是一件艺术品。标准工程这个创新机制，最重要的不在于天才的创想，而是来自于知识和技能经年累月的积累。这里，又产生了一个非常重要的结论，那就是创新就是关于解决方案的微小改进。即使是最日常性的项目，也是能够通过微小改进发现其中值得创新的部分的。标准工程就是一个对知识深度理解和认识的过程，正是这种深层的知识储备带来了崭新的创想。</p><p>小结，技术的进化怎么推动了经济的进化？作者认为，技术和经济的发展并不是完全由之前的发展决定，但是也不是完全不依赖之前的发展。当技术的发展选择的路径是重新域定的时候，那他就更倾向于在新的世界当中把旧的任务不断进行重新表达，以此来完成创新，而当技术的发展选择的路径是标准工程的时候，那他就更倾向于在微小的改进当中发现值得创新的部分。</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>《技术的本质》这本书的主要内容分为三个部分：第一部分，技术是什么？技术从本质上来讲具有什么特性。第二部分，技术是如何进化的，即新技术是怎么产生的。第三部分，技术的进化是怎么推动经济的进化的，也就是说活生生的技术怎么让经济也启动了自身生生不息的繁衍。其实，不论是认为技术控制了人类的生活，还是认为技术服务了人类的生活，这两种观点都是对的。没有技术就没有人类，反之，没有人类技术的存在也就没有了意义。人类需要的不只是经济上的舒适；人类，更需要的是挑战，是目的，是意义，需要和自然融为一体。如果技术把人类与自然分离，就消灭了人性，如果技术加强了人类和自然的联系，那就更好地确立了人性。有句话是这么说的：佛陀与上帝居住在计算机的电路里，或者是周期转动的齿轮当中，就和他们居住在群山之巅或者是盘坐在莲花上同样舒服。可以说，技术是自然的拓展，是人性的拓展，是更深的宇宙法则的一部分。了解技术的本质，你才能掌握未来。自然带给人类的天性和无穷的奥秘，正是我们创意的源头，也是我们赖以生存的本源。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;人类技术发展史向我们展示了一个这样的趋势：那就是重大创新发生的时间间隔正在不断的缩短。从农业革命到工业革命用了8000年。从工业革命到电灯泡的产生，只花了120年。之后的90年，人类就登上了月球。再往后20里年互联网就出现了，紧接着仅仅过了九年，在21世纪初，人类基因组测序
+      
+    
+    </summary>
+    
+    
+      <category term="Books" scheme="https://ismdeep.com/tags/Books/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】 Go 泛型编程介绍</title>
+    <link href="https://ismdeep.com/posts/2022-03-24-an-introduction-to-go-generic-programming.html"/>
+    <id>https://ismdeep.com/posts/2022-03-24-an-introduction-to-go-generic-programming.html</id>
+    <published>2022-03-23T16:13:14.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<p>原文： <a href="https://go.dev/blog/intro-generics">https://go.dev/blog/intro-generics</a></p><p>作者： Robert Griesemer，Ian Lance Taylor</p><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本文基于我们在 GopherCon 2021 上的讲话（视频地址：<a href="https://www.youtube.com/watch?v=Pa_e9EeCdy8">https://www.youtube.com/watch?v=Pa_e9EeCdy8</a> ， B站： <a href="https://www.bilibili.com/video/BV1V34y1q7wP%EF%BC%89%EF%BC%9A">https://www.bilibili.com/video/BV1V34y1q7wP）：</a></p><p>Go 1.18版本增加了对泛型的支持。泛型是我们自 Go 第一个开源版本以来做出的最大改变。在本文中，我们将介绍新的语言特性。这将不会试图涵盖所有的细节，但我们会点出所有重要的点。更详细的内容，以及许多例子，请参见<a href="https://go.googlesource.com/proposal/+/HEAD/design/43651-type-parameters.md">提案文件</a>。关于语言变化的详细描述，请看更新的<a href="https://go.dev/ref/spec">语言规范</a>。(请注意，实际上 Go 1.18 的实现对提案文件所允许的内容施加了一些限制，该规范应该是描述准确的。未来的版本可能会取消这部分限制）。</p><p>泛型是一种编写独立于正在使用的特定类型的代码的方式。那么，现在可以编写用于任何类型的函数或类型。</p><p>泛型为语言增加了三个新的重要内容：</p><ol><li>函数和类型的类型参数。</li><li>将接口类型定义为类型的集合，包括没有方法的类型。</li><li>类型推导，允许在许多情况下调用函数时省略类型参数。</li></ol><h2 id="类型参数"><a href="#类型参数" class="headerlink" title="类型参数"></a>类型参数</h2><p>目前，函数和类型已支持类型参数。一个参数类型列表看起来就像一个普通的参数列表，只是它用方括号代替了小括号。</p><p>为了方便说明这一点，让我们从一个基本的非泛型的浮点值 <code>Min</code> 函数开始吧。</p><pre><code class="go">func Min(x, y float64) float64 &#123;    if x &lt; y &#123;        return x    &#125;    return y&#125;</code></pre><p>我们可以通过添加一个类型参数列表来使这个函数泛型化 —— 使其适用于不同的类型。在这个例子中，我们增加了一个由一个类型参数 <code>T</code> 构成的参数列表，并用 <code>T</code> 替换 <code>float64</code> 的使用。</p><pre><code class="go">func GMin[T constraints.Ordered](x, y T) T &#123;    if x &lt; y &#123;        return x    &#125;    return y&#125;</code></pre><p>那么，现在可以用一个类型参数来调用这个函数了，调用方式如</p><pre><code class="go">x := GMin[int](2, 3)</code></pre><p>向 <code>GMin</code> 传入类型参数，在本例中是 <code>int</code> ，称为实例化。实例化分为两个步骤。首先，编译器在整个泛型函数或类型中把所有的类型参数替换成它们各自的类型参数。第二，编译器验证每个类型参数是否满足各自的约束条件。我们很快就会知道这意味着什么，但是如果第二步失败，实例化就会失败，程序就会无效。</p><p>实例化成功后，我们将有一个非泛型函数，可以像其他函数一样被调用。例如，在代码中就是这样</p><pre><code class="go">fmin := GMin[float64]m := fmin(2.71, 3.14)</code></pre><p><code>GMin[float64]</code> 的实例化产生了一个有效的原始浮点 <code>Min</code> 函数，我们可以在函数调用中使用它。</p><p>类型参数也可用于类型。</p><pre><code class="go">type Tree[T interface&#123;&#125;] struct &#123;    left, right *Tree[T]    value       T&#125;func (t *Tree[T]) Lookup(x T) *Tree[T] &#123; ... &#125;var stringTree Tree[string]</code></pre><p>在这里，泛型类型 <code>Tree</code> 存储的是类型参数 <code>T</code> 的值。泛型类型可以有方法，比如本例中的 <code>Lookup</code> 方法。为了使用一个泛型，它必须被实例化；<code>Tree[string]</code> 是一个用类型参数 <code>string</code> 来实例化 <code>Tree</code> 的例子。</p><h2 id="类型集合"><a href="#类型集合" class="headerlink" title="类型集合"></a>类型集合</h2><p>让我们深入了解一下可以用来实例化一个类型参数的类型参数。</p><p>一个普通的函数对每个值参数都有一个类型；该类型定义了一组值。例如，如果我们有一个 <code>float64</code> 类型，就像上面非泛型函数 <code>Min</code> 那样，允许的参数值集合是可以用 <code>float64</code> 类型表示的浮点值集合。</p><p>同样地，类型参数列表中的每个类型参数都有一个类型。因为一个类型参数本身就是一个类型，所以类型参数的类型定义了类型的集合。这种元类型被称为<em>类型约束</em>。</p><p>在泛型函数 <code>GMin</code> 中，类型约束是从<a href="https://golang.org/x/exp/constraints">约束包</a>中导入的。<code>Ordered</code> 约束描述了所有具有可排序值的类型的集合。换句话说，也就是用 &lt; 操作符（或 &lt;&#x3D; , &gt; , 等）进行比较。该约束确保只有具有可排序值的类型才能被传递给 <code>GMin</code> 。这也意味着在 <code>GMin</code> 函数体中，该类型参数的值可以被用于比较操作符  &lt; 的运算。</p><p>在 Go 中，类型约束必须是接口。也就是说，一个接口类型可以作为一个值类型，也可以作为一个元类型。接口定义了方法，所以显然我们可以描述方法存在的类型约束。但是 <code>constraints.Ordered</code> 也是一个接口类型，而且 &lt; 操作符不是一个方法。</p><p>为了实现这个，我们以一种新的方式来看待接口。</p><p>直到最近，Go 规范描述：一个接口定义了一个方法集，大概就是接口中列举的方法集。任何实现了所有这些方法的类型都实现了该接口。</p><p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2022/03/24/2eff57257302a26c6d975be8303b035b-32915d.png" alt="img"></p><p>但另一种看法是，接口定义了一个类型集，即实现这些方法的类型。从这个角度来看，任何属于接口类型集的元素的类型都实现了接口。</p><p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2022/03/24/1504376fe6b7fbae91bf85f0e0f57e50-ba8f90.png" alt="img"></p><p>这两种观点达到了一样的结果。对于每一组方法，我们可以想象出实现这些方法的相应类型集，这就是接口所定义的类型集。</p><p>不过对于我们的目的来说，类型集视角比方法集视角有一个优势：我们可以明确地将类型添加到集合中，从而以新的方式控制类型集。</p><p>为了发挥作用，我们对接口类型的语法进行了扩展。例如，<code>interface&#123; int|string|bool &#125;</code> 定义了包含 <code>int</code> 、<code>string</code> 和 <code>bool</code> 的类型集。</p><p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2022/03/24/3fd88fd47a4e8e489287cea402fa7a99-f5ae4a.png" alt="img"></p><p>另一种说法是，这个接口只被 <code>int</code> 、<code>string</code> 或 <code>bool</code> 所满足。</p><p>我们来看一下 <code>contraints.Ordered</code> 的实际定义：</p><pre><code class="go">type Ordered interface &#123;    Integer|Float|~string&#125;</code></pre><p>这个声明表示，<code>Ordered</code> 接口是所有整数、浮点数和字符串类型的集合。<code>|</code> 表示的是类型的联合（或者是类型的集合）。 <code>Integer</code> 和 <code>Float</code> 是接口类型，在 <code>constraints</code> 中也有类似的定义。注意，<code>Ordered</code> 接口没有定义任何方法。</p><p>对于类型约束，我们通常不关心一个特定的类型，比如 <code>string</code> ；我们对所有的字符串类型感兴趣。这就是 <code>~</code> 标记的作用。表达式 <code>~string</code> 意味着所有基础类型为 <code>string</code> 的类型的集合 —— 这包括 <code>string</code> 类型本身，以及所有用定义声明的类型，如 <code>type MyString string</code> 。</p><p>当然，我们仍然希望在接口中指定方法，而且我们希望能向后兼容。在 Go 1.18 中，一个接口可以像以前一样包含方法和嵌入接口，但它也可以嵌入非接口类型、联合体和底层类型的集合。</p><p>当作为类型约束使用时，由接口定义的类型集准确地指定了允许作为相应类型参数的类型参数的类型。在一个泛型函数体中，如果操作数的类型是带有约束 <code>C</code> 的类型参数 <code>P</code> ，那么如果操作被 <code>C</code> 的类型集中的所有类型所允许，那么操作就是被允许的（目前这里实现上有一些限制，但是普通代码不太可能遇到这些限制）。</p><p>用作约束条件的接口可以被赋予名称（比如 <code>Ordered</code> ），或者它们可以是类型参数列表中的字面接口。比如说：</p><pre><code class="go">[S interface&#123;~[]E&#125;, E interface&#123;&#125;]</code></pre><p>这里 <code>S</code> 必须是一个切片类型，其元素类型可以是任何类型。</p><p>因为这是一种常见的情况，对于处于约束位置的 <code>interface&#123;&#125;</code> ，可以省略。可以简单如下编写：</p><pre><code class="go">[S ~[]E, E interface&#123;&#125;]</code></pre><p>因为空接口在类型参数列表中很常见，在普通 Go 代码中也是如此，Go 1.18 引入了一个新的预先声明的标识符 <code>any</code> 作为空接口类型的别名。这样一来，我们就得到了这个惯用代码：</p><pre><code class="go">[S ~[]E, E any]</code></pre><p>接口用于类型集是一个强大的新机制，也是使类型约束在 Go 中发挥作用的关键。目前，使用新语法形式的接口只能作为约束使用。但不难想象，具有明确的类型约束的接口将会非常有用。</p><h2 id="类型推导"><a href="#类型推导" class="headerlink" title="类型推导"></a>类型推导</h2><p>最后一个新的主要语言特性是类型推导。在某些方面，这是最复杂的变化，但它很重要，因为它让人们可以通过一种自然的风格来编写调用泛型函数的代码。</p><h3 id="函数参数类型推导"><a href="#函数参数类型推导" class="headerlink" title="函数参数类型推导"></a>函数参数类型推导</h3><p>有了类型参数，就需要传递类型参数，这就使代码变得冗长。回到我们的泛型函数 <code>GMin</code> 。</p><pre><code class="go">func GMin[T constraints.Ordered](x, y T) T &#123; ... &#125;</code></pre><p>类型参数 <code>T</code> 用于指定普通泛型参数 <code>x</code> 和 <code>y</code> 的类型。正如我们前面所看到的，可以用一个显式类型参数来调用它</p><pre><code class="go">var a, b, m float64m = GMin[float64](a, b) // 显式类型参数</code></pre><p>在许多情况下，编译器可以从普通参数中推断出 <code>T</code> 的类型参数。这使得代码更简短。</p><pre><code class="go">var a, b, m float64m = GMin(a, b) // 没有 类型参数</code></pre><p>其工作原理是将参数 <code>a</code> 和 <code>b</code> 的类型与参数 <code>x</code> 和 <code>y</code> 的类型相匹配。</p><p>这种从函数的参数类型中推断出参数类型的推导，被称为<em>函数参数类型推导</em>。</p><p>函数参数类型推导只适用于在函数参数中使用的类型参数，不适用于只在函数结果中使用的类型参数或只在函数主体中使用的类型参数。例如，它不适用于像 <code>MakeT[T any]() T</code> 这样的函数，它只在结果中使用 <code>T</code> 。</p><h3 id="约束类型推导"><a href="#约束类型推导" class="headerlink" title="约束类型推导"></a>约束类型推导</h3><p>Go 还支持另一种类型推导，即<em>约束类型推理</em>。为了描述这个，让我们从这个缩放整数切片的例子开始：</p><pre><code class="go">// Scale 返回s中每个元素都乘以c的副本。// 这种实现方式有一个问题，后面将会看到。func Scale[E constraints.Integer](s []E, c E) []E &#123;    r := make([]E, len(s)    for i, v := range s &#123;        r[i] = v * c    &#125;    return r&#125;</code></pre><p>这是一个适用于任何整数类型切片的泛型函数。</p><p>现在假设我们有一个多维的 <code>Point</code> 类型，其中每个 <code>Point</code> 都是一个给出了点的坐标的简单整数列表。当然，这个类型有一些方法。</p><pre><code class="go">type Point []int32func (p Point) String() string &#123;    // Details not important.&#125;</code></pre><p>有时候，我们想对一个 <code>Point</code> 进行缩放。因为一个 <code>Point</code> 只是一个整数切片，我们可以使用我们之前写的 <code>Scale</code> 函数：</p><pre><code class="go">// ScaleAndPrint 将一个 Point 翻倍，并且打印。func ScaleAndPrint(p Point) &#123;    r := Scale(p, 2)    fmt.Println(r.String()) // 无法编译&#125;</code></pre><p>然而，这并没有被编译，而是出现了这样的错误 <code>r.String undefined (type []int32 has no field or method String)</code>.</p><p>问题是 <code>Scale</code> 函数返回了一个 <code>[]E</code> 类型的值，其中 <code>E</code> 是参数切片的元素类型。当我们用一个 <code>Point</code> 类型的值调用 <code>Scale</code> 时，其底层类型是 <code>[]int32</code> ，我们得到的是 <code>[]int32</code> 类型的值，而不是 <code>Point</code> 类型。这是由泛型编程的写法决定的，但这不是我们想要的。</p><p>为了解决这个问题，我们必须改变 <code>Scale</code> 函数，使用一个类型参数来表示分片类型。</p><pre><code class="go">// Scale 返回s中每个元素都乘以c的副本。func Scale[S ~[]E, E constraints.Integer](s S, c E) S &#123;    r := make(S, len(s)    for i, v := range s &#123;        r[i] = v * c    &#125;    return r&#125;</code></pre><p>我们引入了一个新的类型参数 <code>S</code> ，它是分片参数的类型。我们对它进行了约束，使其底层类型是 <code>S</code> 而不是 <code>[]E</code> ，结果类型现在是 <code>S</code> 。由于 <code>E</code> 被限制为整数，其效果与之前相同：第一个参数必须是某个整数类型的片断。函数主体的唯一变化是，现在我们在调用 <code>make</code> 时传递 <code>S</code> ，而不是 <code>[]E</code> 。</p><p>如果我们用一个普通的片断来调用它，新函数的作用和以前一样，但是如果我们用 <code>Point</code> 类型来调用它，我们现在得到一个 <code>Point</code> 类型的值。这就是我们想要的。有了这个版本的 <code>Scale</code> ，先前的 <code>ScaleAndPrint</code> 函数就会像我们期望的那样编译和运行。</p><p>但是我们可以问：为什么写对 <code>Scale</code> 的调用可以不传递明确的类型参数？也就是说，为什么我们可以写 <code>Scale(p, 2)</code> ，没有类型参数，而不是必须写 <code>Scale[Point, int32](p, 2)</code> ？我们的新 <code>Scale</code> 函数有两个类型参数， <code>S</code> 和 <code>E</code> 。在调用 <code>Scale</code> 时没有传递任何类型参数，上面描述的函数参数类型推理让编译器推断出 <code>S</code> 的类型参数是 <code>Point</code> 。但是该函数也有一个类型参数 <code>E</code> 。编译器推断出 <code>E</code> 的类型参数是切片的元素类型的过程被称为<em>约束类型推理</em>。</p><p>约束类型推理从类型参数约束中推断出类型参数。当一个类型参数有一个定义在另一个类型参数上的约束时，它就会被使用。当这些类型参数中的一个的类型参数是已知的，该约束被用来推断另一个的类型参数。</p><p>通常适用的情况是，当一个约束对某些类型使用 <code>~ type</code> 的形式时，该类型是用其他类型参数写的。我们在 <code>Scale</code> 这个例子中看到了这一点。<code>S</code> 是 <code>~[]E</code> ，它是 <code>~</code> 后面有一个用另一个类型参数写的 <code>[]E</code> 类型。如果我们知道 <code>S</code> 的类型参数，我们可以推断出 <code>E</code> 的类型参数。<code>S</code> 是一个切片类型，<code>E</code> 是该切片的元素类型。</p><p>这只是对约束类型推导的一个介绍。完整的细节请参见<a href="https://go.googlesource.com/proposal/+/HEAD/design/43651-type-parameters.md">提案文档</a>文件或<a href="https://go.dev/ref/spec">语言规范</a>。</p><h3 id="类型推导实践"><a href="#类型推导实践" class="headerlink" title="类型推导实践"></a>类型推导实践</h3><p>类型推理的详细过程很复杂，但使用并不复杂：类型推理要么成功要么失败。如果它成功了，类型参数可以被省略，调用泛型函数看起来与调用普通函数没有什么不同。如果类型推理失败，编译器则会给出一个错误信息，在这种情况下，我们直接提供必要的类型参数就可以。</p><p>在向语言添加类型推理时，我们在试图平衡推理能力和复杂性。我们希望确保当编译器推断出类型时，这些类型永远不会令人困惑。我们试图小心翼翼地站在未能推断出类型的一边，而不是站在推断出错误类型的一边。我们可能没有完全做到这一点，可能会在后续版本中继续完善它。其效果是，更多的代码可以在没有显式类型参数的情况下编写。当然，今天不需要类型参数的代码，明天也不会需要。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>泛型是 1.18 中一个很大的新语言特性。这些新的语言变化需要大量的新代码，这些代码还没有在生产环境中进行过大量的测试。这只会随着越来越多的人编写和使用泛型代码来进行。我们相信这个功能实现得很好，质量很高。然而，与 Go 的大多数方面不同，我们无法用现实的经验来支持这一信念。因此，虽然我们鼓励在有意义的地方使用泛型，但在生产中部署泛型代码时，请使用适当的谨慎措施。</p><p>以外，我们也也很高兴能提供泛型，并希望能使 Go 程序员的工作更高效。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;原文： &lt;a href=&quot;https://go.dev/blog/intro-generics&quot;&gt;https://go.dev/blog/intro-generics&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;作者： Robert Griesemer，Ian Lance Taylor&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="Go" scheme="https://ismdeep.com/tags/Go/"/>
+    
+      <category term="Generic Programming" scheme="https://ismdeep.com/tags/Generic-Programming/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>五分钟启动 Kubernetes 服务</title>
+    <link href="https://ismdeep.com/posts/2021-10-28-start-a-kubernetes-server-in-5-minutes.html"/>
+    <id>https://ismdeep.com/posts/2021-10-28-start-a-kubernetes-server-in-5-minutes.html</id>
+    <published>2021-10-28T03:09:29.000Z</published>
+    <updated>2024-03-19T11:32:53.634Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文主要讲述一种快速部署Kubernetes服务器的方法。</p><p>准备工具：</p><ul><li>VirtualBox</li><li>Vagrant</li></ul><h1 id="1-Vagrant配置文件"><a href="#1-Vagrant配置文件" class="headerlink" title="1.  Vagrant配置文件"></a>1.  Vagrant配置文件</h1><ol><li><p>创建一个空目录，并通过命令行进入此空目录。</p></li><li><p>执行以下命令</p><pre><code class="bash">vagrant init alvistack/kubernetes-1.22</code></pre></li><li><p>打开自动创建的 Vagrantfile 文件。增加 <code>config.vm.network &quot;public_network&quot;, bridge: &quot;enp3s0&quot;</code> 配置。其中 <code>enp3s0</code> 为本机网卡。此配置用于桥接 <code>enp3s0</code> 网卡。<em>如果需要使用 hostonly 模式的网卡，可修改 <code>config.vm.network &quot;private_network&quot;</code> 对应的配置。</em></p></li></ol><h1 id="2-启动虚拟机"><a href="#2-启动虚拟机" class="headerlink" title="2.  启动虚拟机"></a>2.  启动虚拟机</h1><ol><li><p>在此目录下执行</p><pre><code class="bash">vagrant up</code></pre></li></ol><h1 id="3-重新生成密钥"><a href="#3-重新生成密钥" class="headerlink" title="3.  重新生成密钥"></a>3.  重新生成密钥</h1><ol><li><p>替换以下脚本中 <code>NEW_IP</code> 参数为本机IP地址，并在 root 账号下执行该脚本。</p><pre><code class="bash">export NEW_IP=192.168.16.101cd /etc/kubernetes/pkiopenssl x509 -noout -text -in apiserver.crtopenssl genrsa -out apiserver.key 2048openssl req -new -key apiserver.key -subj &quot;/CN=kube-apiserver&quot; -out apiserver.csrcat &gt; apiserver.ext &lt;&lt; EOFsubjectAltName = DNS:kubernetes, DNS:kubernetes.default, DNS:kubernetes.default.svc, DNS:kubernetes.default.svc.cluster.local, DNS:ubuntu, IP:10.233.0.1, IP:10.0.2.15, IP:$&#123;NEW_IP&#125;EOFopenssl x509 -req -in apiserver.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out apiserver.crt -days 3650 -extfile apiserver.extopenssl x509 -noout -text -in apiserver.crt</code></pre></li><li><p>重启服务器</p></li></ol><h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4.  总结"></a>4.  总结</h1><p>本文使用Vagrant和VirtualBox组合，能够快速启动K8s服务供应用中心开发者或其他需要使用到K8s服务的同学们使用。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文主要讲述一种快速部署Kubernetes服务器的方法。&lt;/p&gt;
+&lt;p&gt;准备工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;VirtualBox&lt;/li&gt;
+&lt;li&gt;Vagrant&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;1-Vagrant配置文件&quot;&gt;&lt;a href=&quot;#1-Vagrant
+      
+    
+    </summary>
+    
+    
+      <category term="VirtualBox" scheme="https://ismdeep.com/tags/VirtualBox/"/>
+    
+      <category term="Kubernetes" scheme="https://ismdeep.com/tags/Kubernetes/"/>
+    
+      <category term="Vagrant" scheme="https://ismdeep.com/tags/Vagrant/"/>
+    
+  </entry>
+  
+</feed>

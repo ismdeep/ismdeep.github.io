@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Doubt is the greatest enemy.">
+
+
+
+
+<title>在 FreeBSD 10.1中安装 Mate 桌面 | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 6,
+                orderedList: false,
+                scrollSmooth: true,
+            });
+        }
+    )
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">在 FreeBSD 10.1中安装 Mate 桌面</h1>
+        </header>
+
+        <div class="post-content">
+            <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>编译自：<a target="_blank" rel="noopener" href="http://www.unixmen.com/install-mate-desktop-freebsd-10-1/">http://www.unixmen.com/install-mate-desktop-freebsd-10-1/</a><br>作者： M.el Khamlichi    		<br>原创：<a target="_blank" rel="noopener" href="http://lctt.github.io/">LCTT</a> <a target="_blank" rel="noopener" href="https://linux.cn/article-5385-1.html">https://linux.cn/article-5385-1.html</a><br>译者： geekpi    		<br>本文地址：<a target="_blank" rel="noopener" href="https://linux.cn/article-5385-1.html">https://linux.cn/article-5385-1.html</a></p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201505/04/220515m790kl2qp910o5ol.jpg"></p>
+<p>FreeBSD是全文本模式的系统，然而有些新用户想要使用GUI桌面环境。这个教程就是帮助你在Freebsd 10.1中安装Mate桌面。</p>
+<p>下面是我的系统细节：</p>
+<pre><code class="bash">root@Freebsd-unixmen:~ \# uname -a
+FreeBSD Freebsd-unixmen 10.1-RELEASE FreeBSD 10.1-RELEASE \#0 r274401: Tue Nov 11 21:02:49 UTC 2014     root@releng1.nyi.freebsd.org:/usr/obj/usr/src/sys/GENERIC  amd64
+root@Freebsd-unixmen:~
+</code></pre>
+<p>要在FreeBSD 10.1 中开始安装Mate桌面，按照下面的步骤。</p>
+<pre><code class="bash">pkg install xf86-video-fbdev mate-desktop mate xorg
+</code></pre>
+<h3 id="0x01-在-etc-rc-conf-中加入下面的行"><a href="#0x01-在-etc-rc-conf-中加入下面的行" class="headerlink" title="0x01 在 &#x2F;etc&#x2F;rc.conf 中加入下面的行"></a>0x01 在 &#x2F;etc&#x2F;rc.conf 中加入下面的行</h3><pre><code class="bash">moused_enable=&quot;YES&quot;
+dbus_enable=&quot;YES&quot;
+hald_enable=&quot;YES&quot;
+</code></pre>
+<h3 id="0x02-测试安装"><a href="#0x02-测试安装" class="headerlink" title="0x02 测试安装"></a>0x02 测试安装</h3><pre><code class="bash">xinit mate-session
+</code></pre>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201505/04/220538dby0rtzzfx0yyegt.png"></p>
+<p>Mate本身没有显示管理器。因此我们会使用其他的显示管理器如XDM、GDM、slim等等来作为登录管理器。这里让我们看看如何在Mate桌面中配置Slim DM</p>
+<h3 id="0x03-安装-Slim"><a href="#0x03-安装-Slim" class="headerlink" title="0x03 安装 Slim"></a>0x03 安装 Slim</h3><pre><code class="bash">pkg install slim
+</code></pre>
+<p>在**&#x2F;etc&#x2F;rc.conf**中加入下面的行：</p>
+<pre><code class="bash">slim_enable=&quot;YES&quot;
+</code></pre>
+<p>在用户的家目录下的.xinitrc文件加入下面的行。</p>
+<pre><code class="bash">exec mate-session
+</code></pre>
+<p>重启电脑。现在在你登录Mate时就会进入Slim登录界面了。</p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201505/04/220639iw1woom3jhpgz3dd.png"></p>
+<p><img src="https://dn-linuxcn.qbox.me/data/attachment/album/201505/04/220655e2fg9p3z3iuimzu7.png"></p>
+<p>就是这样。干杯！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">January 8, 2017&nbsp;&nbsp;15:46:00</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.com/posts/2017-01-08-install-mate-desktop-on-freebsd-10-1.html">https://ismdeep.com/posts/2017-01-08-install-mate-desktop-on-freebsd-10-1.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Hacker/">#Hacker</a>
+                        
+                            <a href="/tags/FreeBSD/">#FreeBSD</a>
+                        
+                            <a href="/tags/UNIX/">#UNIX</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

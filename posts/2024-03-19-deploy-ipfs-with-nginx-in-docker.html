@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Doubt is the greatest enemy.">
+
+
+
+
+<title>Deploy IPFS with Nginx in Docker | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 6,
+                orderedList: false,
+                scrollSmooth: true,
+            });
+        }
+    )
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Deploy IPFS with Nginx in Docker</h1>
+        </header>
+
+        <div class="post-content">
+            <p>This post is mainly to help reader to deploy an IPFS service with nginx proxy which provides basic authorizations.</p>
+<p>A quick start is the following steps.</p>
+<p>Some basic requirements:</p>
+<ul>
+<li>Docker should already be installed on your computer.</li>
+<li>Basic Linux terminal skills.</li>
+</ul>
+<h1 id="Create-files"><a href="#Create-files" class="headerlink" title="Create files"></a>Create files</h1><ol>
+<li><p>Create folder</p>
+<pre><code>$ mkdir ipfs
+$ cd ipfs
+</code></pre>
+</li>
+<li><p>Create <code>docker-compose.yaml</code></p>
+<pre><code>version: &#39;3&#39;
+
+services:
+  ipfs:
+    container_name: ipfs
+    image: ipfs/kubo:latest
+    volumes:
+      - ./data/:/data/ipfs/
+    ports:
+      - &#39;8080:8080&#39;
+    restart: always
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - &#39;5001:5001&#39;
+    volumes:
+      - &#39;./default.conf:/etc/nginx/conf.d/default.conf:ro&#39;
+      - &#39;./htpasswd:/htpasswd:ro&#39;
+    restart: always
+</code></pre>
+</li>
+<li><p>Create <code>htpasswd</code></p>
+<pre><code>ljiang:$apr1$nShUpvO7$hizri44cnQwto/zQ0y3Ka0
+</code></pre>
+</li>
+<li><p>Create <code>default.conf</code></p>
+<pre><code>server &#123;
+    listen 5001;
+    server_name _;
+    client_max_body_size 2048000m;
+    location / &#123;
+        proxy_pass http://ipfs:5001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        auth_basic           &quot;Administrator’s Area&quot;;
+        auth_basic_user_file /htpasswd;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
+<h1 id="Init-IPFS-Data"><a href="#Init-IPFS-Data" class="headerlink" title="Init IPFS Data"></a>Init IPFS Data</h1><ol>
+<li><p>Make data folder</p>
+<pre><code>$ mkdir -p ./data/
+</code></pre>
+</li>
+<li><p>Init data</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs init
+</code></pre>
+</li>
+</ol>
+<h1 id="Set-IPFS-config"><a href="#Set-IPFS-config" class="headerlink" title="Set IPFS config"></a>Set IPFS config</h1><ol>
+<li><p>Set Addresses</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.API &#39;&quot;/ip4/0.0.0.0/tcp/5001&quot;&#39;
+$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.Gateway &#39;&quot;/ip4/0.0.0.0/tcp/8080&quot;&#39;
+</code></pre>
+</li>
+<li><p>Set API</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin &#39;[&quot;*&quot;]&#39;
+$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods &#39;[&quot;GET&quot;, &quot;PUT&quot;, &quot;POST&quot;]&#39;
+</code></pre>
+</li>
+</ol>
+<h1 id="Start-IPFS"><a href="#Start-IPFS" class="headerlink" title="Start IPFS"></a>Start IPFS</h1><pre><code>$ docker-compose up -d
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">March 19, 2024&nbsp;&nbsp;19:29:23</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.com/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html">https://ismdeep.com/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/IPFS/">#IPFS</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

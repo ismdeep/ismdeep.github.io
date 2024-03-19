@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Doubt is the greatest enemy.">
+
+
+
+
+<title>约瑟夫环问题 | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">约瑟夫环问题</h1>
+        </header>
+
+        <div class="post-content">
+            <p>这算是一个非常简单的模拟题。</p>
+<p>在大家学习数据结构的课程中，都会有这个问题。</p>
+<p>在计算机上先输入两个正整数N和K，其中N为将要输入的正整数的个数，K为步长。请编写一个程序，首先用循环链接表储存这N个正整数。然后，首先删除第一个正整数，接着删除循环链表从当前删除节点开始步长走K个的正整数，依次类推，直至表空为止。如下所示，N&#x3D;10,K&#x3D;3,输入的10个正整数为1，2，3，4，5，6，7，8，9，10。则被删除的次序为：1，4，7，10，5，9，6，3，8，2。</p>
+<p>直接上代码吧。</p>
+<pre><code class="C">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+#define MAXN 10000
+
+struct Node
+&#123;
+    struct Node* next;
+    int value;
+&#125;;
+
+struct Node link[MAXN];
+int n,k;
+struct Node *pre, *cur;
+
+void make_link ()
+&#123;
+    int i;
+    for (i = 0; i &lt; n-1; i++)
+    &#123;
+        link[i].next = &amp;link[i+1];
+        scanf (&quot;%d&quot;, &amp;link[i].value);
+        //cin &gt;&gt; link[i].value;
+    &#125;
+    link[n-1].next = &amp;link[0];
+    scanf(&quot;%d&quot;, &amp;link[n-1].value);
+    // cin &gt;&gt; link[n-1].value;
+    cur = &amp;link[0];
+    pre = &amp;link[n-1];
+&#125;
+
+/*cur指针移动cnt步*/
+void move_cur_index (int cnt)
+&#123;
+    int i;
+    for (i = 0; i &lt; cnt-1; i++)
+    &#123;
+        pre = cur;
+        cur = (*cur).next;
+    &#125;
+&#125;
+
+/*删除当前指向的节点*/
+void del_cur_node ()
+&#123;
+    printf(&quot;%d &quot;, (*cur).value);
+    // cout &lt;&lt; (*cur).value &lt;&lt; &quot; &quot;;
+    (*pre).next = (*cur).next;
+    cur = (*cur).next;
+&#125;
+
+int main ()
+&#123;
+    int i;
+    scanf(&quot;%d%d&quot;, &amp;n, &amp;k);
+    //cin &gt;&gt; n &gt;&gt; k;
+    make_link();
+    for (i = 0; i &lt; n; i++)
+    &#123;
+        del_cur_node();
+        move_cur_index(k);
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">August 20, 2015&nbsp;&nbsp;9:21:12</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.com/posts/2015-08-20-josephus-problem.html">https://ismdeep.com/posts/2015-08-20-josephus-problem.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/ACM-ICPC/">#ACM-ICPC</a>
+                        
+                            <a href="/tags/Easy/">#Easy</a>
+                        
+                            <a href="/tags/Algorithm/">#Algorithm</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
