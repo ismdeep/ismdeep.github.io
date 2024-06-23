@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ismdeep</title>
+  
+  <subtitle>Enjoy programming and build awesome stuff.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ismdeep.com/"/>
+  <updated>2024-06-23T03:43:04.340Z</updated>
+  <id>https://ismdeep.com/</id>
+  
+  <author>
+    <name>ismdeep</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Fix docker-ce GPG error in apt update on ubuntu</title>
+    <link href="https://ismdeep.com/posts/2024-06-22-docker-ce-gpg-error-in-apt-update-on-ubuntu.html"/>
+    <id>https://ismdeep.com/posts/2024-06-22-docker-ce-gpg-error-in-apt-update-on-ubuntu.html</id>
+    <published>2024-06-21T23:59:59.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>Problem shown as in <code>$ sudo apt update</code></p><pre><code>$ sudo apt updateHit:1 https://mirrors.ustc.edu.cn/ubuntu focal InReleaseHit:2 https://mirrors.ustc.edu.cn/ubuntu focal-updates InReleaseHit:3 https://mirrors.ustc.edu.cn/ubuntu focal-backports InReleaseHit:4 https://mirrors.ustc.edu.cn/ubuntu focal-security InReleaseGet:5 https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal InRelease [57.7 kB]Ign:5 https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal InReleaseHit:8 https://esm.ubuntu.com/apps/ubuntu focal-apps-security InReleaseHit:9 https://esm.ubuntu.com/apps/ubuntu focal-apps-updates InReleaseHit:10 https://esm.ubuntu.com/infra/ubuntu focal-infra-security InReleaseHit:11 https://esm.ubuntu.com/infra/ubuntu focal-infra-updates InReleaseFetched 57.7 kB in 2s (24.4 kB/s)Reading package lists... DoneBuilding dependency treeReading state information... DoneAll packages are up to date.W: GPG error: https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal InRelease: The following signatures couldn&#39;t be verified because the public key is not available: NO_PUBKEY 7EA0A9C3F273FCD8</code></pre><p>Solve with:</p><pre><code>$ sudo mkdir -p /etc/apt/keyrings$ sudo curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg$ sudo chmod a+r /etc/apt/keyrings/docker.gpg</code></pre><p>Edit <code>/etc/apt/sources.list.d/docker.list</code> as:</p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal stable</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Problem shown as in &lt;code&gt;$ sudo apt update&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo apt update
+Hit:1 https://mirrors.ustc.edu.cn/ubuntu focal InRele
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://ismdeep.com/tags/Ubuntu/"/>
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+      <category term="Debian" scheme="https://ismdeep.com/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins Environment Variables</title>
+    <link href="https://ismdeep.com/posts/2024-06-14-jenkins-environment-variables.html"/>
+    <id>https://ismdeep.com/posts/2024-06-14-jenkins-environment-variables.html</id>
+    <published>2024-06-14T02:28:32.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>BRANCH_NAME=develop/snipeBUILD_DISPLAY_NAME=#3BUILD_ID=3BUILD_NUMBER=3BUILD_TAG=jenkins-hello-world-develop%2Fsnipe-3BUILD_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/CI=trueDBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/busDOCKER_CLI_EXPERIMENTAL=enabledEXECUTOR_NUMBER=1GIT_BRANCH=develop/snipeGIT_COMMIT=fb060e3833b2d5db61b15fca806489b626a89418GIT_PREVIOUS_COMMIT=e8b2fdcdc39aadca2c4b0991fa1a00564447a0f0GIT_PREVIOUS_SUCCESSFUL_COMMIT=7771ab2ab9f82f49d3dc691a99129e0a5c4b1877GIT_URL=https://gitlabwh.uniontech.com/wuhan/web/adp/deploy/hello-world.gitHUDSON_COOKIE=4e6c6e79-cd1b-4486-9aff-c17eac8c636dHUDSON_HOME=/var/jenkins_homeHUDSON_SERVER_COOKIE=35002450c7ddd0e1HUDSON_URL=http://10.20.30.40:8080/JENKINS_HOME=/var/jenkins_homeJENKINS_NODE_COOKIE=f6922b98-89e8-49cf-b18d-89e2daa0da96JENKINS_SERVER_COOKIE=durable-b97afb9a3dcb4f29b70420af66d83169bbf7a090e119ae1ec795572fce2fd846JENKINS_URL=http://10.20.30.40:8080/JOB_BASE_NAME=develop%2FsnipeJOB_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/display/redirectJOB_NAME=hello-world/develop%2FsnipeJOB_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/LANGUAGE=zh_CNLANG=zh_CN.UTF-8NODE_LABELS=anunnaki3NODE_NAME=anunnaki3OLDPWD=/data/jenkins-workspace/workspace/hello-world_develop_snipePATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binPWD=/data/jenkins-workspace/workspace/hello-world_develop_snipeRUN_ARTIFACTS_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=artifactsRUN_CHANGES_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=changesRUN_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirectRUN_TESTS_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=testsWORKSPACE=/data/jenkins-workspace/workspace/hello-world_develop_snipeWORKSPACE_TMP=/data/jenkins-workspace/workspace/hello-world_develop_snipe@tmp</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt;BRANCH_NAME=develop/snipe
+BUILD_DISPLAY_NAME=#3
+BUILD_ID=3
+BUILD_NUMBER=3
+BUILD_TAG=jenkins-hello-world-develop%2Fsnipe-3
+BUILD_U
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.com/tags/DevOps/"/>
+    
+      <category term="Jenkins" scheme="https://ismdeep.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】全同态加密的高级技术概述</title>
+    <link href="https://ismdeep.com/posts/2024-05-23-a-high-level-technical-overview-of-fully-homomorphic-encryption.html"/>
+    <id>https://ismdeep.com/posts/2024-05-23-a-high-level-technical-overview-of-fully-homomorphic-encryption.html</id>
+    <published>2024-05-23T03:36:58.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>原文：<a href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2">https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2</a></p><p>归档：<a href="https://web.archive.org/web/20240511101323/https://www.jeremykun.com/2024/05/04/fhe-overview/">https://web.archive.org/web/20240511101323/https://www.jeremykun.com/2024/05/04/fhe-overview/</a></p><p>大约两年前，我在谷歌换了团队，开始专注于全同态加密（简称FHE，有时也称为HE）。从那时起，我参与了许多有趣的项目，并在此过程中学习了后量子密码学、编译器设计以及全同态加密的方方面面。</p><p>如果你听说过全同态加密（FHE）并且是软件行业的人，你可能听说过两点：它允许在不解密的情况下直接对加密数据运行程序；但它仍然太慢，无法用于任何实际用途。除此之外，很少有资源能比40页的研究论文更易于理解地对这一领域进行概述（如果你想要这样的资源，<a href="https://eprint.iacr.org/2022/1602">这里有一篇2022年的论文</a>）。本文将提供这样一个概述——技术性但仍然足够高层次，使你能够更好地了解这一技术的工作原理以及该领域的发展方向。另外，FHE.org上还有一篇不错的<a href="https://fhe.org/history/">FHE研究简史</a>。</p><p><strong>免责声明</strong>：由于我在这个领域只有两年的经验，我觉得有必要提醒你，我并不是专家。我没有在全同态加密（FHE）方面发表过任何原创研究，并且我的知识中存在相当大的空白。然而，我进入这个领域的目的是将尽可能多的有用技术整合到我目前的主要项目中： <a href="https://heir.dev/">HEIR 编译器工具链</a>。因此，我对任何特定的FHE方法都没有偏见。我也不会包括出版物的时间线或增量改进的引用图。相反，我将专注于从我的角度来看处于该领域前沿的一部分技术。</p><h1 id="最高层次的视角"><a href="#最高层次的视角" class="headerlink" title="最高层次的视角"></a>最高层次的视角</h1><p>我在午餐时间向我的软件工程师同事们解释同态加密的说法。</p><p>同态加密让你可以以一种特殊的方式加密数据，使得你可以在不解密数据的情况下运行程序。这意味着运行程序的计算机在运行程序时无法访问底层数据——无论是通过中间计算值，还是通过最终结果。特别是，如果一个不法分子能够访问计算机的原始内存，他们仍然无法获取任何关于底层数据的信息（前提是密码学没有被破解）。用户向程序发送加密输入，当程序完成后，加密结果会被发送回用户，由用户进行解密。</p><p>在加密数据上运行程序听起来像是魔法。它的实现是通过选择一种加密方案，使其在以下意义上与加法和乘法“兼容”：</p><ul><li>对密文进行加法运算会得到底层明文之和的加密。</li><li>将两个密文相乘会得到底层明文之积的加密。</li></ul><p>有了这种能力，你可以逐位加密你的数据，将你的程序表示为一个布尔电路——XOR门是加法，AND门是乘法——然后模拟这个电路。由于XOR和AND形成了布尔逻辑的通用基础，你总是可以这样分解一个电路。<a href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:1">1</a></p><p>为了进一步阐述FHE理论上如何处理通用计算的观点，人们已经在FHE中实现了<a href="https://medium.com/optalysys/fully-homomorphic-encryption-and-the-game-of-life-d7c37d74bbaf">康威的生命游戏</a>以及<a href="https://www.usenix.org/system/files/sec21summer_matsuoka.pdf">完整的处理器架构</a>。</p><p>这其中有四个主要的注意事项。首先，仅仅使用布尔电路并不足以完成计算机能够完成的所有任务。电路总是会终止，因此如果不采取其他措施，你无法编写无限循环的程序。像正弦和指数函数这样的超越函数也有它们自己的挑战，因为用位运算模拟它们通常是不可行的，原因如下所述。</p><p>第二，模拟电路很慢，特别是考虑到为每个门进行加密解密的开销。慷慨地说，一个现代布尔门FHE实现需要大约1毫秒的时间来评估单个门，而没有任何特殊的硬件加速。将其与运行频率为2 GHz且每个（32位！）指令需要4个时钟周期的老式CPU进行比较，这相当于每个操作约1纳秒。如果你只是简单地将电路分解，运行FHE在CPU上至少比相应的未加密程序慢一百万倍。<a href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:2">2</a></p><p>第三，加密保证意味着对可以使用的优化方法有所限制（即使你没有使用布尔电路方法），因为实现该优化必然会破坏加密。例如，不可能编写一个FHE程序，其使用的指令数量少于程序的最坏情况输入。这样做会暴露出输入不是最坏情况的信息，这与加密的安全性相矛盾。相反，一个FHE程序必须急切地计算所有if语句的分支，然后使用select语句决定应该使用哪个结果。相同的推理适用于循环：所有循环必须执行其最大迭代次数，实际上这意味着所有循环必须具有静态已知的上界。</p><p>第四，存在带宽问题。FHE加密方案通常会增加被加密数据的大小，用户还必须向服务器发送一组特殊的加密密钥来启用计算，这些密钥也相对较大。这些特殊密钥只需要生成和发送一次，就可以用于所有未来的计算，但它们的大小可能轻松达到几十GB。在一个具有轻量级密钥的FHE方案中的一个例子中，加密单个整数的密文大约为25 KB，而特殊密钥大约为0.5 GB。在其他方案中，可以将16000个或更多的整数打包到一个大小相似的单个密文中，但密钥可能会达到数十GB。</p><p>在后面的部分，我将描述FHE方案如何与或克服这些限制。</p><h1 id="FHE方案的共同点"><a href="#FHE方案的共同点" class="headerlink" title="FHE方案的共同点"></a>FHE方案的共同点</h1><p>本节将对支撑FHE的加密方案的工作原理进行稍微技术性的概述。下一节将提供更具体的细节，介绍特定的FHE方案及其不同的功能。</p><h2 id="LWE-和-RLWE"><a href="#LWE-和-RLWE" class="headerlink" title="LWE 和 RLWE"></a>LWE 和 RLWE</h2><p>所有现代的FHE方案都使用了实质上相同的加密基础：一个带有噪声的点积。在FHE方案中实际使用的最简单版本称为<a href="https://en.wikipedia.org/wiki/Learning_with_errors">学习有误差问题</a>，或LWE。</p><p>LWE加密支持通过将这些位放置在机器字的最高有效位来加密小位宽的整数。为了简单起见，假设它是一个4位整数，位于32位整数的最高位，其他所有位初始化为零，并将整个编码的明文称为 𝑚。秘密密钥 𝑠 是一个随机的长度为 𝑛 的二进制向量，选择的目的是实现一定的安全性——假设 𝑛&#x3D;800。然后进行加密，采样一个长度为 𝑛 的32位整数向量 𝑎，与秘密密钥 𝑠 做点积，加上消息 𝑚，然后加上来自与方案安全性密切相关的精心选择的分布的一些随机噪声。加密值既是随机选择的样本，也是噪声掩盖的结果，即 (𝑎, 𝑎⋅𝑠+𝑚+noise)。更准确地说，代码中表现为:</p><pre><code class="python">def encrypt(m, s, a, noise):  # the 28 below would realistically come from a config  clean_product = np.dot(a, s) + (m &lt;&lt; 28)  obfuscated_product = clean_product + noise  return np.append(a, obfuscated_product)</code></pre><p>噪声分布是最神秘的部分，我在这里不会详细介绍，但在大多数情况下，它被视为对称的整数值高斯分布，以零为中心，具有可调的方差。较大的方差意味着更高的安全性，但正如我稍后将讨论的那样，它会减少可以应用的同态操作的数量，直到底层消息被损坏，这反过来会影响性能，因为需要进行昂贵的清理操作来从高噪声密文中恢复。<a href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:3">3</a></p><p>LWE解密然后将这个过程反转：重新计算点积，并从加密输出中减去它。但最后需要应用一个舍入步骤来移除加密过程中添加的噪声。因为消息位于消息的最高有效位中（假设是位28-31），而且添加的噪声并不是很大，所以将其舍入到最接近的 2^28 的倍数就可以移除它。</p><pre><code class="python">def decrypt(ciphertext, secret_key):  obfuscated_plaintext = ciphertext[-1] - np.dot(ciphertext[:-1], secret_key)  return round_to_power_of_2(obfuscated_plaintext , 28)</code></pre><p>加密保证的是，对于使用相同的秘密密钥进行大量消息加密的样本，不存在任何非平凡概率高于随机猜测的情况下能够推断出秘密密钥或底层消息。这实际上是一个困难的机器学习问题：尝试从由 𝑠 和 𝑚 参数化的可能函数族中学习一个固定函数 𝑓(𝑎)&#x3D;𝑎⋅𝑠+𝑚。学习者可以均匀地采样输入-输出对，但输出值与其真实值略有偏差。如果没有这种偏差，这个问题等同于解一个线性系统，而且会很容易。但是由于这种偏差，没有人知道如何在多项式时间内解决它。关于为什么LWE（或<a href="https://link.springer.com/chapter/10.1007/978-3-642-27660-6_9">甚至更简单的问题</a>）很难解决，有着广泛的文献。<a href="https://eprint.iacr.org/2015/046">这里是关于已知最佳攻击的调查报告</a>。</p><p>LWE是CGGI密码系统所使用的前端加密，稍后会更详细地描述，但大多数其他FHE方案使用的是对LWE进行泛化到多项式算术的一种称为<a href="https://en.wikipedia.org/wiki/Ring_learning_with_errors">环形学习有误差</a>（RLWE）的方法。</p><p>在RLWE中，LWE中的标量乘法和加法被升级为多项式乘法和加法。操作不再是模机器字大小，而是模“多项式模数”进行的，并且该模数对方案的安全性至关重要。</p><p>更详细地说，我们首先选择一个多项式环。我们选择一个多项式的次数作为最大次数（比如，𝑁&#x3D;1024），系数始终是某个选定模数 𝑞 的整数（它可以是机器字大小或某个大素数），最后我们选择一个多项式，通常是 𝑥^𝑁+1，并将每个操作的结果表示为除以该多项式的余数。在数学符号中，这组多项式将被表示为 𝑍&#x2F;𝑞𝑍[𝑥]&#x2F;(𝑥^𝑁+1)。规范要求的 𝑞、𝑁 和多项式模数的选择因方案而异。模数 𝑥^𝑁+1 是标准的，因为它通过离散傅里叶变换（DFT）或数论变换（NTT）实现了高效的多项式乘法。参见我的<a href="https://jeremykun.com/2022/12/09/negacyclic-polynomial-multiplication/">早期文章</a>，了解如何实现这些特殊的多项式乘法，尽管我还没有写过关于NTT的文章。</p><p>为了加密，一个或多个小整数消息会以某种与方案相关的方式编码成多项式（我写了一篇<a href="https://jeremykun.com/2023/09/18/encoding-schemes-in-fhe/">关于这个的整篇文章</a>）。秘密密钥是一个具有二进制系数的随机多项式列表，样本是具有均匀随机模 𝑞 系数的随机多项式。然后进行点积运算，加上消息，并添加一个类似的“噪声多项式”以掩盖结果。</p><p>因为多项式比整数更“困难”（有关更多细节，请参阅<a href="https://jeremykun.com/2022/12/28/estimating-the-security-of-ring-learning-with-errors-rlwe/">这篇文章</a>），在RLWE中，向量大小 𝑛，即我在LWE示例中设定为800的值，通常被设置为1。换句话说，LWE中的“点积”被替换为单个多项式乘积。如果你考虑一下，多项式乘积很像<a href="https://jeremykun.com/2022/12/09/negacyclic-polynomial-multiplication/">卷积</a>，它是更简单的点积的变体。多项式的次数取代了LWE向量的维度，用于扩展安全性。尽管如此，一些方案使用两个或更多多项式来获得安全性和性能的不同权衡。</p><p>使用RLWE而不是LWE的主要优势在于，你可以将许多消息打包到单个多项式中，并且你所应用的同态操作适用于所有消息。这与<a href="https://en.wikipedia.org/wiki/Single_instruction,_multiple_data">SIMD</a>的优势类似，但对于这些打包消息可用的SIMD操作存在更多限制，我将在后面的部分讨论。</p><p>最后，许多人已经观察到整数只是一个次数为0的多项式。由于RLWE始终将向量维度设置为1，你可以将这两个参数（向量维度和多项式次数）结合起来，得到一个单一的母问题，其中两个参数都可以是可变的。这个母问题称为“模LWE”，它超出了本文的范围。</p><h2 id="基本操作和处理噪声"><a href="#基本操作和处理噪声" class="headerlink" title="基本操作和处理噪声"></a>基本操作和处理噪声</h2><p>在LWE和RLWE加密中，两个密文的加法自然对应于底层消息的加法。获得同态乘法更加困难，而且方法通常依赖于方案，但是是可能的。你可能已经注意到，LWE和RLWE支持“小位宽整数”，而不是我之前提到的单个位。实际上，现代FHE从业者利用了这一点，并根据低位宽算术操作来表示他们的电路，或者利用固定宽度的表示来支持十进制计算。根据计算的不同，这可能比纯布尔电路的表示方式具有显著的优势。</p><p>除了对底层消息进行操作外，同态加法还将两个操作数中的加密噪声添加到结果密文中。同样，同态乘积大致上会将两个密文中的噪声相乘。这显然是不可持续的。一旦噪声超过分配给它的约 28 位空间，解密将失败，并且程序的结果实际上变成了随机噪声。</p><p>举例来说，在我最近参与的一个FHE程序中，我在32位LWE明文的顶部使用了3位消息。我设置的密码参数使得我的初始程序具有大约12位噪声的有效限制（这可能对于实际应用来说不够安全）。一次加法会增加一位噪声，而乘法会使噪声翻倍。因此，我们最多可以进行一次乘法，然后进行大约五次或更多次加法，否则噪声太大而无法继续进行下去。</p><p>几乎所有FHE的复杂性都基于如何避免噪声增长或在程序中间如何减少噪声。后者被称为<em>引导</em>，它值得特别关注。引导的概念有点神奇。它的技术细节超出了本文的范围，但我可以总结其主要思想：您可以<em>在不看到底层消息的情况下对FHE密文进行同态解密，并在新的秘密密钥下重新加密</em>。这样做，导致的密文的噪声被“重置”为较小的值。但要使其工作，用户必须向服务器提供用户秘密密钥的特殊加密，这增加了一个额外的安全假设，称为循环安全性，或<a href="https://dl.acm.org/doi/10.1145/1943513.1943516">key-dependent message security</a>。通过引导，您可以无限扩展FHE程序。缺点是引导可能很昂贵，在某些方案中需要几毫秒，在其他方案中可能需要几秒钟到几分钟。</p><p>如果您不想进行引导，则只能对噪声增长设置一个硬限制。这通常被称为<em>分级同态加密</em>，因为噪声增长被离散化为级别，并且程序被禁止超过最大级别。这两种技术大致将FHE社区一分为二。</p><p>其中一方通俗地被称为“布尔FHE”，它代表了一类专注于较小加密和高效引导的FHE实现族群。它擅长于需要随机访问特定位的程序，例如字符串处理或具有大量比较运算符的程序。它在实现大位宽乘法的程序方面表现不佳，因为（在某种程度上）这归结为模拟一个大型电路，在每个门处进行引导。布尔FHE通常是计算密集型的，而在这个领域中的引导方法往往需要顺序累积许多多项式乘法。</p><p>另一方通俗地被称为“算术FHE”。这些方案将程序表示为算术电路（不是解释为位操作的加法和乘法），并且几乎禁止引导操作，因为没有人找出如何使它们快速的方法。相反，它们增加参数，使噪声上限足够高（想象成数百位），并使用技巧减少电路的深度，以便永远不会达到噪声上限。更具体地说，它们希望减少电路的乘法深度——从输入到输出的最长路径上的乘法操作数的数量。乘法引入的噪声比加法多得多，并且由加法引入的噪声可以大部分忽略。因为算术电路只能正式计算多项式，算术FHE用户（或在我这种情况下，编译器）还必须考虑如何将非多项式操作表示为多项式。例如，在神经网络中，ReLU激活函数可能被近似为一个3次多项式。然后，您必须考虑该近似引入的误差，加上密文噪声。但是，尽管有所有这些麻烦，算术FHE在进行大量的SIMD算术方面表现出色（将许多消息打包成一个密文），这对于机器学习应用通常效果很好。为此付出的代价之一是，算术FHE具有更大的密文、更多的“特殊密钥”需要管理，并且除了计算密集型之外，还倾向于受到内存限制。</p><p>在这一部分中我想提及的最后一件事是，类似于LWE的问题通常支持额外的密码学技巧，这些技巧成为FHE方案的关键实现细节。其中最重要的一个是同态地切换加密密钥。也就是说，给定一个特殊的密钥切换密钥，它使用另一个密钥 𝑠2 加密密钥 𝑠1，您可以将使用 𝑠1 的 LWE 或 RLWE 加密的消息 𝑚 转换为使用 𝑠2 的加密，而无需解密和重新加密（噪声也不像引导中那样重置）。这需要用户提供额外的加密密钥。其他构建块包括同态地改变加密方案系数的模数，应用RLWE密文底层环的自同构（例如，旋转密文中编码的消息的位置），以及将LWE和RLWE之间的密文进行打包或解包。</p><h2 id="残余数系统"><a href="#残余数系统" class="headerlink" title="残余数系统"></a>残余数系统</h2><p>在所有这些方案中，都会遇到一个问题，即希望使用比加密系统限制更大的数字。这可能是因为您希望加密的消息（例如，32位整数）比加密函数的输入限制（例如，对于您选择的参数，它是8位整数）要大，或者因为加密消息的系数不适合机器字并且您不想产生多精度整数运算的开销。后一种情况在算术FHE中很常见，其中一个会放大方案的参数以避免引导。</p><p>在这种情况下，FHE方案通常转向残余数系统的概念。这基于中国剩余定理（CRT，也称为孙子定理），它大致说明一个大数 𝑥 可以表示为一个数字元组（𝑥1,…,𝑥𝑘），其中每个 𝑥𝑖≡𝑥mod𝑛𝑖，对于一些 𝑛𝑖 的选择（它们必须互质，并且它们的乘积必须大于 𝑥）。您可以从元组中重构出原始的 𝑥，并且残余数系统以其“剩余”（模元组）的形式表示数字。这类似地适用于多项式商环，这些环分解为更小的商环的直积形式。</p><p>残余数系统的惊人之处在于您仍然可以对它们进行计算。逐个对元组进行加法或乘法（然后在每个条目中进行相关的模归约）等效于对原始数字进行加法或乘法。</p><p>在FHE中，这意味着我们可以将一个大密文分解为RNS，并在RNS中进行所有后续的计算。当您的硬件具有大量的SIMD并行性可用时，这是一个很好的折衷方案，而另一种选择将涉及多精度数字，就像前面提到的算术FHE中的800位数字一样。</p><p>RNS 最突出地用于具有 RLWE 的算术 FHE 方案中，因为算术 FHE 方案已经施加了类似 SIMD 的计算模型，我稍后将在本文中更详细地讨论。然而，它也用于布尔方案，以整洁地表示高精度算术和低精度基础消息。</p><h2 id="双重CRT-Double-CRT"><a href="#双重CRT-Double-CRT" class="headerlink" title="双重CRT(Double-CRT)"></a>双重CRT(Double-CRT)</h2><p>RNS&#x2F;CRT在编码过程中的另一种方式是在编码过程中出现。两个多项式的加法自然对应于它们系数的和，但两个多项式的乘法对应于它们系数的<em>卷积</em>。在上述RLWE编码中，消息可以在加密前编码在多项式的系数中。然而，最常见的RLWE编码将消息编码为多项式在某些点上的<em>评估</em>。这可以被视为DFT&#x2F;NTT反演，多项式插值或底层多项式环的CRT分解的几种等效方式之一。所有这些方式都涉及从“评估域”转换到“系数域”。</p><p>当将此技巧与算术FHE方案结合使用以支持大型输入消息时，编码通常称为<em>双重CRT</em>。有关更多详细信息，请参阅我的<a href="https://jeremykun.com/2023/09/18/encoding-schemes-in-fhe/">深入研究编码</a>。</p><h2 id="装置分解法"><a href="#装置分解法" class="headerlink" title="装置分解法"></a>装置分解法</h2><p>另一种管理增长的常规方法是所谓的 <em>装置分解</em> 想法（我讨厌这个名字，因为它毫无意义）。这经常作为特定方案的实现细节出现，对方案的用户来说是不可见的，但对确保 FHE 构建模块操作（如密钥切换）可以在不超出噪声预算的情况下实现至关重要。我写了一篇<a href="https://www.jeremykun.com/2021/12/11/the-gadget-decomposition-in-fhe/">文章</a>描述了它的工作原理，但主要思想是，当您可能要将两个数字 𝑎,𝑏 相乘时，实际上您将 𝑎 乘以 𝑏 的各个位，然后将它们相加并适当地缩放。当两个参数的噪声增长不对称时，这是非常有用的，因此基本上您会将噪声重的部分尽可能地减小，并将2的幂移动到另一侧。</p><h1 id="几个FHE方案"><a href="#几个FHE方案" class="headerlink" title="几个FHE方案"></a>几个FHE方案</h1><p>现在我将对当前研究前沿的主要FHE方案进行广泛概述。它们通过作者的缩写命名：BFV、BGV、CKKS和CGGI。</p><h2 id="BFV-和-BGV-（整数-定点算术）"><a href="#BFV-和-BGV-（整数-定点算术）" class="headerlink" title="BFV 和 BGV （整数&#x2F;定点算术）"></a>BFV 和 BGV （整数&#x2F;定点算术）</h2><p><a href="https://eprint.iacr.org/2011/277.pdf">BGV</a> 和 BFV（两篇论文 <a href="https://eprint.iacr.org/2012/078">B</a> 和 <a href="https://eprint.iacr.org/2012/144">FV</a>）是“算术FHE”系列中的两种方案。自2011年&#x2F;2012年首次发表以来的十年里，BGV和BFV已经进行了调整和重新分析，并被确定为基本上是等效的，其在实现、效率和噪声传播方面存在细微差异，因不同参数选择而异。这个方案的许多高级技巧和考虑也被用于CKKS，因此本节将更长以解释这一点。</p><p>这两种方案都使用RLWE的一种版本来加密消息向量，都使用RLWE的一种类型，其中仅涉及两个多项式的点积（当我讨论下一个关键基础概念时，这将是相关的）。尽管如此，它们的首个显而易见的差异在于，BGV将明文编码为多项式系数的<em>最</em>低有效位中存储消息，而BFV将其存储在<em>最</em>高有效位中。BGV&#x2F;BFV可能通常使用16位消息。在这16位中，可以表示16位整数，或者各种适合同样位数的固定点数。</p><p>BGV和BFV都使用标准的RLWE加法，尽管它们在处理乘法方面有所不同，但它们的乘法例程都依赖于密钥切换，原因如下。它们将密文视为在密钥 𝑠 中的“一次多项式”。也就是说，一个密文是一对 (𝑐0,𝑐1)，其解密的第一步是计算 𝑐0⋅1+𝑐1⋅𝑠。𝑐𝑖 是这个线性多项式的系数，但当我们看到密文之间的乘法 (𝑐0,𝑐1) 和 (𝑏0,𝑏1) 被定义为：</p><p>(𝑐0,𝑐1)⋅(𝑏0,𝑏1)&#x3D;(𝑐0𝑏0,𝑐0𝑏1+𝑐1𝑏0,𝑐1𝑏1)</p><p>这是一个有效的密文，但仅当您将其视为关于 𝑠 的二次多项式时，即， 𝑐0𝑏0⋅1+(𝑐0𝑏1+𝑐1𝑏0)𝑠+𝑐1𝑏1𝑠2。另一种表述方式是，我们谈论的不是关于 𝑠 的多项式，而是存在一个“密钥基础”，其起始为 (1,𝑠)，而乘法将基础更改为 (1,𝑠,𝑠2)（然后我们不是计算多项式，而是与基础进行点积）。</p><p>请注意，上面的乘法公式是一个简化。BGV和BFV在如何确保上述操作保持在适当的系数模内方面存在差异，调整这些细节是少数学术论文的主要目标。我主要想强调的是密钥基础的变化，因为它造成了一些障碍。你可以继续在这个二次密钥基础上进行FHE操作，但这会更加计算昂贵，并且再次进行乘法运算会使基础变为三次或更高次。</p><p>因此，BGV&#x2F;BFV方案使用一种称为<em>重新线性化</em>的技术将从二次基础转换回一次基础。这需要将密钥交换作为子程序，并额外加密 𝑠2 以支持它。重新线性化是乘法的瓶颈，对于BGV和BFV来说是相同的子程序，而且还会略微增加密文的噪声。</p><p>BGV还使用一种称为“模切换”的技术来减少电路评估过程中的噪声增长。作为提醒，BGV和BFV都采取了“算术FHE”方法，通过增加参数大小来避免引导。这种模切换技术是通过具有大参数可以让人们以这种方式欺骗性能死亡的具体方法：模切换的行为使参数变小同时减少噪声，因此参数越大，减少噪声的空间就越大。</p><p>具体而言，BGV的参数包括一组称为“模数”𝑄0,𝑄1,…,𝑄𝐿的数字集，其中每个𝑄𝑖都可以整除𝑄𝑖+1。通常，它们是通过取𝑄𝑖+1&#x3D;𝑝𝑖+1𝑄𝑖构造的，其中𝑝𝑖是一些32位或64位素数。这些模数实际上是RLWE密文的多项式环的系数模，但在抽象上，它们被认为是“级别”。一个密文从顶级𝑄&#x3D;𝑄𝐿开始，一旦到达𝑄0，就不能再进行更多的乘法运算。每次乘法后，输出密文的系数都会通过模切换操作进行重新缩放，将其系数从mod 𝑄𝑖+1转换为mod 𝑄𝑖。这涉及将密文的系数按𝑄𝑖&#x2F;𝑄𝑖+1进行重新缩放，但需要一些细节上的处理才能正确实现。这会导致噪声以相同的因子进行重新缩放。特别是，如果没有这个技巧，密文的噪声会随着乘法操作的数量呈二次增长，这意味着您只能评估log2(𝐿)次乘法。有了这个技巧，你可以做𝐿次乘法。𝐿通常高达128并不罕见。</p><p>BFV也使用模数切换，但它隐藏在乘法操作内部，并将“尺度不变性”作为其公共API的一部分（在乘法操作之外），而BGV则暴露了模数，用户必须确保仅对具有相同模数的密文进行组合操作。</p><p>模数切换问题很重要，因为它影响了你如何设置方案的参数。对于BGV，参数取决于您想要评估的电路。当人们谈论“分级”同态加密时，这就是他们的意思：选择更大的参数，以便您拥有足够的级别来避免引导。有乘法深度吗？您需要更多的质数。一位FHE工程师向我提到，由于需要将它们用于RNS分解和模数切换，他们实际上已经“用完了”32位质数（根据<a href="https://homes.cerias.purdue.edu/~ssw/shortage.pdf">这篇论文</a> ，大约有6000万个，或0.25 GiB），因此不得不将其基础类型切换为64位。与此同时，BFV的类似参数与电路无关。作为对这种复杂性的交换，对于更大的模数 𝑄（即，更深的电路），BGV比BFV快20-50％，尽管这取决于应用的特定其他技巧的子集。</p><p>BGV和BFV在更大的计算范式中的位置是我想提及的最后一点。虽然人们关注改善微基准测试（如重新线性化、密钥切换或来自单个乘法的噪声增长），但还有一个挑战是在BGV&#x2F;BFV计算模型中表达程序。因为虽然你可以进行诸如添加和乘以密文之类的SIMD操作，但其他与SIMD架构（如AVX）常见的操作却不存在。忘记密文是一个多项式，只把它当作底层消息的向量。AVX等工具允许你对向量元素应用任意排列，将它们重新排列以便后续的SIMD操作更好地对齐。在FHE中，我们受到了更大的限制。有一种有限的支持排列的子集，对应于向量的循环旋转。在多项式领域，这些是通过底层环的<a href="https://en.wikipedia.org/wiki/Frobenius_endomorphism">Frobenius自同构</a>实现的，这些自同构将 𝑥 ↦ 𝑥𝑘，其中 𝑘 是某个数。</p><p>将这个扩展到任意排列需要构造一个对数深度的<em>置换网络</em>。我不知道在实际的FHE方面是否有人真正这样做，他们转而进行了一些可以用现有旋转表达的计算，比如简单的循环和矩阵-向量乘积。然而，这些自同构需要它们自己的特殊密钥材料，每个支持的旋转移位都需要一个，而且相对于它们所做的事情来说，它们的代价是昂贵的。因此，自然而然地，人们希望尽量减少它们的使用，在表达一个不是手工定制为适应算术FHE模型的程序时，这可能是一个挑战。</p><p>旋转之所以昂贵，部分原因是它们需要一个密钥切换操作，这既需要额外的加密密钥材料，又与BGV&#x2F;BFV中的其他（非引导）操作相比计算密集。有关BGV、BFV及其差异和优化技巧的更深入的学术讨论，请参阅Kim、Polyakov和Zucca的论文。</p><p>最近有一些关于优化BFV&#x2F;BGV方案的引导技术的工作，但据我所知，这些方案中最好的引导运行时仍需要几分钟才能完成，或者如果摊销，每条消息需要几秒钟。</p><h2 id="CKKS（近似算术）"><a href="#CKKS（近似算术）" class="headerlink" title="CKKS（近似算术）"></a>CKKS（近似算术）</h2><p>CKKS是同态加密中最新发明的方案之一，它的核心观察是，注入到同态加密密文中的误差可以被吸收到浮点运算的误差中。CKKS利用了这一点，既可以扩展允许的输入空间，又可以在方案中更积极地降低噪声。具体来说，CKKS使用一种称为<em>重新缩放</em>的操作，类似于BGV&#x2F;BFV中的模量切换，用于减少乘法引起的噪声增长，但在这个过程中，会从消息的最低有效位中丢失一些精度。</p><p>与BGV和BFV相似，CKKS也使用RLWE来加密消息，并且擅长SIMD风格的编程。它与BGV和BFV一样使用残数系统技巧来加速多项式乘法，强调通过“分层”的方式避免引导，并且类似地使用重新线性化、旋转和密钥切换。</p><p>CKKS方案支持任意实数或复数作为输入消息，前提是需要理解精度会有所损失。它在通过泰勒级数多项式近似计算超越函数方面表现出色。因此，CKKS被认为最适合允许有限精度损失的SIMD风格计算，例如机器学习推断任务，这类任务需要使用某些超越函数但并不频繁。特别是，在找到近似某一局部邻域内函数的小度数多项式方面，CKKS可以比BGV&#x2F;BFV做得更好。这依赖于具有连续的消息空间：如果将消息空间设置为单位区间，则多项式近似可以假定输入在该范围内。</p><p>然而，CKKS的性能提升是以可用性为代价的。除了需要关注同态操作导致的FHE密文噪声增长，还需跟踪多项式近似非多项式函数所引入的近似误差，在CKKS中，还必须跟踪其他操作（例如重新缩放）所导致的精度损失。即使是加密并立即解密消息（没有任何同态操作），也无法还原原始消息。无法组合具有不同缩放比例的两个密文，与BGV类似，这在CKKS的“公共”API中有所体现，但它与CKKS中的正确程序输出关系更密切，因此比BGV的模量切换更难隐藏。</p><p>在所有四种FHE方案中，我个人对CKKS的理解最少，但我越深入研究并与同事讨论，越觉得CKKS与BGV&#x2F;BFV之间的区别越来越小。特别是，CKKS的许多特性很快就被移植到BGV&#x2F;BFV，反之亦然。</p><h2 id="CGGI（布尔-短整数运算）"><a href="#CGGI（布尔-短整数运算）" class="headerlink" title="CGGI（布尔&#x2F;短整数运算）"></a>CGGI（布尔&#x2F;短整数运算）</h2><p>CGGI方案支持使用LWE加密方式对小位宽整数（1到约6位）进行加密。它利用LWE的天然加法操作，但不像BGV&#x2F;BFV那样有明显的乘法操作。相反，CGGI专注于两个关键组件：<strong>快速</strong>引导（每个密文的引导时间小于10毫秒），并通过一种称为<strong>可编程引导</strong>的技术在引导期间对密文进行额外的（免费）计算。</p><p>普通的引导操作将加密消息 ( m ) 的密文作为输入，并生成另一个具有较低噪声的 ( m ) 加密密文。可编程引导允许在降低噪声的同时计算基础消息的任意（单变量）函数。由于消息是 ( m ) 位整数，“任意函数”以一个具有 ( 2^m ) 项的查找表形式呈现。基于函数引导的工作原理，随着 ( m ) 的增加，引导效率会迅速下降（你需要指数级增长的数据大小参数）。因此，查找表通常是硬编码的。</p><p>借助这种能力，可以实现平方函数 ( $x \mapsto x^2$ ) ，并结合加法和密文-常量乘法，可以实现密文-密文乘法：</p><p>$$x \cdot y &#x3D; \frac{(x + y)^2 - (x - y)^2}{4}$$</p><p>通过这种方式，即使没有明显的乘法操作，也可以利用平方函数和其他基本运算实现密文间的乘法操作。</p><p>一旦你有了可编程的引导，乘法就不再是核心功能了。你可以直接实现任意布尔门、比较操作、位运算、最大&#x2F;最小值，以及你想要的（非常低精度的）定点运算。然后，你可以通过找到巧妙的方式将逻辑表达为低精度查找表来优化你的程序。你也可以通过将两个输入的位并排放置来挤入双变量函数，前提是你有足够的精度。</p><p>在CGGI中，一次引导操作相对于BGV&#x2F;BFV&#x2F;CKKS来说是比较便宜的。领先的CPU实现可以在大约8毫秒内运行引导操作，并且可以并行运行许多引导操作，具有将相同查找表同时应用于许多密文的特殊版本。这使得频繁运行引导操作变得更加可行，以至于一些实现在FHE程序中的每个非加法门后都盲目地运行引导操作，这被称为“门引导”。但是，引导操作仍然是CGGI中的主要瓶颈，占据了总计算量的90%以上。</p><p>可编程引导的实现可以被视为一个黑匣子，但是稍微看一下内部，它是通过在一个RLWE密文中表示查找表，并通过加密的消息进行“盲旋转”（在加密时进行同态评估，对自同构𝑥↦𝑥𝑚）。这实际上涉及大量（~800）的顺序矩阵-向量多项式乘法。然后，它必须跟随一个RLWE到LWE的转换和一个密钥交换，相比于盲旋转步骤，这两个步骤都是次要的。</p><p>一些CGGI的扩展（比如<a href="https://eprint.iacr.org/2021/729">这个</a>）包括了BFV式的乘法和重线性化，将更大的函数分解成查找表树，并向CGGI添加了其他功能。</p><p>因此，由于这种灵活性，CGGI可以被认为更适合具有大量分支评估和相对低宽度电路的程序。不过，请参阅下面的“超越方案”部分以获取更多信息。但无论如何，其组件较算术方案要少。</p><p>有时你会看到CGGI被称为其他几个名称，比如“TFHE”（“Torus” FHE，CGGI的作者给它的名称），<a href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:5">5</a>“FHEW”代表“Fastest HE in the West”（向其使用“Fastest Fourier Transform in the West”算法致敬；FHEW是CGGI方案的重要前身），或者“DM”代表FHEW的两位作者的首字母缩写。</p><p>最近的工作已经在<a href="https://eprint.iacr.org/2024/181">BFV</a>中展示了对功能性引导的支持。CKKS也有引导操作，尽管其初始版本需要几秒钟（每个消息摊销）才能运行。针对CKKS设计了某些特殊化的引导程序，它们运行速度更快，但假设输入的密文是单个比特。</p><p>要深入了解CGGI，请参阅Daniel Lowengrub的<a href="https://www.daniellowengrub.com/blog/2024/01/03/fully-homomorphic-encryption">这篇实现文章</a>，或者Marc Joye的<a href="https://eprint.iacr.org/2021/1402">这篇论文长度解释</a>。</p><h1 id="超越方案"><a href="#超越方案" class="headerlink" title="超越方案"></a>超越方案</h1><p>在本文的前面，我描述了一种将算术方案和布尔方案之间的墙壁，将研究社区划分开来的情况。近年来的一个有趣的发展是能够将一个FHE方案的密文转换为另一个的能力。这被称为“方案切换”。它始于CHIMERA论文，该论文证明了在CGGI、BFV和CKKS之间进行切换是可能的。后续的一篇名为PEGASUS的论文改进了从CKKS到CGGI的转换。最近的一个研究编译器证明，可以静态分析一个程序来决定哪些部分应该用CKKS实现，哪些部分应该用CGGI实现，而得到的混合方案比任何一个方案单独实现的速度都要快。</p><p>这是一个很有趣的发展！自定义的CKKS启动程序针对CKKS加密单比特消息的特殊情况进行了设计，该研究声称，如果同时有超过150个密文需要启动，那么CKKS的启动速度（摊销）比CGGI的启动速度更快。因此，您可以将这个与方案切换结合起来，将大批量的CGGI密文转换为CKKS，进行启动，然后再转换回来，以实现更快的启动。</p><p>这强调了我在过去两年里看到的FHE的主要研究趋势：FHE方案之间的区别变得不那么明显了。CKKS、BGV和BFV正在合并成一个原始方案，其细节主要在于明文编码以及它们在高层次上共享的各个操作的变化。如果最近的研究结果持续下去，可编程启动将在BFV中可用，并且很可能很快也会在CKKS和BGV中实现。而方案切换意味着最初选择的FHE方案可能并不那么具有约束力。</p><h1 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h1><p>FHE研究的一个重要方面是设计定制硬件来加速FHE操作。有许多项目，但让我简要总结一下我比较熟悉的几个。</p><p>最突出的项目群体是一个名为DPRIVE的DARPA计划的一部分。简而言之，DARPA正在资助FHE硬件设计者，挑战他们尽快在FHE中执行逻辑回归、CNN推断和CNN训练。目前有四个参与者：</p><ul><li>英特尔，其加速器被称为 <a href="https://dl.acm.org/doi/abs/10.1145/3560810.3565290">HERACLES</a>.</li><li><a href="https://dualitytech.com/">Duality</a>，其加速器被称为 <a href="https://eprint.iacr.org/2023/521">TREBUCHET</a>.</li><li><a href="https://www.sri.com/press/story/sri-dprive-teams-fhe-accelerator-design-strengthens-security-of-outsourced-data-processing/">SRI International</a>，其加速器称为为 <a href="https://dl.acm.org/doi/10.1145/3470496.3527393">CraterLake</a>.</li><li><a href="https://niobiummicrosystems.com/">Niobium Microsystems</a>，其加速器被称为 <a href="https://eprint.iacr.org/2022/657">BASALISC</a>.</li></ul><p>DPRIVE的所有参与者都在研发能加速算术全同态加密方案（如BFV&#x2F;BGV和CKKS）的ASIC芯片，并且它们在通向制造的过程中处于不同的阶段。它们的初始性能声明基于仿真，但为了赞扬这些参与者中的佼佼者，Niobium的<a href="https://tches.iacr.org/index.php/TCHES/article/view/11157">初始论文</a>声称，在处理1024个样本、10个特征的数据集的逻辑回归时，估计只需40秒，而在CPU上则需要60小时。对我来说，这是硬件加速的一个下限。在这些加速器的核心是对相关多项式环中的数论变换（NTT）和其他多项式运算的加速。据我所知，这些加速器的难点在于将足够的RAM集成到其中，以便它们可以存储所有的密文和辅助密钥材料，并获得良好的内存局部性。</p><p>我熟悉的另一个项目是基于FPGA的CGGI加速方法，名为<a href="https://eprint.iacr.org/2022/1635">FPT</a>，来自<a href="https://www.esat.kuleuven.be/cosic/">比利时鲁汶大学KU Leuven的COSIC研究实验室</a>。他们使用<a href="https://www.xilinx.com/products/boards-and-kits/alveo/u280.html">Alveo U280</a>，并且通过对16个密文进行功能性引导，以实现每35微秒1个引导的吞吐量。我见过他们的实时演示，在演示中，他们在CGGI中运行康威生命游戏，动画效果几乎是实时的。与DPRIVE计划中的NTT运算机不同，FPT是一个FFT运算机。当然，该项目从TFHE-rs API开始，用于CGGI。</p><p>有一些方法我了解较少。英特尔的团队有一个名为<a href="https://github.com/intel/hexl">HEXL项目</a>的项目，专注于使用AVX和类似的现代CPU技术来针对英特尔CPU。此外，<a href="https://developer.nvidia.com/blog/accelerated-encrypted-execution-of-general-purpose-applications/">NVIDIA的团队</a>正在研究GPU加速，而<a href="https://heaan.it/">HEaaN库</a>（CKKS）也支持GPU加速。还有一家名为<a href="https://optalysys.com/">Optalysys</a>的公司正在为FHE构建一款光学计算芯片。其想法是通过使用通过透过透镜（或者说纳米级等效物）的光的干涉模式，可以“以光速”计算傅里叶变换，并通过这种方式加速引导。</p><p>最后，我正在研究自己的硬件加速方法：在<a href="https://en.wikipedia.org/wiki/Tensor_Processing_Unit">TPU</a>上运行CGGI。这是一个名为<a href="https://github.com/google/jaxite">jaxite</a>的开源库（因为它是用<a href="https://github.com/google/jax">JAX</a>编写的）。目前性能还不值得太过夸耀，但我希望如果我能将性能提高到比CPU快10-100倍，那么我就可以利用谷歌已经大规模部署了TPU的事实，在更强大的硬件加速规模准备好之前推出一些FHE产品。</p><p>关于这些以及我了解较少的其他加速器的更多细节，请参阅这篇<a href="https://arxiv.org/abs/2212.01713">论文，“SoK: Fully Homomorphic Encryption Accelerators”</a>。</p><h1 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h1><p>FHE有很多软件支持，从核心加密的实现到编译器和更高级别的框架。要获取详尽的列表，请查看Jonathan Schneider的<a href="https://github.com/jonaschn/awesome-he">Awesome FHE</a>。我将在这里介绍一些我喜欢的。</p><p>OpenFHE是所有主要FHE方案的实现，包括方案切换，主要由<a href="https://dualitytech.com/">Duality</a>维护。它取代了之前的<a href="https://palisade-crypto.org/">PALISADE</a>项目，该项目已不再维护。据我所知，这是唯一支持方案切换的库，也是DPRIVE参与者作为硬件入口的主要API。</p><p><a href="https://github.com/snucrypto/HEAAN">HEaaN</a> 是 CKKS 的经典实现，当作者们开始了以盈利为目的的研究实验室 <a href="https://www.cryptolab.co.kr/en/about-us-en/company-history/">CryptoLab</a> 后，它被收回了闭源。<a href="https://github.com/snucrypto/HEAAN">最后的开源版本仍然在 GitHub 上</a>。</p><p><a href="https://github.com/zama-ai/tfhe-rs">TFHE-rs</a> 是领先的 CGGI 实现，用 Rust 编写，由营利性公司 <a href="https://www.zama.ai/">Zama</a> 开发&#x2F;维护。它基于 <a href="https://github.com/tfhe/tfhe">原始的 CGGI 实现</a>（也称为 TFHE），后者是用 C++ 编写的，已不再维护。Zama 还在 TFHE-rs 上构建了各种高级库，包括一个名为 <a href="https://github.com/zama-ai/concrete">concrete</a> 的编译器和一个名为 <a href="https://github.com/zama-ai/concrete-ml">concrete-ml</a> 的 scikit-learn API 镜像。</p><p><a href="https://github.com/tuneinsight/lattigo">Lattigo</a> 是 CKKS 的纯 Go 实现，同时还包括 BGV&#x2F;BFV&#x2F;CGGI 实现，最初由 <a href="https://jeanphilippebossuat.ch/">Jean-Philippe Bossuat</a> 开发，现由 <a href="https://tuneinsight.com/">Tune Insight</a> 维护。</p><p>据我所知，其他所有的FHE实现库要么没有得到广泛使用，要么已不再积极开发。其中两个值得注意的例子包括：</p><ul><li>微软的SEAL支持BGV&#x2F;BFV以及一些CKKS，附带有关联的EVA编译器（也不再积极开发）。</li><li>HELib是IBM开发的BGV和CKKS实现。</li></ul><p>有几个正在积极开发的其他FHE工具值得一提。</p><ul><li><a href="https://ibm.github.io/helayers/">HELayers</a> 是IBM的FHE编译器，专门用于找到良好的打包方案。</li><li><a href="https://dl.acm.org/doi/10.1145/3591228">HEaaN.mlir</a> 是CryptoLab的编译器，针对HEaaN，但据我所知，它并不是开源的。</li><li>正如上文所提到的，<a href="https://github.com/zama-ai/concrete">Concrete</a> 和 <a href="https://github.com/zama-ai/concrete-ml">Concrete-ML</a> 是一对通过TFHE-rs为CGGI进行机器学习编译器&#x2F;前端。</li><li><a href="https://heir.dev/">HEIR</a> 是一个FHE编译器，也是我的主要项目，旨在支持所有主要的FHE方案和硬件后端。截至目前，它支持将CGGI导出到TFHE-rs，以用于CPU和FPT FPGA，以及将BGV导出到OpenFHE（并准备用于DPRIVE加速器）。</li></ul><p>还有<a href="https://arxiv.org/abs/2101.07078">各种其他研究级别的编译器</a>，虽然它们没有得到维护，但它们在当前FHE编译器中使用了许多创新的想法。</p><h1 id="编写-FHE-程序"><a href="#编写-FHE-程序" class="headerlink" title="编写 FHE 程序"></a>编写 FHE 程序</h1><p>在所有的加密算法和软件工具都准备就绪之后，编写同态加密程序实际是什么样子的？这是一个非常有趣的话题，未来我也很想写更多关于它的内容。</p><p>然而，简单来说，编写同态加密程序目前仍然突显出算术&#x2F;布尔运算的分界线。虽然有一些专门的库（如 <a href="https://github.com/zama-ai/concrete-ml">Concrete-ML</a>）在特定任务中表现出色，但通用的FHE编程仍然是一个高度手动的过程，有点类似于编写自定义图形内核，你需要非常清楚如何在“硬件”中正确实现某个功能。而在我们的情况下，这个“硬件”就是FHE受限的计算模型。</p><p>对于算术同态加密（FHE）而言，这意味着你必须避免使用非多项式运算或者无法通过低阶多项式轻松逼近的运算。这排除了即使是简单的比较、最大值&#x2F;最小值和分支操作。大量的研究专注于寻找精确的符号函数（<code>1 if x &gt; 0 else -1</code>）的多项式近似。而选择“正确”的多项式近似方案在很大程度上取决于程序的语义。因此，大多数算术FHE领域的研究都集中在神经网络推理上，因为神经网络的主要工作在于计算矩阵乘法，而在FHE中实现这一点的难点主要在于处理超越激活函数。一个包含太多不连续函数且对误差容忍度低的程序在算术FHE中将会非常慢，因为它需要不断进行引导操作。例如，我见过的最令人印象深刻的算术FHE程序是<a href="https://proceedings.mlr.press/v162/lee22e.html">在CKKS中实现的ResNet</a>，这是一种深度神经网络架构，堆叠了带有ReLU激活的卷积层。ReLU需要高阶多项式近似，这消耗了所有可用的乘法深度，因此在每个卷积层之后都需要进行一次CKKS引导操作。</p><p>据我所知，目前最先进的实现是上面链接的论文，该论文报告了一次推理（在包含50张图像的打包密文上）大约需要一小时（每张图像大约一分钟，摊销）。[6] 那篇论文还实现了ResNet-110，推理延迟为每次6小时。与此同时，ResNet-50 CPU 推理的摊销延迟约为每毫秒处理一张图像，这是几乎慢了100,000倍的数量级。</p><p>根据我的了解，除了使用特定技巧编译预训练的神经网络外，所有实际的算术全同态加密程序都是由专家手工编写的，他们手动选择逼近方法和批处理方案。</p><p>对于布尔全同态加密，非多项式操作要便宜得多，但你会遇到与位宽相关的其他问题。具体来说，大位宽的加法和乘法操作变得非常昂贵，因为布尔全同态加密方案只支持相对较小的位宽消息，必须通过大型功能性启动操作树来有效地模拟大型加法器&#x2F;乘法器电路。因此，布尔全同态加密在<em>量化</em>上付出了很多努力，即尽可能减少位宽。对于神经网络，像Brevitas和TFLite这样的库非常有用，Zama公司充分利用了这一点，结合其他剪枝技巧，在CPU上实现了像VGG这样的网络，每张图像的<a href="https://github.com/zama-ai/concrete-ml/issues/658#issuecomment-2082088997">推断时间约为40秒</a>。它比上面的ResNet示例慢（而且VGG是一个更小的网络），但这种方法的好处是你也可以做决策树等在算术全同态加密中可能不太实用的事情，并且其中很少有手工制作的部分，正如Zama的concrete-ml库所示，它隐藏了许多细节。布尔全同态加密模型的另一个好处是你可以针对这个问题投入更多的现成硬件优化工具，因为布尔全同态加密电路看起来更像传统的组合电路，而不像算术全同态加密那样。</p><h1 id="参与"><a href="#参与" class="headerlink" title="参与"></a>参与</h1><p>如果你对FHE感兴趣并希望参与其中，有几种不错的方式可以开始。由Zama牵头的<a href="https://fhe.org/">FHE.org</a>组织每周举办<a href="https://fhe.org/meetups/">FHE研究研讨会系列</a>，并且有一个活跃的<a href="https://fhe.org/community">Discord社区</a>（披露：我是管理员，HEIR项目有一个频道）。FHE.org还主办每年三月举办的<a href="https://fhe.org/conferences/conference-2024/">年度会议</a>。</p><p>OpenFHE项目拥有一个活跃的<a href="https://openfhe.discourse.group/">Discourse论坛</a>，维护者们会在这里回答关于OpenFHE和FHE的相关问题。</p><p><a href="https://homomorphicencryption.org/">FHE标准化联盟</a>正在积极组织FHE的ISO标准化工作，并且还举办了<a href="https://homomorphicencryption.org/workshops/">研究研讨会</a>。</p><p>最后，我们的HEIR项目每月两次举办<a href="https://heir.dev/community/">开放设计会议</a>，欢迎任何有兴趣做出贡献的人参加。</p><h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢Seonhong Min、Johannes Mono、<a href="https://github.com/inbelic">Finn Plummer</a>和<a href="https://www.linkedin.com/in/jeffrey-sorensen-8a2b15191/">Jeffrey Sorensen</a>对本文提供的反馈。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;原文：&lt;a href=&quot;https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2&quot;&gt;https://www.jeremykun.com/2
+      
+    
+    </summary>
+    
+    
+      <category term="Cryptography" scheme="https://ismdeep.com/tags/Cryptography/"/>
+    
+      <category term="Math" scheme="https://ismdeep.com/tags/Math/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Comparison of Ed25519 and RSA</title>
+    <link href="https://ismdeep.com/posts/2024-05-10-ed25519-vs-rsa.html"/>
+    <id>https://ismdeep.com/posts/2024-05-10-ed25519-vs-rsa.html</id>
+    <published>2024-05-10T06:00:03.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>Ed25519 and RSA are two different public-key cryptographic algorithms, each with notable differences in terms of security and performance.</p><h1 id="Key-Length"><a href="#Key-Length" class="headerlink" title="Key Length"></a>Key Length</h1><ul><li>RSA relies on the multiplication of large prime numbers and typically uses key lengths of 2048 bits or longer. Ed25519, on the other hand, uses a key length of 256 bits.</li><li>While Ed25519 has a shorter key length, its key space is more evenly distributed, making key generation easier and providing higher security.</li></ul><h1 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h1><ul><li>Ed25519 is generally faster than RSA. This is because Ed25519 uses Elliptic Curve Cryptography (ECC) instead of modular exponentiation used in RSA, which tends to be more efficient.</li><li>RSA can be computationally intensive, especially for key generation and encryption&#x2F;decryption processes, particularly with longer key lengths.</li></ul><h1 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h1><ul><li>RSA has been around for a long time and has undergone extensive research and application. It is considered quite secure with appropriate key lengths (e.g., 2048 bits and above).</li><li>Ed25519 is a newer algorithm, but it is based on elliptic curve cryptography and provides high security with relatively short key lengths, avoiding certain specific attacks present in RSA.</li></ul><h1 id="Resistance-to-Quantum-Attacks"><a href="#Resistance-to-Quantum-Attacks" class="headerlink" title="Resistance to Quantum Attacks"></a>Resistance to Quantum Attacks</h1><ul><li>RSA is particularly vulnerable to attacks from quantum algorithms like Shor’s algorithm, which could compromise its long-term security in the era of quantum computing.</li><li>Ed25519 is currently considered to have higher resistance against known quantum computing attacks.</li></ul><p>In summary, Ed25519 is generally regarded as a more secure and efficient choice, especially in resource-constrained environments like mobile or IoT devices. However, RSA remains one of the widely used traditional encryption algorithms in many systems, with its security and performance largely dependent on the chosen key length and implementation.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Ed25519 and RSA are two different public-key cryptographic algorithms, each with notable differences in terms of security and performance
+      
+    
+    </summary>
+    
+    
+      <category term="Cryptography" scheme="https://ismdeep.com/tags/Cryptography/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Deploy IPFS with Nginx in Docker</title>
+    <link href="https://ismdeep.com/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html"/>
+    <id>https://ismdeep.com/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html</id>
+    <published>2024-03-19T11:29:23.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>This post is mainly to help reader to deploy an IPFS service with nginx proxy which provides basic authorizations.</p><p>A quick start is the following steps.</p><p>Some basic requirements:</p><ul><li>Docker should already be installed on your computer.</li><li>Basic Linux terminal skills.</li></ul><h1 id="Create-files"><a href="#Create-files" class="headerlink" title="Create files"></a>Create files</h1><ol><li><p>Create folder</p><pre><code>$ mkdir ipfs$ cd ipfs</code></pre></li><li><p>Create <code>docker-compose.yaml</code></p><pre><code>version: &#39;3&#39;services:  ipfs:    container_name: ipfs    image: ipfs/kubo:latest    volumes:      - ./data/:/data/ipfs/    ports:      - &#39;8080:8080&#39;    restart: always  nginx:    container_name: nginx    image: nginx:latest    ports:      - &#39;5001:5001&#39;    volumes:      - &#39;./default.conf:/etc/nginx/conf.d/default.conf:ro&#39;      - &#39;./htpasswd:/htpasswd:ro&#39;    restart: always</code></pre></li><li><p>Create <code>htpasswd</code></p><pre><code>ljiang:$apr1$nShUpvO7$hizri44cnQwto/zQ0y3Ka0</code></pre></li><li><p>Create <code>default.conf</code></p><pre><code>server &#123;    listen 5001;    server_name _;    client_max_body_size 2048000m;    location / &#123;        proxy_pass http://ipfs:5001;        proxy_set_header Host $host;        proxy_set_header X-Real-IP $remote_addr;        proxy_set_header X-Forwarded-Proto $scheme;        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;        auth_basic           &quot;Administrator’s Area&quot;;        auth_basic_user_file /htpasswd;    &#125;&#125;</code></pre></li></ol><h1 id="Init-IPFS-Data"><a href="#Init-IPFS-Data" class="headerlink" title="Init IPFS Data"></a>Init IPFS Data</h1><ol><li><p>Make data folder</p><pre><code>$ mkdir -p ./data/</code></pre></li><li><p>Init data</p><pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs init</code></pre></li></ol><h1 id="Set-IPFS-config"><a href="#Set-IPFS-config" class="headerlink" title="Set IPFS config"></a>Set IPFS config</h1><ol><li><p>Set Addresses</p><pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.API &#39;&quot;/ip4/0.0.0.0/tcp/5001&quot;&#39;$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.Gateway &#39;&quot;/ip4/0.0.0.0/tcp/8080&quot;&#39;</code></pre></li><li><p>Set API</p><pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin &#39;[&quot;*&quot;]&#39;$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods &#39;[&quot;GET&quot;, &quot;PUT&quot;, &quot;POST&quot;]&#39;</code></pre></li></ol><h1 id="Start-IPFS"><a href="#Start-IPFS" class="headerlink" title="Start IPFS"></a>Start IPFS</h1><pre><code>$ docker-compose up -d</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This post is mainly to help reader to deploy an IPFS service with nginx proxy which provides basic authorizations.&lt;/p&gt;
+&lt;p&gt;A quick start i
+      
+    
+    </summary>
+    
+    
+      <category term="IPFS" scheme="https://ismdeep.com/tags/IPFS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Sending File via Netcat</title>
+    <link href="https://ismdeep.com/posts/2024-03-11-sending-file-via-netcat.html"/>
+    <id>https://ismdeep.com/posts/2024-03-11-sending-file-via-netcat.html</id>
+    <published>2024-03-11T07:04:33.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>For example, your want send a file named hello.zip from client to server which ip and port are <code>192.168.56.102</code> and <code>8080</code></p><p>On your server:</p><pre><code>$ nc -l -p 8080 -q 1 &gt; hello.zip &lt; /dev/null</code></pre><p>On your client:</p><pre><code>$ cat hello.zip | nc 192.168.56.102 8080</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;For example, your want send a file named hello.zip from client to server which ip and port are &lt;code&gt;192.168.56.102&lt;/code&gt; and &lt;code&gt;8080
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Network" scheme="https://ismdeep.com/tags/Network/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Backup Docker Compose Services</title>
+    <link href="https://ismdeep.com/posts/2024-03-01-backup-docker-compose-services.html"/>
+    <id>https://ismdeep.com/posts/2024-03-01-backup-docker-compose-services.html</id>
+    <published>2024-03-01T06:19:13.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>See: <a href="https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884">https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884</a></p><script src="https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884.js"></script>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;See: &lt;a href=&quot;https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de2df7884&quot;&gt;https://gist.github.com/ismdeep/34eda2fac762f2fdcabc3f6de
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Create Linux OS Rootfs for Build Docker Images</title>
+    <link href="https://ismdeep.com/posts/2024-03-01-create-linux-os-rootfs-for-build-docker-images.html"/>
+    <id>https://ismdeep.com/posts/2024-03-01-create-linux-os-rootfs-for-build-docker-images.html</id>
+    <published>2024-03-01T00:48:25.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Create-Linux-OS-ROOTFS"><a href="#Create-Linux-OS-ROOTFS" class="headerlink" title="Create Linux OS ROOTFS"></a>Create Linux OS ROOTFS</h1><ol><li><p>Create an output folder</p><pre><code># mkdir -p /output/</code></pre></li><li><p>Create rootfs.tar</p><pre><code># cd /# tar cf /output/rootfs.tar --exclude=/proc --exclude=/dev --exclude=/boot --exclude=/run --exclude=/sys --exclude=/output /</code></pre></li><li><p>Compress tar file with xz</p><pre><code># xz -v -T 0 /output/rootfs.tar</code></pre></li></ol><h1 id="Build-Docker-Image"><a href="#Build-Docker-Image" class="headerlink" title="Build Docker Image"></a>Build Docker Image</h1><p>Build docker image from scratch with rootfs.tar.xz</p><pre><code>FROM scratchADD ./rootfs.tar.xz /</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Create-Linux-OS-ROOTFS&quot;&gt;&lt;a href=&quot;#Create-Linux-OS-ROOTFS&quot; class=&quot;headerlink&quot; title=&quot;Create Linux OS ROOTFS&quot;&gt;&lt;/a&gt;Create Linux OS ROOT
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tips for Writing Bash Script</title>
+    <link href="https://ismdeep.com/posts/2024-02-24-tips-for-writing-bash-script.html"/>
+    <id>https://ismdeep.com/posts/2024-02-24-tips-for-writing-bash-script.html</id>
+    <published>2024-02-24T08:07:36.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>Bash (Bourne Again SHell) is a popular command-line shell and scripting language. It is commonly used on Unix-like operating systems, including Linux.</p><h1 id="1-Writing-functions"><a href="#1-Writing-functions" class="headerlink" title="1. Writing functions"></a>1. Writing functions</h1><p>Bash functions are a way to group a set of commands and logic into a reusable block in a Bash script. They allow you to encapsulate common tasks or complex sequences of commands into a single callable entity. Here’s an example of how to define and use a Bash function:</p><pre><code class="bash">function hello() &#123;  ...&#125;</code></pre><p>or</p><pre><code class="bash">hello() &#123;  ...&#125;</code></pre><p><strong>Note: bash function will only return the return code of the last command that run in function.</strong></p><p>For example: the <code>hello</code> function will not catch the return code of <code>command1</code></p><pre><code class="bash">hello() &#123;  command1  command2&#125;</code></pre><p>If you care about the execution results of all instructions throughout the entire function process, you need to use the “&amp;&amp;” symbol to chain all the commands together. Such as:</p><pre><code class="bash">hello() &#123;  command1 &amp;&amp; \  command2&#125;</code></pre><h1 id="2-set-e"><a href="#2-set-e" class="headerlink" title="2. set -e"></a>2. set -e</h1><p><code>set -e</code> is a common command used in Bash scripts. It sets an error handling flag that causes the script to exit immediately if any command within the script fails.</p><pre><code class="bash">#!/bin/bashset -e# Some commands here...command1command2#...# If any command fails, the script will exit here</code></pre><h1 id="3-realpath"><a href="#3-realpath" class="headerlink" title="3. realpath"></a>3. realpath</h1><p><code>realpath</code> is a command in bash that is used to get the absolute path of a file or directory. </p><h1 id="4-dirname"><a href="#4-dirname" class="headerlink" title="4. dirname"></a>4. dirname</h1><p><code>dirname</code> is a built-in command in Bash scripts that returns the directory name part of a given path or the directory path of a given file path.</p><h1 id="5-BASH-SOURCE"><a href="#5-BASH-SOURCE" class="headerlink" title="5. BASH_SOURCE"></a>5. BASH_SOURCE</h1><p><code>BASH_SOURCE</code> is an internal variable in the Bash shell. It holds the path of the script or function that is currently being executed.</p><p>You can get absolute path of the bash script file you are running.</p><pre><code class="bash">#!/usr/bin/env bashset -ebash_script=&quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;</code></pre><p>And set the dirctory where bash script in as working directory.</p><pre><code class="bash">#!/usr/bin/env bashset -eworkdir=&quot;$(realpath &quot;$(dirname &quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;)&quot;)&quot;cd &quot;$&#123;workdir&#125;&quot;</code></pre><h1 id="6-confirm-via-read"><a href="#6-confirm-via-read" class="headerlink" title="6. confirm via read"></a>6. confirm via read</h1><p>In Bash, you can use the <code>read</code> command to prompt for confirm input from the user. Here’s an example of how to write a confirm input in Bash:</p><pre><code class="bash">read -p &quot;Are you sure [y/n]? &quot; -r nameif [[ ! $name =~ ^[Yy]$ ]]then  echo &quot;==&gt; Aborted&quot;  exit 0fi</code></pre><h1 id="7-variable-requirement"><a href="#7-variable-requirement" class="headerlink" title="7. variable requirement"></a>7. variable requirement</h1><p>The naive way to check if a variable is empty.</p><pre><code class="bash">if [ &quot;$&#123;variable&#125;&quot; == &quot;&quot; ]; then  ...fi</code></pre><p>The tidy code could be like:</p><pre><code class="bash">a=&quot;$&#123;variable:?&#125;&quot;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Bash (Bourne Again SHell) is a popular command-line shell and scripting language. It is commonly used on Unix-like operating systems, inc
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="Bash" scheme="https://ismdeep.com/tags/Bash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>List all credentials from jenkins</title>
+    <link href="https://ismdeep.com/posts/2024-02-22-list-all-credentials-from-jenkins.html"/>
+    <id>https://ismdeep.com/posts/2024-02-22-list-all-credentials-from-jenkins.html</id>
+    <published>2024-02-22T08:51:21.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>This post is mainly to help your list all credentials from Jenkins.</p><p>Run the following code in <code>Dashboard -&gt; Manage Jenkins -&gt; Tools and Actions -&gt; Script Console</code></p><pre><code class="groovy">import com.cloudbees.plugins.credentials.Credentialsimport com.cloudbees.plugins.credentials.CredentialsProviderCredentialsProvider.lookupCredentials(Credentials.class, Jenkins.instance, null, null).each &#123; c -&gt;    def className = c.properties.class.toString()    def p = c.properties    println(&quot;ID: $&#123;c.id&#125;&quot;)    println(&quot;Scope: $&#123;c.scope&#125;&quot;)    println(&quot;Description: $&#123;c.description&#125;&quot;)    println(&quot;Type: $&#123;className.substring(className.lastIndexOf(&#39;.&#39;) + 1)&#125;&quot;)    switch (c.properties.class.toString()) &#123;        case &#39;class com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl&#39;:            println(&quot;Username: $&#123;p.username&#125;&quot;)            println(&quot;Password: $&#123;p.password&#125;&quot;)            break        case &#39;class com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey&#39;:            println(&quot;Username: $&#123;p.username&#125;&quot;)            println(&quot;Private Key: |&quot;)            println(&quot;$&#123;p.privateKey&#125;&quot;)            break        case &#39;class org.jenkinsci.plugins.plaincredentials.impl.FileCredentialsImpl&#39;:            println(&quot;Filename: $&#123;p.fileName&#125;&quot;)            println(&quot;File Content: |&quot;)            println(&quot;$&#123;new String(c.getSecretBytes().getPlainData())&#125;&quot;)            break        case &#39;class org.jenkinsci.plugins.plaincredentials.impl.StringCredentialsImpl&#39;:            println(&quot;Secret: $&#123;p.secret&#125;&quot;)            break        default:            println(&quot;WARN: unknown credential type&quot;)            println(&quot;credential properties: $&#123;p.toString()&#125;&quot;)    &#125;    println(&quot;------------------------------------------------------------------------------&quot;)&#125;</code></pre><p>Or use the more tidy code</p><pre><code class="groovy">com.cloudbees.plugins.credentials.SystemCredentialsProvider.getInstance().getCredentials().forEach&#123;  it.properties.each &#123; prop, val -&gt;    println(prop + &quot; = &quot; + val)  &#125;  println(&quot;----------------------------------------------------&quot;)&#125;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;This post is mainly to help your list all credentials from Jenkins.&lt;/p&gt;
+&lt;p&gt;Run the following code in &lt;code&gt;Dashboard -&amp;gt; Manage Jenkins
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.com/tags/DevOps/"/>
+    
+      <category term="Jenkins" scheme="https://ismdeep.com/tags/Jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>First things you should do after install jetbrains IDE</title>
+    <link href="https://ismdeep.com/posts/2024-02-07-first-things-you-should-do-after-install-jetbrains-ides.html"/>
+    <id>https://ismdeep.com/posts/2024-02-07-first-things-you-should-do-after-install-jetbrains-ides.html</id>
+    <published>2024-02-07T02:37:49.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>JetBrains produces a suite of integrated development environments (IDEs) that are highly regarded by developers for their productivity-boosting features and user-friendly interfaces. Some of the most popular JetBrains IDEs include IntelliJ IDEA, PyCharm, WebStorm, PhpStorm, RubyMine, GoLand and etc.</p><p>Here are some things you need to prepare in advance before using them formally.</p><h1 id="Disable-IDE-await"><a href="#Disable-IDE-await" class="headerlink" title="Disable IDE await"></a>Disable IDE await</h1><p>“ide.await.scope.completion” to be a registry option that can be toggled to alter the behavior of JetBrains IDEs during shutdown. Sometimes when you close the IDE, it gets stuck at the ‘Closing Project’ dialog.</p><p>Here’s a breakdown of the steps outlined in the workaround:</p><ol><li>Select “Help” from the main menu of IDE.</li><li>Choose “Find Action.”</li><li>Type “Registry…” and select it from the search results.</li><li>In the opened list of registry options, find and disable the “ide.await.scope.completion” option.</li></ol><h1 id="Shortcut-for-Open-in-Terminal"><a href="#Shortcut-for-Open-in-Terminal" class="headerlink" title="Shortcut for Open in Terminal"></a>Shortcut for Open in Terminal</h1><ol><li>Select “File” from the main menu of IDE.</li><li>Choose “Setting”</li><li>Select “Keymap” in the open dialog.</li><li>Go to “Plugin” - “Terminal” - “Open in Terminal”</li><li>Set a shortcut for “Open in Terminal”, “Ctrl + T” is recommended.</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;JetBrains produces a suite of integrated development environments (IDEs) that are highly regarded by developers for their productivity-bo
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="JetBrains" scheme="https://ismdeep.com/tags/JetBrains/"/>
+    
+      <category term="Tools" scheme="https://ismdeep.com/tags/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Install Docker CE on UOS Server 1050e</title>
+    <link href="https://ismdeep.com/posts/2024-01-27-install-docker-ce-on-uos-server-1050e.html"/>
+    <id>https://ismdeep.com/posts/2024-01-27-install-docker-ce-on-uos-server-1050e.html</id>
+    <published>2024-01-27T08:41:46.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>Let’s quick start.</p><h1 id="Prepare-docker-ce-repo"><a href="#Prepare-docker-ce-repo" class="headerlink" title="Prepare docker-ce.repo"></a>Prepare docker-ce.repo</h1><pre><code>$ curl -L https://mirrors.ustc.edu.cn/docker-ce/linux/centos/docker-ce.repo -o /etc/yum.repos.d/docker-ce.repo$ sed -i &#39;s+https://download.docker.com+https://mirrors.ustc.edu.cn/docker-ce+&#39; /etc/yum.repos.d/docker-ce.repo$ sed -i &#39;s+$releasever+8+&#39; /etc/yum.repos.d/docker-ce.repo</code></pre><h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><pre><code>$ yum install -y docker-ce</code></pre><h1 id="Enable-system-service"><a href="#Enable-system-service" class="headerlink" title="Enable system service"></a>Enable system service</h1><pre><code>$ systemctl enable docker$ systemctl start docker</code></pre><h1 id="Check-service-status"><a href="#Check-service-status" class="headerlink" title="Check service status"></a>Check service status</h1><pre><code>$ systemctl status docker</code></pre><p>The result should show like below. Active status should be <code>running</code>.</p><pre><code>[root@localhost ~]# systemctl status docker● docker.service - Docker Application Container Engine   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)   Active: active (running) since Sat 2024-01-27 16:52:24 CST; 10s ago     Docs: https://docs.docker.com Main PID: 12132 (dockerd)    Tasks: 7   Memory: 32.7M   CGroup: /system.slice/docker.service           └─12132 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Let’s quick start.&lt;/p&gt;
+&lt;h1 id=&quot;Prepare-docker-ce-repo&quot;&gt;&lt;a href=&quot;#Prepare-docker-ce-repo&quot; class=&quot;headerlink&quot; title=&quot;Prepare docker-ce.repo
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+      <category term="UOS" scheme="https://ismdeep.com/tags/UOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Open files with system-associated editor in JetBrains IDE</title>
+    <link href="https://ismdeep.com/posts/2023-07-26-jetbrains-ide-open-file-with-system-associated-applications.html"/>
+    <id>https://ismdeep.com/posts/2023-07-26-jetbrains-ide-open-file-with-system-associated-applications.html</id>
+    <published>2023-07-26T13:43:19.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>The JetBrains series of IDEs are obviously very powerful and have become essential development tools for many developers.</p><p>However, I encountered a minor issue while using them: I prefer to edit certain files using the system-associated editor rather than the built-in Markdown editor in JetBrains IDE. For instance, Markdown files.</p><p>When you want to use a system-associated editor instead of the built-in editor in JetBrains IDE for certain files, you can follow these steps:</p><ol><li>Open your JetBrains IDE (e.g., IntelliJ IDEA, PyCharm, etc.).</li><li>Go to “File” -&gt; “Settings” (or “IntelliJ IDEA” -&gt; “Preferences” on macOS) from the menu bar.</li><li>In the Settings window, navigate to the “Editor” section and select “File Types”.</li><li>In the “File Types” tab, locate the file type for which you want to use the system-associated editor, such as Markdown files.</li><li>After selecting the file type, you will see the file extensions for that file type listed in the “Registered patterns” text box below the “Registered patterns” list.</li><li>Enter or edit the file extensions for the system-associated editor in the text box, separating each extension with a semicolon. For example, if you want the system-associated editor to handle Markdown files, you can enter *.md.</li><li>Click the “Apply” or “OK” button to save your settings.</li></ol><p>After completing these steps, the system will use the associated editor to open the specified file types instead of the built-in editor in JetBrains IDE.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;The JetBrains series of IDEs are obviously very powerful and have become essential development tools for many developers.&lt;/p&gt;
+&lt;p&gt;However,
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="JetBrains" scheme="https://ismdeep.com/tags/JetBrains/"/>
+    
+      <category term="Tools" scheme="https://ismdeep.com/tags/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Lightweight Deepin Linux</title>
+    <link href="https://ismdeep.com/posts/2023-07-04-lightweight-deepin.html"/>
+    <id>https://ismdeep.com/posts/2023-07-04-lightweight-deepin.html</id>
+    <published>2023-07-04T10:29:18.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>Deepin Linux is a Debian-based Linux distribution known for its visually appealing desktop environment and user-friendly interface. It’s developed by Chinese software company Deepin Technology Co., Ltd. Deepin features the Deepin Desktop Environment (DDE), which offers a sleek and intuitive interface similar to macOS, with a dock at the bottom, a global menu bar at the top, and various animations and effects.</p><p>Aside from its aesthetics, Deepin also provides a range of built-in applications, including a file manager, music player, video player, and more, all designed to integrate seamlessly with the desktop environment. It’s known for its simplicity and elegance, making it a popular choice for users who prefer a polished and modern Linux experience.</p><p>Deepin Linux also includes its own software center, which provides users with access to a wide range of applications for installation and updates. It’s available in multiple languages and is used by people around the world who appreciate its user-friendly approach and attractive design.</p><h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>After system startup, it will consume 1.2GB of memory by default.</p><pre><code>root@deepin:~# free -mh              total        used        free      shared  buff/cache   availableMem:          7.7Gi       1.2Gi       4.7Gi        22Mi       1.9Gi       6.3GiSwap:            0B          0B          0B</code></pre><h1 id="Disable-services"><a href="#Disable-services" class="headerlink" title="Disable services"></a>Disable services</h1><pre><code>systemctl disable lightdmsystemctl disable dde-filemanager-daemonsystemctl disable deepin-accounts-daemonsystemctl disable deepin-devicemanager-server</code></pre><h1 id="Effectiveness"><a href="#Effectiveness" class="headerlink" title="Effectiveness"></a>Effectiveness</h1><p>After disabling some unnecessary services using the above methods, the system now only consumes 347MB of memory.</p><pre><code>root@server:~# free -mh              total        used        free      shared  buff/cache   availableMem:          7.7Gi       347Mi       7.2Gi       2.0Mi       183Mi       7.1GiSwap:            0B          0B          0B</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Deepin Linux is a Debian-based Linux distribution known for its visually appealing desktop environment and user-friendly interface. It’s 
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+      <category term="Deepin" scheme="https://ismdeep.com/tags/Deepin/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>To solve Terminator split screen divider transparent background problem</title>
+    <link href="https://ismdeep.com/posts/2023-07-03-terminator-transparent-problem-solved.html"/>
+    <id>https://ismdeep.com/posts/2023-07-03-terminator-transparent-problem-solved.html</id>
+    <published>2023-07-03T12:31:27.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>To solve the issue of Terminator terminal emulator’s split screen divider having a transparent background, you can try the following steps:</p><p>In the Linux desktop environment, Terminator is a highly versatile terminal tool that allows for multiple horizontal and vertical splits of the current page. However, there is an issue where the divider between splits is transparent, <strong>which can sometimes make it difficult to distinguish between the split blocks</strong>.</p><p>If you want to use a solid color as the background for the split line, you can use the following method:</p><h2 id="Edit-terminator-py"><a href="#Edit-terminator-py" class="headerlink" title="Edit terminator.py"></a>Edit terminator.py</h2><p>Edit Terminator source code file <code>/usr/share/terminator/terminatorlib/terminator.py</code>. Please note that modifying this file requires <code>root</code> permissions.</p><p>Search <code>background_type</code>, this should be in about line 495。</p><pre><code>            if profiles[profile][&#39;background_type&#39;] == &#39;transparent&#39;:                bgalpha = profiles[profile][&#39;background_darkness&#39;]</code></pre><p>Replace these two lines with:</p><pre><code>            if profiles[profile][&#39;background_type&#39;] == &#39;image&#39;:                backgound_image = profiles[profile][&#39;background_image&#39;]            if profiles[profile][&#39;background_type&#39;] == &#39;transparent&#39; or profiles[profile][&#39;background_type&#39;] == &#39;image&#39;:                bgalpha = profiles[profile][&#39;background_darkness&#39;]</code></pre><h2 id="Add-a-css-file"><a href="#Add-a-css-file" class="headerlink" title="Add a css file"></a>Add a css file</h2><p>Add a <code>~/.config/gtk-3.0/gtk.css</code> file in the user’s home directory with the following content:</p><pre><code>.terminator-terminal-window separator &#123;  background: #303030;&#125;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;To solve the issue of Terminator terminal emulator’s split screen divider having a transparent background, you can try the following step
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://ismdeep.com/tags/Ubuntu/"/>
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】现代软件工程 - 第二部分：测试</title>
+    <link href="https://ismdeep.com/posts/2023-07-02-modern-software-engineering-part-2-testing.html"/>
+    <id>https://ismdeep.com/posts/2023-07-02-modern-software-engineering-part-2-testing.html</id>
+    <published>2023-07-02T15:23:53.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>“如果调试是清除软件缺陷的过程，那么编程一定是把它们放进去的行为”。—— Edsger Djikstra</p></blockquote><p>编写自动化软件测试就像和自己玩电话游戏–当你误解了信息是什么时，你是唯一可以责备的人。如果你为自己的代码写测试，这已经够难的了，但是考虑到你为别人写的代码写测试，而这些代码本来就没有被测试。现在，这就像试图理解一张在蓝色牛仔裤口袋里洗过的纸上的信息是什么……三次!</p><p>这是在被测试的代码已经写完之后才写的测试。现在考虑一下先写测试的做法–这就像和自己玩高手过招，先写一些看似合理的规范或测试，以确保你要写的解决方案会 “做正确的事”。但是，如果你学过计算机科学，那么这听起来非常像解决停止问题–只是更糟糕，因为现在你不仅需要向自己证明，还需要向编译器&#x2F;解释器证明你希望它做的事情是正确的。</p><p>那么，为什么在过去的20年里，测试一直是现代软件工程实践中不可或缺的一部分–无论是测试优先还是测试最后，我们专业的软件工程师仍然需要考虑如何测试和验证软件以满足需求。</p><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>又到了故事时间。</p><p>上次在第一部分中，我写到我是如何艰难地学会了如何设计系统以适应现代的扩展性、可靠性、可用性、可维护性和安全性要求。设计一个解决方案只能到此为止，因为到了最后，这个解决方案需要被实施–有时，它必须由一个团队或多个团队来完成。</p><p>你可以想象，跨团队的协调工作将是问题的主要来源，但我们是否可以做些什么来减少这种负担？自动测试来了–特别是那种指定行为而不是测试实现的测试。</p><p>当我在Friendster工作的时候，我可以知道我所从事的服务的客户端到底期望什么。然而，这并不是完全明确的–我们有一个我们所遵循的协议（这是在协议缓冲区流行之前）和一些被这些客户端调用的URI。语义并没有完全阐明，但我们有一个忠实的听众–我可以阅读客户端的代码，并从当前的实现中找出期望。</p><p>这一点很重要–我们不是创建一个全新的协议或创建一个新的合同，而是从已知的需求开始，我们可以把这些需求写成自动测试。我首先要做的几件事之一是把这些测试变成我可以编程的规范，并逐步把实现带到满足要求的地步。这项工作产生了两个产品：</p><ul><li>C++网络库–一个性能相当好的HTTP客户端和服务器的C++实现，我正在重写的服务将在此基础上集成。</li><li>memcache++库 - 一个性能合理的C++实现的memcache客户端，支持分片和虚拟节点池。</li></ul><p>这两个开源解决方案都是内部定义的技术要求的结果。我们从一个现有的系统开始，将其分解成各个组成部分，然后逐步实施这些解决方案，直到我们可以将非业务关键部分作为开源软件共享。</p><p>你可能会问，为什么我需要从测试开始？因为测试允许我以一种渐进和可预测的方式来填充解决方案以满足需求。有了测试，我和审查我所写的代码的人就能理解需求是什么，并通过运行测试自动验证它们。这使我们能够逐步获得我们所需要的信心，我们得到了一个满足我们需求的解决方案。</p><p>有了测试，我就可以专注于什么是必要的和足够的功能，同时让我有信心重构和改进解决方案，并快速验证我是否破坏了编码需求的测试。通过让测试涵盖需求，我已经能够捕捉到许多错误，并快速地交付功能，在此过程中无畏地进行重构。</p><p>那是在2007-2008年左右，很多这些概念（如测试驱动开发和行为驱动开发）刚刚开始流行，但通常是在企业软件行业。在这里，我把其中一些好的想法应用到了微服务和水平可扩展的系统中!</p><p>快进了几年，我们现在到了2023年，测试在某些圈子里已经变成了一个肮脏的词（TDD和BDD往往烧毁了很多人，主要是由于对原则的误解），并且已经成为一种事后的想法，我们要求我们的副驾驶为我们写的代码做单元测试。这有点可惜，因为采用正确测试的高性能软件工程团队在适应不断变化的需求和改进解决方案的实施方面的自由度是非常有价值的，那些没有及早投资的团队往往会在很晚的时候才意识到，测试本来可以拯救他们的重大故障，由于错误爬到生产中而导致的不眠之夜，或者由于解决方案质量差和速度低而失去业务。</p><p>在这篇文章中，我将写更多关于测试在现代软件工程中的作用，以及如何正确地进行测试使你和你的团队在行业中取得成功。</p><h1 id="测试水平"><a href="#测试水平" class="headerlink" title="测试水平"></a>测试水平</h1><p>在我们进一步讨论之前，最好先了解测试的不同级别或类别。如果你以前没有写过测试，知道有一个相当健全的测试术语分类法可能会有好处，这样你至少可以跟上围绕它们发生的讨论。</p><ul><li>用户验收测试 —— 通常是自动测试，确保软件系统符合终端用户的要求。模拟终端用户通常包括驱动软件的用户界面（基于浏览器的网络用户界面的自动测试，本地应用程序用户界面的应用程序驱动程序，API服务客户端等），以执行用户会做的事情，并观察这些行动的结果，看它是否符合软件的验收标准。这通常是最高级别的测试，涵盖了整个软件系统的所有内容。</li><li>系统测试 —— 通常是对系统的功能和非功能属性进行测试的自动化测试。在这里，一个系统可以是一个完全集成的应用，也可以是一个带有相关组件的子系统。系统测试通常比用户验收测试（UATs）更全面。</li><li>集成测试 —— 典型的自动化测试，测试在集成环境中作为子系统工作的多个组件的相互作用（通常是测试线束或应用程序支架），这有利于集成组件的布线和测试。集成测试通常是对一个完整解决方案的逻辑子系统进行测试，这些子系统一起工作以提供一组特定的功能。</li><li>单元测试 —— 典型的自动化测试，对单个组件（不一定是单个类）的功能进行隔离测试。依赖关系可以由功能相当的实现来代替，以便于以受控的方式（有时是故意的）来模拟这些依赖关系。</li></ul><p>在某些情况下，你可能会遇到需要有人工或人类驱动的测试来覆盖一些不可预测的或组合巨大的可能性空间（考虑计算机游戏，人工智能模型，控制系统等）。这些在软件工程行业中仍然有很好的地位，但在这篇文章中，我将专注于自动化测试案例。</p><p>现在我们有了一些定义，让我们深入了解一些现代软件工程的测试方法以及它是如何改变我们解决问题的方式的。</p><h1 id="测试驱动开发"><a href="#测试驱动开发" class="headerlink" title="测试驱动开发"></a>测试驱动开发</h1><p>测试驱动开发或TDD是一种实现软件的方法论，首先将测试（或规范）写成可执行代码，看到测试失败（先是红色），实现一个解决方案以满足需求，看到测试成功（绿色），重构解决方案的可读性和灵活性，同时保持测试成功运行（保持绿色），并进行迭代。下面是对这个方法论中每个步骤的更多解释：</p><ul><li><strong>写一个失败的测试来代表一个需求。</strong> 这可能使用一个还不存在的类，或一个还没有实现的方法，或一个还没有被现有实现处理的情况，或一些系统还没有执行的新行为–不管新的需求是什么，写一个测试来代表这个需求，作为可执行的东西，并且最初失败。这一步让我们思考缺失的功能，以及它在任何层次上的使用方式–测试可以是UAT，系统测试，集成测试，或单元测试。</li><li>实施解决方案以满足需求（绿色）。满足需求的初始实现可能是最简单的工作，或者是一个简单的 “返回测试期望的东西”（我知道，这感觉像是作弊，但相信这个过程……），只是为了让你看到测试 “变绿”。这一步迫使我们思考解决这个问题的最直接的方法，这样我们就可以进入下一步，重新做这个循环。</li><li>无情地重构，同时保持测试的绿色（保持绿色）。不要在这里通过第2步，因为软件工程的肉发生在这一步，在这里我们可以看一下测试和实现中使用的接口，看看我们是否正在接近一个更可维护和灵活的解决方案，或者我们是否需要更多的测试来找到模式。你拥有的覆盖系统功能的测试越多，你就越需要重构，不仅是实现，还有测试–如果你也遵循领域驱动设计，这可以让你细化系统中的模型，这样你对解决方案的理解就会随着模型的变化而不断发展。</li><li>迭代。当你在不同的层次（UATs，系统测试，集成测试，单元测试）覆盖了越来越多的系统功能和非功能需求时，你将不可避免地发现一些需求不再是需求，现有的需求由于新的业务需求而略有变化，你可能不得不从某些子系统重新开始。认识到什么时候去增加测试，删除测试，优化性能或效率，或者只是叫它完成并继续前进，是整个过程的一个重要部分。只要你还没有完成，就回到第1步。</li></ul><p>请注意，即使你已经有了一个没有测试的代码库，你也可以开始遵循TDD。你可以自上而下（从UATs到单元测试）或自下而上（从单元测试到UATs），并在此过程中开始重构你的接口，让你觉得更有信心代表逻辑组件或领域模型。</p><p>从一开始就遵循TDD有很多好处：</p><ul><li>你在写测试的时候不得不考虑需求和设计。难以测试的代码通常意味着它没有遵循良好的设计实践。如果你发现你不能很好地表达测试，意味着你没有很好地理解需求，这迫使你在写测试之前首先要理解需求是什么。</li><li>你有更多的信心，你所拥有的解决方案甚至在到达生产之前就能满足要求。提前发现问题可以使你免受生产中可预见的麻烦。它还允许你专注于解决已经存在的指导问题，而不是等了很久才知道你是否满足了需求，当它上线时。与其把时间花在调试上，不如把时间花在解决其他问题上，并自信地逐步交付价值。</li><li>你有时间去整理，使之变得漂亮。TDD明确地将重构的时间作为开发过程的一部分–而不是推迟到以后的事情。如果你时间紧迫，需要推迟重构，那么它也可以在以后再进行，因为你的测试代表了需求的状态，而且实施质量可以作为过程的一部分得到改善。</li></ul><p>这也很好，但我们也需要承认TDD的成本和一些缺点。</p><ul><li>编写和运行自动化测试并不便宜。有些种类的测试比其他的更难写，而且它们也不是都能产生同样的价值。编写UATs可能需要特定测试框架的专业知识，或者在模拟生产部署时，需要使用不容易获得的特殊硬件（例如强大的GPU或FPGA）。有些需要全面部署多个服务，为测试目的而建立这些服务可能不符合成本效益，因此可能会走一些弯路。</li><li>要显示测试代码的价值是很难的，特别是当它被看作是一种机会成本时。很多人仍然认为测试是浪费时间，因为重要的是运送工作的东西–如果他们在生产中失败了，我们就黑掉它，因为我们需要赚足够的钱，这样资金就不会用完。不幸的是，用运送代码到生产中来代替测试，意味着你每次部署代码和新功能时，都在为你的解决方案和业务的有效性冒险。尽管TDD是一个很好的做法，而且有大量的成功案例表明为什么遵循TDD是一个好主意，除非有效的测试覆盖率被看作是对未来故障和需求变化的保险政策，那么它将是一个难点。</li><li>当你把有效的测试和100%的测试覆盖率混为一谈时，你会有一个糟糕的时间。TDD并不是要达到100%的测试覆盖率，而是专注于将需求表现为可执行的测试。只要你想，你可以有很多测试，只要它们能代表你正在构建的系统的重要内容。拥有100%的测试覆盖率并不代表你的测试在代表解决方案的重要内容方面有多有效。它可能是一个较小的测试集在确保你要解决的问题被解决方面得到了最好的价值。</li></ul><p>TDD并不是我们在这个世界上遇到的所有软件质量问题的万能药。然而，它是一种实践，可以帮助保持重要的焦点，以便我们可以有信心地设计满足需求的系统。</p><h1 id="自动测试"><a href="#自动测试" class="headerlink" title="自动测试"></a>自动测试</h1><p>如果你已经遵循TDD，那很好。但如果你不这样做，你有可以在以下情况下自动运行的测试仍然很重要：</p><ul><li>在开发时，在 “内部开发者循环 “中。如果你不能在你的集成开发环境或你的工作站中运行测试，以快速验证你的解决方案正在做他们应该做的事情，那么你会有一个糟糕的时间。确保自动化测试能够快速构建&#x2F;运行，并且能够代表重要的需求，这是一个重要的生产力提升器，值得投资。如果你除了写自动化测试，开发人员可以在他们的工作站上运行，你已经达到了自动化测试的80%的好处。</li><li>维护一个回归测试套件。每当提出或发现bug时，首先应该做的是用失败的测试来重现它。这样你就可以把修复错误的过程当作另一个需求来管理，把它表达为一个捕捉回归的测试（这意味着，软件不会表现出一个在过去已经被修复的错误）。你把越多的bug变成回归测试，你就越能更广泛地表达系统上的实际需求，并防止它们在未来反复出现。</li><li>也要测试系统的非功能方面。非功能需求指的是与功能没有严格联系的系统质量–如吞吐量、延迟、资源消耗、最低负载要求，以及其他可观察的属性。自动化这些需求可以让你把它们变成设计和实现需求的一部分，这样在对系统进行修改的时候，它们总是被考虑在内。</li></ul><p>自动化测试正在成为提供具有竞争力和更高质量的软件系统的关键工具，特别是在我们今天看到的现代软件工程实践中。鉴于我们正在构建和部署的系统的复杂性和关键性，很难看到我们如何能够在没有自动化测试的情况下向前管理。</p><h1 id="现代测试技术"><a href="#现代测试技术" class="headerlink" title="现代测试技术"></a>现代测试技术</h1><p>假设你已经实现了自动化测试，你有UATs、系统测试、集成测试和单元测试，你可以运行。你也有一个回归测试套件和非功能需求表达为自动化测试。你如何将你的测试实践带到现代软件工程时代？</p><p>特别是对于那些在云中作为分布式系统开发和部署的软件，在像Kubernetes这样的环境中协调，控制平面分别管理工作负载和资源的放置和管理，公共云供应商为网络存在和地理多样性提供管理资源，应用程序的架构变得越来越复杂。测试这些应用程序变得非常困难和昂贵。</p><p>以下是管理这种复杂性需要考虑的几件事，并确保你能跟上现代大规模全球可用服务的需求：</p><ul><li>投资于持续集成和持续交付。在你的软件投入生产之前进行测试，只能让你的测试达到一定程度，但生产的现实情况在开发中很少被预料到。有一种方法可以将在集成环境中测试过的代码以可控和安全的方式持续地运送到生产中，这是能够使你的解决方案适应生产的现实的关键。因为你已经投资了测试，你在生产中发现的错误可以被表述为失败的测试，并自动通过你的持续集成（CI）和持续部署（CD）管道运行。这减少了上市时间，缩短了工程团队的反馈周期。</li><li>投资于模糊测试和自动故障查找。有大量的解决方案可以在你依赖的系统中自动注入故障，无论是远程API服务还是内部组件。Fuzzing是一种测试方法，它使用随机生成的输入来发现潜在的安全漏洞或意外问题。虽然不能取代手写的测试，但这些测试可以增强你为你的系统编写的需求驱动的测试，以便在开发过程的早期发现潜在的故障。</li><li>使用尽可能多的生产暴露来测试你的系统。在生产中进行小规模的测试（也被称为金丝雀测试），可以让你的系统得到最真实的测试。将生产中的测试作为应用程序交付和部署管道中的一个关键环节。</li><li>利用人工智能和LLMs来增加你的测试覆盖率。如果你能获得GitHub Copilot或类似的技术，考虑使用它们（在咨询了法律顾问关于这对你的公司和代码的影响后）来填补你现有系统的单元、集成和系统测试。或者，如果你开始使用TDD，考虑用AI自动化来减少内循环中开发这些测试的时间。毕竟，如果开发人员花在编码测试上的时间是一个问题，那么AI应该是减少这种成本的一个好方法。）</li></ul><p>随着系统变得越来越复杂，因为它们是分布式的，处理的规模也越来越大，自动化测试对于确保我们正在开发的各种交互式系统的质量和正确性只会更加重要。</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>编写和维护有效的自动化测试，代表软件系统的关键要求，正成为今天软件工程专业人员的追求和重要技能。拥有测试专家的日子已经一去不复返了，就像现在每个人都是开发人员和运营工程师一样。现代软件工程要求每个软件工程从业者都知道并理解自动化测试的价值，它如何影响我们交付给客户的软件系统的稳健性、质量和有效性。</p><p>在一天结束时，软件工程是关于建立正确的东西来解决正确的问题。知道解决这个问题的要求是什么，是能够有效解决这个问题的关键。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;“如果调试是清除软件缺陷的过程，那么编程一定是把它们放进去的行为”。—— Edsger Djikstra&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;编写自动化软件测试就像和自己玩电话游戏–当你误解了信息是什么时，你是唯一可以责备的人。如果你为自己的
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="Repost" scheme="https://ismdeep.com/tags/Repost/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】现代软件工程 - 第一部分：系统设计</title>
+    <link href="https://ismdeep.com/posts/2023-06-21-modern-software-engineering-a-series-part-1-system-design.html"/>
+    <id>https://ismdeep.com/posts/2023-06-21-modern-software-engineering-a-series-part-1-system-design.html</id>
+    <published>2023-06-21T03:22:24.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>在80年代末90年代初长大的我，对电脑的接触几乎仅限于游戏机（我认为是Atari 800和Commodore 64游戏机，因为我只看到过在它们上面运行的游戏）或早期的x86系统。直到2000年我上了大学，我才掌握了一台Sun Microsystems SPARC工作站、UNIX和我可以在家里Intel 486机器上安装的Slackware Linux.</p><p>那时，软件开发主要是指在你的机器上本地运行的软件，或者，如果你有机会的话，在时间共享的计算机上运行的软件，其处理能力明显高于你，可以做商业相关的事情。我记得，在大学里听说过一个计算机科学家使用的程序，它需要一个多核处理器来生成数千个学生的课程表；生成和打印课程表需要数周时间。直到今天，我仍然不确定程序运行时间还是打印到纸上时间哪个更长。</p><p>今天，大多数正在开发的软件要么在云上运行，要么在需要访问云的设备上运行，要么为同样在云上运行的其他软件提供动力。在密闭空间内工作的软件系统（如嵌入式软件系统），如果不能在其他地方获得更强大的计算平台，那是非常罕见的。会计系统现在压缩了大量的数据，这些数据被托管在公司内部或外部的数据仓库的服务器群中。销售系统现在由第三方管理客户关系，并由更多的第三方或内部开发人员开发插件。</p><p>但是，今天这些软件系统是如何建立的，以服务数百到数百万的用户，同时还能保持我们对今天使用的软件所期望的性能和响应性？</p><p>作为一个有20年之久的软件工程师，我见过许多系统从堆栈的每个层面被开发出来。从DOS时代的中断处理程序到JavaScript驱动的动画，甚至是无代码的报告生成。几周前，我甚至让ChatGPT-4根据我给它的一些描述来生成一些我想要的Python代码！但这是另一个故事！但这是另一个故事了。</p><p>在这篇文章中，我写的是系统设计，它如何成为现代软件工程实践的一个关键部分，以及它将是人类软件工程师在中短期内仍能提供价值的关键领域之一。</p><h1 id="系统设计的重要性"><a href="#系统设计的重要性" class="headerlink" title="系统设计的重要性"></a>系统设计的重要性</h1><p>很久以前，我是一家公司的软件工程师，这家公司在处理他们自己带来的成功的负荷方面存在问题。我把这家公司称为Friendster。当我加入这家公司时，我所负责的项目已经很晚了，而且有许多与内存管理有关的错误。他们的核心服务（是的，在2007年我们这样称呼它之前，它是一个微服务）是用C++编写的，但有内存泄漏，处理请求的时间太长，而且被设计为在自己的内存中缓存和提供数据。它需要是无状态的，但最后却变成了有状态的。</p><p>在项目进行了几周后，我恳求高级工程领导层放弃这个服务的迭代，而是从头开始写一些符合要求的东西；这将是对现有实施的一个直接替换。我们有一个最后期限，因为该服务只能再处理几个月的增长，然后它就不能再以重新水化的方式处理缓存的大小。</p><p>重新启动服务所花的时间比它能保持的时间还要长，直到内存泄漏使它瘫痪。这是一个 “赌上我的职业生涯 “的时刻，但我几乎没有这个时间。我们必须让它运转起来。</p><p>系统设计开始了。我们做的第一件事是列出系统必须满足的要求，依赖服务（PHP前端代码）和这个核心服务之间的合同是什么，以及一个关于我们如何满足三个关键的非技术要求的计划：性能、效率和弹性。</p><p>系统设计涉及到了解系统必须执行其功能的约束条件，所需的功能是什么，以及相对于所有其他属性而言，系统的哪些属性是重要的。一旦你有了这些定义，你就可以开始设计一个符合要求的系统，并系统地规划出解决方案的交付。</p><h1 id="系统设计的组成部分"><a href="#系统设计的组成部分" class="headerlink" title="系统设计的组成部分"></a>系统设计的组成部分</h1><p>当我们谈及系统设计时，通常有几个组成部分：</p><ul><li>架构 —— 整体解决方案是什么样子的？它是否涉及多个子系统？是否有单独的组件组成一个整体？它们是如何相互作用的，以及它们之间的关系如何？</li><li>拓扑结构 —— 解决方案是否有分层？如果这是一个分布式系统，组件服务在物理上或逻辑上的位置是什么？</li><li>底层设计 —— 你定义了哪些接口，系统的不同部分通过这些接口进行交互？你是否有具体的算法来处理解决方案的关键部分（性能、效率、吞吐量、复原力等）？</li></ul><p>首先要了解一些事情，比如：系统是自成一体的（即：不会访问外部资源）还是分布式的？它是否会有一个用户界面，或者是非交互式的（例如，它是否会生成一份打印出来的报告，或者它在运行过程中是否需要来自人为或其他系统的输入？）它是否需要处理大量的流量？它是在任何时候只有十个人使用，还是在任何时候有千万个用户使用它？</p><p>一旦你对其中一些问题有了答案，通过系统设计原则做出决定就会更容易。</p><h1 id="系统设计的原则"><a href="#系统设计的原则" class="headerlink" title="系统设计的原则"></a>系统设计的原则</h1><p>在这个现代社会中，设计软件系统的几个关键原则直到系统需要扩展时才完全出现——从一个单用户系统到一个应该能够同时处理成千上万甚至数百万用户的系统。以下是我们将在本文中介绍的一些内容：</p><ul><li>可扩展性</li><li>可靠性</li><li>可维护性</li><li>可利用性</li><li>安全性</li></ul><h2 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h2><p>当一个系统可以在资源成比例增长的情况下被部署来处理负载的增长时，它就是可扩展的。一个系统的扩展系数被定义为服务于系统负载增长所需的资源量的增长。我们在软件系统中会遇到两种典型的扩展情况：垂直扩展和水平扩展。</p><p>垂直扩展是指为软件系统提供更多的空间或单机资源以处理需求的增长。考虑一下网络附加存储设备的情况。你通过设备提供的存储越多，它能存储的数据就越多。如果你需要它处理更多的并发连接和I&#x2F;O操作（IOPs），你通常需要增加计算能力和网络接口来处理增加的负载。</p><p>横向扩展是指用软件的副本复制一个系统或多台机器，以处理需求的增长。考虑一下隐藏在负载均衡器后面的静态网络内容服务器的情况。添加更多的服务器可以让更多的客户连接并从网络服务器上下载内容，当负载减弱后，网络服务器的数量可以缩减到适合当前需求的规模。</p><p>有些系统可以处理混合或对角线的扩展。例如，一些分布式数据库架构允许分割计算和存储节点，这样，计算重的工作负载可以使用具有更多计算资源的节点。相反，IOPs的重度工作负载可以在存储+计算节点上运行。例如，流处理应用程序可能会分离出需要更多内存和计算的工作负载（例如，事件源或分析工作负载），并适当地扩展这些工作负载，并独立于IOPs的重型工作负载（例如，压缩和归档）。</p><h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><p>当一个系统能够容忍部分故障和恢复而不严重降低服务质量时，它就是可靠的。一个系统的可靠性的一部分包括其在延迟、吞吐量和遵守商定的操作范围方面的可预测性。</p><p>确保系统可靠性的通常方法包括以下内容：</p><ul><li>设置系统冗余以支持透明或最小中断的故障切换。</li><li>在内部错误或输入引起的故障的情况下，建立容错机制。</li><li>明确界定延迟、吞吐量和可用性的合同和目标。</li><li>设置足够的备用容量，以满足负荷的突发和有机增长。</li><li>服务质量保障措施，强制执行费率限制和客户&#x2F;业务隔离。</li><li>在过载或灾难性故障的情况下，实施优雅的服务退化。</li></ul><p>构建可靠系统需要记住的关键一点是，以一种定义明确的方式处理潜在的故障，使依赖系统能够做出反应。这意味着如果有输入可能导致系统对所有人都可用，那么它就不是一个可靠的系统。同样地，如果系统依赖于另一个可能不可靠的系统，那么它应该用策略来处理不可靠的问题，以确保可靠性。</p><h2 id="可维护性"><a href="#可维护性" class="headerlink" title="可维护性"></a>可维护性</h2><p>当以相应的努力来改变一个系统，并以最小的用户干扰来部署时，这个系统是可维护的。这就要求在实施系统的时候，假定需求会发生变化，并且系统有足够的灵活性来处理可预见的方向变化。这也意味着要确保代码的可读性，以便下一组维护者（可能是同一个团队，但在未来用新的眼光来看待它）能够维护软件，并使其进化以满足未来的需求。</p><p>没有人愿意被困在维护那些僵化的、难以改变的、没有良好组织的、文件化程度低的、设计不良的、未经测试的、胡乱拼凑的软件。</p><p>确保代码质量高是卓越工程的一部分，体现了专业精神和优秀的工艺。这不仅是一件好事，而且众所周知，它可以让高功能和高性能的工程团队提供可以改变和扩展的软件，以持续提供价值。</p><h2 id="可用性"><a href="#可用性" class="headerlink" title="可用性"></a>可用性</h2><p>如果你的服务不可用，它可能不存在。</p><p>系统设计应该解决一个系统应该如何保持可用性，以保持与客户和系统用户的相关性。这意味着：</p><ul><li>引入冗余机制处理基础系统故障。</li><li>拥有备份和恢复方案和操作指南，使系统从硬故障中恢复过来。</li><li>从系统中去除尽可能多的单点故障。</li><li>除了横向可扩展性，还要有区域性的复制，并建立内容交付网络（在适当的地方），使你的数据可用。</li><li>从客户的角度监测你的系统的可用性，以更好地了解你的系统是如何为客户服务的。</li></ul><p>在我职业生涯的早期，我了解到，一个不稳定和不可用的系统有时会成为失去客户信任的最大原因。一旦你失去了客户的信任，就很难重新获得信任。</p><h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p>系统设计应该把安全作为一个关键环节来解决，特别是在互联网连接系统的时代，安全威胁和漏洞会对我们的客户和系统的使用者造成实际伤害。构建安全软件的目标并不是要达到完美，而是要了解漏洞和攻击所涉及的风险。拥有一个适当的安全威胁模型和一个系统的方法来理解风险所在，以及哪些类型的威胁值得优先考虑和设计缓解措施，是安全设计和工程实践的开始。</p><p>今天，随着我们的软件系统成为现代社会更多部分的关键任务服务的一部分，安全不再是可有可无的了。在我们设计的系统中，从一开始就认真对待安全问题，使我们更接近于能够更好地依赖我们所建立和部署的软件，以满足我们用户的需求。赢得客户的信任已经很不容易了，只需要一个漏洞就可以失去很好的一部分信任。</p><h1 id="现代设计模式"><a href="#现代设计模式" class="headerlink" title="现代设计模式"></a>现代设计模式</h1><p>鉴于以上几个方面，现代分布式系统的一些模式已经出现，以不同的方式解决了这些方面的一些问题。让我们来探讨一下我们今天看到的关于系统设计的五个方面的一些比较流行的设计模式。</p><h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>随着分布式系统的兴起，其重点是通过冗余建立可靠性和规模，通过横向扩展建立效率和性能，以及通过将系统的部分解耦为独立运行的服务来建立弹性，”微服务 “一词通过实现以下几点而得到普及：</p><ul><li>将独立服务的开发、部署、操作和维护与在更大的商业运作中拥有这些服务的团队联系起来。我们可以通过直接为外部客户提供服务或通过API间接为内部客户提供服务来做到这一点。</li><li>允许微服务根据需求独立扩展。</li><li>通过一个定义明确的合同提供服务，允许实施者发展成为一个独立的服务或一个服务系统。</li></ul><p>通过我们的方面来看，微服务有吸引人的特性，如果适用于用例的话，这使它成为一个好的模式：</p><ul><li>可扩展性：无状态的微服务通常被设计成可横向扩展的，也可以从纵向扩展中受益。在容器化协调环境（如Kubernetes集群）中部署微服务的情况下，微服务甚至可以在相同的节点上运行，从而更好地利用现有的硬件，并根据需求扩展可用的容量。一个缺点是，当一个微服务的规模和关键性在一个微服务图中增长时，部署的复杂性。</li><li>可靠性：无状态的微服务通常被托管在负载平衡器后面，并在地理上分布，以避免区域性故障占用所有系统的容量。用无状态微服务建立可靠性的一个缺点是，存储系统通常需要和微服务的实现&#x2F;部署一样可靠，甚至比它更可靠。有状态的微服务就会受到两种方法中最糟糕的影响，可靠性的成本通常是以过度配置的形式来处理潜在的中断。</li><li>可维护性：实现通过API提供的定义明确且稳定的合同的微服务，允许客户针对该API进行编程，并且实现可以独立发展。然而，协调API的变化涉及潜在的昂贵的客户端迁移和跨团队协调，引入了一个微服务拥有多个积极支持的版本的时期，直到最后的客户端从旧的实现中迁移出来。随着越来越多的客户开始与微服务互动，这种情况只会变得更糟。</li><li>可用性：微服务通常依靠部署环境和外部基础设施来满足客户的可用性要求。这样做的坏处是依赖部署微服务的特定基础设施来提供高可用性解决方案。像服务网和软件负载平衡器这样的系统成为基础设施的关键部分，不再由实施者控制。这可能是一件好事，但也可能是一个持续的维护来源，因为这些系统也有更新周期和运营成本。</li><li>安全性：认证、授权、身份管理和凭证管理可以委托给中间件或通过外部机制（如Kubernetes中的工作负载身份），微服务实施可以专注于整合相关的业务逻辑。与可用性一样，缺点是解决方案的这些外部部分成为基础设施的关键部分，在微服务实施的基础上带来自己的运营成本。</li></ul><p>微服务是分解大型应用的一个好方法，在这里可以确定需要自己的扩展和可靠性域的逻辑分区。不过，当从头开始时，从一开始就设计微服务是不太理想的，因为有可能将服务分解成太小的碎片。微服务之间的通信成本–通常为HTTP或gRPC请求–是很重要的，只有在必要时才应该产生。确定功能是否适合于一个服务的一个好方法是遵循领域驱动设计或功能分解这样的做法。</p><h2 id="Serverless"><a href="#Serverless" class="headerlink" title="Serverless"></a>Serverless</h2><p>如同在基于微服务的解决方案中，使用无服务器实现进一步将服务请求的关键功能部分委托给底层基础设施。如果在微服务中，服务是由一个持久化进程提供的，那么无服务器解决方案通常只实现一个入口点，以处理对一个端点的请求（通常是通过HTTP或gRPC的URI）。在无服务器部署中，没有配置实际的服务器，而是由部署环境根据需要启动资源来处理进来的请求。有时，这些资源会停留一段时间，以摊销启动它们的成本，但这只是一个实施细节。</p><p>让我们通过系统设计的各个方面来看看无服务器解决方案是如何叠加的：</p><ul><li>可扩展性：无服务器解决方案与微服务一样具有横向可扩展性，甚至更强，因为它们被设计为可按需调整规模。这种方法的缺点是需要更多的控制，并将扩展功能完全委托给底层无服务器基础设施。</li><li>可靠性：无服务器的可靠性取决于水平扩展和网络流量路由的能力。这与微服务解决方案有相同的缺点。</li><li>可维护性：无服务器的实现比微服务更易维护，因为它专注于处理请求的业务逻辑，并尽量减少模板。这与微服务所存在的API进化问题相同。</li><li>可用性：无服务器部署的可用性与它们所部署的环境一样。这也有同样的问题，底层基础设施变得比解决方案本身更重要。</li><li>安全性：无服务器的实现完全依赖于底层基础设施的安全配置。这也有同样的问题，底层基础设施变得比实际解决方案本身更关键。</li></ul><p>无服务器解决方案，或功能即服务，是一种非常有吸引力的方式，通过关注业务逻辑和价值，让底层基础设施处理服务的可扩展性、可靠性和可用性，来进行原型设计甚至部署生产级解决方案。这是一个典型的起点，可以让一个具有最小运营负担的解决方案启动和运行，对于大多数原型来说，这是一个证明我们假设的好方法。这也是一个典型的经验，一旦这些解决方案达到了扩展的极限，与运行这些相关的成本就变得足够高。这些都变成了根据所需规模调整的更优化的微服务实现。</p><h2 id="事件驱动"><a href="#事件驱动" class="headerlink" title="事件驱动"></a>事件驱动</h2><p>然而，有些问题领域不需要在线交易处理，而微服务和无服务器的实现并不完全符合要求。考虑到可以在后台或在有资源的情况下处理事务的情况。另一种情况是后台处理活动，其结果不一定是互动的。</p><p>事件驱动的系统遵循的模式是有一个事件源和事件汇，事件（消息）分别来自和被发送。处理是由订阅者和发布者分别对这些源和汇进行的。事件驱动系统的一个例子是一个聊天机器人，它可以参与许多对话（事件源和汇），并在它们进来时处理消息。</p><p>分布式事件驱动系统可以有多个并发的消息处理程序在相同的源上等待，可能会发布太多的汇，作为其他消息处理程序的源。这种通过汇和源将处理器连锁起来的模式被称为事件管道。通常情况下，汇和源有一个单一的实现，提供一个消息队列接口，并根据通过系统的消息需求来进行扩展。许多分布式队列管理系统也可以有效地从对角线扩展中获益，比如Apache Kafka、RabbitMQ等。</p><p>让我们通过我们的五个方面来研究分布式事件驱动系统：</p><ul><li>可扩展性：消息&#x2F;事件代理实现和消息处理程序都可以独立扩展。当处理太多的消息&#x2F;事件时，一些缺点就会出现，对事件代理的需求增长远远超过系统的可用容量。</li><li>可靠性：好的消息代理实现提供高水平的可靠性，不创建自己的消息代理实现是个好主意。缺点是对满足可靠性需求的解决方案的依赖性（例如，处理金融交易与处理聊天室的即时信息路由有很大不同）。</li><li>可维护性：如果你使用像协议缓冲区这样灵活的消息交换格式，那么在使用相同的数据描述语言的同时进化消息的写入者和读取者也是合理的。这仍然需要协调，但不像在实时交易处理系统中演变API合同那样繁琐（如在微服务和无服务器实现中）。</li><li>可用性：由于消息通常存储在耐用介质中，事件驱动的系统通常更容易实现可用性，特别是由于它们通常是非交互式应用。可用性的代价可能来自陈旧的消息和无限制的队列处理延迟。</li><li>安全性：事件驱动的系统必须管理独立于身份和证书的数据可用性。确保只有某些服务或消息处理器可以访问特定的消息队列或日志，这成为一项全职工作，因为更多不同的数据会通过系统被挖掘出来。</li></ul><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>现代软件工程需要设计可扩展、可靠、可维护、可用和安全的系统。设计分布式系统需要非常严格的要求，因为现代系统的现实复杂性随着社会对更好的软件服务的需求而增长。我们回顾了分布式系统的三种现代设计模式，并研究了设计良好的系统的五个方面。</p><p>作为软件工程师，我们负责设计系统，解决现代分布式系统的关键问题。</p><p>在该系列的下一篇文章中，我将会写到测试及其在现代软件工程中的作用。</p><p>【转自】 <a href="https://betterprogramming.pub/modern-software-engineering-a-series-part-1-system-design-d689fabae772">https://betterprogramming.pub/modern-software-engineering-a-series-part-1-system-design-d689fabae772</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在80年代末90年代初长大的我，对电脑的接触几乎仅限于游戏机（我认为是Atari 800和Commodore 64游戏机，因为我只看到过在它们上面运行的游戏）或早期的x86系统。直到2000年我上了大学，我才掌握了一台Sun Microsystems SPARC工作站、UN
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.com/tags/Development/"/>
+    
+      <category term="Repost" scheme="https://ismdeep.com/tags/Repost/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux通用802.1x认证方法</title>
+    <link href="https://ismdeep.com/posts/2023-03-13-linux-802-1x-authorization.html"/>
+    <id>https://ismdeep.com/posts/2023-03-13-linux-802-1x-authorization.html</id>
+    <published>2023-03-13T03:42:04.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="什么是-802-1X"><a href="#什么是-802-1X" class="headerlink" title="什么是 802.1X ?"></a>什么是 802.1X ?</h1><p>IEEE 802.1X是一种网络访问控制（NAC）协议，它定义了一种在网络交换机或接入点上进行认证的标准方式。它是一个端口级别的访问控制协议，通过端口的身份验证来控制网络上的主机是否有权访问资源。IEEE 802.1X提供了一种允许网络管理员验证用户的身份、检查设备是否满足最低安全标准并允许或拒绝访问网络的方法。 </p><p>使用IEEE 802.1X，网络管理员可以防止未经授权的设备、病毒或其他恶意软件进入网络并对网络进行攻击。此外，它也提供了一种机制来保护网络免受暴力破解、ARP欺骗和MAC地址欺骗等攻击形式。因此，IEEE 802.1X可以增加网络的安全性以确保网络的保密性和数据完整性。</p><h1 id="Linux环境"><a href="#Linux环境" class="headerlink" title="Linux环境"></a>Linux环境</h1><p>Linux下网络配置工具不同的发行版之间略有不同，而且有些发行版默认的网络工具存在问题，会导致认证失败的问题。</p><p>本文提供一种基于Docker的认证方法。</p><p>首先当然需要安装 Docker 和 docker-compose</p><h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><h2 id="docker-compose-配置"><a href="#docker-compose-配置" class="headerlink" title="docker-compose 配置"></a>docker-compose 配置</h2><p>Dockerfile</p><pre><code>FROM debian:11RUN set -e; \    apt-get update; \    apt-get upgrade -y; \    apt-get install -y net-tools wpasupplicant</code></pre><p>docker-compose.yaml</p><pre><code>version: &#39;3&#39;services:  uniteos:    build:      context: ./      dockerfile: Dockerfile    command: wpa_supplicant -D wired -i enp3s0 -c /wpa.conf -dd -t    network_mode: host    volumes:      - ./wpa.conf:/wpa.conf:ro    restart: always</code></pre><h2 id="wpa-配置文件"><a href="#wpa-配置文件" class="headerlink" title="wpa 配置文件"></a>wpa 配置文件</h2><p>wpa.conf</p><pre><code>ctrl_interface=/var/run/wpa_supplicantctrl_interface_group=rootap_scan=0network=&#123;  key_mgmt=IEEE8021X  eap=PEAP  phase2=&quot;autheap=GTC&quot;  identity=&quot;&lt;username&gt;&quot;  password=&quot;&lt;password&gt;&quot;  priority=2&#125;</code></pre><h1 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h1><pre><code>docker-compose up -d</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;什么是-802-1X&quot;&gt;&lt;a href=&quot;#什么是-802-1X&quot; class=&quot;headerlink&quot; title=&quot;什么是 802.1X ?&quot;&gt;&lt;/a&gt;什么是 802.1X ?&lt;/h1&gt;&lt;p&gt;IEEE 802.1X是一种网络访问控制（NAC）协议，它定义了一种
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.com/tags/Docker/"/>
+    
+      <category term="802.1x" scheme="https://ismdeep.com/tags/802-1x/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>通过 godepgraph 优化Go项目代码结构</title>
+    <link href="https://ismdeep.com/posts/2023-02-15-optimize-golang-project-code-structure-with-godepgraph.html"/>
+    <id>https://ismdeep.com/posts/2023-02-15-optimize-golang-project-code-structure-with-godepgraph.html</id>
+    <published>2023-02-15T09:19:12.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在Golang项目开发过程中，发现一些启动依赖关系搞不清楚的问题。项目中会使用 <code>init()</code> 函数进行初始化，然而一个项目会有多个可执行程序，比如： </p><ul><li>A 程序仅调用 A 应用应该调用的 init 代码，结果在开发过程中，却使得 A 应用调用了其他应用程序的 init 代码。然而这种问题，在构建阶段是无法发现的。</li><li>原本规划好了调用层级，比如大致调用层级关系如： app层 -&gt; internal层 -&gt; pkg层</li></ul><p>本文将介绍如何使用 godepgraph 工具解决 Golang 项目开发过程中优化代码结构。</p><h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="bash">go install github.com/kisielk/godepgraph@latest</code></pre><h1 id="基础运行"><a href="#基础运行" class="headerlink" title="基础运行"></a>基础运行</h1><pre><code class="bash">godepgraph github.com/ismdeep/station/cmd/server</code></pre><p>输出如下：</p><pre><code>digraph godep &#123;splines=orthonodesep=0.4ranksep=0.8node [shape=&quot;box&quot;,style=&quot;rounded,filled&quot;]edge [arrowsize=&quot;0.5&quot;]&quot;bufio&quot; [label=&quot;bufio&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/bufio&quot; target=&quot;_blank&quot;];&quot;bytes&quot; [label=&quot;bytes&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/bytes&quot; target=&quot;_blank&quot;];&quot;compress/bzip2&quot; [label=&quot;compress/bzip2&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/bzip2&quot; target=&quot;_blank&quot;];&quot;compress/flate&quot; [label=&quot;compress/flate&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/flate&quot; target=&quot;_blank&quot;];&quot;compress/gzip&quot; [label=&quot;compress/gzip&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/gzip&quot; target=&quot;_blank&quot;];&quot;compress/zlib&quot; [label=&quot;compress/zlib&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/zlib&quot; target=&quot;_blank&quot;];&quot;container/list&quot; [label=&quot;container/list&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/container/list&quot; target=&quot;_blank&quot;];&quot;unicode&quot; [label=&quot;unicode&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode&quot; target=&quot;_blank&quot;];&quot;unicode/utf16&quot; [label=&quot;unicode/utf16&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode/utf16&quot; target=&quot;_blank&quot;];&quot;unicode/utf8&quot; [label=&quot;unicode/utf8&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode/utf8&quot; target=&quot;_blank&quot;];&quot;unsafe&quot; [label=&quot;unsafe&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unsafe&quot; target=&quot;_blank&quot;];&#125;</code></pre><p>但是这样的输出显示是有太多是我们不想去关心的。可以通过以下参数进行筛选。</p><h1 id="筛选"><a href="#筛选" class="headerlink" title="筛选"></a>筛选</h1><p>通过 <code>-onlyprefixes</code> 可以筛选仅以某个包名为前缀的包。</p><pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server</code></pre><h1 id="结合-graphviz-可视化依赖树"><a href="#结合-graphviz-可视化依赖树" class="headerlink" title="结合 graphviz 可视化依赖树"></a>结合 graphviz 可视化依赖树</h1><p>首先安装 graphviz 包</p><pre><code>sudo apt updatesudo apt install -y graphviz</code></pre><p>产生依赖关系树并输出svg图片</p><pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server | dot -Tsvg -o server.svg</code></pre><p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2023/02/16/8a02a3a4014094adbd2ddd1e283c5ec6-86bbd4.svg" alt="server"></p><h1 id="小技巧-sed"><a href="#小技巧-sed" class="headerlink" title="小技巧 sed"></a>小技巧 sed</h1><p>从上图来看，包名前缀也是比较多余，可以通过 sed 命令清理掉。</p><pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server | sed &#39;s/github\.com\/ismdeep\/station\///g&#39; | dot -Tsvg -o server.svg</code></pre><p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2023/02/16/a7e48b23290bd455f8ba6b356d548874-5625ac.svg" alt="server"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近在Golang项目开发过程中，发现一些启动依赖关系搞不清楚的问题。项目中会使用 &lt;code&gt;init()&lt;/code&gt; 函数进行初始化，然而一个项目会有多个可执行程序，比如： &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A 程序仅调用 A 应用应该调用的 init 代码，结果在开发过程
+      
+    
+    </summary>
+    
+    
+      <category term="Go" scheme="https://ismdeep.com/tags/Go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>tmux</title>
+    <link href="https://ismdeep.com/posts/2022-11-06-tmux.html"/>
+    <id>https://ismdeep.com/posts/2022-11-06-tmux.html</id>
+    <published>2022-11-06T14:53:31.000Z</published>
+    <updated>2024-06-23T03:43:04.340Z</updated>
+    
+    <content type="html"><![CDATA[<p>Easy way to use tmux.</p><span id="more"></span><h2 id="Show-session-list"><a href="#Show-session-list" class="headerlink" title="Show session list"></a>Show session list</h2><pre><code class="bash">tmux ls</code></pre><h2 id="Create-a-new-session"><a href="#Create-a-new-session" class="headerlink" title="Create a new session"></a>Create a new session</h2><pre><code class="bash">tmux new -s &lt;session-name&gt;</code></pre><h2 id="Attach-a-session"><a href="#Attach-a-session" class="headerlink" title="Attach a session"></a>Attach a session</h2><pre><code class="bash">tmux attach -t &lt;session-name&gt;</code></pre><p>or</p><pre><code class="bash">tmux a -t &lt;session-name&gt;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Easy way to use tmux.&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.com/tags/Linux/"/>
+    
+  </entry>
+  
+</feed>

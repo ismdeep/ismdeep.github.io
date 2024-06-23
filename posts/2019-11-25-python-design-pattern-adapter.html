@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Python 设计模式之适配器模式 | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python 设计模式之适配器模式</h1>
+        </header>
+
+        <div class="post-content">
+            <p><strong>意图：</strong> 将一个类的接口转换成客户希望的另一个接口。适配器模式使得原本由于接口不兼容而不能一起工作的那些类可以一起工作。</p>
+<p><strong>适用性：</strong> 1. 你想使用一个类已经存在的类，而它的接口不符合你的需求。 2. 你想创建一个可以复用的类，该类可以与其他不相关的类或不可预见的类（即那些接口可能不一定兼容的类）协同工作。</p>
+<p>现实中有很多适配器设计模式的例子，比如国内的电脑拿到欧洲那边是不能直接使用的，因为电脑的电源插口是不一样的，欧洲那边电源提供的电压是110V，这个时候就需要一个转接器就将110V电压转换成220V电压，这个时候就可以使用国内购买的电脑了。这个转接器用的就是适配器模式</p>
+<pre><code class="c"># coding:utf-8
+
+
+def printInfo(info):
+    print(info)
+
+
+# 球员类
+class Player():
+    name = &#39;&#39;
+
+    def __init__(self, name):
+        self.name = name
+
+    def Attack(self):
+        pass
+
+    def Defense(self):
+        pass
+
+
+# 前锋
+class Forwards(Player):
+    def __init__(self, name):
+        Player.__init__(self, name)
+
+    def Attack(self):
+        printInfo(&quot;前锋%s 进攻&quot; % self.name)
+
+    def Defense(self):
+        printInfo(&quot;前锋%s 防守&quot; % self.name)
+
+
+# 中锋
+class Center(Player):
+    def __init__(self, name):
+        Player.__init__(self, name)
+
+    def Attack(self):
+        printInfo(&quot;中锋%s 进攻&quot; % self.name)
+
+    def Defense(self):
+        printInfo(&quot;中锋%s 防守&quot; % self.name)
+
+
+# 后卫
+class Guards(Player):
+    def __init__(self, name):
+        Player.__init__(self, name)
+
+    def Attack(self):
+        printInfo(&quot;后卫%s 进攻&quot; % self.name)
+
+    def Defense(self):
+        printInfo(&quot;后卫%s 防守&quot; % self.name)
+
+
+# 外籍中锋（待适配类）
+# 中锋
+class ForeignCenter(Player):
+    name = &#39;&#39;
+
+    def __init__(self, name):
+        Player.__init__(self, name)
+
+    def ForeignAcctack(self):
+        printInfo(&quot;外籍中锋%s 进攻&quot; % self.name)
+
+    def ForeignDefense(self):
+        printInfo(&quot;外籍中锋%s 防守&quot; % self.name)
+
+
+# 翻译（适配类）
+class Translator(Player):
+    foreign_center = None
+
+    def __init__(self, name):
+        self.foreign_center = ForeignCenter(name)
+
+    def Attack(self):
+        self.foreign_center.ForeignAcctack()
+
+    def Defense(self):
+        self.foreign_center.ForeignDefense()
+
+
+def clientUI():
+    b = Forwards(&quot;巴蒂尔&quot;)
+    ym = Guards(&quot;姚明&quot;)
+    m = Translator(&quot;麦克格雷迪&quot;)
+
+    b.Attack()
+    m.Defense()
+    ym.Attack()
+    ym.Defense()
+
+
+clientUI()
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">November 25, 2019&nbsp;&nbsp;19:02:04</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.com/posts/2019-11-25-python-design-pattern-adapter.html">https://ismdeep.com/posts/2019-11-25-python-design-pattern-adapter.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Java/">#Java</a>
+                        
+                            <a href="/tags/Python/">#Python</a>
+                        
+                            <a href="/tags/Design-Pattern/">#Design Pattern</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
