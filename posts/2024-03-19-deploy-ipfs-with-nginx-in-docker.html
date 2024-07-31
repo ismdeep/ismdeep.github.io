@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Deploy IPFS with Nginx in Docker | ismdeep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternate" href="/atom.xml" title="ismdeep" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+<a class="site-title" href="/" id="logo">ismdeep</a>
+
+
+  <a href="/resource">Resource</a>
+
+  <a href="/archives">Archives</a>
+
+  <a href="/tweets">Tweets</a>
+
+  <a href="/about">About</a>
+
+</header>
+<!--<hr>-->
+
+      <div class="outer">
+        <div id="main"><article id="post-2024-03-19-deploy-ipfs-with-nginx-in-docker" itemscope itemprop="blogPost">
+  <div>
+    
+    
+      <header class="article-header">
+        
+  
+    <h1>Deploy IPFS with Nginx in Docker</h1>
+  
+
+      </header>
+      <div>
+      2024-03-19
+      
+        /
+        
+          <span><a href="/tags/IPFS/">IPFS</a></span>
+        
+      
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <div class="toc-container">
+          
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Create-files"><span class="toc-text">Create files</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Init-IPFS-Data"><span class="toc-text">Init IPFS Data</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Set-IPFS-config"><span class="toc-text">Set IPFS config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Start-IPFS"><span class="toc-text">Start IPFS</span></a></li></ol>
+  </div>
+
+
+        </div>
+
+        <p>This post is mainly to help reader to deploy an IPFS service with nginx proxy which provides basic authorizations.</p>
+<p>A quick start is the following steps.</p>
+<p>Some basic requirements:</p>
+<ul>
+<li>Docker should already be installed on your computer.</li>
+<li>Basic Linux terminal skills.</li>
+</ul>
+<h1 id="Create-files"><a href="#Create-files" class="headerlink" title="Create files"></a>Create files</h1><ol>
+<li><p>Create folder</p>
+<pre><code>$ mkdir ipfs
+$ cd ipfs
+</code></pre>
+</li>
+<li><p>Create <code>docker-compose.yaml</code></p>
+<pre><code>version: &#39;3&#39;
+
+services:
+  ipfs:
+    container_name: ipfs
+    image: ipfs/kubo:latest
+    volumes:
+      - ./data/:/data/ipfs/
+    ports:
+      - &#39;8080:8080&#39;
+    restart: always
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - &#39;5001:5001&#39;
+    volumes:
+      - &#39;./default.conf:/etc/nginx/conf.d/default.conf:ro&#39;
+      - &#39;./htpasswd:/htpasswd:ro&#39;
+    restart: always
+</code></pre>
+</li>
+<li><p>Create <code>htpasswd</code></p>
+<pre><code>ljiang:$apr1$nShUpvO7$hizri44cnQwto/zQ0y3Ka0
+</code></pre>
+</li>
+<li><p>Create <code>default.conf</code></p>
+<pre><code>server &#123;
+    listen 5001;
+    server_name _;
+    client_max_body_size 2048000m;
+    location / &#123;
+        proxy_pass http://ipfs:5001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        auth_basic           &quot;Administrator’s Area&quot;;
+        auth_basic_user_file /htpasswd;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
+<h1 id="Init-IPFS-Data"><a href="#Init-IPFS-Data" class="headerlink" title="Init IPFS Data"></a>Init IPFS Data</h1><ol>
+<li><p>Make data folder</p>
+<pre><code>$ mkdir -p ./data/
+</code></pre>
+</li>
+<li><p>Init data</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs init
+</code></pre>
+</li>
+</ol>
+<h1 id="Set-IPFS-config"><a href="#Set-IPFS-config" class="headerlink" title="Set IPFS config"></a>Set IPFS config</h1><ol>
+<li><p>Set Addresses</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.API &#39;&quot;/ip4/0.0.0.0/tcp/5001&quot;&#39;
+$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.Gateway &#39;&quot;/ip4/0.0.0.0/tcp/8080&quot;&#39;
+</code></pre>
+</li>
+<li><p>Set API</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin &#39;[&quot;*&quot;]&#39;
+$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods &#39;[&quot;GET&quot;, &quot;PUT&quot;, &quot;POST&quot;]&#39;
+</code></pre>
+</li>
+</ol>
+<h1 id="Start-IPFS"><a href="#Start-IPFS" class="headerlink" title="Start IPFS"></a>Start IPFS</h1><pre><code>$ docker-compose up -d
+</code></pre>
+
+
+        
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'fbdbc0d8c335f558f9b7',
+    clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+    repo: 'ismdeep.github.io',
+    owner: 'ismdeep',
+    admin: ['ismdeep'],
+    id: md5(location.pathname),
+    language: 'en'
+  })
+  gitalk.render('gitalk-container')
+</script>
+
+        
+      
+    </div>
+  </div>
+</article>
+</div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 ismdeep
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+</body>
+</html>
