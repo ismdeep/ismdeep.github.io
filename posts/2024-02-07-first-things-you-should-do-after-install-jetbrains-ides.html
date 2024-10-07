@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>First things you should do after install jetbrains IDE | ismdeep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternate" href="/atom.xml" title="ismdeep" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+<a class="site-title" href="/" id="logo">ismdeep</a>
+
+
+  <a href="/resource">Resource</a>
+
+  <a href="/archives">Archives</a>
+
+  <a href="/tweets">Tweets</a>
+
+  <a href="/about">About</a>
+
+</header>
+<!--<hr>-->
+
+      <div class="outer">
+        <div id="main"><article id="post-2024-02-07-first-things-you-should-do-after-install-jetbrains-ides" itemscope itemprop="blogPost">
+  <div>
+    
+    
+      <header class="article-header">
+        
+  
+    <h1>First things you should do after install jetbrains IDE</h1>
+  
+
+      </header>
+      <div>
+      2024-02-07
+      
+        /
+        
+          <span><a href="/tags/Development/">Development</a></span>
+        
+          <span><a href="/tags/JetBrains/">JetBrains</a></span>
+        
+          <span><a href="/tags/Tools/">Tools</a></span>
+        
+      
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <div class="toc-container">
+          
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Disable-IDE-await"><span class="toc-text">Disable IDE await</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shortcut-for-Open-in-Terminal"><span class="toc-text">Shortcut for Open in Terminal</span></a></li></ol>
+  </div>
+
+
+        </div>
+
+        <p>JetBrains produces a suite of integrated development environments (IDEs) that are highly regarded by developers for their productivity-boosting features and user-friendly interfaces. Some of the most popular JetBrains IDEs include IntelliJ IDEA, PyCharm, WebStorm, PhpStorm, RubyMine, GoLand and etc.</p>
+<p>Here are some things you need to prepare in advance before using them formally.</p>
+<h1 id="Disable-IDE-await"><a href="#Disable-IDE-await" class="headerlink" title="Disable IDE await"></a>Disable IDE await</h1><p>“ide.await.scope.completion” to be a registry option that can be toggled to alter the behavior of JetBrains IDEs during shutdown. Sometimes when you close the IDE, it gets stuck at the ‘Closing Project’ dialog.</p>
+<p>Here’s a breakdown of the steps outlined in the workaround:</p>
+<ol>
+<li>Select “Help” from the main menu of IDE.</li>
+<li>Choose “Find Action.”</li>
+<li>Type “Registry…” and select it from the search results.</li>
+<li>In the opened list of registry options, find and disable the “ide.await.scope.completion” option.</li>
+</ol>
+<h1 id="Shortcut-for-Open-in-Terminal"><a href="#Shortcut-for-Open-in-Terminal" class="headerlink" title="Shortcut for Open in Terminal"></a>Shortcut for Open in Terminal</h1><ol>
+<li>Select “File” from the main menu of IDE.</li>
+<li>Choose “Setting”</li>
+<li>Select “Keymap” in the open dialog.</li>
+<li>Go to “Plugin” - “Terminal” - “Open in Terminal”</li>
+<li>Set a shortcut for “Open in Terminal”, “Ctrl + T” is recommended.</li>
+</ol>
+
+
+        
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'fbdbc0d8c335f558f9b7',
+    clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+    repo: 'ismdeep.github.io',
+    owner: 'ismdeep',
+    admin: ['ismdeep'],
+    id: md5(location.pathname),
+    language: 'en'
+  })
+  gitalk.render('gitalk-container')
+</script>
+
+        
+      
+    </div>
+  </div>
+</article>
+</div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 ismdeep
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+</body>
+</html>

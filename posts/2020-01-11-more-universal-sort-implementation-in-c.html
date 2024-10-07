@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>C语言实现更加通用的排序算法 | ismdeep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternate" href="/atom.xml" title="ismdeep" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+<a class="site-title" href="/" id="logo">ismdeep</a>
+
+
+  <a href="/resource">Resource</a>
+
+  <a href="/archives">Archives</a>
+
+  <a href="/tweets">Tweets</a>
+
+  <a href="/about">About</a>
+
+</header>
+<!--<hr>-->
+
+      <div class="outer">
+        <div id="main"><article id="post-2020-01-11-more-universal-sort-implementation-in-c" itemscope itemprop="blogPost">
+  <div>
+    
+    
+      <header class="article-header">
+        
+  
+    <h1>C语言实现更加通用的排序算法</h1>
+  
+
+      </header>
+      <div>
+      2020-01-11
+      
+        /
+        
+          <span><a href="/tags/Algorithm/">Algorithm</a></span>
+        
+          <span><a href="/tags/Hacker/">Hacker</a></span>
+        
+          <span><a href="/tags/C/">C</a></span>
+        
+      
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <div class="toc-container">
+          
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="toc-text">什么是排序算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%92%E5%BA%8F%E8%A7%84%E5%88%99"><span class="toc-text">自定义排序规则</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%8E%92%E5%BA%8F"><span class="toc-text">任意数据类型的排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+  </div>
+
+
+        </div>
+
+        <p>初学C语言的学生应该都写过排序算法吧。选择排序、插入排序还有快速排序。但是最初开始学的时候写的都是对一组整数（int）进行排序。而且排序规则也是写死在函数内部的。那么问题来了，如果给你这样一个需求：实现一个排序函数，要能够允许用户自定义排序规则，而且要能处理各种各样的数据类型。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>以上描述就是本文所需要实现的排序需求。</p>
+<p><strong>首先</strong> 我们要知道，所有其他语言能够实现的功能在C语言里面都是可以实现的。</p>
+<p><strong>再者</strong> C语言是非常底层的语言，需要更多的去理解内存结构。</p>
+<h1 id="什么是排序算法"><a href="#什么是排序算法" class="headerlink" title="什么是排序算法"></a>什么是排序算法</h1><p><strong>排序算法</strong>（Sorting Algorithm）就是一种用来将一组数据按照特定排序方式（例如：从小到大）进行重新排列的一种算法。最常考虑的排序方式就是数值顺序以及字典顺序。</p>
+<p>排序算法的输出需要满足以下两个要求：</p>
+<ol>
+<li>输出的元素任意两个相邻的元素必须满足排序算法定义的排序方式规则。</li>
+<li>所有输出的结果应与原数据组中的数据一样且各元素个数也一样。</li>
+</ol>
+<h1 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h1><h1 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h1><h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><h1 id="自定义排序规则"><a href="#自定义排序规则" class="headerlink" title="自定义排序规则"></a>自定义排序规则</h1><h1 id="任意数据类型的排序"><a href="#任意数据类型的排序" class="headerlink" title="任意数据类型的排序"></a>任意数据类型的排序</h1><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><pre><code class="c">bool cmp(const double *data_left, const double *data_right) &#123;
+    return *data_left &lt;= *data_right;
+&#125;
+</code></pre>
+<pre><code class="c">void select_sort(const void *data_start, const void *data_end, size_t item_size,
+                 bool (*cmp_func)(const void *, const void *)) &#123;
+    void *left = data_start;
+    while (left &lt; data_end) &#123;
+        void *min_p = left;
+        void *cur = min_p + item_size;
+        while (cur &lt; data_end) &#123;
+            if (!cmp_func(min_p, cur)) &#123;
+                min_p = cur;
+            &#125;
+            cur += item_size;
+        &#125;
+        void *tmp = malloc(item_size);
+        memcpy(tmp, left, item_size);
+        memcpy(left, min_p, item_size);
+        memcpy(min_p, tmp, item_size);
+        free(tmp);
+        left = left + item_size;
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="c">select_sort(a, a + 10, sizeof(double), cmp);
+</code></pre>
+<hr>
+<p>喵喵怪的小枪枪、biu~</p>
+
+
+        
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'fbdbc0d8c335f558f9b7',
+    clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+    repo: 'ismdeep.github.io',
+    owner: 'ismdeep',
+    admin: ['ismdeep'],
+    id: md5(location.pathname),
+    language: 'en'
+  })
+  gitalk.render('gitalk-container')
+</script>
+
+        
+      
+    </div>
+  </div>
+</article>
+</div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 ismdeep
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+</body>
+</html>
