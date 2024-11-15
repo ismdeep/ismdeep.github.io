@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Tips for Writing Bash Script | ismdeep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternate" href="/atom.xml" title="ismdeep" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+<a class="site-title" href="/" id="logo">ismdeep</a>
+
+
+  <a href="/resource">Resource</a>
+
+  <a href="/archives">Archives</a>
+
+  <a href="/tweets">Tweets</a>
+
+  <a href="/about">About</a>
+
+</header>
+<!--<hr>-->
+
+      <div class="outer">
+        <div id="main"><article id="post-2024-02-24-tips-for-writing-bash-script" itemscope itemprop="blogPost">
+  <div>
+    
+    
+      <header class="article-header">
+        
+  
+    <h1>Tips for Writing Bash Script</h1>
+  
+
+      </header>
+      <div>
+      2024-02-24
+      
+        /
+        
+          <span><a href="/tags/Linux/">Linux</a></span>
+        
+          <span><a href="/tags/Development/">Development</a></span>
+        
+          <span><a href="/tags/Bash/">Bash</a></span>
+        
+      
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <div class="toc-container">
+          
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-Writing-functions"><span class="toc-text">1. Writing functions</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-set-e"><span class="toc-text">2. set -e</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-realpath"><span class="toc-text">3. realpath</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-dirname"><span class="toc-text">4. dirname</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-BASH-SOURCE"><span class="toc-text">5. BASH_SOURCE</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-confirm-via-read"><span class="toc-text">6. confirm via read</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-variable-requirement"><span class="toc-text">7. variable requirement</span></a></li></ol>
+  </div>
+
+
+        </div>
+
+        <p>Bash (Bourne Again SHell) is a popular command-line shell and scripting language. It is commonly used on Unix-like operating systems, including Linux.</p>
+<h1 id="1-Writing-functions"><a href="#1-Writing-functions" class="headerlink" title="1. Writing functions"></a>1. Writing functions</h1><p>Bash functions are a way to group a set of commands and logic into a reusable block in a Bash script. They allow you to encapsulate common tasks or complex sequences of commands into a single callable entity. Here’s an example of how to define and use a Bash function:</p>
+<pre><code class="bash">function hello() &#123;
+  ...
+&#125;
+</code></pre>
+<p>or</p>
+<pre><code class="bash">hello() &#123;
+  ...
+&#125;
+</code></pre>
+<p><strong>Note: bash function will only return the return code of the last command that run in function.</strong></p>
+<p>For example: the <code>hello</code> function will not catch the return code of <code>command1</code></p>
+<pre><code class="bash">hello() &#123;
+  command1
+  command2
+&#125;
+</code></pre>
+<p>If you care about the execution results of all instructions throughout the entire function process, you need to use the “&amp;&amp;” symbol to chain all the commands together. Such as:</p>
+<pre><code class="bash">hello() &#123;
+  command1 &amp;&amp; \
+  command2
+&#125;
+</code></pre>
+<h1 id="2-set-e"><a href="#2-set-e" class="headerlink" title="2. set -e"></a>2. set -e</h1><p><code>set -e</code> is a common command used in Bash scripts. It sets an error handling flag that causes the script to exit immediately if any command within the script fails.</p>
+<pre><code class="bash">#!/bin/bash
+
+set -e
+
+# Some commands here...
+
+command1
+command2
+#...
+
+# If any command fails, the script will exit here
+</code></pre>
+<h1 id="3-realpath"><a href="#3-realpath" class="headerlink" title="3. realpath"></a>3. realpath</h1><p><code>realpath</code> is a command in bash that is used to get the absolute path of a file or directory. </p>
+<h1 id="4-dirname"><a href="#4-dirname" class="headerlink" title="4. dirname"></a>4. dirname</h1><p><code>dirname</code> is a built-in command in Bash scripts that returns the directory name part of a given path or the directory path of a given file path.</p>
+<h1 id="5-BASH-SOURCE"><a href="#5-BASH-SOURCE" class="headerlink" title="5. BASH_SOURCE"></a>5. BASH_SOURCE</h1><p><code>BASH_SOURCE</code> is an internal variable in the Bash shell. It holds the path of the script or function that is currently being executed.</p>
+<p>You can get absolute path of the bash script file you are running.</p>
+<pre><code class="bash">#!/usr/bin/env bash
+
+set -e
+
+bash_script=&quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;
+</code></pre>
+<p>And set the dirctory where bash script in as working directory.</p>
+<pre><code class="bash">#!/usr/bin/env bash
+
+set -e
+
+workdir=&quot;$(realpath &quot;$(dirname &quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;)&quot;)&quot;
+cd &quot;$&#123;workdir&#125;&quot;
+</code></pre>
+<h1 id="6-confirm-via-read"><a href="#6-confirm-via-read" class="headerlink" title="6. confirm via read"></a>6. confirm via read</h1><p>In Bash, you can use the <code>read</code> command to prompt for confirm input from the user. Here’s an example of how to write a confirm input in Bash:</p>
+<pre><code class="bash">read -p &quot;Are you sure [y/n]? &quot; -r name
+if [[ ! $name =~ ^[Yy]$ ]]
+then
+  echo &quot;==&gt; Aborted&quot;
+  exit 0
+fi
+</code></pre>
+<h1 id="7-variable-requirement"><a href="#7-variable-requirement" class="headerlink" title="7. variable requirement"></a>7. variable requirement</h1><p>The naive way to check if a variable is empty.</p>
+<pre><code class="bash">if [ &quot;$&#123;variable&#125;&quot; == &quot;&quot; ]; then
+  ...
+fi
+</code></pre>
+<p>The tidy code could be like:</p>
+<pre><code class="bash">a=&quot;$&#123;variable:?&#125;&quot;
+</code></pre>
+
+
+        
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'fbdbc0d8c335f558f9b7',
+    clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+    repo: 'ismdeep.github.io',
+    owner: 'ismdeep',
+    admin: ['ismdeep'],
+    id: md5(location.pathname),
+    language: 'en'
+  })
+  gitalk.render('gitalk-container')
+</script>
+
+        
+      
+    </div>
+  </div>
+</article>
+</div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 ismdeep
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+</body>
+</html>
