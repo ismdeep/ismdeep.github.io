@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Comparison of Ed25519 and RSA | ismdeep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternate" href="/atom.xml" title="ismdeep" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+<a class="site-title" href="/" id="logo">ismdeep</a>
+
+
+  <a href="/resource">Resource</a>
+
+  <a href="/archives">Archives</a>
+
+  <a href="/tweets">Tweets</a>
+
+  <a href="/about">About</a>
+
+</header>
+<!--<hr>-->
+
+      <div class="outer">
+        <div id="main"><article id="post-2024-05-10-ed25519-vs-rsa" itemscope itemprop="blogPost">
+  <div>
+    
+    
+      <header class="article-header">
+        
+  
+    <h1>Comparison of Ed25519 and RSA</h1>
+  
+
+      </header>
+      <div>
+      2024-05-10
+      
+        /
+        
+          <span><a href="/tags/Cryptography/">Cryptography</a></span>
+        
+      
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <div class="toc-container">
+          
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Key-Length"><span class="toc-text">Key Length</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Performance"><span class="toc-text">Performance</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Security"><span class="toc-text">Security</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Resistance-to-Quantum-Attacks"><span class="toc-text">Resistance to Quantum Attacks</span></a></li></ol>
+  </div>
+
+
+        </div>
+
+        <p>Ed25519 and RSA are two different public-key cryptographic algorithms, each with notable differences in terms of security and performance.</p>
+<h1 id="Key-Length"><a href="#Key-Length" class="headerlink" title="Key Length"></a>Key Length</h1><ul>
+<li>RSA relies on the multiplication of large prime numbers and typically uses key lengths of 2048 bits or longer. Ed25519, on the other hand, uses a key length of 256 bits.</li>
+<li>While Ed25519 has a shorter key length, its key space is more evenly distributed, making key generation easier and providing higher security.</li>
+</ul>
+<h1 id="Performance"><a href="#Performance" class="headerlink" title="Performance"></a>Performance</h1><ul>
+<li>Ed25519 is generally faster than RSA. This is because Ed25519 uses Elliptic Curve Cryptography (ECC) instead of modular exponentiation used in RSA, which tends to be more efficient.</li>
+<li>RSA can be computationally intensive, especially for key generation and encryption&#x2F;decryption processes, particularly with longer key lengths.</li>
+</ul>
+<h1 id="Security"><a href="#Security" class="headerlink" title="Security"></a>Security</h1><ul>
+<li>RSA has been around for a long time and has undergone extensive research and application. It is considered quite secure with appropriate key lengths (e.g., 2048 bits and above).</li>
+<li>Ed25519 is a newer algorithm, but it is based on elliptic curve cryptography and provides high security with relatively short key lengths, avoiding certain specific attacks present in RSA.</li>
+</ul>
+<h1 id="Resistance-to-Quantum-Attacks"><a href="#Resistance-to-Quantum-Attacks" class="headerlink" title="Resistance to Quantum Attacks"></a>Resistance to Quantum Attacks</h1><ul>
+<li>RSA is particularly vulnerable to attacks from quantum algorithms like Shor’s algorithm, which could compromise its long-term security in the era of quantum computing.</li>
+<li>Ed25519 is currently considered to have higher resistance against known quantum computing attacks.</li>
+</ul>
+<p>In summary, Ed25519 is generally regarded as a more secure and efficient choice, especially in resource-constrained environments like mobile or IoT devices. However, RSA remains one of the widely used traditional encryption algorithms in many systems, with its security and performance largely dependent on the chosen key length and implementation.</p>
+
+
+        
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'fbdbc0d8c335f558f9b7',
+    clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+    repo: 'ismdeep.github.io',
+    owner: 'ismdeep',
+    admin: ['ismdeep'],
+    id: md5(location.pathname),
+    language: 'en'
+  })
+  gitalk.render('gitalk-container')
+</script>
+
+        
+      
+    </div>
+  </div>
+</article>
+</div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 ismdeep
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+</body>
+</html>

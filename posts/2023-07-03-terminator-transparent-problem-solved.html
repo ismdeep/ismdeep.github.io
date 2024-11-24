@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>To solve Terminator split screen divider transparent background problem | ismdeep</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternate" href="/atom.xml" title="ismdeep" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+<a class="site-title" href="/" id="logo">ismdeep</a>
+
+
+  <a href="/resource">Resource</a>
+
+  <a href="/archives">Archives</a>
+
+  <a href="/tweets">Tweets</a>
+
+  <a href="/about">About</a>
+
+</header>
+<!--<hr>-->
+
+      <div class="outer">
+        <div id="main"><article id="post-2023-07-03-terminator-transparent-problem-solved" itemscope itemprop="blogPost">
+  <div>
+    
+    
+      <header class="article-header">
+        
+  
+    <h1>To solve Terminator split screen divider transparent background problem</h1>
+  
+
+      </header>
+      <div>
+      2023-07-03
+      
+        /
+        
+          <span><a href="/tags/Ubuntu/">Ubuntu</a></span>
+        
+          <span><a href="/tags/Linux/">Linux</a></span>
+        
+      
+      </div>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <div class="toc-container">
+          
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Edit-terminator-py"><span class="toc-text">Edit terminator.py</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-a-css-file"><span class="toc-text">Add a css file</span></a></li></ol>
+  </div>
+
+
+        </div>
+
+        <p>To solve the issue of Terminator terminal emulator’s split screen divider having a transparent background, you can try the following steps:</p>
+<p>In the Linux desktop environment, Terminator is a highly versatile terminal tool that allows for multiple horizontal and vertical splits of the current page. However, there is an issue where the divider between splits is transparent, <strong>which can sometimes make it difficult to distinguish between the split blocks</strong>.</p>
+<p>If you want to use a solid color as the background for the split line, you can use the following method:</p>
+<h2 id="Edit-terminator-py"><a href="#Edit-terminator-py" class="headerlink" title="Edit terminator.py"></a>Edit terminator.py</h2><p>Edit Terminator source code file <code>/usr/share/terminator/terminatorlib/terminator.py</code>. Please note that modifying this file requires <code>root</code> permissions.</p>
+<p>Search <code>background_type</code>, this should be in about line 495。</p>
+<pre><code>            if profiles[profile][&#39;background_type&#39;] == &#39;transparent&#39;:
+                bgalpha = profiles[profile][&#39;background_darkness&#39;]
+</code></pre>
+<p>Replace these two lines with:</p>
+<pre><code>            if profiles[profile][&#39;background_type&#39;] == &#39;image&#39;:
+                backgound_image = profiles[profile][&#39;background_image&#39;]
+            if profiles[profile][&#39;background_type&#39;] == &#39;transparent&#39; or profiles[profile][&#39;background_type&#39;] == &#39;image&#39;:
+                bgalpha = profiles[profile][&#39;background_darkness&#39;]
+</code></pre>
+<h2 id="Add-a-css-file"><a href="#Add-a-css-file" class="headerlink" title="Add a css file"></a>Add a css file</h2><p>Add a <code>~/.config/gtk-3.0/gtk.css</code> file in the user’s home directory with the following content:</p>
+<pre><code>.terminator-terminal-window separator &#123;
+  background: #303030;
+&#125;
+</code></pre>
+
+
+        
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/md5-js@0.0.3/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'fbdbc0d8c335f558f9b7',
+    clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+    repo: 'ismdeep.github.io',
+    owner: 'ismdeep',
+    admin: ['ismdeep'],
+    id: md5(location.pathname),
+    language: 'en'
+  })
+  gitalk.render('gitalk-container')
+</script>
+
+        
+      
+    </div>
+  </div>
+</article>
+</div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2024 ismdeep
+    </div>
+  </div>
+</footer>
+    </div>
+  </div>
+</body>
+</html>
