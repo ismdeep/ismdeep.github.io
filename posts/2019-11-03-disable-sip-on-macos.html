@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>关闭macOS上的SIP安全功能 | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 6,
+                orderedList: false,
+                scrollSmooth: true,
+            });
+        }
+    )
+</script>
+
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">关闭macOS上的SIP安全功能</h1>
+        </header>
+
+        <div class="post-content">
+            <p>macOS 从 10.11 就是开始在系统中增加了 SIP (System Integrity Protection) 安全设置功能，不关闭这个功能，在很多时候会有很多问题。比如笔者最近就遇到一个比较麻烦的问题，就是在每次重新编译C语言代码之后，首次运行都需要多运行一些时间。这部分时间应该就是系统在进行安全性检查。</p>
+<h3 id="关闭-Mac-的-SIP-安全设置功能"><a href="#关闭-Mac-的-SIP-安全设置功能" class="headerlink" title="关闭 Mac 的 SIP 安全设置功能"></a>关闭 Mac 的 SIP 安全设置功能</h3><ol>
+<li>重启 Mac，按住 Command + R 键知道 Apple Logo 出现，进入 Recovery Mode</li>
+<li>点击 Utilities &gt; Terminal</li>
+<li>在 Terminal 中输入 <code>csrutil disable</code> ，然后换行。</li>
+<li>重启 Mac</li>
+</ol>
+<p>这样 SIP 安全设置就已经被关闭了。如果想重新开启该安全设置，重复上面步骤，在第三步中将命令更换为 csrutil enable。</p>
+<p>PS：在关闭 SIP 之后发现CLion使用起来更加流畅了。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">November 3, 2019&nbsp;&nbsp;0:24:42</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.com/posts/2019-11-03-disable-sip-on-macos.html">https://ismdeep.com/posts/2019-11-03-disable-sip-on-macos.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/macOS/">#macOS</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
