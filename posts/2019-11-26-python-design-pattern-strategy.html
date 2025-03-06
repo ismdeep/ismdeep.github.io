@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Python 设计模式之策略模式 | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python 设计模式之策略模式</h1>
+        </header>
+
+        <div class="post-content">
+            <p><strong>意图：</strong> 定义一系列的算法，把它们一个个封装起来，并且使它们可相互替换。</p>
+<p><strong>主要解决：</strong> 在有多种算法相似的情况下，使用 <code>if..else</code> 所带来的复杂和难以维护。</p>
+<p><strong>何时使用：</strong> 一个系统有许多许多类，而区分它们的只是它们直接的行为。</p>
+<p><strong>关键代码：</strong> 实现同一个接口。</p>
+<p><strong>应用实例：</strong> 1. 诸葛亮的精囊妙计，每一个精囊就是一个策略。 2. 旅行的出游方式，选择骑自行车、坐汽车，每一种旅行方式都是一个策略。 3. Java AWT 中的 LayoutManager</p>
+<p><strong>优点：</strong> 1. 算法可以自由切换。 2. 避免使用多重条件判断。 3. 扩展性良好。</p>
+<p><strong>缺点：</strong> 1. 策略类会增多。 2. 所有策略类都需要对外暴露。</p>
+<p><strong>使用场景：</strong> 1. 如果在一个系统里面有许多类，它们之间的区别仅在于它们的行为，那么使用策略模式可以动态地让一个对象在许多行为中选择一种行为。 2. 一个系统需要动态地在几种算法中选择一种。 3. 如果一个对象有很多的行为，如果不用恰当的模式，这些行为就只好使用多重的条件选择语句来实现。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/6c472e56a115d1678214d1454280a300-bfd2df.jpg" alt="photo_2019-11-26_17-02-49"></p>
+<pre><code class="python"># -*- coding: utf-8 -*-
+
+class TravelStrategy(object):
+    &#39;&#39;&#39;出行策略&#39;&#39;&#39;
+
+    def travelAlgorithm(self):
+        pass
+
+
+class AirplaneStrategy(TravelStrategy):
+    def travelAlgorithm(self):
+        print(&quot;坐飞机出行&quot;)
+
+
+class TrainStrategy(TravelStrategy):
+    def travelAlgorithm(self):
+        print(&quot;坐高铁出行....&quot;)
+
+
+class CarStrategy(TravelStrategy):
+    def travelAlgorithm(self):
+        print(&quot;自驾出行....&quot;)
+
+
+class BicycleStrategy(TravelStrategy):
+    def travelAlgorithm(self):
+        print(&quot;骑车出行....&quot;)
+
+
+class TravelInterface(object):
+    def __init__(self, travel_strategy):
+        self.travel_strategy = travel_strategy
+
+    def set_strategy(self, travel_strategy):
+        self.travel_strategy = travel_strategy
+
+    def travel(self):
+        return self.travel_strategy.travelAlgorithm()
+
+
+# 坐飞机
+travel = TravelInterface(AirplaneStrategy())
+travel.travel()
+
+# 改开车
+travel.set_strategy(TrainStrategy())
+travel.travel()
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">November 26, 2019&nbsp;&nbsp;16:53:33</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2019-11-26-python-design-pattern-strategy.html">https://ismdeep.github.io/posts/2019-11-26-python-design-pattern-strategy.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Java/">#Java</a>
+                        
+                            <a href="/tags/Python/">#Python</a>
+                        
+                            <a href="/tags/Design-Pattern/">#Design Pattern</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

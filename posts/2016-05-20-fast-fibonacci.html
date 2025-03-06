@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="ismdeep">
+
+
+    <meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>快速 Fibonacci 数列 | ismdeep</title>
+
+
+
+    <link rel="icon" href="/hacker.svg">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">ismdeep</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">ismdeep</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Archives</a>
+                
+                    <a class="menu-item" href="/resource">Resources</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/tweets">Tweets</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">快速 Fibonacci 数列</h1>
+        </header>
+
+        <div class="post-content">
+            <p>Fibonacci 数列是一个非常经典的例子，说得最通俗易懂的话就是： 1, 1, 2, 3, 5, 8, … 这样的一个数列，在数学上用数列形式表示为：$a_0 &#x3D; 1$, $a_1 &#x3D; 1$, $a_n &#x3D; a_{n - 1} + a_{n - 2}$.</p>
+<p>那么在计算 Fibonacci 数列这个问题上，当然大家应该都知道可以通过递推的方式来计算。</p>
+<pre><code class="c">/* Fibonacci 下标从 0 开始 */
+int fib(int n) &#123;
+    if (n &lt;= 1) &#123;
+        return 1;
+    &#125;
+
+    int f0 = 1;
+    int f1 = 1;
+    int t;
+
+    for (int i = 2; i &lt;= n; i++) &#123;
+        t = f0 + f1;
+        f0 = f1;
+        f1 = t;
+    &#125;
+
+    return f1;
+&#125;
+</code></pre>
+<p>当然，以上的程序效率非常高，复杂度很明显就是：$O(n)$ .</p>
+<p>以下我们来看看 Fibonacci 数列通过递归方式实现：</p>
+<pre><code class="c">/* Fibonacci 下标从 0 开始 */
+int fib(int n) &#123;
+    if (n &lt;= 1) &#123;
+        return 1;
+    &#125;
+
+    return fib(n - 1) + fib(n - 2);
+&#125;
+</code></pre>
+<p>当然，递归实现方式效率很慢，复杂度是：$O(2^n)$</p>
+<p>那么本文后面将通过<strong>增加一张记录表</strong>的方式来实现递归搜索的时候能够避免重复子程序搜索。</p>
+<pre><code class="c">/**
+  * 快速 fibonacci 数列
+  *
+  * Author: L. Jiang &lt;l.jiang.1024@gmail.com&gt;
+  */
+#include &lt;iostream&gt;
+
+using namespace std;
+
+/* MAXN 给1000肯定是会溢出的，这里只是给一个例子，快速 fibonacci */
+#define MAXN 1000
+
+int fib[MAXN];
+
+/* 初始化 */
+void init() &#123;
+    for (int i = 0; i &lt; MAXN; i++) &#123;
+        fib[i] = -1; // 因为fibonacci数列里面不可能出现-1，所以这里给每个数值都赋值为-1作为是否计算出结果的标记
+    &#125;
+    fib[0] = 0;
+    fib[1] = 1;
+&#125;
+
+// 递归去搜索
+// 这里不需要递归的临界判断，因为下标0和下标1都一定不为-1，一定可以return结果的。
+int search_fib(int index) &#123;
+    if (-1 != fib[index]) &#123;
+        return fib[index];
+    &#125; else &#123;
+        fib[index] = search_fib(index - 1) + search_fib(index - 2);
+        return fib[index];
+    &#125;
+&#125;
+
+int main() &#123;
+    init();
+    int n;
+    while (scanf(&quot;%d&quot;, &amp;n) != EOF) &#123;
+        int ans = search_fib(n);
+        printf(&quot;%d\n&quot;, ans);
+    &#125;
+&#125;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">May 20, 2016&nbsp;&nbsp;20:21:05</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2016-05-20-fast-fibonacci.html">https://ismdeep.github.io/posts/2016-05-20-fast-fibonacci.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2021 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/ACM-ICPC/">#ACM-ICPC</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© ismdeep</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
