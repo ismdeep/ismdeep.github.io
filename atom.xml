@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ismdeep</title>
+  
+  <subtitle>Enjoy programming and build awesome stuff.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ismdeep.github.io/"/>
+  <updated>2025-05-23T01:04:37.509Z</updated>
+  <id>https://ismdeep.github.io/</id>
+  
+  <author>
+    <name>ismdeep</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【检查清单】服务器系统安装检查清单</title>
+    <link href="https://ismdeep.github.io/posts/2025-05-22-server-system-installation.html"/>
+    <id>https://ismdeep.github.io/posts/2025-05-22-server-system-installation.html</id>
+    <published>2025-05-22T06:42:49.000Z</published>
+    <updated>2025-05-23T01:04:37.509Z</updated>
+    
+    <content type="html"><![CDATA[<p>以下内容应该在服务器系统安装完成后进行检查。</p><ul><li><p><input disabled="" type="checkbox"> 必备软件包</p><p><strong>Debian 系列：</strong></p><p>更新索引并升级软件包：</p><pre><code>$ sudo apt update &amp;&amp; sudo apt upgrade -y</code></pre><p>安装系统管理工具：</p><pre><code>$ sudo apt install -y htop glances tmux screen lsof strace dstat sysstat ncdu tree</code></pre><p>安装网络工具：</p><pre><code>$ sudo apt install -y iproute2 net-tools curl wget nmap traceroute mtr iperf3 tcpdump dnsutils</code></pre><p>安装监控与日志工具：</p><pre><code>$ sudo apt install -y logrotate goaccess</code></pre><p>安装安全相关工具：</p><pre><code>$ sudo apt install -y ufw fail2ban auditd iptables nftables</code></pre><p>安装文本和压缩工具：</p><pre><code>$ sudo apt install -y rsync vim pv tar gzip xz-utils zip unzip findutils grep sed</code></pre><p>安装版本控制和自动化工具：</p><pre><code>$ sudo apt install -y git cron ansible</code></pre><p><strong>CentOS 系列：</strong></p><p>更新索引并升级软件包：</p><pre><code>$ sudo yum update -y</code></pre><p>安装系统管理工具：</p><pre><code>$ sudo yum install -y htop tmux screen lsof strace sysstat ncdu tree</code></pre><p>安装网络工具：</p><pre><code>$ sudo yum install -y iproute net-tools curl wget nmap traceroute mtr iperf3 tcpdump bind-utils </code></pre><p>安装监控与日志工具</p><pre><code>$ sudo yum install -y logrotate</code></pre><p>安装安全相关工具</p><pre><code>$ sudo yum install -y firewalld audit sudo iptables-services nftables</code></pre><p>安装文本和压缩工具</p><pre><code>$ sudo yum install -y vim rsync pv tar gzip xz zip unzip findutils grep sed gawk</code></pre><p>安装版本控制和自动化工具</p><pre><code>$ sudo yum install -y git cronie ansible</code></pre></li><li><p><input disabled="" type="checkbox"> 配置 SSH 客户端保持在线</p><p>修改 <code>/etc/ssh/sshd_config</code> 中内容</p><pre><code>ClientAliveInterval 0ClientAliveCountMax 0</code></pre><p>并执行</p><pre><code>$ sudo systemctl restart sshd</code></pre></li><li><p><input disabled="" type="checkbox"> 配置 SSH 免密</p><p>方法一、通过 <code>ssh-copy-id</code> 添加免密公钥</p><p>方法二、将公钥内容加入到 <code>root</code> 账号的 <code>.ssh/authorized_keys</code> 文件中</p></li><li><p><input disabled="" type="checkbox"> 启用 sshd 服务</p><pre><code>$ sudo systemctl enable sshd --now</code></pre></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;以下内容应该在服务器系统安装完成后进行检查。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 
+必备软件包&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Debian 系列：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;更新索引并升级软件包：&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="Checklist" scheme="https://ismdeep.github.io/tags/Checklist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【检查清单】测试服务器系统安装后检查清单</title>
+    <link href="https://ismdeep.github.io/posts/2025-05-21-checklist-testing-pc-server.html"/>
+    <id>https://ismdeep.github.io/posts/2025-05-21-checklist-testing-pc-server.html</id>
+    <published>2025-05-21T02:55:09.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><input disabled="" type="checkbox"> 禁用 lightdm</p><p>执行 <code>$ sudo systemctl disable lightdm --now</code></p></li><li><p><input disabled="" type="checkbox"> 禁用开机画面</p><p>修改 &#x2F;etc&#x2F;default&#x2F;grub 将 <code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</code> 改成 <code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;&quot;</code> 并执行 <code>$ update-grub</code></p></li><li><p><input disabled="" type="checkbox"> 安装 xrdp</p><p>步骤一、安装 xrdp <code>$ sudo apt install -y xrdp</code></p><p>步骤二、修改 <code>/etc/xrdp/xrdp.ini</code> 将 <code>allow_channels</code> 值设置为 <code>false</code></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 
+禁用 lightdm&lt;/p&gt;
+&lt;p&gt;执行 &lt;code&gt;$ sudo systemctl disable lightdm --now&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Checklist" scheme="https://ismdeep.github.io/tags/Checklist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【检查清单】问题跟进表格检查清单</title>
+    <link href="https://ismdeep.github.io/posts/2025-05-21-checklist-issue-tracking.html"/>
+    <id>https://ismdeep.github.io/posts/2025-05-21-checklist-issue-tracking.html</id>
+    <published>2025-05-21T02:43:06.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>检查表头：</p><ul><li><input disabled="" type="checkbox"> 序号</li><li><input disabled="" type="checkbox"> 问题分类</li><li><input disabled="" type="checkbox"> 问题标题</li><li><input disabled="" type="checkbox"> 问题说明</li><li><input disabled="" type="checkbox"> 发现时间</li><li><input disabled="" type="checkbox"> 解决时间</li><li><input disabled="" type="checkbox"> 进度</li><li><input disabled="" type="checkbox"> 根因分析</li><li><input disabled="" type="checkbox"> 解决方法</li><li><input disabled="" type="checkbox"> 备注</li></ul><p>例如：</p><table><thead><tr><th>序号</th><th>问题分类</th><th>问题标题</th><th>问题说明</th><th>发现时间</th><th>解决时间</th><th>进度</th><th>根因分析</th><th>解决方法</th><th>备注</th></tr></thead><tbody><tr><td>1</td><td>XXXX</td><td>XXXX</td><td>XXXX</td><td>2025&#x2F;5&#x2F;13</td><td>2025&#x2F;5&#x2F;16</td><td>已解决</td><td>XXXX</td><td>XXXX</td><td></td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;检查表头：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 序号&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 问题分类&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; t
+      
+    
+    </summary>
+    
+    
+      <category term="Checklist" scheme="https://ismdeep.github.io/tags/Checklist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>资源推荐</title>
+    <link href="https://ismdeep.github.io/posts/resource.html"/>
+    <id>https://ismdeep.github.io/posts/resource.html</id>
+    <published>2025-05-05T12:24:59.000Z</published>
+    <updated>2025-05-23T01:04:37.509Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><ul><li><a href="https://wiki.csie.ncku.edu.tw/linux/schedule">Linux 核心設計&#x2F;實作 (Linux Kernel Internals)</a>, 黃敬群</li></ul><h1 id="算法竞赛"><a href="#算法竞赛" class="headerlink" title="算法竞赛"></a>算法竞赛</h1><ul><li><a href="https://github.com/OI-wiki/OI-wiki">OI-wiki</a>: 涵盖竞赛基础知识、常见题型、解题思路、常用工具等，帮助大家快速深入地学习编程竞赛。</li></ul><h1 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h1><ul><li><a href="https://wangcc.me/LSHTMlearningnote/">醫學統計學</a>，<em>王 超辰 Chaochen Wang</em></li><li><a href="https://bookdown.org/hezhijian/book/">数理统计讲义</a>，<em>何志坚</em></li></ul><h1 id="技能图谱"><a href="#技能图谱" class="headerlink" title="技能图谱"></a>技能图谱</h1><ul><li><a href="https://github.com/TeamStuQ/skill-map">StuQ 程序员技能图谱</a>，开源地址：<a href="https://github.com/TeamStuQ/skill-map">https://github.com/TeamStuQ/skill-map</a></li></ul><h1 id="密码学"><a href="#密码学" class="headerlink" title="密码学"></a>密码学</h1><ul><li><a href="https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.html">Cryptographic Mechanisms: Recommendations and Key Lengths</a>, 加密机制技术指南。<a href="https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.pdf?__blob=publicationFile&v=7">pdf</a></li></ul><h1 id="云原生"><a href="#云原生" class="headerlink" title="云原生"></a>云原生</h1><ul><li><a href="https://landscape.cncf.io/">Cloud Native Landscape</a> 云原生全景图。</li></ul><h1 id="图书馆"><a href="#图书馆" class="headerlink" title="图书馆"></a>图书馆</h1><ul><li><a href="https://freecomputerbooks.com/">https://freecomputerbooks.com/</a> 世界各地免费计算机、数学、技术书籍的链接。</li><li><a href="https://libgen.is/">Library Genesis</a></li></ul><h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><ul><li><a href="https://softwareengineering.stackexchange.com/questions/165725/git-branching-and-tagging-best-practices">Git branching and tagging best practices</a>, Git 分支和标签管理最佳实践，此文参考自：<a href="https://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a>, <a href="https://nvie.com/files/Git-branching-model.pdf">pdf</a></li><li><a href="https://beej.us/guide/bggit/">Beej’s Guide to Git</a></li></ul><h1 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h1><h2 id="优秀的代码仓库"><a href="#优秀的代码仓库" class="headerlink" title="优秀的代码仓库"></a>优秀的代码仓库</h2><ul><li><a href="https://github.com/IBM/fp-go">https://github.com/IBM/fp-go</a></li><li><a href="https://github.com/avelino/awesome-go">https://github.com/avelino/awesome-go</a></li></ul><h2 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h2><ul><li><a href="https://github.com/darius-khll/golang-developer-roadmap/blob/master/i18n/zh-CN/ReadMe-zh-CN.md">Go开发者路线图</a></li><li><a href="https://gfw.go101.org/">Go 101</a></li><li><a href="https://www.topgoer.com/">Go语言入门资料</a></li></ul><h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ul><li><a href="https://developer.aliyun.com/article/709387">数据库设计规范-阿里云开发者社区</a></li><li><a href="https://www.dboop.com/dba/%E4%BF%A1%E5%88%9B%E5%92%8C%E5%9B%BD%E4%BA%A7%E6%95%B0%E6%8D%AE%E5%BA%93/">信创和国产数据库</a></li><li><a href="https://github.com/awesome-selfhosted/awesome-selfhosted">Awesome-Selfhosted</a> 自托管软件宝藏库。</li><li><a href="https://www.sqlite.org/testing.html">How SQLite Is Tested</a></li></ul><h1 id="开放课程"><a href="#开放课程" class="headerlink" title="开放课程"></a>开放课程</h1><ul><li><a href="https://ocw.aca.ntu.edu.tw/ntu-ocw/">臺大開放式課程 (NTU OpenCourseWare)</a></li><li><a href="https://www.hardbreak.wiki/">开源硬件黑客Wiki</a></li><li><a href="https://www.scattered-thoughts.net/writing/small-tech/">Small Tech</a></li></ul><h1 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h1><ul><li><a href="https://www.alignmentforum.org/posts/NfFST5Mio7BCAQHPA/an-extremely-opinionated-annotated-list-of-my-favourite">An Extremely Opinionated Annotated List of My Favourite Mechanistic Interpretability Papers v2</a>: 我最喜欢的机械可解释性论 文的极具主观性的注释列表 v2</li><li><a href="https://www.jeremykun.com/2024/05/04/fhe-overview/">全同态加密的高级技术概述</a></li><li><a href="https://eprint.iacr.org/">Cryptology ePrint Archive</a></li><li><a href="https://arxiv.org/">arXiv</a>是一个收集物理学、数学、计算机科学和生物学的论文预印本的网站。</li></ul><h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><ul><li><p><a href="https://www.sublimetext.com/">Sublime Text</a><br>Debian&#x2F;Ubuntu 安装方法：<br>切换 <code>root</code> 账号下执行以下命令：</p><pre><code>$ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg &gt; /dev/null$ echo &quot;deb https://download.sublimetext.com/ apt/stable/&quot; | tee /etc/apt/sources.list.d/sublime-text.list$ apt-get update &amp;&amp; apt-get install sublime-text</code></pre></li><li><p><a href="https://tool.whatshub.top/">IT在线工具箱</a>: 涵盖UUID生成器、Base64编码解码、JSON美化等常用工具的在线网站。JSON格式化还有一个 <a href="https://jsonviewer.stack.hu/">Online JSON Viewer and Formatter</a> 值得推荐。</p></li><li><p><a href="https://www.usebruno.com/">Bruno</a> 是一个开源用于替代Postman、Insomnia等的快速且Git友好的API客户端。</p></li><li><p><a href="https://github.com/qishibo/AnotherRedisDesktopManager/releases">Another Redis Desktop Manager</a> 是一个支持 macOS, Windows, Linux 跨平台的 Redis 图形化客户端。</p></li><li><p><a href="https://www.jenkins.io/">Jenkins</a>: 自动构建流水线推荐使用 <a href="https://www.jenkins.io/">Jenkins</a> 部署。可以参照<a href="https://www.jenkins.io/doc/book/pipeline/syntax/">官方语法文档</a>，支持两种写法：声明式和脚本式。社区中很多人都在诟病基于 Groovy 语法的 Jenkinsfile 编写方式，有人开发出了支持 YAML 语法编写构建流水线脚本的插件 <a href="https://plugins.jenkins.io/pipeline-as-yaml/">Pipeline As Yaml Plugin for Jenkins</a> （链接含编写语法文档），不过这个插件目前还在孵化期，需要谨慎使用。</p></li><li><p><a href="https://regex-vis.com/">Regex Vis</a>: 一个图形化解释正则表达式的在线网站。</p></li><li><p><a href="https://coolors.co/palettes/trending">Coolors</a>: 配色推荐。</p></li><li><p><a href="https://locust.io/">Locust</a> 是一款支持分布式的性能压测工具。笔者还开发了一款用于部署Locust压测集群的工具 <a href="https://github.com/ismdeep/load-hive">load-hive</a> ，以及对应的示例项目 <a href="https://github.com/ismdeep/load-hive-demo">load-hive-demo</a></p></li><li><p><a href="https://www.freeplane.org/">freeplane</a> 是一款免费开源的软件应用，支持思考、分享信息、在工作、学校和家中完成任务。它为您提供了一套思维导图（也称为概念图或信息图）和导航映射信息的工具。Freeplane 的功能将吸引高级用户，但对于普通用户来说，它也是 Xmind、Mindmeister 和类似思维导图软件的更强大替代品。</p></li><li><p>文件对比工具</p><p>Linux: meld</p></li></ul><h2 id="系统工具"><a href="#系统工具" class="headerlink" title="系统工具"></a>系统工具</h2><ul><li><a href="https://asciinema.org/">asciinema</a> 是一个用于录制终端会话的工具。</li><li><a href="https://www.ventoy.net/">Ventoy</a>: 一个制作可启动U盘的开源工具，有了Ventoy你就无需反复地格式化U盘，只需要把 ISO&#x2F;WIM&#x2F;IMG&#x2F;VHD(x)&#x2F;EFI 等类型的文件直接拷贝到U盘里面即可。</li><li><a href="https://github.com/yudai/gotty">gotty</a>: 一个简单的Web浏览器中访问远端服务器终端命令行的工具。</li><li><a href="https://gnome-terminator.org/">terminator</a>: 一个使用简单但分屏功能强大的终端模拟器，极力推荐 Linux 用户使用🌟🌟🌟🌟🌟。Debian&#x2F;Ubuntu系列上只需要 <code>$ sudo apt install -y terminator</code> 即可安装。</li><li><a href="https://docs.xfce.org/apps/ristretto/start">ristretto</a> 是一款适配用于xfce4桌面环境的简易图像查看器。它能查看、全屏查看、缩放查看或以幻灯片视图查看图片。<pre><code>$ sudo apt install -y ristretto</code></pre></li><li><a href="engrampa">engrampa</a> 是 Linux 环境下非常优秀的压缩软件。<pre><code>$ sudo apt install -y engrampa</code></pre></li><li><a href="https://github.com/mate-desktop/atril">atril</a>: Linux 下文档阅读器。<pre><code>$ sudo apt install -y atril</code></pre></li></ul><h2 id="效率工具"><a href="#效率工具" class="headerlink" title="效率工具"></a>效率工具</h2><ul><li><a href="https://www.notion.so/">Notion</a>: 是一款集成了笔记、知识库、数据表格、看板、日历等多种能力于一体的应用程序。非常值得推荐🌟🌟🌟🌟🌟。</li><li><a href="https://acronymify.com/">Acronymify!</a>: 一个可以用来生成缩写词的在线工具。</li><li><a href="https://www.windy.com/">Windy</a>: Wind map &amp; weather forecast.</li><li><a href="https://chat.lmsys.org/">LMSYS</a>: Benchmarking LLMs and VLMs in the Wild.</li></ul><h1 id="Chrome-插件"><a href="#Chrome-插件" class="headerlink" title="Chrome 插件"></a>Chrome 插件</h1><ul><li><a href="https://chromewebstore.google.com/detail/proxy-switchyomega-3-zero/pfnededegaaopdmhkdmcofjmoldfiped">Proxy SwitchyOmega 3 (ZeroOmega)</a></li><li><a href="https://chromewebstore.google.com/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc">Octotree - GitHub code tree</a></li></ul><h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ul><li>代码文件长度检查（已 <code>.go</code> 文件为例）<pre><code>$ find ./ -type f -name &quot;*.go&quot; -exec awk &#39;length &gt; 120 &#123; print FILENAME &quot;:&quot; FNR; &#125;&#39; &#123;&#125; + | sed &#39;s|^\./||&#39;</code></pre></li><li>rsync<pre><code>$ rsync -a -r --no-i-r --info=progress2 --info=name0 --no-owner --no-group --no-perms --delete &#39;&lt;Src&gt;&#39; &#39;&lt;Dest&gt;&#39;</code></pre></li><li>进入被调用脚本所在目录<pre><code># Get to workdircd &quot;$(realpath &quot;$(dirname &quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;)&quot;)&quot;</code></pre></li></ul><h1 id="编程字体"><a href="#编程字体" class="headerlink" title="编程字体"></a>编程字体</h1><ul><li><a href="https://www.youtube.com/watch?v=ww2mIn5OsEI">哪个是程序员最爱的编程字体？2百万阅读的帖子选出最帅的七种字体 7 Best Fonts for Programming and Coding</a></li></ul><h1 id="效率工具-1"><a href="#效率工具-1" class="headerlink" title="效率工具"></a>效率工具</h1><h2 id="文件整理方法"><a href="#文件整理方法" class="headerlink" title="文件整理方法"></a>文件整理方法</h2><ul><li><a href="https://www.youtube.com/watch?v=l5n4D8HepWY">【效率】如何在一秒钟内找到文件，够用一辈子的文件整理方法</a></li></ul><h2 id="Notion"><a href="#Notion" class="headerlink" title="Notion"></a>Notion</h2><ul><li><a href="https://www.youtube.com/watch?v=OeSBaVM4lFI">如何靠玩「乐高」，每年赚100万美元？</a></li></ul><h1 id="博客站点"><a href="#博客站点" class="headerlink" title="博客站点"></a>博客站点</h1><ul><li><a href="https://qiwsir.github.io/">老齐教室</a>，齐伟</li><li><a href="https://blog.trailofbits.com/">Trail of Bits Blog</a></li><li><a href="http://arthurchiao.art/">ArthurChiao’s Blog</a></li><li><a href="https://wiki.linuxchina.net/">https://wiki.linuxchina.net/</a></li><li><a href="https://www.dboop.com/">https://www.dboop.com/</a></li><li><a href="https://www.huihoo.com/">https://www.huihoo.com/</a></li><li><a href="https://dthompson.us/">https://dthompson.us/</a></li><li><a href="https://www.systeminit.com/blog">https://www.systeminit.com/blog</a></li><li><a href="https://manateelazycat.github.io/">https://manateelazycat.github.io/</a></li></ul><h1 id="有趣的项目"><a href="#有趣的项目" class="headerlink" title="有趣的项目"></a>有趣的项目</h1><ul><li><a href="https://github.com/ading2210/linuxpdf">LinuxPDF</a></li><li><a href="https://github.com/ading2210/doompdf">DoomPDF</a></li></ul><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul><li><p><a href="https://www.youtube.com/watch?v=QZwgC5Ro-Vs">【没动力？没热情？】《认知觉醒》深度解析：成长你所需要知道的事情</a></p></li><li><p><a href="https://www.infoq.cn/article/FjTpGpRfPdWUyBWTQmd7">消息队列为何经久不衰</a></p></li><li><p><a href="https://mp.weixin.qq.com/s/EcXRnfIrdyLgJyhl0ITprg">2025年，我的第一个建议是别当程序员了！但如果非要当，这些办法可以教会你如何提升自己</a></p></li><li><p><a href="https://www.youtube.com/watch?v=tiN6T1LewmQ">搜索技术，普通人变强的唯一外挂。全套详细宝藏教程~</a></p></li><li><p><a href="https://www.cnblogs.com/Tsingwaa/articles/15945821.html">【中文论文Latex写作】Mac&#x2F;Win 在VS Code 配置 XeLaTeX 和 Git - Tsingwaa - 博客园</a></p></li><li><p><a href="https://www.ilograph.com/blog/posts/diagram-mistakes/">架构图中的 7 个常见错误 |Ilograph 博客 — 7 Common Mistakes in Architecture Diagrams | Ilograph Blog</a></p></li><li><p><a href="https://speakdatascience.com/postgresql-best-practices/">7 Crucial PostgreSQL Best Practices - Speak Data Science</a></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Linux&quot;&gt;&lt;a href=&quot;#Linux&quot; class=&quot;headerlink&quot; title=&quot;Linux&quot;&gt;&lt;/a&gt;Linux&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.csie.ncku.edu.tw/linux/schedul
+      
+    
+    </summary>
+    
+    
+      <category term="Resource" scheme="https://ismdeep.github.io/tags/Resource/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DockerHub 国内加速镜像列表</title>
+    <link href="https://ismdeep.github.io/posts/2025-04-15-docker-registry-mirrors.html"/>
+    <id>https://ismdeep.github.io/posts/2025-04-15-docker-registry-mirrors.html</id>
+    <published>2025-04-15T05:26:09.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>Docker Hub 是 Docker 提供的一项服务，用于与您的团队查找和共享容器映像。 它是世界上最大的容器映像存储库，其中包含一系列内容源，包括容器社区开发人员，开源项目和独立软件供应商（ISV），它们在容器中构建和分发其代码。</p><p>但是目前国内已经无法正常访问 Docker Hub 官方仓库了，对此通过镜像站拉取 Docker 镜像是一个不错的方案。以下列出一些优秀的镜像站相关的项目地址：</p><ul><li><a href="https://github.com/dongyubin/DockerHub">https://github.com/dongyubin/DockerHub</a></li><li><a href="https://github.com/kubesre/docker-registry-mirrors">https://github.com/kubesre/docker-registry-mirrors</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Docker Hub 是 Docker 提供的一项服务，用于与您的团队查找和共享容器映像。 它是世界上最大的容器映像存储库，其中包含一系列内容源，包括容器社区开发人员，开源项目和独立软件供应商（ISV），它们在容器中构建和分发其代码。&lt;/p&gt;
+&lt;p&gt;但是目前国内已经无法正常
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【已解决】CentOS系列系统在VirtualBox中Host-Only网络模式下没有默认路由</title>
+    <link href="https://ismdeep.github.io/posts/2025-03-26-fix-no-default-route-on-centos-in-virtualbox.html"/>
+    <id>https://ismdeep.github.io/posts/2025-03-26-fix-no-default-route-on-centos-in-virtualbox.html</id>
+    <published>2025-03-26T01:52:56.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、现象"><a href="#一、现象" class="headerlink" title="一、现象"></a>一、现象</h1><p>执行 <code>$ ip route</code> 命令，输出中没有默认路由。</p><pre><code>[root@localhost ~]# ip route192.168.56.0/24 dev enp0s3 proto kernel scope link src 192.168.56.102 metric 100 </code></pre><h1 id="二、解决方法"><a href="#二、解决方法" class="headerlink" title="二、解决方法"></a>二、解决方法</h1><p>编辑以下文件并重启系统：</p><pre><code>/etc/sysconfig/network-scripts/ifcfg-enp0s3</code></pre><p>参数配置如下（有则修改，没有则添加）：</p><pre><code>BOOTPROTO=noneIPADDR=192.168.56.101PREFIX=24GATEWAY=192.168.56.1</code></pre><h1 id="三、结果"><a href="#三、结果" class="headerlink" title="三、结果"></a>三、结果</h1><pre><code>[root@localhost ~]# ip routedefault via 192.168.56.1 dev enp0s3 proto static metric 100 192.168.56.0/24 dev enp0s3 proto kernel scope link src 192.168.56.101 metric 100 </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、现象&quot;&gt;&lt;a href=&quot;#一、现象&quot; class=&quot;headerlink&quot; title=&quot;一、现象&quot;&gt;&lt;/a&gt;一、现象&lt;/h1&gt;&lt;p&gt;执行 &lt;code&gt;$ ip route&lt;/code&gt; 命令，输出中没有默认路由。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[root@
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+      <category term="CentOS" scheme="https://ismdeep.github.io/tags/CentOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>常用 Linux 命令</title>
+    <link href="https://ismdeep.github.io/posts/2025-03-06-essential-linux-commands.html"/>
+    <id>https://ismdeep.github.io/posts/2025-03-06-essential-linux-commands.html</id>
+    <published>2025-03-06T12:51:21.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><p>Rsync 同步文件</p><pre><code>$ rsync -a -r --no-i-r --info=progress2 --info=name0 \    --no-owner --no-group --no-perms \    &lt;SOURCE&gt; \    &lt;TARGET&gt;</code></pre></li><li><p>查看 Debian 更新源文件及内容</p><pre><code>$ find \    /etc/apt/sources.list \    /etc/apt/sources.list.d/ \    -type f \    -exec echo -e &quot;\n$ cat &#123;&#125;&quot; \; -exec cat &#123;&#125; \;</code></pre></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Rsync 同步文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ rsync -a -r --no-i-r --info=progress2 --info=name0 &#92;
+    --no-owner --no-group --no-perms &#92;
+    &amp;lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面向对象编程的核心思想：消息传递</title>
+    <link href="https://ismdeep.github.io/posts/2025-01-28-oop-messaging.html"/>
+    <id>https://ismdeep.github.io/posts/2025-01-28-oop-messaging.html</id>
+    <published>2025-01-28T09:11:01.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>在面向对象编程（Object-Oriented Programming，OOP）中，我们常常听到封装、继承、多态和抽象被描述为其核心原则。然而，对于真正理解OOP来说，有一个更深层次、更具哲学意味的核心思想常被忽略，那就是<strong>消息传递（Message Passing）</strong>。</p><h1 id="什么是消息传递？"><a href="#什么是消息传递？" class="headerlink" title="什么是消息传递？"></a>什么是消息传递？</h1><p>消息传递指的是对象之间通过发送和接收消息进行交互。每个对象都拥有自己的状态（数据）和行为（方法），而消息传递是对象与对象之间沟通和协作的机制。简而言之，<strong>消息传递是OOP中实现对象之间互动的核心方式</strong>。</p><p>在实际编程中，消息传递的体现通常是通过方法调用实现的。对象A向对象B发送一条消息，请求其执行某个操作（调用方法），对象B接收到这条消息后，根据其内部的逻辑和状态作出相应的反应。</p><h1 id="Alan-Kay-对面向对象的定义"><a href="#Alan-Kay-对面向对象的定义" class="headerlink" title="Alan Kay 对面向对象的定义"></a>Alan Kay 对面向对象的定义</h1><p>Alan Kay，被誉为面向对象编程之父，曾这样定义OOP：</p><blockquote><p>“The big idea is ‘messaging’ — that is, the exchange of data by sending messages to objects. The key in making great and growable systems is much more to design how its modules communicate rather than what their internal properties and behaviors should be.”</p></blockquote><p>翻译：</p><blockquote><p>“核心理念是‘消息传递’——即通过向对象发送消息来交换数据。构建优秀且可扩展系统的关键，更在于设计模块之间如何通信，而不是关注它们的内部属性和行为。”</p></blockquote><h1 id="消息传递的重要性"><a href="#消息传递的重要性" class="headerlink" title="消息传递的重要性"></a>消息传递的重要性</h1><p>为什么说消息传递是面向对象编程的核心？它与OOP的其他原则紧密相连，共同支撑了面向对象的体系：</p><ol><li><strong>封装的基础</strong> 消息传递强调对象通过暴露有限的接口来接收消息，而不是直接让其他对象访问其内部数据。这种方式保证了对象内部实现的封装性，外部对象只需要知道如何发送消息，而不需要了解消息接收者的具体实现细节。</li><li><strong>多态性的体现</strong> 多态性在消息传递中尤为关键。当多个对象能够响应相同的消息（方法调用）时，它们可以根据自己的类型和特性作出不同的反应。这种机制使得对象之间的交互更加灵活，支持动态行为的扩展。</li><li><strong>松耦合设计</strong> 消息传递实现了对象之间的松耦合。一个对象不需要知道另一个对象的内部结构或实现细节，只需要知道如何向其发送消息。这样的设计增强了系统的模块化和可维护性。</li></ol><h1 id="消息传递的实际应用"><a href="#消息传递的实际应用" class="headerlink" title="消息传递的实际应用"></a>消息传递的实际应用</h1><p>以下是一个简单的例子，展示了消息传递的基本思想：</p><pre><code>class Car:    def start_engine(self):        print(&quot;The engine is now running.&quot;)class Driver:    def start_car(self, car):        car.start_engine()  # 发送消息给 Car 对象# 使用示例car = Car()driver = Driver()driver.start_car(car)</code></pre><p>在这个例子中：</p><ul><li><code>Driver</code> 对象通过调用 <code>start_car</code> 方法向 <code>Car</code> 对象发送一条消息（请求启动引擎）。</li><li><code>Car</code> 对象接收到消息后，执行 <code>start_engine</code> 方法，完成引擎的启动。</li></ul><p>消息传递的核心思想在这里清晰可见：<strong>对象之间并不直接操作对方的内部状态，而是通过发送和接收消息实现交互。</strong></p><h1 id="消息传递与现实世界的类比"><a href="#消息传递与现实世界的类比" class="headerlink" title="消息传递与现实世界的类比"></a>消息传递与现实世界的类比</h1><p>为了更好地理解消息传递，可以将其与现实生活中的通信进行类比。例如：</p><ul><li>当你向朋友发短信邀请他们共进晚餐时，你发送了一条消息。朋友可以根据自己的状态（是否有空、是否感兴趣）来决定是否接受邀请。这就像对象接收到消息后，依据自身逻辑决定执行什么操作。</li><li>在公司中，一个部门（对象A）向另一个部门（对象B）发送邮件请求某项资源。部门B根据邮件内容和当前资源状况作出回应。这种协作完全依赖消息的传递，而不是直接干涉对方的日常运作。</li></ul><h1 id="消息传递与面向对象编程的未来"><a href="#消息传递与面向对象编程的未来" class="headerlink" title="消息传递与面向对象编程的未来"></a>消息传递与面向对象编程的未来</h1><p>随着软件复杂度的提高，消息传递的思想正在以更现代的形式演化。例如：</p><ul><li><strong>微服务架构</strong>：微服务之间通过消息队列（如 RabbitMQ、Kafka）或 HTTP 请求传递消息，彼此独立运行，体现了OOP的消息传递核心思想。</li><li><strong>Actor 模型</strong>：在并发编程中，Actor 模型强调通过消息传递进行状态共享和任务分发，例如 Erlang 和 Akka。</li><li><strong>事件驱动架构</strong>：系统通过发布和订阅事件（消息）实现松耦合的模块交互，如 JavaScript 的事件循环机制或消息总线架构。</li></ul><h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>面向对象编程的核心不仅仅是代码中的类与对象的设计，更是一种关于对象如何交互的哲学。<strong>消息传递</strong>作为OOP的灵魂，赋予了对象自足性和协作能力，使得复杂系统能够被优雅地设计和扩展。</p><p>当我们在编写面向对象的代码时，不妨多思考对象之间如何通过消息传递有效地协作，而不仅仅是关注单个对象的实现细节。正是这种思想，让OOP成为现代软件开发的基石。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在面向对象编程（Object-Oriented Programming，OOP）中，我们常常听到封装、继承、多态和抽象被描述为其核心原则。然而，对于真正理解OOP来说，有一个更深层次、更具哲学意味的核心思想常被忽略，那就是&lt;strong&gt;消息传递（Message Passi
+      
+    
+    </summary>
+    
+    
+      <category term="面向对象编程" scheme="https://ismdeep.github.io/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>软件开发：不仅仅是写几行代码</title>
+    <link href="https://ismdeep.github.io/posts/2025-01-22-beyond-code-the-essential-pillars-of-software-development.html"/>
+    <id>https://ismdeep.github.io/posts/2025-01-22-beyond-code-the-essential-pillars-of-software-development.html</id>
+    <published>2025-01-22T02:23:08.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>当人们提到软件开发时，许多初学者可能会将其简单地理解为“写代码”。实际上，这只是整个软件开发流程中的冰山一角。随着项目复杂度的增加和团队协作的深入，我们会发现，软件开发是一个涵盖多层次、多方面的工程化过程。它不仅仅是代码的堆砌，还包括系统架构设计、文档撰写、测试保障、用户体验优化等多个环节。只有全面关注这些关键点，才能真正交付高质量的软件产品。</p><h1 id="系统架构：软件开发的地基"><a href="#系统架构：软件开发的地基" class="headerlink" title="系统架构：软件开发的地基"></a>系统架构：软件开发的地基</h1><p>系统架构是软件开发的顶层设计，它决定了系统的模块划分、数据流动和技术选型。好的架构能够帮助团队应对复杂性、减少技术债务并促进团队协作。</p><p>系统架构的核心价值在于：</p><ol><li><strong>应对复杂性</strong><br>在大型项目中，架构帮助开发团队明确每个模块的功能边界，确保模块间的独立性和稳定性。例如，微服务架构通过模块化设计使系统更具灵活性和扩展性。</li><li><strong>降低技术债务</strong><br>早期架构规划不到位会导致后续代码频繁返工，积累大量技术债务。而一个良好的架构可以减少开发中的“临时补救”，降低维护成本。</li><li><strong>支持团队协作</strong><br>架构为团队提供全局视图，让每位成员明确职责分工，减少沟通障碍，提升效率。</li></ol><h1 id="文档：连接代码与团队的桥梁"><a href="#文档：连接代码与团队的桥梁" class="headerlink" title="文档：连接代码与团队的桥梁"></a>文档：连接代码与团队的桥梁</h1><p>文档是软件项目中至关重要的部分，它记录了需求、设计和实现细节，是团队协作和后续维护的关键。</p><p>文档的种类与作用：</p><ol><li><strong>需求文档</strong><br>明确项目目标、用户需求和功能列表，为开发提供方向。</li><li><strong>架构文档</strong><br>描述系统的模块设计、数据流和技术决策，便于新成员快速上手。</li><li><strong>技术文档</strong><br>记录接口规范、数据库设计和实现逻辑，为后续开发和测试提供依据。</li><li><strong>测试文档</strong><br>包括测试计划、测试用例和测试报告，确保系统的功能和性能符合预期。</li></ol><p>有了清晰的文档，团队协作将更加顺畅，新成员也能快速融入项目，减少“摸索”的时间。</p><h1 id="用户手册：将技术转化为用户价值"><a href="#用户手册：将技术转化为用户价值" class="headerlink" title="用户手册：将技术转化为用户价值"></a>用户手册：将技术转化为用户价值</h1><p>软件最终是为用户服务的，而用户手册是用户了解系统、学习使用的第一步。一个好的用户手册能够有效降低学习成本，提升用户满意度。</p><p>优秀用户手册的特性：</p><ol><li><strong>清晰易懂</strong><br>避免技术术语，用通俗的语言帮助用户理解功能。</li><li><strong>结构合理</strong><br>提供直观的目录和索引，让用户能快速找到所需内容。</li><li><strong>图文并茂</strong><br>通过示意图、流程图或视频教程，帮助用户更好地理解复杂操作。</li><li><strong>持续更新</strong><br>软件更新后，手册也需要同步调整，避免信息过时。</li></ol><p>用户手册不仅是用户的指南，也是用户体验优化的重要一环。</p><h1 id="测试：软件质量的守门人"><a href="#测试：软件质量的守门人" class="headerlink" title="测试：软件质量的守门人"></a>测试：软件质量的守门人</h1><p>测试是确保软件质量的关键步骤，它贯穿开发生命周期的各个阶段，从开发初期的单元测试到上线前的回归测试，都是必不可少的环节。</p><p>测试的多层次保障：</p><ol><li><strong>单元测试</strong><br>验证每个模块的核心功能，确保基础逻辑的正确性。</li><li><strong>集成测试</strong><br>检查模块之间的交互是否正确，避免“单块正确、整体出错”的问题。</li><li><strong>性能测试</strong><br>模拟高负载场景，评估系统的响应速度和稳定性。</li><li><strong>回归测试</strong><br>确保新功能不会影响已有功能，保证系统整体质量。</li></ol><p>通过使用自动化测试工具（如 Selenium、JUnit 等），可以大大提高测试效率，减少人为失误。</p><h1 id="持续集成与持续交付（CI-CD）：加速开发与部署"><a href="#持续集成与持续交付（CI-CD）：加速开发与部署" class="headerlink" title="持续集成与持续交付（CI&#x2F;CD）：加速开发与部署"></a>持续集成与持续交付（CI&#x2F;CD）：加速开发与部署</h1><p>在快速迭代的开发模式下，持续集成（CI）与持续交付（CD）是提高效率和质量的重要手段。</p><p>CI&#x2F;CD 的主要优势：</p><ol><li><strong>自动化测试与构建</strong><br>每次代码提交后，CI 工具会自动运行测试，及时发现问题。</li><li><strong>快速交付</strong><br>通过自动化部署流水线，将新功能快速推送到测试或生产环境。</li><li><strong>增强稳定性</strong><br>每个交付阶段都有质量保障，减少发布风险。</li><li><strong>缩短反馈周期</strong><br>用户的反馈能更快传回团队，从而调整产品方向。</li></ol><h1 id="代码审查：团队协作的技术保障"><a href="#代码审查：团队协作的技术保障" class="headerlink" title="代码审查：团队协作的技术保障"></a>代码审查：团队协作的技术保障</h1><p>代码审查是团队文化的一部分，也是提高代码质量的有效手段。通过彼此审查代码，团队成员可以发现潜在问题并共享知识。</p><p>代码审查的好处：</p><ol><li><strong>提高代码质量</strong><br>审查过程可以发现逻辑漏洞、性能问题以及不规范的实现。</li><li><strong>促进知识共享</strong><br>开发者可以通过审查学习到团队的最佳实践和设计思路。</li><li><strong>减少技术债务</strong><br>及时审查可以防止低质量代码进入代码库。</li></ol><h1 id="安全性：贯穿开发全程的核心"><a href="#安全性：贯穿开发全程的核心" class="headerlink" title="安全性：贯穿开发全程的核心"></a>安全性：贯穿开发全程的核心</h1><p>安全性是软件开发中不能忽视的环节。数据泄露或系统被攻破可能会对企业声誉和用户信任造成严重影响。</p><p>安全开发的实践：</p><ol><li><strong>输入验证</strong><br>防止 SQL 注入和 XSS 攻击。</li><li><strong>权限控制</strong><br>确保只有授权用户才能访问特定功能和数据。</li><li><strong>数据加密</strong><br>对敏感数据进行加密存储和传输。</li><li><strong>依赖管理</strong><br>定期更新第三方库，避免已知漏洞。</li><li><strong>安全测试</strong><br>使用工具进行渗透测试和漏洞扫描，提前发现安全问题。</li></ol><h1 id="项目管理：平衡时间、资源与需求"><a href="#项目管理：平衡时间、资源与需求" class="headerlink" title="项目管理：平衡时间、资源与需求"></a>项目管理：平衡时间、资源与需求</h1><p>一个成功的项目离不开有效的项目管理，它不仅要确保项目按时交付，还要平衡资源与需求之间的矛盾。</p><p>项目管理的关键方法：</p><ol><li><strong>敏捷开发</strong><br>通过短迭代周期和频繁交付，让团队快速响应变化。</li><li><strong>合理估算</strong><br>在详细拆解任务后，进行准确的时间和资源估算。</li><li><strong>透明沟通</strong><br>定期召开站会或周会，保持团队同步。</li><li><strong>风险管理</strong><br>提前识别可能的风险，并制定应对策略。</li></ol><h1 id="知识沉淀：为未来铺路"><a href="#知识沉淀：为未来铺路" class="headerlink" title="知识沉淀：为未来铺路"></a>知识沉淀：为未来铺路</h1><p>开发完成并不意味着项目的结束。通过知识沉淀，团队可以为未来的维护和扩展提供支持。</p><p>知识沉淀的方法：</p><ol><li><strong>完善文档体系</strong><br>涵盖需求、设计、测试等各阶段的文档。</li><li><strong>技术博客或 Wiki</strong><br>记录开发中的经验和最佳实践。</li><li><strong>定期复盘总结</strong><br>项目结束后总结经验和教训，为下一个项目提供参考。</li></ol><h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>软件开发是一项复杂的工程，涵盖了架构设计、文档编写、测试保障、用户体验、安全管理等多个环节。它要求开发者不仅专注于代码实现，还需要具备全面的工程化思维。</p><p>唯有在每个环节上追求卓越，我们才能打造出高质量的软件产品，为用户和团队带来长期的价值。记住：代码只是开始，全面的规划和细致的执行，才是软件成功的关键。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;当人们提到软件开发时，许多初学者可能会将其简单地理解为“写代码”。实际上，这只是整个软件开发流程中的冰山一角。随着项目复杂度的增加和团队协作的深入，我们会发现，软件开发是一个涵盖多层次、多方面的工程化过程。它不仅仅是代码的堆砌，还包括系统架构设计、文档撰写、测试保障、用户体
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows 10 LTSC 2019 密钥激活</title>
+    <link href="https://ismdeep.github.io/posts/2024-09-25-windows-10-lstc-2019-kms.html"/>
+    <id>https://ismdeep.github.io/posts/2024-09-25-windows-10-lstc-2019-kms.html</id>
+    <published>2024-09-25T05:31:40.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>以管理员身份运行 “命令提示符” 并执行以下命令：</p><pre><code>slmgr -ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462Dslmgr -skms kms.03k.orgslmgr -atoslmgr -dlv</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;以管理员身份运行 “命令提示符” 并执行以下命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;slmgr -ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462D
+slmgr -skms kms.03k.org
+slmgr -ato
+slmgr -dlv
+&lt;/code&gt;&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="Windows" scheme="https://ismdeep.github.io/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】什么是 DevOps 工程师以及 DevOps 工程师做什么？</title>
+    <link href="https://ismdeep.github.io/posts/2024-09-18-what-is-a-devops-engineer.html"/>
+    <id>https://ismdeep.github.io/posts/2024-09-18-what-is-a-devops-engineer.html</id>
+    <published>2024-09-18T14:24:03.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>DevOps 工程师优化组织的软件交付流程以实现协作和创新。继续阅读以了解有关 DevOps 工程师的工作以及他们依赖的技能的更多信息。</p><h1 id="什么是-DevOps-工程师？"><a href="#什么是-DevOps-工程师？" class="headerlink" title="什么是 DevOps 工程师？"></a>什么是 DevOps 工程师？</h1><p>DevOps 工程师是管理组织的开发人员运营 (DevOps) 的 IT 专业人员，其中包括组织用于创建和管理软件的所有实践和工具。</p><p>DevOps 工程师在弥合传统上孤立的部门之间的差距方面发挥着至关重要的作用，以实现更高的一致性和有效的协作。它们通常充当开发团队和 IT 运营团队之间的纽带，帮助统一、优化和自动化软件开发生命周期中的流程。由于团队有不同的技能和目标，DevOps 工程师的工作是平衡所有团队的需求和目标，并找到使每个人都能做到最好的解决方案。</p><h1 id="DevOps-工程师做什么的？"><a href="#DevOps-工程师做什么的？" class="headerlink" title="DevOps 工程师做什么的？"></a>DevOps 工程师做什么的？</h1><p>DevOps 工程师的角色可能因组织而异，但 DevOps 工程师的职责通常涉及使用各种 DevOps 工具和策略来配置和管理基础设施、自动化流程、执行系统管理和管理安全性。 DevOps 工程师的其他职责可能包括编码、自动化、安全和基础设施管理。</p><h1 id="DevOps-工程师的常见职责包括："><a href="#DevOps-工程师的常见职责包括：" class="headerlink" title="DevOps 工程师的常见职责包括："></a>DevOps 工程师的常见职责包括：</h1><ul><li>沟通与协作：DevOps 工程师通常充当多个团队（包括开发和运营团队）之间的主要协作者。 DevOps 工程师的职责是确保每个团队传达快速、无缝地实施应用程序更改所需的内容，而不会产生可靠性和安全问题。</li><li>基础设施管理：DevOps 工程师专注于配置和管理系统管理以及部署和维护托管应用程序的服务器。他们还维护存储和网络资源，如物理服务器、存储设备、交换机和虚拟化软件。在混合设置中，DevOps 工程师还可以一起管理这些本地组件和基于云的组件的虚拟实例。</li><li>自动化：大多数 DevOps 工程师对自动化以及如何将自动化作为持续集成&#x2F;持续交付 (CI&#x2F;CD) 工具的一部分实施有深入的了解。 DevOps 工程师通常负责为其开发和 IT 运营团队开发自动化流程或修改现有自动化流程。</li><li>数据管理：除了为其部门构建基础设施和自动化流程之外，DevOps 工程师还负责这些结构中的实际内容和数据。 DevOps 工程师设计数据收集、存储和使用的流程。他们还管理它的访问方式以及谁有权访问它。</li><li>持续集成：DevOps 工程师对其组织的软件执行持续集成，其中包括确保定期构建、测试和验证新的代码更改，然后将其合并到 GitHub 等共享存储库以供组织的其他部分使用。此过程确保新代码在持续交付阶段发送到生产之前，通过单元和集成测试自动测试错误。</li><li>持续交付：DevOps 工程师还负责持续交付，这是一个自动发布经过测试和验证的生产代码的过程。这些经过验证和测试的代码通常会发送到一个存储库，所有开发和运营团队都可以访问该存储库，以便相对轻松地将应用程序部署到生产环境。</li><li>持续部署：DevOps 工程师还负责 CI&#x2F;CD 管道的最后阶段（称为持续部署）。此过程是持续交付过程的扩展，其中经过验证的代码会自动直接进入应用程序生产，而不是进入存储库。如果清除了所有错误和安全漏洞测试，此过程可以让新代码在几分钟内向公众发布。</li><li>质量保证：DevOps 工程师可能负责监督质量保证 (QA) 团队，以确保新代码没有缺陷。 QA 团队主要专注于冒烟测试、回归测试和集成测试。冒烟测试可确保应用程序代码不会立即引起问题，而回归和集成测试可确保新代码不会破坏现有功能或与其他现有功能发生冲突。</li><li>监控和日志记录：DevOps 工程师可能负责监控和记录部署到公众的代码每次迭代的性能。监控和记录的信息为 CI&#x2F;CD 流程创建即时反馈，以通知创建更新的迭代和应用程序的改进。</li><li>安全性：DevOps 工程师必须将安全性纳入其组织的 IT 生命周期中。实施安全措施的实践通常称为开发安全操作，重点是查找可能影响应用程序用户和组织的软件漏洞。优秀的 DevOps 工程师会找到在所有开发阶段和交付过程中实现安全自动化的方法。</li></ul><h1 id="成为-DevOps-工程师需要哪些技能？"><a href="#成为-DevOps-工程师需要哪些技能？" class="headerlink" title="成为 DevOps 工程师需要哪些技能？"></a>成为 DevOps 工程师需要哪些技能？</h1><p>大多数 DevOps 工程师都拥有强大的软件开发或 IT 运营背景，以及来自其他学科的其他技术技能和软技能。这些技能可能包括编程语言知识、自动化工具熟练程度、人际交往能力和分析问题解决能力。</p><h1 id="推荐给-DevOps-工程师的技能包括："><a href="#推荐给-DevOps-工程师的技能包括：" class="headerlink" title="推荐给 DevOps 工程师的技能包括："></a>推荐给 DevOps 工程师的技能包括：</h1><h2 id="软技能"><a href="#软技能" class="headerlink" title="软技能"></a>软技能</h2><ul><li>沟通和协作：DevOps 工程师最重要的技能之一是了解如何确保所有部门之间一致的沟通和协作。他们的人际交往能力帮助他们引导生产进入稳定、自动化的流程，并具有强大的反馈循环。</li><li>人际关系和管理技能：优秀的 DevOps 工程师知道如何在所有团队之间委派任务，以实现高效的生产和绩效。他们提供一致且清晰的反馈，帮助开发人员更有效、更高效地生成代码。他们还利用对不同学科和测试方法的广泛知识来担任团队的教练。</li><li>分析和解决问题的能力：DevOps 工程师必须知道如何解决出现的问题。由于他们横跨开发和运营团队的流程，因此他们需要知道如何实时解决安全漏洞等问题，并且必须能够找到自动执行重复性日常任务的方法，以便所有部门及时生产。</li></ul><h2 id="技术技能"><a href="#技术技能" class="headerlink" title="技术技能"></a>技术技能</h2><ul><li>编程语言：DevOps 工程师通常精通至少一种或多种编程语言来进行编码和脚本编写，例如 PHP、Java、Ruby、Python、C++、PowerShell 或 Bash。 DevOps 工程师应该知道如何使用这些编程语言编写自动化脚本，但他们也应该知道如何在流程中实施敏捷开发实践（例如：代码审查和源代码控制）。</li><li>自动化工具：DevOps 工程师应该具有维护自动化测试套件或使用 GitHub Actions 等自动化工具来帮助自动化 CI&#x2F;CD 管道中的流程工作流的经验。尽管某些组织可能还拥有自动化工程师来满足其自动化需求，但知道如何与自动化专家合作的 DevOps 工程师可以进一步帮助加强自动化流程。</li><li>云计算平台：DevOps 工程师通常具有使用 Microsoft Azure、Amazon Web Services 和 Google Cloud Platform 等云计算平台的经验。他们还应该知道如何平衡和自动化在本地或混合工作模型情况下完成的工作流程。</li><li>容器化：DevOps 工程师通常具有使用 Docker 和 Kubernetes 等容器化服务的经验，可以将应用程序代码及其运行时环境捆绑到同一个映像中。这有助于减少传统配置管理工具的必要性，因为传统配置管理工具会降低整体生产和效率。</li><li>系统架构和配置：DevOps 工程师应该了解如何设计、配置和管理系统架构和基础设施，包括基于云的和本地结构。 DevOps 工程师还应该了解基础设施即代码的知识，这是一种将 DevOps 软件开发的最佳实践应用到云基础设施管理的 IT 管理流程。</li></ul><h1 id="DevOps-工程师使用哪些工具？"><a href="#DevOps-工程师使用哪些工具？" class="headerlink" title="DevOps 工程师使用哪些工具？"></a>DevOps 工程师使用哪些工具？</h1><p>DevOps 工程师使用来自所有学科和方法论的各种工具来帮助维护开发和运营团队之间一致的工作流程。这些工具帮助他们解决出现的问题，并通过简单的自动化帮助防止某些问题。</p><p>DevOps 工程师工具的类型：</p><ul><li>配置管理：大多数 DevOps 工程师都有使用 Chef 或 Puppet 等配置管理工具的经验，可以帮助他们自动执行系统管理任务，例如应用安全补丁或部署新系统。</li><li>CI&#x2F;CD：如前所述，CI&#x2F;CD 涉及持续集成、持续交付和持续部署管道。许多 DevOps 工程师都有在 GitHub Actions 等项目中工作的经验，可以帮助他们在 CI&#x2F;CD 管道中自动化构建、测试和部署应用程序软件的流程。</li><li>基础设施自动化和监控：DevOps 工程师使用各种自动化工具进行基础设施配置、系统管理和基础设施监控。 DevOps 工程师用于这些流程的一些工具包括 Terraform、Pulumi 和 Vagrant。</li><li>容器编排：DevOps 工程师通常必须在整个组织中打包和交付应用程序代码。它们通常在 Docker、Podman、Buildah 和 Kubernetes 等程序中工作，以容器化和传输这些代码。每种工具在可扩展性、安全性以及部署或维护的简易性方面都有所不同，因此 DevOps 工程师通常会熟悉多个容器编排工具，并根据项目的需求使用不同的工具。</li></ul><h1 id="成为一名-DevOps-工程师"><a href="#成为一名-DevOps-工程师" class="headerlink" title="成为一名 DevOps 工程师"></a>成为一名 DevOps 工程师</h1><p>组织依靠 DevOps 工程师在整个应用程序开发生命周期中提供指导和领导。尽管许多 DevOps 工程师的职业生涯是从软件开发人员或 IT 管理专业人员开始的，但他们通常也会在此过程中从其他类似学科中学习新的技能、方法和策略。因此，DevOps 工程师通常是组织中经验最丰富的专业人士，DevOps 工程师可能需要很多年才能获得成功所需的所有技能。</p><p>有抱负的 DevOps 工程师可以在线访问资源，学习如何成为 DevOps 工程师或探索 DevOps 工程师的道路。有兴趣将 DevOps 工程师引入其团队的组织还可以找到有关如何加入 DevOps 工程师的资源。</p><p>原文：<a href="https://github.com/resources/articles/devops/what-is-a-devops-engineer">https://github.com/resources/articles/devops/what-is-a-devops-engineer</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;DevOps 工程师优化组织的软件交付流程以实现协作和创新。继续阅读以了解有关 DevOps 工程师的工作以及他们依赖的技能的更多信息。&lt;/p&gt;
+&lt;h1 id=&quot;什么是-DevOps-工程师？&quot;&gt;&lt;a href=&quot;#什么是-DevOps-工程师？&quot; class=&quot;heade
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.github.io/tags/DevOps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 Ubuntu 上安装 Docker CE</title>
+    <link href="https://ismdeep.github.io/posts/2024-07-31-install-docker-ce-on-ubuntu.html"/>
+    <id>https://ismdeep.github.io/posts/2024-07-31-install-docker-ce-on-ubuntu.html</id>
+    <published>2024-07-31T04:36:14.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文主要以 Ubuntu 20.04 为例讲述如何在 Debian&#x2F;Ubuntu 系列 Linux 发行版上通过上游官方仓库安装 Docker CE，其他发行版的安装方式也类似，不同地方主要在源地址配置中。</p><h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><h2 id="2-1-准备-GPG-证书"><a href="#2-1-准备-GPG-证书" class="headerlink" title="2.1 准备 GPG 证书"></a>2.1 准备 GPG 证书</h2><p>在 <code>root</code> 用户下执行以下命令写入仓库 GPG 证书。</p><pre><code>$ mkdir -p /etc/apt/keyrings/ &amp;&amp; \  curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/gpg | \    sed &#39;s/-----BEGIN PGP PUBLIC KEY BLOCK-----//g&#39; | \    sed &#39;s/-----END PGP PUBLIC KEY BLOCK-----//g&#39; | \    sed &#39;s/=0YYh//g&#39; | \    tr -d &#39;\r\n\t &#39; | \    base64 -d &gt; /etc/apt/keyrings/docker.gpg</code></pre><h2 id="2-2-写入更新源"><a href="#2-2-写入更新源" class="headerlink" title="2.2 写入更新源"></a>2.2 写入更新源</h2><p>在 <code>/etc/apt/sources.list.d/docker.list</code> 文件中写入以下内容：</p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal stable</code></pre><p>其中：</p><ol><li><p><code>https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu</code> 为仓库地址，根据所在地区可以选取不同的地址。</p><p>以下是一些常用镜像仓库地址：</p><ul><li><code>https://download.docker.com/linux/ubuntu</code></li><li><code>https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu</code></li><li><code>https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu</code></li><li><code>https://mirrors.cloud.tencent.com/docker-ce/linux/ubuntu</code></li><li><code>https://mirror.sjtu.edu.cn/docker-ce/linux/ubuntu</code></li><li><code>https://mirrors.huaweicloud.com/docker-ce/linux/ubuntu</code></li></ul></li><li><p><code>focal</code> 为 Ubuntu 发行版代号。</p><p>以下是 Ubuntu 主要发行代号和版本号对应关系：</p><ul><li><code>focal</code>: Ubuntu 20.04</li><li><code>jammy</code>: Ubuntu 22.04</li><li><code>mantic</code>: Ubuntu 23.10</li><li><code>noble</code>: Ubuntu 24.04</li></ul></li></ol><h1 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h1><p>在GPG证书和更新源配置都准备完成之后，执行以下命令更新仓库索引并安装 <code>docker-ce</code> 软件包：</p><pre><code>$ sudo apt update$ sudo apt install -y docker-ce</code></pre><h1 id="三、检查"><a href="#三、检查" class="headerlink" title="三、检查"></a>三、检查</h1><p>通过以下命令查看安装的 Docker CE 版本号：</p><pre><code>$ sudo docker version</code></pre><p>示例：</p><pre><code>root@Lemuria:~# docker versionClient: Docker Engine - Community Version:           27.1.1 API version:       1.46 Go version:        go1.21.12 Git commit:        6312585 Built:             Tue Jul 23 19:56:56 2024 OS/Arch:           linux/amd64 Context:           defaultServer: Docker Engine - Community Engine:  Version:          27.1.1  API version:      1.46 (minimum version 1.24)  Go version:       go1.21.12  Git commit:       cc13f95  Built:            Tue Jul 23 19:56:56 2024  OS/Arch:          linux/amd64  Experimental:     false containerd:  Version:          1.7.19  GitCommit:        2bf793ef6dc9a18e00cb12efb64355c2c9d5eb41 runc:  Version:          1.7.19  GitCommit:        v1.1.13-0-g58aa920 docker-init:  Version:          0.19.0  GitCommit:        de40ad0root@Lemuria:~#</code></pre><h1 id="四、安装-docker-compose"><a href="#四、安装-docker-compose" class="headerlink" title="四、安装 docker-compose"></a>四、安装 docker-compose</h1><p>通过以下命令将 Docker CE 自带的 docker-compose 插件安装至系统目录。</p><pre><code>$ sudo cp /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose</code></pre><p>安装完成后通过以下命令查看版本号：</p><pre><code>$ docker-compose version</code></pre><p>示例：</p><pre><code>root@Lemuria:~# docker-compose versionDocker Compose version v2.29.1</code></pre><h1 id="附录一、其他发行版更新配置源"><a href="#附录一、其他发行版更新配置源" class="headerlink" title="附录一、其他发行版更新配置源"></a>附录一、其他发行版更新配置源</h1><p>Debian 10</p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable</code></pre><p>Debian 11</p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bullseye stable</code></pre><p>Debian 12</p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bookworm stable</code></pre><p>deepin v20, deepin v25, UOS Desktop V20</p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文主要以 Ubuntu 20.04 为例讲述如何在 Debian&amp;#x2F;Ubuntu 系列 Linux 发行版上通过上游官方仓库安装 Docker CE，其他发行版的安装方式也类似，不同地方主要在源地址配置中。&lt;/p&gt;
+&lt;h1 id=&quot;一、准备&quot;&gt;&lt;a href=&quot;#
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Remove thinclient_drives folder from xrdp</title>
+    <link href="https://ismdeep.github.io/posts/2024-07-22-remove-thinclient-drives-folder-from-xrdp.html"/>
+    <id>https://ismdeep.github.io/posts/2024-07-22-remove-thinclient-drives-folder-from-xrdp.html</id>
+    <published>2024-07-22T12:48:11.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>To remove the <code>thinclient_drives</code> folder from XRDP, you need to modify the XRDP configuration to prevent it from creating and using this directory. Here’s a step-by-step guide on how to do it:</p><ol><li><p>Open the XRDP configuration file</p><pre><code>$ sudo vim /etc/xrdp/xrdp.ini</code></pre></li><li><p>Change <code>allow_channels</code> value</p><pre><code>allow_channels=false</code></pre></li><li><p>Restart xrdp</p><pre><code>$ sudo systemctl restart xrdp</code></pre></li></ol><p>By following these steps, the <code>thinclient_drives</code> folder should no longer be created or used by XRDP.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;To remove the &lt;code&gt;thinclient_drives&lt;/code&gt; folder from XRDP, you need to modify the XRDP configuration to prevent it from creating and 
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://ismdeep.github.io/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】开源学习好帮手：最棒的50个开源博客</title>
+    <link href="https://ismdeep.github.io/posts/2024-07-14-10-50-best-opensource-blog.html"/>
+    <id>https://ismdeep.github.io/posts/2024-07-14-10-50-best-opensource-blog.html</id>
+    <published>2024-07-14T15:27:50.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>转自：<a href="https://www.oschina.net/news/10472/50-Best-opensource-blog">https://www.oschina.net/news/10472/50-Best-opensource-blog</a></p><p>开源软件由庞大的社区提供支持，这个充满活力的社区造就了一批一流的博客。它们涵盖了从开源新闻，到最新发布的教程和黑客技巧的各个方面。</p><p>我们精选出这些博客，因为他们精通相关专业，不仅定期更新，而且还易于浏览，同时又非常实用。去看一看吧，您肯定会学好很多新东西的。</p><ol><li><strong><a href="http://www.rationalplanet.com/">Alec Notes</a>:</strong> 一个专注于 Fedora Linux 的简单博客。Alec 是一名程序员，他精通 PHP，mySQL 和 Javascript，同时还是一名 Fedora Linux 发烧友。他没解决一个工作上遇到的问题，就会在他的博客上发布一篇解决方案。他还关注新的软件开发。</li><li><strong><a href="http://linuxforpro.blogspot.com/">All you will need on linux</a>:</strong> 这是一个 Linux 技巧博客。文章都是有关于作者所遇的具体问题的解决方法。</li><li><strong><a href="http://android-developers.blogspot.com/index.html">Android Developers</a>:</strong> 这个博客为 Android 编程人员提供了大量资源。里面包含了最新的 Android 新闻和更新提示。</li><li><strong><a href="http://biodegradablegeek.com/">Biodegradable Geek</a>:</strong> 这是一个开源编程爱好者的个人博客。</li><li><strong><a href="http://brightedges.blogspot.com/">Bright Edges</a>:</strong> Bright Edges 是一名工程系的学生，这是他的个人博客，其中包含了一些 Linux&#x2F;GNU 技巧。</li><li><strong><a href="http://bsdpunk.blogspot.com/">BSD Punk</a>:</strong> 这是 Tennessee 网络顾问的个人博客，该网站经常发布一些有趣的 Linux 和其他开源语言的技巧和提示。他同时还发布一些他感兴趣的新闻。</li><li><strong><a href="http://www.clububuntu.com/">Club Ubuntu</a>:</strong> Club Ubuntu 提供了大量 Ubuntu 教程和信息。</li><li><strong><a href="http://www.dckap.com/blog/">Dckap</a>:</strong> Dckap 是一个技术服务公司，它同时还维护着一个关于开源和商业的博客。</li><li><strong><a href="http://www.duniadistro.net/">Dedicated to Providing Quality Information on Linux and Distro</a>:</strong> 就像它的名字一样，这个博客将提供有关 Linux 及其发行版的相关资讯。信息。</li><li><strong><a href="http://developerstation.blogspot.com/">Developer Station</a>:</strong> 由计算机科学专业毕业生 Rahul Kavi 撰写，Developer Station 包含了很多关于开源软件的技巧和提示，大部分为 Python 和 Java 相关。</li><li><strong><a href="http://www.development-cycle.com/">Development Cycle</a>:</strong> Development Cycle 由 Australia 的一名 Linux 管理员维护。他一般发布技巧和科技新闻。</li><li><strong><a href="http://www.earthinfo.org/">Earth Info</a>:</strong> Earth Info 是一个关于 PHP 和 MySQL 教程，技巧，新闻的博客。</li><li><strong><a href="http://foxbunny.tumblr.com/">Fox Bunny’s Journal</a>:</strong> 由 Linux 程序员和游戏设计师 Branko Vukelic 撰写，Fox Bunny’s Journal 包含了很棒的技巧和教程。</li><li><strong><a href="http://freeware4review.blogspot.com/">Freeware 4 Review</a>:</strong> 就像它说的名字，Freeware 4 Review 对免费软件进行评论。</li><li><strong><a href="http://goinggnu.wordpress.com/">Going GNU</a>:</strong> Going GNU 由 Shrinivasan 撰写，他是一名 Linux 程序员，这个博客是他的每日体验。</li><li><strong><a href="http://www.howtoforge.com/">How to Forge</a>:</strong> 这个博客提供 Linux 技术性教程。秉承真正开源内涵，任何人都可以参加贡献并使用使用它们。</li><li><strong><a href="http://blog.ibeentoubuntu.com/">I’ Been to Ubuntu</a>:</strong> 这个博客提供 Ubuntu 和 Debian 的文字和视频教程。</li><li><strong><a href="http://www.internetling.com/">Internetling</a>:</strong> Internetling 是一个半个人的 Linux 新闻博客，提供 Linux 相关资讯。</li><li><strong><a href="http://javaforyou.wordpress.com/">Java PitStop</a>:</strong> Java PitStop 包含了非常实用的 Java-specific 新闻和信息。</li><li><strong><a href="http://larrythefreesoftwareguy.wordpress.com/about/">Larry the Free Software Guy</a>:</strong> Larry 是 Open Source and Free Software Reporter 的编辑和发布者。在他的博客里，他主要发布开源软件运动的相关新闻。</li><li><strong><a href="http://www.thelazysysadmin.net/">The Lazy Sys Admin</a>:</strong> Lazy Sys Admin 是一个关于 Linux 技巧和 hack 的博客，同时还包含一些博主所感兴趣的新闻事件。</li><li><strong><a href="https://indiaprab.blogspot.com/">LiFunTech</a>:</strong> LiFunTech 致力于查找并链接开源更新和应用程序。</li><li><strong><a href="http://linuxhug.blogspot.com/">Linux Hug</a>:</strong> 由 Janith Bandara 撰写，Linux Hug 提供 Linux 技巧，教程和新闻。</li><li><strong><a href="http://www.linuxinsider.com/">Linux Insider</a>:</strong> 该博客由 ECT News Network 释出，它是最大的电子商务和科技新闻发布商之一。由数个人维护并发布有关于 Linux 社区的新闻，通常政治类和商业类要多于科技类。</li><li><strong><a href="http://www.linuxinsight.com/">Linux Insight</a>:</strong> Linux Insight 提供 Linux 科技性技巧和教程。</li><li><strong><a href="http://www.linux-masters.com/">Linux Masters Blog</a>:</strong> Linux Masters 专注于 Linux 和 Linux 发行版教程，大部分是 Ubuntu。</li><li><strong><a href="http://www.linuxtoday.com/">Linux Today</a>:</strong> Linux Today 是一个热衷于开源新闻的博客。 is a zealously pro-open source news blog.</li><li><strong><a href="http://www.linux.com/news/featured-blogs">Linux.com Blog</a>:</strong> 由 Linux Foundation 维护的非盈利博客，致力于促进 Linux 的发展。有数位作者发布 Linux 新闻。, a non-profit dedicated to fostering the growth of Linux. The foundation has several writers who blog about Linux news.</li><li><strong><a href="http://blog.adityapatawari.com/">Looking for the Source Code of Life</a>:</strong> 由程序序员 Aditya Patawari 开设，Looking for the Source Code of Life 提供 Linux 及 Linux 发行版的技巧和教程。</li><li><strong><a href="http://www.cyberciti.biz/">nixCraft</a>:</strong> 由 Unix 系统管理员 Vivek Gite 撰写，nixCraft 提供丰富的 Linux 技巧，教程和新闻资讯。</li><li><strong><a href="http://www.linux-magazine.com/Online/Blogs/Off-the-Beat-Bruce-Byfield-s-Blog">Off the Beat</a>:</strong> Bruce Byfield 为 Linux Magazine 撰文。他的博客主要包含开源社区新闻。</li><li><strong><a href="http://omgubuntu.co.uk/">OMG! Ubuntu!</a>:</strong> OMG! Ubuntu! 发布与 Ubuntu 相关的新闻，文章，访谈和技巧。</li><li><strong><a href="http://bizcoach.blogspot.com/">Open Business</a>:</strong> Open Business 专注于开源技术为人类商业活动造成的影响的相关新闻。</li><li><strong><a href="http://news.cnet.com/openroad/">The Open Road</a>:</strong> 这个博客是 CNET 的一部分，由 Matt Asay 维护，他是一名领先的开源商务战略家。他以易于理解的方式，全面探讨开源战略和政治。</li><li><strong><a href="http://www.businessreviewonline.com/os/">Open Source Business Review</a>:</strong> Open Source Business Review 包含了开源商业社区的相关新闻。</li><li><strong><a href="http://www.businessreviewonline.com/os/">Open Source Development</a>:</strong> Open Source Development 关注开源技术的最新更新。它强调电子商务的创新。</li><li><strong><a href="http://ordinarytux.wordpress.com/">Ordinary Tux</a>:</strong> Ordinary Tux 发布 Linux，Android 和其他开源技术的相关教程和技巧提示。</li><li><strong><a href="http://davidsiegel.org/">The Plenitude of Arboreal Beauty</a>:</strong> 由程序员 David Siegel 撰写，PAB 包含了各种开源话题。</li><li><strong><a href="http://reboltutorial.com/">Rebol Tutorial</a>:</strong> Rebol Tutorial 提供 Rebol 的编程技巧和提示。</li><li><strong><a href="http://rhel5certs.blogspot.com/">Red Hat Enterprises</a>:</strong> Red Hat Enterprises 是一个关于 Red Hat’s Linux 事件更新的博客。</li><li><strong><a href="http://www.revoltwebdesign.com/blog.html">Revolt</a>:</strong> Revolt 提供开源和网页开发软件的更新资讯。</li><li><strong><a href="http://slashdot.org/">Slashdot</a>:</strong> 它的口号就说明了一切：News for Nerds Stuff That Matters。这个博客覆盖了各种开发主题，主要专注于 Linux 和开放软件。</li><li><strong><a href="http://www.delphigeist.com/">The Spirit of Delphi</a>:</strong> The Spirit of Delphi 提供了 Delphi，C#，C++，Ruby，Python 和 Java 编程的技巧和教程。同时还包含了一些关于软件管理的通用技巧和提示，以及与作者工作有关的其他科技工作。</li><li><strong><a href="http://www.stefanolaguardia.eu/en/">Stefano Laguardia</a>:</strong> Stefano Laguardia 是有个有趣的博客，它提供与法律焦点的开源新闻。</li><li><strong><a href="http://ownedboxes.blogspot.com/">Tech Stuff</a>:</strong> 您可以通过 Tech Stuff 下载很多非常棒的开源程序，有时也发布一些很棒的技巧提示和 hack。</li><li><strong><a href="http://pankajdangi.com/">Technical Zone</a>:</strong> Technical Zone 是查找犀利评论以及最新软件概要的好地方。</li><li><strong><a href="http://basicslinux.blogspot.com/">Things You Should Know About Linux!</a>:</strong> Things You Should Know About Linux 提供与 Linux 相关的新闻。</li><li><strong><a href="http://cviorel.easyblog.ro/">Ubuntu!</a>:</strong> Ubuntu! 是一个提供 Ubuntu 技巧，提示和教程的博客。</li><li><strong><a href="http://www.virtfoundry.com/blog/">VirtFoundry</a>:</strong> VirtFoundry 是一个关于 Linux，系统管理和虚拟化的博客。它主要聚焦于 Linux 技巧和提示。</li><li><strong><a href="http://webmaster-software.blogspot.com/">WebMasters Software</a>:</strong> WebMaster Software 关注开源软件开发，特别是基于手机和网络的。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;转自：&lt;a href=&quot;https://www.oschina.net/news/10472/50-Best-opensource-blog&quot;&gt;https://www.oschina.net/news/10472/50-Best-opensource-blog&lt;/a&gt;&lt;/p
+      
+    
+    </summary>
+    
+    
+      <category term="Hacker" scheme="https://ismdeep.github.io/tags/Hacker/"/>
+    
+      <category term="Programmer" scheme="https://ismdeep.github.io/tags/Programmer/"/>
+    
+      <category term="Open Source" scheme="https://ismdeep.github.io/tags/Open-Source/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】对九个超级程序员的采访</title>
+    <link href="https://ismdeep.github.io/posts/2024-07-14-10-q-with-nine-great-programmers.html"/>
+    <id>https://ismdeep.github.io/posts/2024-07-14-10-q-with-nine-great-programmers.html</id>
+    <published>2024-07-14T15:19:48.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>转自：<a href="https://coolshell.cn/articles/8275.html">https://coolshell.cn/articles/8275.html</a></p><p>原文：《<a href="http://www.dodgycoder.net/2012/09/q-with-nine-great-programmers.html">Q&amp;A With Nine Great Programmers</a>》时间有限，我只能粗译，难免错误。</p><p><strong>这篇访谈源自2006年，最先发布在波兰程序员 Jaroslaw “sztywny” Rzeszótko (AKA “Stiff”) 的博客上。但是这篇博文现在找不到了。非常感谢他能授权我重新发布这个博文。</strong></p><p><em>在一个炎热无聊的下午，我突发奇想。我想通过电子邮件的方式对那些我非常感兴趣和非常敬重的程序员问10个问题。准备这10个问题我只花了5分钟，这些都是我个人想问他们的问题，所以，我基本上没想太多要问他们什么。最后两个问题和编程没有什么关系，我就是想问题这些人的一些兴趣爱好。另外，不是每一个人都想回答我的，这是我第一次做“访谈”，所以，我犯了一些错误，一些问题没有得到回答。不管怎么样，我得到了很多很有意思的内容，所以，这对我绝对是一次很有意义的经历。</em></p><p><em>并不是每一个人都回了我的邮件，也并不是每一个人都同意回答我的这些问题，也许在我发布这篇文章后我会得到那些回答，但是我已经迫不及待想把这些东西发布了，所以，我可能会更新这篇文章（更新：2006年3月8日，我收到了*Bjarne Stroustrup的回信*）</em></p><p><em>— Jaroslaw</em></p><h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><ul><li><p><a href="https://en.wikipedia.org/wiki/Linus_Torvalds"><strong>Linus Torvalds</strong></a> – <a href="http://linux.org/">Linux kernel</a> 作者。</p></li><li><p><a href="https://en.wikipedia.org/wiki/Dave_Thomas_(programmer)"><strong>Dave Thomas</strong></a> – “Pragmatic Programmer”(注：<a href="http://book.douban.com/subject/1417047/">douban</a>) 和 “Programming Ruby”(注：<a href="http://book.douban.com/subject/1422056/">douban</a>) 以及其它一些优秀书籍的作者。 你可以在 <a href="http://pragdave.pragprog.com/">这里</a> 读读他对编程的一些想法。</p></li><li><p><a href="https://en.wikipedia.org/wiki/David_Heinemeier_Hansson"><strong>David Heinemeier Hansson</strong></a> –  <a href="http://rubyonrails.org/">Rails Framework</a> 作者- 一个目前最新最热的Web开发框架。他的blog在 <a href="http://david.heinemeierhansson.com/">这里</a>. （陈皓注：他也是<a href="https://en.wikipedia.org/wiki/37signals">37signals</a>的领导人之一）</p></li><li><p><a href="https://en.wikipedia.org/wiki/Steve_Yegge"><strong>Steve Yegge</strong></a> – 他可能并不那么知名，但是他给了很多有意思的回答。他有一个很火的关于编程的 <a href="https://steve-yegge.blogspot.com/">blog</a>，他也是游戏 “Wyvern” 的作者。（陈皓注：他最火的是去年在google+上<a href="https://coolshell.cn/articles/5701.html">对google和amazon的吐槽</a>，06年他应该在google了）</p></li><li><p><a href="https://en.wikipedia.org/wiki/Peter_Norvig"><strong>Peter Norvig</strong></a> – Research Director at Google, 知名的 Lisper，AI书的著名作家，<a href="http://norvig.com/">个人主页</a>。</p></li><li><p><a href="https://en.wikipedia.org/wiki/Guido_Van_Rossum"><strong>Guido Van Rossum</strong></a> – <a href="https://python.org/">Python</a> 发明者。</p></li><li><p><a href="https://en.wikipedia.org/wiki/Bjarne_Stroustrup"><strong>Bjarne Stroustrup</strong></a> – C++发明者， <a href="http://www.stroustrup.com/">个人主页</a>。</p></li><li><p><strong><a href="https://en.wikipedia.org/wiki/James_Gosling">James Gosling</a></strong> –  <a href="http://java.sun.com/">Java</a> 发明者。</p></li><li><p><strong><a href="https://en.wikipedia.org/wiki/Tim_bray">Tim Bray</a></strong> –  XML 和 Atom 规格说明书作者之一 <a href="http://www.tbray.org/ongoing/">个人博客</a> 。</p></li></ul><h4 id="Q-1-你是怎么学编程的？是从学校里学的吗？或者你没有上过学-？"><a href="#Q-1-你是怎么学编程的？是从学校里学的吗？或者你没有上过学-？" class="headerlink" title="Q 1: 你是怎么学编程的？是从学校里学的吗？或者你没有上过学:) ？"></a>Q 1: 你是怎么学编程的？是从学校里学的吗？或者你没有上过学:) ？</h4><p><em>Steve Yegge</em></p><p>在我17岁的时候，我在HP的计算器中用他们的RPN 栈语言自学编程的。在这之前，我尝试过学习编程一两次，但都没有学成。HP 28c 和 48g 的科学计算器是一个很牛的东西，而且还有不错的文档。我搞了一本3D图形的书，并很费力地把其中的Pascal语言转成RPN栈语言，并用48g写了一个3D的线框图渲染图。运行的还不错，在我买了PC和Turbo Pascal之后，我开始认真地学习编程。在我进入大学计算机科学专业之前，我已经是一个不错的程序员了。</p><p>我在华盛顿大学拿到了计算机科学学位，这绝对是有价值的，所以，我建议所有的程序员都应该得到计算机科学专业的学位。</p><p><em>Linus Torvalds</em></p><p>我没有在学校里学过编程，我在主要是读我自己想读的书，或是就直接去编程 (一开始在 <a href="https://en.wikipedia.org/wiki/Commodore_VIC-20">Commodore VIC-20</a> 学编程， 然后是 <a href="https://en.wikipedia.org/wiki/Sinclair_QL">Sinclair QL</a>上编程)。</p><p>当然，我觉得上大学非常有用。我没有去一个工科大学，我上了赫尔辛基大学，这是一个比较偏理论的大学，所以，那里的教育并没有那么多的编程的东西（编程只是很少一部分），这里大多数的课程都倾向于教一些基础概念的东西，如：复杂性分析。看上去很无聊，甚至有点浪费时间，但是我还是觉得这些课有用，我对大多数课都还比较enjoy。所以，我觉得我可能在这些方面是一个比较好的程序员。</p><p><em>David Heinemeier Hansson</em></p><p>我学编程是从用HTML做我的第一个网页开始的。那时，我想当我的网页能动态地显示一些内容，所以，我选择了ASP和PHP。在做完这个网页后，我知道了怎么去编程，于是我开始我的计算机科学和商业管理学位的学习。</p><p><em>Peter Norvig</em></p><p>我是从高中和大学课程中学编程的，但是我还是觉得我自己学得更多。</p><p><em>Dave Thomas</em></p><p>我是在高中学编程的。我完全地迷住了，我对编程爱得无法自拔，然后，我开始挑选那些提供软件开发课程的大学。最终，我去了伦敦大学的帝国学院。第二年我就开始学习软件开发的课程了，那绝对是非凡的，学生和教员在一起工作把教材做得更好，每一个人都可以从中学到很多。这些课程给了我难以置信和非常雄厚的软件开发背景。我在那里读到了博士，最后去创业了。</p><p>关于“我是怎么学编程的”这个问题，我的回答是“我现在还在学编程”。我认为好的程序员一生都在学编程。这并不是去学一门语言或是一个代码库，好的程序员会对他们的编程技艺一年又一年地精益求精。</p><p><em>Guido Van Rossum</em></p><p>我去的那个大学有一个大型主机和很多不同的计算机课程。这对我很重要。</p><p><em>James Gosling</em></p><p>起初，我是自学的。在我去上大学之前，我就找到了一份程序员的工作。但是我很高兴我去了大学，在那里有很多乐趣，最终我学到了博士。</p><p><em>Bjarne Stroustrup</em></p><p>我先上的是Aarhus大学， 然后是 剑桥大学(Cambridge)，这两个大学教了我很多很有用的东西，这些东西为了以后的工作打下了基础。另外，我对编程和钱的关系学得非常好——知道了真实世界的问题，正确性，维护性，准时交付，等等，这些比教育可能更重要。</p><p><em>Tim Bray</em></p><p>我本来想去做一个数学老师的。但是，那个学数学的大学要我去学几个计算机的课。</p><h4 id="Q-2-你们觉得对程序员最重要的事是什么？"><a href="#Q-2-你们觉得对程序员最重要的事是什么？" class="headerlink" title="Q 2: 你们觉得对程序员最重要的事是什么？"></a>Q 2: 你们觉得对程序员最重要的事是什么？</h4><p><em>Steve Yegge</em></p><p>沟通能力（写和说）。除非你可以让你的想法更有效率地传递出去，否则你不可能做得比编程更多的事。程序员应该疯狂地阅读，锻炼写作能力，参加一些写作培训课程，甚至锻炼在公开场合演讲的能力。</p><p><em>Linus Torvalds</em></p><p>It’s a thing I call “taste”. 有一件事，我把它叫做“品味”。</p><p>我倾向于不从熟练程度来评判那些和我工作过的人。这些人能非常艰苦地写出很多代码，但是我想从他们对别人的代码的反应做出评判，这样我们就可以明白他们自己写的代码怎么样，知道他们使用的方法怎么样。他们对别人的评判还告诉我，他们是不是有好的“品味”。是这样的，如果一个人没有“好的品味”，那么他一般不会很好的评判他人的代码，他自己写的代码通常也不会很好。</p><p>哦，这并不只是唯一的事。还有一件事，尤其在开源项目里，那是他是否有能力能和别人进行简单的沟通，告诉别人他要干什么，怎么干。这个能力可以告诉别人为什么你干的事是非常重要的，并不是所有的人都有这个能力。</p><p>也就是说，有一些人可以写出很不错的代码，但他们并不一定能解释这些代码，他们也并不一定有好的品味，但是代码可以运行得不错。有时，你需要另一个人（有那种不错的品味的人）把他的代码转成更好的形式。也就是说，任何一个程序员都需要那种可以用清晰的代码来解决复杂问题的基础能力。</p><p><em>David Heinemeier Hansson</em></p><p>很强的对有价值的事的感觉。你可以问问自己这个问题你有没有这种能力：我现在做的这个事值不值得做？很多程序员浪费了如大海一样的时间去做一些无意义的事。</p><p><em>Peter Norvig</em></p><p>我不觉得只有一个，如果要我说一个的话，我说是“专注”。</p><p><em>Dave Thomas</em></p><p>热情。</p><p><em>Guido Van Rossum</em></p><p>你的问题很难回答啊:-) 我猜，如果程序员会在早晨煎个鸡蛋做早餐，那真是无价的能力。</p><p><em>James Gosling</em></p><p>自我激发。你需要全身心地投入到你要做的事中。</p><p><em>Bjarne Stroustrup</em></p><p>把事想清楚的能力：程序必需要能清楚地理解问题并能清楚地表述解决方案。</p><p><em>Tim Bray</em></p><p>能为自己的直觉提供证据的能力。</p><h4 id="Q-3-你是否认为数学和-或物理是一种很重要的编程技能？为什么？"><a href="#Q-3-你是否认为数学和-或物理是一种很重要的编程技能？为什么？" class="headerlink" title="Q 3: 你是否认为数学和&#x2F;或物理是一种很重要的编程技能？为什么？"></a>Q 3: 你是否认为数学和&#x2F;或物理是一种很重要的编程技能？为什么？</h4><p><em>Steve Yegge</em></p><p>数学有很多的分支和程序员相关，他们是“离散数学”和“具体数学”。这些分支包括的学科有，概率论，组合数学，图论，归纳证明，和其它有用的东西。我会鼓励所有的程序员都去学习离散数学，无论能学多少，因为这总比什么都不懂强。</p><p>对于传统的数学，我也不经常用，但是我需要的时候这些数学知识会很管用。例如，在我之前的工作中我就用到了微积分。我需要估计每个小时中某服务的高峰时间的流量负载，所以，他的负载是跟着太阳走的就像一个正弦曲线一样。最简单的方式就是把每个小时的负载曲线给整合起来。如果我不知道微积分，我就不知道怎么更为准确地估计。</p><p>当年我在开发我的Wyvern游戏的时候，我的平面几何的知识对我非常有帮助。而且经常使用代数和线性代数的知识。但我很少在工作中使用三角学或微分方程，微积分同样也很少。</p><p>我想说，简单的数学基础让我的技能比一般程序员好过5%到10%。如果我了解更多的数学，我确信我会比今天做得更好，所以，我每周都会花几个小时学习数学。</p><p>我喜欢物理，我还在学习物理，我会花我一生去理解量子力学。但是我个却没有发现物理对我的程序员工作有多有用。当然，如果我从事一些和物理相关的工作，可能会有用，例如：3D游戏编程，或是某种物理特性仿真。</p><p><em>Linus Torvalds</em></p><p>我个人认为有很强的数学背景是一件好事。但我不确信物理是不是这样的，但是我深信懂数学的人会让你成为一个更好的程序员。这些智力模型都是相通的。</p><p><em>David Heinemeier Hansson</em></p><p>根本没用。至少对业务编程和Web应用来说没用。但是数学可能对一个人的写作有很重要的帮助。</p><p><em>Peter Norvig</em></p><p>是的。很多相法都是从数学来的：归纳，递归，逻辑，等等。</p><p><em>Dave Thomas</em></p><p>也许吧。但老实说，我没见到过懂这些学科和好的程序员有很大的相关性。</p><p>然而，我见过有音乐背景和好的编程技能有很强的相关性。我不知道这为什么，但是我怀疑大脑中的某个区域可以让人即可以写出好的音乐，也可以写出好的代码。（陈皓注：*<a href="http://www.weibo.com/n/Sir%E9%98%BF%E6%80%AA">@Sir阿怪</a>* 貌似就是这个例子）</p><p><em>Guido Van Rossum</em></p><p>数学，当然（对于一些学科是很重要的，我不关心微分方程，但是代数和逻辑学是很重要的），物理，我不觉得对编程技能有关，当然物理在其它很多地方很有意思。</p><p><em>James Gosling</em></p><p>当然！数学教会了我逻辑和推导……让我有了一双懂分析的眼睛。当我们分析算法的时候，数学是无法被取代的。</p><p><em>Bjarne Stroustrup</em></p><p>这要看程序员自己和项目性质了。以前的数学很有用，物理一般，但是学好物理是是学习应用数学最好的一条路。</p><p><em>Tim Bray</em></p><p>对我来说，在我的编程生涯中我从来都没有用过大学里教的数学。</p><h4 id="Q-4-关于编程，你们认为接下来的大事是什么？X-Oriented编程，Y语言，量子电脑-？"><a href="#Q-4-关于编程，你们认为接下来的大事是什么？X-Oriented编程，Y语言，量子电脑-？" class="headerlink" title="Q 4: 关于编程，你们认为接下来的大事是什么？X-Oriented编程，Y语言，量子电脑 ？"></a>Q 4: 关于编程，你们认为接下来的大事是什么？X-Oriented编程，Y语言，量子电脑 ？</h4><p><em>Steve Yegge</em></p><p>我认为Web编程会逐渐变成最最重要的客户端编程。而对于原来传统的客端端编程都会被废弃，如： GTK, Java Swing&#x2F;SWT, Qt, 当然，所有的和平台有关的东西，例如 Cocoa 和 Win32&#x2F;MFC&#x2F;等。</p><p>当然，这不会一晚上就发生了。这会在第一个十年内缓慢地发生，而在第二个十年内，Web Apps最终会胜利。工具，语言，协议，和浏览器技术都会进步得非常快，并会完全超出你今天能干的事。每一年都会向前进一步，而从今天开始，我会最终决定把我所有的应用开发全部切换到基于浏览器的应用。（陈皓注：我也是这么认为的，参看《<a href="https://coolshell.cn/articles/5815.html">来信，创业，移动互联网</a>》）</p><p>微软和苹果最终不愿意这个事发生，所以，触发这个事的第一步会是一个开源的浏览器（如：Firefox）开始到了支配市场的地位，然后会出现某种Firefox的杀手级应用（这种杀手级应用可能会像iTunes一样，所有的人都会用它，只需要下载Firefox）</p><p><em>Linus Torvalds</em></p><p>我并不认为我们会看到一个“大的跳跃”。我们只会看到很多的工作帮助我们把那些沉闷辛苦的工作变得更简单——会有一个更高级别的语言，也许把简单的数据库集成到语言中来会是其中最主要一个。</p><p>例如，我个人相信“Visual Basic”在编程方面比“面向对象”做得更多。当然，人们都在取笑VB是一个很烂的编程语言，并且人们在谈论OO语言都十多年了。但我还觉得不是这样的，Visual Basic 不是一个好的语言，但是我觉得VB那简单的数据库接口比OO更重要。</p><p>所以，我认为会语言有很多的改进，并且，硬件的改进会让编程更容易，但我并不期望会有巨大的生产力或是革命性的改进。</p><p>至少，你不会开始搞真正的AI的东西，我也不认为真的AI会变成某种你不需要编程的东西。</p><p><em>David Heinemeier Hansson</em></p><p>我从不试图预测未来。我也不相信命运一说。最好预测未来的方式就是去实现未来。</p><p><em>Peter Norvig</em></p><p>大规模的分布式处理</p><p><em>Dave Thomas</em></p><p>下一个最牛的事会被再下一个最牛的事所掩盖，然后再被再再下一个所掩盖，再再再下一个所掩盖……。这是一件没完没了的事，所以，我并不会试图去找最牛的事，因为这会让人们忘了那些最真实的问题：把基本的东西做对。我们要让用户更满意，专注于交付有价值的东西，自豪于我们做的事。一个程序员可以使用很多工具把这些事做得更好，而不是去追逐时尚和流行。</p><p><em>Guido Van Rossum</em></p><p>对不起，我没有那么多水晶球。我CGI被发明了5年后预测过它 :-)</p><p><em>James Gosling</em></p><p>有两个事是我现在最关心的，那就是要对付并行和复杂。</p><p><em>Bjarne Stroustrup</em></p><p>我不知道，我也不愿猜。</p><p><em>Tim Bray</em></p><p>不知道。</p><h4 id="Q-5-如果你有3个月学一个相对较新的技术，你会学什么？"><a href="#Q-5-如果你有3个月学一个相对较新的技术，你会学什么？" class="headerlink" title="Q 5: 如果你有3个月学一个相对较新的技术，你会学什么？"></a>Q 5: 如果你有3个月学一个相对较新的技术，你会学什么？</h4><p><em>Steve Yegge</em></p><p>我的确有3个月的业余时间，我准备学一下 Dojo (<a href="http://dojotoolkit.org/">http://dojotoolkit.org</a>) 和高级 AJAX 及 DHTML。我会通过开发一个相当牛的Web应用来学习他们。Dojo 真的酷，并且我确信它会越来越好。</p><p><em>Linus Torvalds</em></p><p>嗯，我真的很爱做 FPGA（可编程芯片），但我部是太忙了而不是坐来来开始学习。我喜爱和硬件打交道：很明显这个原因是因为我最终在做操作系统，因为操作系统（除了编译器）基本上都是在和硬件打交道，但我没有真正地自己去设计和做一个硬件。</p><p><em>David Heinemeier Hansson</em></p><p>Mac 的 Cocoa 编程</p><p><em>Peter Norvig</em></p><p>我想把 Javascript 学得更好，<del>然也</del>当然也想学 flash.</p><p><em>Dave Thomas</em></p><p>如果“新”是对于我来说，那么我会去学钢琴课。</p><p>如果“新”是说技术，我猜 我会选择学习某种和为残疾人服务的有关的技术。</p><p><em>Guido Van Rossum</em></p><p>单板滑雪。</p><p><em>James Gosling</em></p><p>搞点有乐趣的东西，我会学习最新的3D渲染技术。我可能会写一个光子映射渲染器。</p><p><em>Bjarne Stroustrup</em></p><p>3个月只有很少的东西你可以学，我觉得你只能参加某个成熟领域的培训。</p><p><em>Tim Bray</em></p><p>安全，加密，数字签名，身份标识，等等。对我来说，从没学过这些东西对我来说是个很大的问题。</p><h4 id="Q-6-你们觉得如何让一些程序员可能有超过其它程序员10倍或100倍的生产力？"><a href="#Q-6-你们觉得如何让一些程序员可能有超过其它程序员10倍或100倍的生产力？" class="headerlink" title="Q 6: 你们觉得如何让一些程序员可能有超过其它程序员10倍或100倍的生产力？"></a>Q 6: 你们觉得如何让一些程序员可能有超过其它程序员10倍或100倍的生产力？</h4><p><em>Steve Yegge</em></p><p>我想你应该考虑一下为什么不是让所有的程序员都一样牛。托马斯爱迪生有一句关于天才的名言也许会给你一些启示。</p><p><em>Linus Torvalds</em></p><p>我真的不知道，我想，一些人之所以更牛是因为他们可以专注于那些重要的事，而更多的只不过是在应付。那些我所知道的真的很牛的程序员从很年轻的时候就在做事了。</p><p><em>David Heinemeier Hansson</em></p><p>把难题变简单的能力。</p><p><em>Peter Norvig</em></p><p>把整体问题一次性放入大脑的能力。</p><p><em>Dave Thomas</em></p><p>他们关心他们做的事。</p><p><em>Guido Van Rossum</em></p><p>大脑结构基因不同。</p><p><em>James Gosling</em></p><p>他们知道他们要做什么，他们不并不急于仓促行事。他们有他们要做的事的整个蓝图。</p><p><em>Bjarne Stroustrup</em></p><p>首先，缺少足够的职业培训，或基础不够。其次，这些人要即聪明（那种可以把事情想清楚，直达核心的能力），又有经验，并有使用工具的知识。编程需要把理论和实践结合起来 – 并不是使用没有实际业务的知识。</p><p><em>Tim Bray</em></p><p>令人惊讶的思维改变。</p><h4 id="Q-7-什么工具是你的最爱（操作系统，编程-脚本语言，文本编辑器，版本管理，shell，数据库，或其它没它你活不了的工具），为什么不是别的？"><a href="#Q-7-什么工具是你的最爱（操作系统，编程-脚本语言，文本编辑器，版本管理，shell，数据库，或其它没它你活不了的工具），为什么不是别的？" class="headerlink" title="Q 7: 什么工具是你的最爱（操作系统，编程&#x2F;脚本语言，文本编辑器，版本管理，shell，数据库，或其它没它你活不了的工具），为什么不是别的？"></a>Q 7: 什么工具是你的最爱（操作系统，编程&#x2F;脚本语言，文本编辑器，版本管理，shell，数据库，或其它没它你活不了的工具），为什么不是别的？</h4><p><em>Steve Yegge</em></p><p>操作系统： Unix! 我用Linux，cygwin，和 darwin。你无法打败那些高效的工具。每一个程序员都应该学习使用&#x2F;bin和&#x2F;usr&#x2F;bin下的所有命令。</p><p>脚本语言：Ruby。我几乎对所有的重要的脚本语言都很熟悉： Perl, Python, Tcl, Lua, Awk, Bash, 和一些我忘了的。但是我太懒了，而Ruby是目前所有脚本语言中最简单的，它应该是天堂制造的。</p><p>编程语言：没有一个我喜欢的，我觉得所有的编程语言都很扯。我倾向于Java，因为它很强，可跨平台，有多不错的工具和类库。但是Java未来会进化或是灭亡，Java还没有好到可以永远保持其领先地位。</p><p>文本编辑器：Emacs，因为这是迄今最好的编辑器。</p><p>版本管理：SVN，Perforce更好一些，但是也很贵。</p><p>Shell脚本： Bash, 因为我太懒了去学一个更好的。</p><p>数据库： 当然是MySQL，没有之一。</p><p>其它：我发现GIMP是无价的，但也是令人恼<del>炎</del>火的。我用这个东西好几年了，但什么也没干，但是我没它活不了。很讽刺吧。Firefox 越来越是我最重要的工具。如果让我去用IE和Safari，我会有严重的窒息感。</p><p>注：所有的这些工具 (Unix, Emacs, Firefox, GIMP, MySQL, Bash, SVN, Perforce) 都有一个共同点：他们是可扩展的。例如：他们都有可编程的API。伟大的程序员知道怎么编写他们的工具，而不只是去使用。</p><p><em>Linus Torvalds</em></p><p>实际上，我最终也没有用过几个工具，而我却花了一些时间让这些工具为我工作。最大的事是我自己写了个操作系统，我也自己写了个版本管理系统（git），我用的文本编辑器是 micro-emacs – 最终我也定制和扩展了它。</p><p>除了上面三个，其它的东西，我深度关心我的邮件阅读软件，我使用“pine”，并不是因为它是史上最好的邮件阅读软件，因为我习惯了，用它我会有最低限度的大惊小怪。</p><p><em>David Heinemeier Hansson</em></p><p>OS X, TextMate, Ruby, Subversion, MySQL. 这些组合让我很快乐。我希望那些有好的品味的专注于重要的事的工具。</p><p><em>Peter Norvig</em></p><p>我不喜欢那三大操作系统 – Windows, Mac, Linux。我喜欢 Python 和 Lisp. Emacs.</p><p><em>Dave Thomas</em></p><p>在使用Linux10年后我转到Mac平台有两年多了。Mac并不见得有多好，但是它不需要很牛的技术，也不需要经常维护，这让我可以让我更专心得使用它。</p><p>我并不是一个单一工具的信仰者，我喜欢换来换去的，这样可以让我有更多的经历。现在，我使用 OSX, Emacs, TextMate, Rails, Ruby, SVN, CVS, Rake, make, xsltproc, TeX, MySQL, Postgres, 还有一堆高效的小工具。没人知道我明年会用什么。</p><p><em>Guido Van Rossum</em></p><p>Unix&#x2F;Linux, Python, vi+emacs, Firefox.</p><p><em>James Gosling</em></p><p>这些天，我在用 NetBeans. 用它可以干我想干的所有的事，清洁，简单和高效。这是最好的我永远要生活在其中的环境了。</p><p><em>Bjarne Stroustrup</em></p><p>Unix, sam (一个非常简单的文本编辑器), 当然，一个好的C++编译器。</p><p><em>Tim Bray</em></p><p>我喜欢 Unix-like 的操作系统，像 Python 和 Ruby 的动态语言，像Java的静态语言（具体说来是Java API） Emacs, 还有, bash, whatever, NetBeans.</p><h4 id="Q-8-你最喜欢的编程书是什么？"><a href="#Q-8-你最喜欢的编程书是什么？" class="headerlink" title="Q 8: 你最喜欢的编程书是什么？"></a>Q 8: 你最喜欢的编程书是什么？</h4><p><em>Steve Yegge</em></p><p>大哥，这个问题太难了。也许是”Gödel, Escher, Bach: an Eternal Golden Braid” (作者Hofstadter)？虽然这不是严格意义上的编程的书，如果你要明确意义上的编程书，那么可能是 SICP (mitpress.mit.edu).</p><p><em>Linus Torvalds</em></p><p>嗨。这两天我在读一些小说，或是非计算机读物（老的但是有用的 “The Selfish Gene” 作者 Richard Dawkins)。</p><p>如果要问我编程的书，我脑子里只出现了唯 一一本真正的经典的编程的书 Kernighan &amp; Ritchie 的 “The C Programming Language”，因为这本书太牛了，可读性强并且很短。考<del>虚</del>虑一下你想学到这世上一门最重要编程语言，并且它很要很薄，而且还有可读性，这真是一个奇迹。</p><p>也就是说，其它我很喜欢的书并不是编程的，而是关于计算机结构和硬件的。那显然是 Patterson &amp; Hennessy 的计算机结构的书，但是我个人也许更喜欢 Crawford &amp; Gelsinger 的 “Programming the 80386?，这是我在开始写Linux时用的书。</p><p>相似的原因，我还喜欢 Andrew Tanenbaum 的 “Operating Systems: Design and Implementation”.</p><p><em>David Heinemeier Hansson</em></p><p>我喜欢 Extreme Programming Explained 其摒弃了一般的编程实践，我还喜欢 Patterns of Enterprise Application Architecture 其出众地说明了抽象和具现的平衡。</p><p><em>Peter Norvig</em></p><p>Structure and Interpretation of Computer Programs</p><p><em>Dave Thomas</em></p><p>这关系到你所谓的“最喜欢”，也许我最喜欢的是IBM的 “IBM&#x2F;360 Principles of Operation.”</p><p><em>Guido Van Rossum</em></p><p>Neil Stephenson的 Quicksilver.</p><p><em>James Gosling</em></p><p>Programming Pearls 作者Jon Bentley.</p><p><em>Bjarne Stroustrup</em></p><p>K&amp;R.</p><p><em>Tim Bray</em></p><p>Bentley的 Programming Pearls</p><h4 id="Q-9-你最喜欢的和编程无关的一本书是什么？"><a href="#Q-9-你最喜欢的和编程无关的一本书是什么？" class="headerlink" title="Q 9: 你最喜欢的和编程无关的一本书是什么？"></a>Q 9: 你最喜欢的和编程无关的一本书是什么？</h4><p><em>Steve Yegge</em></p><p>只能是一本吗？这不可能。有太多太多我喜欢的书了。</p><p>我这个月读过最喜欢的书是 “Stardust” (Neil Gaiman) 和 “The Mind’s I” (Hofstadter&#x2F;Dennet).</p><p>我最喜欢的作者是 Kurt Vonnegut, Jr. 和 Jack Vance.</p><p><em>Linus Torvalds</em></p><p>我在前面说过 Dawkins的 Selfish Gene。在小说方面，有很多很多我enjoy的，但是几乎没有我特别喜欢的一本。我一般不会重读一本书，我的选择总是会变。我可能更喜欢科幻小说，如：”Stranger in a Strange Land” 作者 Heinlein，这是我青少年时期最喜欢的书，但现在并不是我喜欢的了。</p><p><em>David Heinemeier Hansson</em></p><p>1984, George Orwell.</p><p><em>Guido Van Rossum</em></p><p>Neil Stephenson 的 Quicksilver.</p><p><em>James Gosling</em></p><p>Guns, Germs &amp; Steel 作者 Jared Diamond</p><p><em>Bjarne Stroustrup</em></p><p>我没有固定喜欢的书。目前是 O’Brian 的 Aubrey&#x2F;Maturin 系列。</p><p><em>Tim Bray</em></p><p>One Day in the Life of Ivan Denisovich</p><h4 id="Q-10-你最喜欢的乐队-演奏家-作曲家？"><a href="#Q-10-你最喜欢的乐队-演奏家-作曲家？" class="headerlink" title="Q 10: 你最喜欢的乐队&#x2F;演奏家&#x2F;作曲家？"></a>Q 10: 你最喜欢的乐队&#x2F;演奏家&#x2F;作曲家？</h4><p><em>Steve Yegge</em></p><p>喜欢的风格：古典音乐，动漫原声音乐，电脑游戏音乐</p><p>喜欢的作曲家：Rachmaninoff, Chopin, Bach</p><p>喜欢的演奏者：David Russell (古典吉它), Sviatoslav Richter (钢琴)</p><p>喜欢的动漫音乐： Last Exile, Haibane Renmei</p><p><em>Linus Torvalds</em></p><p>实际上我并不太喜欢音乐，但是当我听音乐的时候，我一般听经典摇滚乐，如： Pink Floyd ，Beatles ，Queen 和 The Who 乐队。</p><p><em>David Heinemeier Hansson</em></p><p>我喜欢很多风格。 Beth Orton, Aimee Mann, Jewel, Lauryn Hill. Actually, 所有的这些都可以归到 Girls with Guitars ;).</p><p><em>Guido Van Rossum</em></p><p>Philip Glass.</p><p><em>James Gosling</em></p><p>我喜欢听民歌: Christine Lavin, Woody Guthrie, Pete Seeger…</p><p><em>Bjarne Stroustrup</em></p><p>乐队: The Dixie Chicks. 作曲家: Beethoven.</p><p><em>Tim Bray</em></p><p>看我的博客吧。</p><p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p><p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p><h4 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a><strong>补充说明</strong></h4><p>我之所以发现这篇文章，是因为我读到了 Jeff Atwood 的这篇名为 “<a href="http://www.codinghorror.com/blog/2006/07/linus-torvalds-visual-basic-fan.html">Linus Torvalds, Visual Basic Fan</a>” 的文章，这篇文章指向了 “<a href="http://sztywny.titaniumhosting.com/2006/07/23/stiff-asks-great-programmers-answers/">STIFF ASKS, GREAT PROGRAMMERS ANSWER</a>” 这篇文章，但是链接已坏了，然后，我搜了一下也没有搜到这篇文章。然后我去了 archive.org 搜了一下，并找到了这篇由 Jaroslaw Rzeszótko 写的博客。</p><p>因为这篇博文现在找不到了，所以，我想我应该重新把它贴出来，这样其它人可以读一下这篇有意思的文章。所以，我向原作者取得了授权，再次感谢 Jaroslaw!</p><p>（全文完）</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;转自：&lt;a href=&quot;https://coolshell.cn/articles/8275.html&quot;&gt;https://coolshell.cn/articles/8275.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;原文：《&lt;a href=&quot;http://www.dodgycode
+      
+    
+    </summary>
+    
+    
+      <category term="Hacker" scheme="https://ismdeep.github.io/tags/Hacker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】10部程序员必看的纪录片</title>
+    <link href="https://ismdeep.github.io/posts/2024-07-14-10-programmer-documentary.html"/>
+    <id>https://ismdeep.github.io/posts/2024-07-14-10-programmer-documentary.html</id>
+    <published>2024-07-14T15:10:25.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>从本文介绍的影片中可以看到各式各样的程序员：他们有的才华横溢，14岁就创造了RSS1.0规格，足迹遍及整个互联网，但英年早逝；有的活在自己世界并坚守着自己的理想，想法不为他人而决定；有的在尽自己最大的努力来挽救公司，永不言弃的精神在影片中体现的淋漓尽致；有的置生死于度外，揭露出鲜为人知的真相…</p><h1 id="一、互联网之子-The-Internet’s-Own-Boy-The-Story-of-Aaron-Swartz"><a href="#一、互联网之子-The-Internet’s-Own-Boy-The-Story-of-Aaron-Swartz" class="headerlink" title="一、互联网之子(The Internet’s Own Boy: The Story of Aaron Swartz)"></a>一、互联网之子(The Internet’s Own Boy: The Story of Aaron Swartz)</h1><p><strong>影片介绍：</strong></p><p>斯沃茨很早就参与网络标准的制订，并在14岁就参与创造RSS 1.0规格。 从那时开始他就成为 W3CRDF 核心工作小组的成员，跟John Gruber共同设计了排版语言Markdown（简书使用的编辑器就有Markdown），并参与其他许多计划。 斯沃茨在2006年创办了网ok ever published”)。斯沃茨早在 2000 年时就用wiki技术开发了 ‘theinfo’ 百科全书计划。他公司的后台也以 wiki 架设。Swartz曾在斯坦福大学读书，但很快辍学创建Infogami软件公司。Aaron Swartz还是社交新闻网站Reddit的三位创始人之一， 2006年初，Infogami与Reddit合并，并在2006年底被出售给出版公司Condé Nast。Swartz在20周岁生日前出售了他所持有的股份。 Swartz在2006年用wiki技术创办了网上免费图书馆Open Library, 目的是为了让每一本曾经出版过的书都有自己的网页(“one web page for every book ever published”)。Swartz在2010年创立了反对互联网审查的Demand Progress。这个机构通过Email及其他媒体组织群众，针对特定议题向国会议员及其他意见领袖表达意见、施予压力。2011年7月19日，Swartz因数字偷窃被捕，被控从MIT和JSTOR下载了480万篇学术论文，他在支付10万美元保释金后被释放。Swartz是利用外置硬盘、通过物理接触的方式从MIT内网运行脚本下载JSTOR论文的。2013年1月自杀身亡。</p><p><strong>精彩影评：</strong></p><blockquote><p>看到开头不久，他们说，他是一个与世界不太和睦的人，世界对他也不太和睦，当即想到自己，并且，已经猜测到他可能会有抑郁。因为但凡这种才华横溢又与传统不合作的人，要么，成为传奇，要么，成为牺牲品。当然，独享其一的人少，更多的，是两者兼得或两者兼弃的人，比如斯沃茨。</p></blockquote><h1 id="二、独立游戏大电影（Indie-Game-The-Movie）"><a href="#二、独立游戏大电影（Indie-Game-The-Movie）" class="headerlink" title="二、独立游戏大电影（Indie Game: The Movie）"></a>二、独立游戏大电影（Indie Game: The Movie）</h1><p><strong>影片介绍：</strong></p><p>Indie Game: The Movie 独立游戏大电影是一部关于独立游戏的纪录片，讲述独立游戏过往的精彩故事。随着二十一世纪的到来，新的一类独立艺术家诞生了：独立游戏开发者。他们有独立的构思，特别的设计以及个性鲜明的游戏。当然，他们也希望获得成功。影片中，设计师 Edmund McMillen 和程序员 Tommy Refenes 经过两年的努力，等待着他们第一款XBOX的游戏 Super Meat Boy “超级肉食男孩” 的发布。游戏讲述的是一个绷带男孩寻找女友的故事。而在一个名为 PAX 的视频游戏展中，开发者 Phil Fish 则推出了众人翘首以盼的画了四年制作的游戏 FEZ “费兹”。Jonathan Blow 则在考虑继 Braid “时空幻境” 之后的新游戏。而时空幻境曾一度是历史上平均最高的游戏之一。Lisanne Pajot 和 James Swirsky 第一次共同制作了这部电影，他们精心捕捉独立游戏艺术家们奋斗历程的点点滴滴，以及其艺术表现过程中的情感历程。四个开发者，三款游戏，一个终极目标 —— 通过这部纪录片共同表达了出来。</p><p><strong>精彩影评：</strong></p><blockquote><p>有一些人，他们也希望赚钱，但他们更多的是凭着理想工作。我们这个社会叫他们理想主义者。他们希望作品能被人认可、被人接受、被人喜欢，但不是这样也没关系，他们会按照自己的理念创作，不会因此改变一分一毫。他们脱离社会，离群索居，只是一心一意沉浸在自己做出的世界中。</p></blockquote><h1 id="三、代码奔腾（Code-Rush）"><a href="#三、代码奔腾（Code-Rush）" class="headerlink" title="三、代码奔腾（Code Rush）"></a>三、代码奔腾（Code Rush）</h1><p><strong>影片介绍：</strong></p><p>这是一部讲述Netscape和Mozilla的故事的纪录片。Netscape是一家伟大的公司，它发明了img标签、cookie、ssl安全协议，当然还有如今HTML5时代的明星语言Javascript！但是由于众所周知的原因，它失败了。Netscape最终将浏览器代码开源，这个新项目就是Mozilla！摄制团队横跨了期间重要的几个时间点，整整跟踪了程序员们一年的时间，最终制成这部纪录片。</p><p>独立制片人从1998年3月到1999年4月跟随Mozilla的团队，他们曾经曾开发了网景浏览器的源代码，并走向世界，如今在尽最后的努力来挽救公司。其结果是计算机历史上一个了不起的瞬间，拍摄做这工作的，是第一个内部测试版的人，此刻杰米Zawinski撰写上传的第一个建立公开的应用程序，通过集体会议宣布AOL的收购。它开启了了全国性的PBS在2000年3月，也是互联网泡沫崩溃的开始。</p><p><strong>精彩影评：</strong></p><blockquote><p>随着互联网企业如百度，腾讯等的兴起，越来越多的人投身于这一充满神秘感的行业。这里有一夜致富的神话，这里的人年轻而又新潮，这里的人在做着世界上最酷的事情。这就是互联网创业。</p><p>硅谷无异是此道中执牛耳的地方。google，facebook等公司和斯坦福大学一起让这里成为世界上计算机互联网技术最高点。人们惊讶，羡慕，甚至嫉妒于这些如梦幻般的生活和故事，于是找到了一部并不算新的纪录片：Code Rush。（IT纪录片很少，也许是这个行业太年轻以至于忘记了拍摄周年写真）。</p><p>少数真正点开这部电影并花费一小时看完的人都会为结局感到迷茫：不为屏幕中人，而为自己。因为自己正是其中的一员。在摄像头打开的瞬间中，网景公司和她的员工们正在避免被微软击败后一蹶不振。（关于网景公司和微软的浏览器之争请百度）接下来，镜头随着一个个程序员的角度讲述着这个世界上最高富帅最吸引人的行业是如何运行的：发福的胖子；不做作业却编代码的小孩；吃住在电脑前的狂人…种种努力，拼搏，协作，永不言弃精神短短的几十分钟里体现的淋漓尽致。”我们没有被打败，我们在做改变世界的事。历史会见证的。”</p><p>可是电影的最后却转向华尔街，点出了一切的一切：他们（程序员）所有的致富梦都在我们这里。而华尔街的贪婪和无情众所周知。出于对网景公司战胜微软前景的不看好（背景：当时创业者找投资时都会被问到”微软会不会感兴趣？”），大家的努力，mozilla开源社区的建立，最终也没有挽回资金链断裂不得不卖给AOL的事实。当大家真正放下手头的工作，回首自顾：自己已经习惯不在家的日子，孩子很久没见过了，妻子已经分居甚至（离婚）。自己的健康不再，心也疲惫。曾经的伙伴各奔前途。繁华散尽，原来他们也是最普通的人。</p><p>相对于媒体给大家宣传的种种，这部纪录片更多的讲述了IT行业的残酷。有得必有失，也许光鲜如马克•扎克伯格现实中却缺少很多常人的快乐。男人因孤独而优秀。通宵面对计算机屏幕是一种方式，但不是唯一的一种。</p><p>这里所说的程序员并不等同当下敲代码的”打字员”。</p></blockquote><h1 id="四、现代生活的秘密规则：算法（The-Secret-Rules-of-Modern-Living-Algorithms）"><a href="#四、现代生活的秘密规则：算法（The-Secret-Rules-of-Modern-Living-Algorithms）" class="headerlink" title="四、现代生活的秘密规则：算法（The Secret Rules of Modern Living: Algorithms）"></a>四、现代生活的秘密规则：算法（The Secret Rules of Modern Living: Algorithms）</h1><p><strong>影片介绍（我就不翻译了）：</strong></p><p>Without us noticing, modern life has been taken over. Algorithms run everything from search engines on the internet, to sat navs and credit card data security - they even help us travel the world, find love and save lives.</p><p>Mathematician Professor Marcus du Sautoy demystifies the hidden world of algorithms. By showing us some of the algorithms most essential to our lives, he reveals where these 2,000-year-old problem solvers came from - how they work, what they have achieved and how they are now so advanced they can even programme themselves.</p><p><strong>精彩影评：</strong></p><blockquote><p>原来算法在我们的生活中早已无处不在，从排序，搜索引擎，飞机起飞顺序，路程选择，游戏，大型自动仓库……最后部分是机器学习，由机器自己来发现算法。</p></blockquote><h1 id="五、密码破译者：布莱切利庄园的幕后英雄（Timewatch-Code-Breakers-Bletchley-Park’s-Lost-Heroes）"><a href="#五、密码破译者：布莱切利庄园的幕后英雄（Timewatch-Code-Breakers-Bletchley-Park’s-Lost-Heroes）" class="headerlink" title="五、密码破译者：布莱切利庄园的幕后英雄（Timewatch - Code-Breakers: Bletchley Park’s Lost Heroes）"></a>五、密码破译者：布莱切利庄园的幕后英雄（Timewatch - Code-Breakers: Bletchley Park’s Lost Heroes）</h1><p><strong>影片介绍：</strong></p><p>你是否知道，二战时期英国的破译中心—-布莱切利庄园。庄园位于伦敦以北50英里的BLETCHLEY PARK，由于最高军事机密，这个地名从未出现在任何地图上。布莱切利庄园默默无语，但它改变了整个世界。</p><p>纪录片 [密码破译中心—-布莱切利庄园]，介绍二战期间为破译纳粹德国顶级密码”金枪鱼密码”，英国在布莱切利庄园设立了监听站。因为德军一次小小疏忽，英国破译者成功破译了密码。情报人员截获了纳粹德国元首希特勒与其数名高级将领的密电，由此二战库尔斯克战役成为转折点，苏军一路攻克柏林。 布莱切利庄园的英雄们使二战缩短了至少两年时间，挽救无数生命免遭涂炭，取得了伟大胜利。</p><p>影片介绍了庄园里三位天才的丰功伟绩。阿兰•图灵破译了德国的 Enigma 密码。2014年3月25日，布莱切利庄园当年那支破译小组的最后一位成员，二战密码破译界里程碑式的人物雷蒙德•罗伯特上尉与世长辞，享年93岁。历史上第一台计算机，也并非出自美国人之手。对世界计算机发展做出卓越贡献的两位伟人BILL TUTTE和 TOMMY FLOWERS，直到上世界七八十年代解密后，才开始给世界一个真相。其中BILL TUTTE后来移民加拿大，并一直在UNIVERSITYOF WATERLOO工作，这也是为什么滑铁卢大学的计算机专业是世界文明的一个原因吧。</p><p><strong>精彩影评：</strong></p><blockquote><p>1、德军的密报员偷懒疏忽，导致一系列的溃败，真是一着不慎满盘皆输；</p><p>2、一群天才抓住一个小疏忽从而改变时局，机会永远只留给有准备且专业知识过硬的人；</p><p>3、唯才是举，众生平等，把合适的人用到合适的岗位上才是正道，一切搞血统论、阶级成分论的人最终都会被历史证明是愚蠢透顶的。</p></blockquote><h1 id="六、谷歌与世界头脑（Google-and-the-World-Brain）"><a href="#六、谷歌与世界头脑（Google-and-the-World-Brain）" class="headerlink" title="六、谷歌与世界头脑（Google and the World Brain）"></a>六、谷歌与世界头脑（Google and the World Brain）</h1><p><strong>影片介绍：</strong></p><p>都说人类从未放弃巴别塔之梦。20 世纪30 年代着名科幻作家威尔斯的《世界大脑》预言，70 年后由智能先锋谷歌变相实现。一个要把全世界书籍扫描贮藏，旷古绝今的智库建设计划，其实已在我们半知不晓下火速进行。12 年来，数以百万计被收藏的书籍被侵犯版权，计划背后隐约浮现的超级人工智能图像，都令人惊惧交集，疑怒不休。一场紧繫知识意义和人类文化前途的划时代官司，如尖刀剖开文明之梦想两难。「待我谷歌一下」的日常琐语从此显得曲折而沉重。</p><p><strong>精彩影评：</strong></p><blockquote><p>1938年，科幻小说家赫伯特•乔治•威尔斯（发表过《世界大战》等作品）出版了《世界脑》一书。在这本书中，他着重介绍了世界脑概念，与构建一个世界规模的知识库有关。世界脑汇聚了全人类的知识，以便任何人都能够在需要的时候查询。</p><p>如今，谷歌图书计划正好符合了威尔斯的世界脑构想。这个计划希望把全世界的书籍都数字化，以便用户搜索。</p><p>正当谷歌的计划初具规模时，作者们因版权问题开始奋起反击。于是，谷歌只好缩减这项计划，仅收录没有版权的书籍。</p><p>然而，在某些科技人士眼里，版权却不是他们最关心的问题。在谷歌创业初期，《失控》的作者KK曾向该公司的创始人提出一个疑问，既然当时互联网已经有比较好的搜索引擎，为什么谷歌还要开展这项业务？谷歌创始人回答说：他们是在做人工智能。</p><p>现在看来，谷歌做的正是全球规模的人工智能。它依靠庞大的服务器群（计算能力），先进的软件（算法），以及来自互联网的海量数据（同时也是海量信息与海量知识），将人工智能提升到了前所未有的高度。</p></blockquote><h1 id="七、极速下载的命运（Downloaded）"><a href="#七、极速下载的命运（Downloaded）" class="headerlink" title="七、极速下载的命运（Downloaded）"></a>七、极速下载的命运（Downloaded）</h1><p><strong>影片介绍：</strong></p><p>纪录P2P传输始祖Napster音乐分享网站的兴起与没落，导演亚历士温特藉此一窥网路科技对于音乐产业的巨大影响。虽然整个网站后台随着与唱片公司版权诉讼的争议而宣告终止，但新兴网路自由的圣战，才正要掀起一股时代的浪潮。</p><p><strong>精彩影评：</strong></p><blockquote><p>这是一部关于Napster的纪录片。这个软件有多牛逼呢？你现在用的p2p技术，都有它的雏形。就连早期iTunes界面都那么像它。通过这个软件的兴衰经历，反应了网络共享文化对传统产业，尤其是唱片业的冲击。而且这也是唱片工业史上第一次，科技没有帮助这个产业赚钱，而是让这个产业产生了恐惧。</p></blockquote><h1 id="八、第四公民（Citizenfour）"><a href="#八、第四公民（Citizenfour）" class="headerlink" title="八、第四公民（Citizenfour）"></a>八、第四公民（Citizenfour）</h1><p><strong>影片介绍：</strong></p><p>《第四公民》高度还原”棱镜门”事件始末，为观众真实揭秘身处漩涡中心的爱德华•斯诺登。</p><p>纪录片导演柏翠丝本人也是”棱镜门”事件的核心人物，正是在她和《卫报》记者格仑•格林沃德的协助下，斯诺登才得以将美国国家安全局的监控丑闻公之于众。而柏翠丝与格林沃德也因此荣获普利策奖。片名”第四公民”（citizen four）正是斯诺登早期与柏翠丝邮件沟通时使用的匿名代号。2013年6月，当柏翠丝第一次飞往香港与斯诺登见面的时候，她随身携带的摄像机也真实记录了当时的场景。《第四公民》将能高度还原”棱镜门”事件始末，为观众真实揭秘身处漩涡中心的爱德华•斯诺登。</p><p>原来斯诺登在身份没有公开之前就一直和本片导演劳拉•波特拉斯以及卫报的记者匿名联系，所以片子从第一封邮件，到第一篇新闻，再到公开身份，他为了更多的声音，其实做了一个天大的决定，没有人知道明天甚至下一个小时会怎样，电影却举重若轻地，似乎只是展示他几天的日常生活。太勇敢了。</p><p><strong>精彩影评：</strong></p><blockquote><p>原来斯诺登在身份没有公开之前就一直和本片导演劳拉•波特拉斯以及卫报的记者匿名联系，所以片子从第一封邮件，到第一篇新闻，再到公开身份，他为了更多的声音，其实做了一个天大的决定，没有人知道明天甚至下一个小时会怎样，电影却举重若轻地，似乎只是展示他几天的日常生活。太勇敢了。</p></blockquote><h1 id="九、我们窃取秘密：维基解密的故事（We-Steal-Secrets-The-Story-of-WikiLeaks）"><a href="#九、我们窃取秘密：维基解密的故事（We-Steal-Secrets-The-Story-of-WikiLeaks）" class="headerlink" title="九、我们窃取秘密：维基解密的故事（We Steal Secrets: The Story of WikiLeaks）"></a>九、我们窃取秘密：维基解密的故事（We Steal Secrets: The Story of WikiLeaks）</h1><p><strong>影片介绍：</strong></p><p>纪录片饶有兴趣地从多种层面描写了信息时代的透明度和我们对真相的永远不依不饶的探寻。影片详述了朱利安•阿桑奇(Julian Assange)维基解密网站(WikiLeaks)的诞生，这个网站助长了美国有史以来最大的安全缺口。影片描述了这一神秘网站的兴衰，其中穿插着美国陆军士兵布拉德利•曼宁(Bradley Manning)泄密事件，这个令人不安的高智商士兵从美国军事和外交服务器上下载了几十万个文档。</p><p><strong>精彩影评：</strong></p><blockquote><p>2013最佳纪录片剧本。提供多方面的阐述，让观者自己判断。阿桑奇作为一个理想主义的黑客的多面与复杂性是人性在一个特殊新奇的载体上的有趣的呈现。</p></blockquote><h1 id="十、现实生活中的海盗湾（TPB-AFK-The-Pirate-Bay-Away-from-Keyboard）"><a href="#十、现实生活中的海盗湾（TPB-AFK-The-Pirate-Bay-Away-from-Keyboard）" class="headerlink" title="十、现实生活中的海盗湾（TPB AFK: The Pirate Bay Away from Keyboard）"></a>十、现实生活中的海盗湾（TPB AFK: The Pirate Bay Away from Keyboard）</h1><p><strong>影片介绍：</strong></p><p>21世纪初，一个标榜着”实现真正的言论和文化传播自由”的网站横空出世。它就是日后大名鼎鼎并惹来无数争议的最大的档案分享网站海盗湾（Pirate Bay）。该网站由高特弗里德•萨特霍姆•瓦格、弗雷德里克•内伊以及彼得•桑德三个瑞典人创立，他们的精神和魄力得到来自全世界复制派（海盗党）的热烈支持，与此同时也遭到号称损失高达61亿美金的版权方的嫉恨。2008年，以好莱坞为首的巨头向海盗湾提起诉讼，三位创始人不得不”离开键盘”，与检方展开一连串的周旋。</p><p>一方以法律为手段，一方以技术为武器。这不仅是一场来自不同价值观阵营的战争。</p><p><strong>精彩影评：</strong></p><blockquote><p>一直认为海盗湾就是个奇迹，居然在老美和瑞典政府如此的重压之下，依然屹立不倒，至今仍然可以访问，下载。</p><p>电影以记录片的形式讲述海盗湾三位创始人被告的始末，虽然此片的视点基本上站在被告的立场，但依然可以看出版权之争在现代社会中的影响。</p><p>片名AFK是Geek术语，电影也带着观众一窥真实世界中的Geek生活。最后众人入狱的结局令人扼腕。</p></blockquote><p><em>来自：简书</em><br><em>作者：Jaky_Zhan</em><br><em>链接：<a href="http://www.jianshu.com/p/2dd54ec0bb43">http://www.jianshu.com/p/2dd54ec0bb43</a></em></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;从本文介绍的影片中可以看到各式各样的程序员：他们有的才华横溢，14岁就创造了RSS1.0规格，足迹遍及整个互联网，但英年早逝；有的活在自己世界并坚守着自己的理想，想法不为他人而决定；有的在尽自己最大的努力来挽救公司，永不言弃的精神在影片中体现的淋漓尽致；有的置生死于度外，揭
+      
+    
+    </summary>
+    
+    
+      <category term="Hacker" scheme="https://ismdeep.github.io/tags/Hacker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】为什么计算机程序的结构和解释很重要</title>
+    <link href="https://ismdeep.github.io/posts/2024-07-14-why-sicp-matters.html"/>
+    <id>https://ismdeep.github.io/posts/2024-07-14-why-sicp-matters.html</id>
+    <published>2024-07-13T16:39:04.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>原文：<a href="https://people.eecs.berkeley.edu/~bh/sicp.html">https://people.eecs.berkeley.edu/~bh/sicp.html</a></p><p>2011年，为庆祝麻省理工学院建校150周年，《波士顿环球报》列出了在 MIT 那里开发的最重要的创新。他们希望我能解释一下 SICP 的重要性，这是我发给他们的：</p><p>SICP 在许多方面都是革命性的。最重要的是，它极大地提高了介绍性知识内容的标准计算机科学。在 SICP 之前，第一门 CS 课程几乎都是完全充满了学习某种编程语言的细节。 SICP 是关于从细节中退一步来学习大局的方法思考编程过程。它将注意力集中在抽象的中心思想——从具体中发现一般模式问题并构建体现每种模式的软件工具。它使大量使用函数作为数据的想法，这是一个很难学习的想法最初，但一旦学会就会非常强大。（这也是同样的想法，以不同的形式，这使得新生微积分变得非常困难，甚至对于在早期数学课程中表现良好的学生。）它符合第一门计算机科学课程三种不同的编程范例（函数式、面向对象和声明性），而大多数其他课程甚至没有真正讨论哪怕是一种范式。</p><p>另一项革命是选择Scheme作为编程语言。直到今天，大多数计算机科学的介绍都使用当下的“热门”语言：从 Pascal 到 C 到 C++ 到 Java 到 Python。该方案从未在工业界得到广泛应用，但它是完美的 CS 简介语言。一方面，它有一个非常简单的，一切事物的统一符号。其他语言有一种表示法变量赋值，条件执行的另一种表示法，两个或另外三个用于循环，还有一个用于函数调用。课程教这些语言至少要花一半的时间来学习符号。在我在伯克利的基于 SICP 的课程中，我们花了第一个小时关于符号，这就是我们所需要的；在这个学期剩下的时间里，我们学习思想，而不是语法。此外，尽管（或由于）其简单性， Scheme是一种非常通用的语言，使我们能够检查这三种编程范式，特别是让我们看看如何 实现了面向对象编程，所以OOP语言似乎没有对我们的学生来说就像魔法一样。 Scheme 是 Lisp 的一种方言，所以它很棒将函数作为数据处理，但相比之下它是一个精简版本到更常用于专业编程的那些，最少的花哨的东西。阿贝尔森和萨斯曼非常勇敢以尽可能最好的教学语言教授他们的入门课程，而不注意所有工作都在进行中的抱怨其他一些语言。他们认为，一旦你了解了伟大的想法，这也是我的经验，学习另一种编程语言不是一件大事；这是周末的一件苦差事。我告诉我的学生，“语言你将在其中度过大部分工作生涯的方式尚未发明，所以我们无法教你。相反，我们必须为您提供您所需要的技能需要学习新语言的出现。</p><p>最后，SICP对大学新生的未来充满信心预期完成。 SICP 学生编写编程解释器语言，通常被认为更适合大三或大四的学生。文本本身并不容易阅读；它没有侧边栏并且是彩色的盒子和有趣的图片代表了现代教科书的目标注意力持续时间低的学生。没有多余的练习；每个锻炼教会了一个重要的新观念。它使用大词。但它回报了细读；每句话都很重要。</p><p>据统计，基于 SICP 的课程只占少数。但这本书其影响力超出了少数人。给后来的很多人带来了启发作者有意识地努力达到 SICP 标准的教科书。这方案作为学习者语言的使用已被其他人扩展了超过范围从中学到研究生。即使是比较主流的课程尽管大多数人对编程范式的想法变得敏感他们专注于面向对象的编程。计算机的想法科学应该是关于思想，而不是完全关于编程实践，此后扩大到包括有关背景和社会的非技术想法计算的影响。</p><p>SICP 本身拥有悠久的历史，这对于入门 CS 来说是非常不寻常的教科书。通常，一本书的寿命取决于它所采用的语言的流行程度。被附上。 SICP 已强劲发展超过 25 年，且没有任何迹象绝版。在那段时间里，计算发生了巨大的变化，从巨型大型计算机到个人计算机到移动互联网电话。然而这些变化背后的重要理念仍然是一样的，而且 SICP 很好地捕获了这些信息。</p><p>自 1987 年以来，我一直在教授基于 SICP 的课程。该课程已发生变化在此期间逐渐增加；我们添加了有关并行性、并发性的部分控制、用户界面设计和客户端&#x2F;服务器范例。但它是本质上仍然是相同的课程。每隔五年左右，就会有人教师建议我们的第一门课程应该使用 X 语言；每个那时，我说“当有人写出世界上最好的计算机科学书籍时使用 X 语言，那就没问题了”，到目前为止，教员们总是投票支持继续学习 SICP 课程。我们很快就会知道该课程是否可以度过我自己的退休生活。</p><blockquote><p>（脚注：不。伯克利大学新开设的第一门专业课程使用 Python，以及试图保留 SICP 的思想（和一些文本）的讲义。）</p></blockquote><p>最近的讨论更加激烈，因为麻省理工学院经历了一场重大的变革重新设计低年级 EECS 课程。麻省理工学院以外的人倾向于将重新设计总结为“麻省理工学院决定切换到 Python”，但这不是一个感性的描述。麻省理工学院决定放弃课程围绕主题组织（编程范例，然后是电路，然后是信号处理，然后是架构）到围绕应用程序组织的课程（让我们构建一个机器人并对其进行编程；让我们构建一个手机并对其进行编程）。他们课程的一切都必须重新组织；的选择编程语言是这些决定中最不重要的。他们的新方法是更难教；一方面，每门课程都需要合作伙伴电气工程学院和计算机科学学院。也许及时应用优先的方法将引发一场意义深远的革命这是 SICP 之后的事情，但还没有发生。</p><p>根据我的经验，很少有学生意识到他们在我的课程中学到了多少有价值的内容。但是在调查所有的计算机科学专业的学生，SICP成为了最受欢迎的课程之一。回想起来，我经常收到早已离开的学生的邮件，告诉我他们是如何在工作中使用他们的想法的是学生时代不切实际的象牙塔观念。基于函数式编程里面发明的 MapReduce 软件在 Google 上用于数据并行处理帮助消除了象牙塔的声誉。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;原文：&lt;a href=&quot;https://people.eecs.berkeley.edu/~bh/sicp.html&quot;&gt;https://people.eecs.berkeley.edu/~bh/sicp.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2011年，为庆祝麻省理工学院建校15
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+      <category term="Lisp" scheme="https://ismdeep.github.io/tags/Lisp/"/>
+    
+      <category term="Computer Sciense" scheme="https://ismdeep.github.io/tags/Computer-Sciense/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【译】2024 年真实世界加密主题</title>
+    <link href="https://ismdeep.github.io/posts/2024-07-14-themes-from-real-world-crypto-2024.html"/>
+    <id>https://ismdeep.github.io/posts/2024-07-14-themes-from-real-world-crypto-2024.html</id>
+    <published>2024-07-13T16:11:17.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>原文：<a href="https://blog.trailofbits.com/2024/06/18/themes-from-real-world-crypto-2024/">https://blog.trailofbits.com/2024/06/18/themes-from-real-world-crypto-2024/</a></p><p>三月，Trail of Bits 的工程师们前往了充满活力 (而且稍微有点冷) 的多伦多市，参加了为期三天的 Real World Crypto 2024 大会，该大会汇集了数百位密码学领域的杰出人才。 我们还参加了三个相关活动：Real World 后量子密码 (RWPQC) 研讨会、全同态加密 (FHE) 研讨会和开源密码学研讨会 (OSCW)。 经过回顾活动中的演讲和专家讨论，我们总结了一些突出的主题：</p><ol><li>政府、标准化组织和业界在推进后量子密码 (PQC) 标准化和落地方面取得了重大进展。</li><li>在后量子密码标准之外，我们看到了利用基于格的结构进行更先进的后量子密码的创新。</li><li>对端到端加密（E2EE）和密钥透明度的投资在多个组织中正变得越来越重要。</li></ol><p>还有一些值得一提的领域：</p><ol><li>全同态加密（FHE）是一个活跃的研究领域，并且变得越来越实用。</li><li>带有关联数据的认证加密方案（AEAD）也是一个活跃的研究领域，并且正在进行许多改进。</li></ol><p>请继续阅读我们的完整想法！</p><h1 id="行业和政府如何落地PQC"><a href="#行业和政府如何落地PQC" class="headerlink" title="行业和政府如何落地PQC"></a>行业和政府如何落地PQC</h1><p>自 25 年前开始（持续）努力用椭圆曲线加密取代 RSA 和 DSA 以来，社区正在为最大规模的加密迁移做准备。 PQ 专用 RWPQC 研讨会和 RWC 主要活动的讨论重点是标准化工作和大规模实际部署。谷歌、亚马逊和 Meta 报告称内部部署取得了初步成功。</p><p>会谈的核心要点包括：</p><ul><li>国际社会已广泛接受 NIST 后量子算法作为标准。 Signal 等更高级别的协议正忙于整合新算法。</li><li>先存储后解密攻击需要尽快转向后量子密钥交换协议。对于遵循良好密钥轮换实践的应用程序来说，后量子身份验证（签名方案）并不那么紧迫。</li><li>后量子安全只是加密敏捷性的一方面。良好的加密库存和密钥轮换实践使 PQ 迁移更加顺利。</li></ul><p>RWPQC 收录了四个标准机构的演讲。这些会谈表明采用 PQC 的努力正在顺利进行。达斯汀·穆迪 (NIST) 强调，美国政府和美国工业界的目标是到 2035 年做好量子准备，而马修·坎帕尼亚 (ETSI) 则讨论了 60 多个国家的 850 多个组织之间的协调工作。 Stephanie Reinhardt (BSI) 警告称，与加密相关的量子计算机可能会在 2030 年代初上线，并分享了 BSI 的<a href="https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.html">加密机制技术指南</a>。 Reinhardt 还警告不要依赖量子密钥分发，并列举了近 200 起针对 QKD 实施的已发布攻击。与更常见和谨慎的混合方法相比，NCSC 提倡单独使用 ML-KEM 和 ML-DSA。</p><p>虽然所有标准机构都支持 FIPS 算法，但 BSI 还支持使用 NIST 竞赛决赛入围者 FrodoKEM 和 McEliece。</p><p>Deidre Connelly 代表 IETF 的多个工作组，谈到了她一直在编写的 KEM 组合器指导文件以及围绕 <a href="https://durumcrustulum.com/2024/02/24/how-to-hold-kems/">KEM 绑定属性</a>正在进行的讨论（来自 CFRG 工作组）。她还提到了 TLS 工作组的进展：PQC 将仅在 TLS v1.3 中进行，主要重点是完善各种关键协议规范。 LAMPS 工作组正在致力于将 PQC 算法纳入加密消息语法和互联网 X.509 PKI。最后，PQUIP 正在致力于在更多协议中引入 PQC 的操作和工程方面，MLS 工作组正在致力于在 MLS 中引入 PQC.</p><p>行业视角同样富有洞察力，来自主要科技公司的代表分享了一些关键见解：</p><ul><li><strong>Signal</strong>：Rolfe Schmidt 介绍了 Signal 融合后量子密码学的幕后工作，例如他们最近开发后量子密钥协商协议 <a href="https://signal.org/docs/specifications/pqxdh/">PQXDH</a> 的工作。他们前进的重点领域包括针对量子攻击者提供前向保密和妥协后的安全性，实现完全后量子安全的信号协议和匿名凭证。</li><li><strong>Meta&#x2F;Facebook</strong>：Meta 通过宣布加入 PQC 联盟来展示其对 PQC 的承诺。他们的代表 Rafael Misoczki 还讨论了成功 PQC 迁移的先决条件：密码学库和应用程序必须支持 PQ 算法的轻松使用，明确阻止创建新的量子不安全密钥，并提供针对已知量子攻击的保护。此外，迁移必须是高性能且经济高效的。</li><li><strong>谷歌</strong>：谷歌的 Sophie Schmieg 阐述了他们管理密钥轮换和加密敏捷性的方法，强调后量子迁移实际上是一个密钥轮换问题。如果您有一个良好的密钥轮换机制，并且您正确地将密钥指定为加密配置和原始密钥字节，而不仅仅是原始字节，那么您基本上就可以迁移到后量子。</li><li>**Amazon&#x2F;Amazon Web Services (AWS)**：Matthew Campagna 总结了行业最新动态，并介绍了 AWS (AWS) 在保护其加密技术免受量子对手攻击方面所取得的进展。与大多数其他人一样，他们最关心的是“现在存储，稍后解密”攻击。</li></ul><h1 id="更多-PQC：先进的晶格技术"><a href="#更多-PQC：先进的晶格技术" class="headerlink" title="更多 PQC：先进的晶格技术"></a>更多 PQC：先进的晶格技术</h1><p>除了政府和行业团体都承诺采用最新的 PQC NIST 标准外，今年的 RWC 还展示了在 PQC 其他领域正在开展的大量工作。特别是，我们参加了两次关于使用格构建的新密码原语的有趣演讲：</p><ul><li>LaZer：LaZer 是一个有趣的库，它使用格来促进高效的零知识证明（ZKP）。对于某些指标，该证明系统比当前一些最先进的证明系统实现了更好的性能。然而，由于LaZer使用格，其算术与现有的R1CS和Plonkish证明系统完全不同。这意味着它无法与现有的开箱即用的电路编译器一起使用，因此将其推进到现实系统将需要额外的努力。</li><li>Swoosh：另一个讨论集中在 Swoosh，这是一种为高效的基于格子的非交互式密钥交换而设计的协议。在我们必须依赖后量子密钥封装机制 (KEM) 而不是后量子 Diffie-Hellman 方案的时代，开发具有后量子质量的鲁棒密钥交换协议是向前迈出的一大步，也是一个有前途的研究领域。</li></ul><h1 id="端到端加密和密钥透明度"><a href="#端到端加密和密钥透明度" class="headerlink" title="端到端加密和密钥透明度"></a>端到端加密和密钥透明度</h1><p>端到端（E2E）加密和密钥透明度是会议的一个重要主题。几个亮点：</p><ul><li>关键透明度总体情况：Melissa Chase 对关键透明度的未决问题和最新进展进行了精彩的概述介绍。密钥透明度在端到端加密中发挥着至关重要的作用，允许用户在不依赖带外通信的情况下检测中间人攻击。</li><li>确保 Zoom 的 E2EE 安全：研究员 Mang Zhu 分享了他们提高 Zoom E2EE 安全性的方法，特别是防止来自恶意服务器的窃听或假冒攻击。他们的策略在很大程度上依赖于密码验证密钥交换（PAKE）和关联数据验证加密（AEAD），为用户提供更安全的通信层。然后他们使用正式方法来证明他们的方法达到了目标。</li><li>Meta 上的 E2EE 采用：Meta&#x2F;Facebook 逐步记录了他们在 Messenger 上推出 E2EE 的历程。用户在升级到 E2EE 时会遇到很大的阻力，因为他们突然需要采取行动，以确保在丢失设备时能够恢复数据。在某些情况下，例如贴纸搜索，Meta 决定优先考虑功能和隐私，因为在客户端存储整个贴纸库是令人望而却步的。</li></ul><h1 id="荣誉奖"><a href="#荣誉奖" class="headerlink" title="荣誉奖"></a>荣誉奖</h1><p><strong>AEAD</strong>：在对称密码学中，带有关联数据的身份验证加密方案 (AEAD) 是今年讨论的核心。围绕 Poly1305 和 AES-GCM 的深入对话表明了对改进这些加密工具的持续致力于。我们正在准备一篇专门的文章来介绍这些令人兴奋的进步，敬请期待！</p><p><strong>FHE</strong>：FHE的突破证明了全同态加密的持续进步。研究人员提出了创新的理论进展，例如基于带舍入的环学习的新同态方案，该方案显示出在某些指标下相对于当前方案实现更好性能的迹象。另一场突破性的演讲重点介绍了 HEIR 编译器，这是一个加速 FHE 研究的工具链，有可能简化从理论到实际实现的过渡。</p><h1 id="2024-年-Levchin-奖获得者"><a href="#2024-年-Levchin-奖获得者" class="headerlink" title="2024 年 Levchin 奖获得者"></a>2024 年 Levchin 奖获得者</h1><p>每年都有两个团队在 RWC 上获得 Levchin 奖，以表彰其对密码学及其实际应用的重大贡献。</p><p>Al Cutter、Emilia Käsper、Adam Langley 和 Ben Laurie 因大规模创建和部署证书透明度而获得 Levchin 奖。证书透明度建立在相对简单的加密操作之上，但对互联网安全和隐私具有巨大的积极影响。</p><p>Anna Lysyanskaya 和 Jan Camenisch 因开发高效的匿名凭证而获得了另一项 2024 年 Levchin 奖。随着越来越多的应用程序使用它们，他们 20 年前的开创性工作变得越来越重要。</p><h1 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h1><p>Real World Crypto 2024 会议以及 FHE、RWPQC 和 OSCW 活动为密码学的最新技术和未来方向提供了丰富的见解。随着该领域的不断发展，随着政府、标准机构和行业参与者的合作，进一步了解加密世界的细微差别，我们期待在 PQC、E2EE、FHE 和许多其他令人兴奋的领域不断取得进步。这些进展反映了我们的集体使命，即确保安全的未来，并强调整个密码学界正在进行的研究、合作和参与的重要性。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;原文：&lt;a href=&quot;https://blog.trailofbits.com/2024/06/18/themes-from-real-world-crypto-2024/&quot;&gt;https://blog.trailofbits.com/2024/06/18/themes-f
+      
+    
+    </summary>
+    
+    
+      <category term="Cryptography" scheme="https://ismdeep.github.io/tags/Cryptography/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Fix docker-ce GPG error in apt update on ubuntu</title>
+    <link href="https://ismdeep.github.io/posts/2024-06-22-docker-ce-gpg-error-in-apt-update-on-ubuntu.html"/>
+    <id>https://ismdeep.github.io/posts/2024-06-22-docker-ce-gpg-error-in-apt-update-on-ubuntu.html</id>
+    <published>2024-06-21T23:59:59.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<p>Problem shown as in <code>$ sudo apt update</code></p><pre><code>$ sudo apt updateHit:1 https://mirrors.ustc.edu.cn/ubuntu focal InReleaseHit:2 https://mirrors.ustc.edu.cn/ubuntu focal-updates InReleaseHit:3 https://mirrors.ustc.edu.cn/ubuntu focal-backports InReleaseHit:4 https://mirrors.ustc.edu.cn/ubuntu focal-security InReleaseGet:5 https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal InRelease [57.7 kB]Ign:5 https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal InReleaseHit:8 https://esm.ubuntu.com/apps/ubuntu focal-apps-security InReleaseHit:9 https://esm.ubuntu.com/apps/ubuntu focal-apps-updates InReleaseHit:10 https://esm.ubuntu.com/infra/ubuntu focal-infra-security InReleaseHit:11 https://esm.ubuntu.com/infra/ubuntu focal-infra-updates InReleaseFetched 57.7 kB in 2s (24.4 kB/s)Reading package lists... DoneBuilding dependency treeReading state information... DoneAll packages are up to date.W: GPG error: https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal InRelease: The following signatures couldn&#39;t be verified because the public key is not available: NO_PUBKEY 7EA0A9C3F273FCD8</code></pre><p>Solve with:</p><pre><code>$ sudo mkdir -p /etc/apt/keyrings$ sudo curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg$ sudo chmod a+r /etc/apt/keyrings/docker.gpg</code></pre><p>Edit <code>/etc/apt/sources.list.d/docker.list</code> as:</p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal stable</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Problem shown as in &lt;code&gt;$ sudo apt update&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo apt update
+Hit:1 https://mirrors.ustc.edu.cn/ubuntu focal InRele
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://ismdeep.github.io/tags/Ubuntu/"/>
+    
+      <category term="Docker" scheme="https://ismdeep.github.io/tags/Docker/"/>
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Jenkins Environment Variables</title>
+    <link href="https://ismdeep.github.io/posts/2024-06-14-jenkins-environment-variables.html"/>
+    <id>https://ismdeep.github.io/posts/2024-06-14-jenkins-environment-variables.html</id>
+    <published>2024-06-14T02:28:32.000Z</published>
+    <updated>2025-05-23T01:04:37.508Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code>BRANCH_NAME=develop/snipeBUILD_DISPLAY_NAME=#3BUILD_ID=3BUILD_NUMBER=3BUILD_TAG=jenkins-hello-world-develop%2Fsnipe-3BUILD_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/CI=trueDBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/busDOCKER_CLI_EXPERIMENTAL=enabledEXECUTOR_NUMBER=1GIT_BRANCH=develop/snipeGIT_COMMIT=fb060e3833b2d5db61b15fca806489b626a89418GIT_PREVIOUS_COMMIT=e8b2fdcdc39aadca2c4b0991fa1a00564447a0f0GIT_PREVIOUS_SUCCESSFUL_COMMIT=7771ab2ab9f82f49d3dc691a99129e0a5c4b1877GIT_URL=https://gitlabwh.uniontech.com/wuhan/web/adp/deploy/hello-world.gitHUDSON_COOKIE=4e6c6e79-cd1b-4486-9aff-c17eac8c636dHUDSON_HOME=/var/jenkins_homeHUDSON_SERVER_COOKIE=35002450c7ddd0e1HUDSON_URL=http://10.20.30.40:8080/JENKINS_HOME=/var/jenkins_homeJENKINS_NODE_COOKIE=f6922b98-89e8-49cf-b18d-89e2daa0da96JENKINS_SERVER_COOKIE=durable-b97afb9a3dcb4f29b70420af66d83169bbf7a090e119ae1ec795572fce2fd846JENKINS_URL=http://10.20.30.40:8080/JOB_BASE_NAME=develop%2FsnipeJOB_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/display/redirectJOB_NAME=hello-world/develop%2FsnipeJOB_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/LANGUAGE=zh_CNLANG=zh_CN.UTF-8NODE_LABELS=anunnaki3NODE_NAME=anunnaki3OLDPWD=/data/jenkins-workspace/workspace/hello-world_develop_snipePATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binPWD=/data/jenkins-workspace/workspace/hello-world_develop_snipeRUN_ARTIFACTS_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=artifactsRUN_CHANGES_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=changesRUN_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirectRUN_TESTS_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=testsWORKSPACE=/data/jenkins-workspace/workspace/hello-world_develop_snipeWORKSPACE_TMP=/data/jenkins-workspace/workspace/hello-world_develop_snipe@tmp</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;pre&gt;&lt;code&gt;BRANCH_NAME=develop/snipe
+BUILD_DISPLAY_NAME=#3
+BUILD_ID=3
+BUILD_NUMBER=3
+BUILD_TAG=jenkins-hello-world-develop%2Fsnipe-3
+BUILD_U
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.github.io/tags/DevOps/"/>
+    
+      <category term="Jenkins" scheme="https://ismdeep.github.io/tags/Jenkins/"/>
+    
+  </entry>
+  
+</feed>
