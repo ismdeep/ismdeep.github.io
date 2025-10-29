@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ismdeep</title>
+  
+  <subtitle>Enjoy programming and build awesome stuff.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ismdeep.github.io/"/>
+  <updated>2025-10-29T08:24:19.305Z</updated>
+  <id>https://ismdeep.github.io/</id>
+  
+  <author>
+    <name>ismdeep</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我的工具列表</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-29-tools.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-29-tools.html</id>
+    <published>2025-10-29T00:46:28.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<table><thead><tr><th>类别</th><th>工具</th><th>说明</th></tr></thead><tbody><tr><td>计算机</td><td>MacBook Pro M1 2021, ThinkPad X260</td><td></td></tr><tr><td>操作系统</td><td>macOS, Debian 13 with xfce4, UOS with xfce4</td><td></td></tr><tr><td>笔记本支架</td><td>绿联笔记本支架</td><td></td></tr><tr><td>Java 开发环境</td><td><a href="https://www.jetbrains.com/idea/">IDEA</a></td><td></td></tr><tr><td>Go 开发环境</td><td><a href="https://www.jetbrains.com/go/">GoLand</a></td><td></td></tr><tr><td>Python 开发环境</td><td><a href="https://www.jetbrains.com/pycharm/">PyCharm</a></td><td></td></tr><tr><td>Web 前端开发环境</td><td><a href="https://www.jetbrains.com/webstorm/">WebStorm</a></td><td></td></tr><tr><td>PHP 开发环境</td><td><a href="https://www.jetbrains.com/phpstorm/">PhpStorm</a></td><td></td></tr><tr><td>数据库连接工具</td><td><a href="https://www.jetbrains.com/datagrip/">DataGrip</a>, <a href="https://dbeaver.io/">DBeaver</a></td><td></td></tr><tr><td>Markdown 工具</td><td><a href="https://typora.io/">Typora</a></td><td></td></tr><tr><td>配置文件编辑工具</td><td><a href="https://www.sublimetext.com/">Sublime Text 3</a>, Vim</td><td></td></tr><tr><td>Docker 工具</td><td><a href="https://orbstack.dev/">OrbStack</a>, Docker CE</td><td></td></tr><tr><td>虚拟机</td><td><a href="https://www.virtualbox.org/">VirtualBox</a>, <a href="https://orbstack.dev/">VM in OrbStack</a></td><td></td></tr><tr><td>代码编译环境</td><td><a href="https://www.debian.org/">Debian 13</a></td><td></td></tr><tr><td>终端工具</td><td><a href="https://iterm2.com/">iTerm 2</a>, terminator</td><td></td></tr><tr><td>FTP, SFTP 工具</td><td><a href="https://panic.com/transmit/">Transmit</a>, <a href="https://winscp.net/eng/download.php">WinSCP</a></td><td></td></tr><tr><td>架构图绘制</td><td><a href="https://github.com/jgraph/drawio">draw.io</a>, <a href="https://plantuml.com/zh/">PlantUML</a>, …</td><td></td></tr><tr><td>Redis 客户端</td><td><a href="https://github.com/qishibo/AnotherRedisDesktopManager">Another Redis Desktop Manager</a></td><td></td></tr><tr><td>思维导图</td><td><a href="https://xmind.com/">Xmind</a>, <a href="https://sourceforge.net/projects/freeplane/files/freeplane%20stable/">Freeplane</a></td><td></td></tr><tr><td>密码管理工具</td><td><a href="https://keepassxc.org/">KeePassXC</a></td><td></td></tr><tr><td>文本对比工具</td><td><a href="https://gnome.pages.gitlab.gnome.org/meld/">Meld</a></td><td></td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;类别&lt;/th&gt;
+&lt;th&gt;工具&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;计算机&lt;/td&gt;
+&lt;td&gt;MacBook Pro M1 2021, ThinkPad X260&lt;/td&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="Tools" scheme="https://ismdeep.github.io/tags/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Incus</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-28-incus.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-28-incus.html</id>
+    <published>2025-10-28T06:24:58.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、基础要求"><a href="#一、基础要求" class="headerlink" title="一、基础要求"></a>一、基础要求</h1><p>操作系统：Debian 13</p><h1 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h1><pre><code>$ sudo apt update$ sudo apt install -y incus</code></pre><h1 id="三、使用"><a href="#三、使用" class="headerlink" title="三、使用"></a>三、使用</h1><h2 id="3-1-查看列表"><a href="#3-1-查看列表" class="headerlink" title="3.1 查看列表"></a>3.1 查看列表</h2><pre><code>$ sudo incus list</code></pre><h2 id="3-2-创建一个容器"><a href="#3-2-创建一个容器" class="headerlink" title="3.2 创建一个容器"></a>3.2 创建一个容器</h2><pre><code>$ sudo incus launch images:ubuntu/24.04 first</code></pre><h2 id="3-3-拷贝容器"><a href="#3-3-拷贝容器" class="headerlink" title="3.3 拷贝容器"></a>3.3 拷贝容器</h2><pre><code>$ sudo incus copy first second</code></pre><h2 id="3-4-创建一个虚拟机"><a href="#3-4-创建一个虚拟机" class="headerlink" title="3.4 创建一个虚拟机"></a>3.4 创建一个虚拟机</h2><pre><code>$ sudo incus launch images:debian/12 debian --vm</code></pre><h2 id="3-5-启动"><a href="#3-5-启动" class="headerlink" title="3.5 启动"></a>3.5 启动</h2><pre><code>$ sudo incus start first</code></pre><h2 id="3-6-停止"><a href="#3-6-停止" class="headerlink" title="3.6 停止"></a>3.6 停止</h2><pre><code>$ sudo incus stop first</code></pre><h2 id="3-7-查看信息"><a href="#3-7-查看信息" class="headerlink" title="3.7 查看信息"></a>3.7 查看信息</h2><pre><code>$ sudo incus info first</code></pre><h2 id="3-8-删除"><a href="#3-8-删除" class="headerlink" title="3.8 删除"></a>3.8 删除</h2><pre><code>$ sudo incus delete first</code></pre><h2 id="3-9-进入执行命令"><a href="#3-9-进入执行命令" class="headerlink" title="3.9 进入执行命令"></a>3.9 进入执行命令</h2><pre><code>$ sudo incus exec first -- bash$ sudo incus exec first -- free -m</code></pre><h1 id="四、常见问题"><a href="#四、常见问题" class="headerlink" title="四、常见问题"></a>四、常见问题</h1><h2 id="4-1-No-root-device-could-be-found"><a href="#4-1-No-root-device-could-be-found" class="headerlink" title="4.1 No root device could be found"></a>4.1 No root device could be found</h2><p>报错信息：</p><pre><code>Error: Failed instance creation: Failed creating instance record: Failed initializing instance: Failed getting root disk: No root device could be found</code></pre><p>解决方法：</p><pre><code>$ sudo incus storage create default dir$ sudo incus profile device add default root disk path=/ pool=default</code></pre><p>验证：</p><pre><code>$ sudo incus profile show default</code></pre><p>期望输出：</p><pre><code>$ sudo incus profile show defaultconfig: &#123;&#125;description: Default Incus profiledevices:  root:    path: /    pool: default    type: diskname: defaultused_by: []project: default</code></pre><h2 id="4-2-doesn’t-have-any-network-attached-to-it"><a href="#4-2-doesn’t-have-any-network-attached-to-it" class="headerlink" title="4.2 doesn’t have any network attached to it"></a>4.2 doesn’t have any network attached to it</h2><p>报错信息：</p><pre><code>The instance you are starting doesn&#39;t have any network attached to it.  To create a new network, use: incus network create  To attach a network to an instance, use: incus network attach</code></pre><p>解决方法：</p><pre><code>$ sudo incus network create incusbr0$ sudo incus profile device add default eth0 nic network=incusbr0 name=eth0</code></pre><p>验证方法：</p><pre><code>$ sudo incus profile show default</code></pre><p>期望输出：</p><pre><code>$ sudo incus profile show defaultconfig: &#123;&#125;description: Default Incus profiledevices:  eth0:    name: eth0    network: incusbr0    type: nic  root:    path: /    pool: default    type: diskname: defaultused_by: []project: default</code></pre><h1 id="附录一、Debian-13-下一键安装并配置"><a href="#附录一、Debian-13-下一键安装并配置" class="headerlink" title="附录一、Debian 13 下一键安装并配置"></a>附录一、Debian 13 下一键安装并配置</h1><pre><code>$ sudo apt update &amp;&amp; \  sudo apt install -y incus &amp;&amp; \  sudo incus storage create default dir &amp;&amp; \  sudo incus profile device add default root disk path=/ pool=default &amp;&amp; \  sudo incus network create incusbr0 &amp;&amp; \  sudo incus profile device add default eth0 nic network=incusbr0 name=eth0 &amp;&amp; \  sudo incus profile show default</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、基础要求&quot;&gt;&lt;a href=&quot;#一、基础要求&quot; class=&quot;headerlink&quot; title=&quot;一、基础要求&quot;&gt;&lt;/a&gt;一、基础要求&lt;/h1&gt;&lt;p&gt;操作系统：Debian 13&lt;/p&gt;
+&lt;h1 id=&quot;二、安装&quot;&gt;&lt;a href=&quot;#二、安装&quot; class
+      
+    
+    </summary>
+    
+    
+      <category term="Incus" scheme="https://ismdeep.github.io/tags/Incus/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>好的开源项目</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-25-good-open-source-project.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-25-good-open-source-project.html</id>
+    <published>2025-10-25T14:55:16.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>是否是好的开源项目大致看以下三点：</p><ol><li>许可证：是否为 <a href="https://opensource.org/licenses">OSI 核准</a> 的开源协议。</li><li>自托管：能否把<strong>完整产品</strong>端到端地自己部署。</li><li>商业化：有没有商业中立、无厂商绑架；更妙的是，有 <strong>多家</strong> 公司背书而非一家独大。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;是否是好的开源项目大致看以下三点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;许可证：是否为 &lt;a href=&quot;https://opensource.org/licenses&quot;&gt;OSI 核准&lt;/a&gt; 的开源协议。&lt;/li&gt;
+&lt;li&gt;自托管：能否把&lt;strong&gt;完整产品&lt;/strong&gt;端
+      
+    
+    </summary>
+    
+    
+      <category term="Open Source" scheme="https://ismdeep.github.io/tags/Open-Source/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【已解决】Xrdp 远程桌面中出现 Authorization is required 的问题</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-17-solved-xrdp-authorization-is-required-problem.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-17-solved-xrdp-authorization-is-required-problem.html</id>
+    <published>2025-10-17T07:58:39.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>在使用 xrdp 远程桌面的过程中，比如我们需要挂载U盘、卸载U盘等操作时，会弹出一个授权窗口，需要输入密码。</p><p>主要原因是通过 <strong>xRDP 登录的会话</strong> 并没有经过真正的系统登录会话（即 <em>polkit</em> 认为“非本地登录”）。</p><p><strong>解决方法：</strong></p><p><strong>步骤一</strong>、创建文件 <code>/etc/polkit-1/rules.d/49-allow-sudo.rules</code> 并写入以下内容：</p><pre><code>polkit.addRule(function(action, subject) &#123;    if (subject.isInGroup(&quot;sudo&quot;)) &#123;        return polkit.Result.YES;    &#125;&#125;);</code></pre><p><strong>步骤二</strong>、重启服务</p><pre><code>$ sudo systemctl restart polkit</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在使用 xrdp 远程桌面的过程中，比如我们需要挂载U盘、卸载U盘等操作时，会弹出一个授权窗口，需要输入密码。&lt;/p&gt;
+&lt;p&gt;主要原因是通过 &lt;strong&gt;xRDP 登录的会话&lt;/strong&gt; 并没有经过真正的系统登录会话（即 &lt;em&gt;polkit&lt;/em&gt; 认为“非本
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows 11 LTSC KMS 激活（不需要激活工具）</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-17-windows-11-ltsc-kms.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-17-windows-11-ltsc-kms.html</id>
+    <published>2025-10-17T01:39:44.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>以管理员身份打开命令提示符（或Powershell）执行以下命令：</p><pre><code>slmgr -ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462Dslmgr -skms kms.0t.net.cnslmgr -ato</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;以管理员身份打开命令提示符（或Powershell）执行以下命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;slmgr -ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462D
+slmgr -skms kms.0t.net.cn
+slmgr -ato
+&lt;/code&gt;&lt;/p
+      
+    
+    </summary>
+    
+    
+      <category term="Windows" scheme="https://ismdeep.github.io/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PEAP 认证配置（Debian 13）</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-14-debian-13-peap-configuration.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-14-debian-13-peap-configuration.html</id>
+    <published>2025-10-14T01:45:17.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>编辑 <code>/etc/NetworkManager/system-connections/Wired</code> 文件，增加以下内容：</p><pre><code>[802-1x]eap=peap;identity=&lt;account&gt;password=&lt;password&gt;phase2-auth=gtc</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;编辑 &lt;code&gt;/etc/NetworkManager/system-connections/Wired&lt;/code&gt; 文件，增加以下内容：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[802-1x]
+eap=peap;
+identity=&amp;lt;account&amp;gt;
+passwo
+      
+    
+    </summary>
+    
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一些配置文件编写原则</title>
+    <link href="https://ismdeep.github.io/posts/2025-09-26-configuration-principles.html"/>
+    <id>https://ismdeep.github.io/posts/2025-09-26-configuration-principles.html</id>
+    <published>2025-09-26T05:01:33.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<table><thead><tr><th>原则</th><th>说明</th><th>例子</th></tr></thead><tbody><tr><td>Endpoint</td><td>端点地址末尾不要加 &#x2F;</td><td><code>https://endpoint.example.com</code></td></tr><tr><td>路径</td><td>路径末尾不要加 &#x2F;</td><td><code>/var/lib/demo001/conf</code></td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;原则&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;例子&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;Endpoint&lt;/td&gt;
+&lt;td&gt;端点地址末尾不要加 &amp;#x2F;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ht
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Chrome/Chromium 浏览器启动参数</title>
+    <link href="https://ismdeep.github.io/posts/2025-09-26-chrome-arguments.html"/>
+    <id>https://ismdeep.github.io/posts/2025-09-26-chrome-arguments.html</id>
+    <published>2025-09-26T03:27:18.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h1><p><strong>Linux:</strong></p><pre><code>$ google-chrome-stable</code></pre><p><strong>macOS:</strong></p><pre><code>$ open -n &#39;/Applications/Google Chrome.app&#39;</code></pre><h1 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h1><p>参数加在 <code>--args</code> 后面，例如：</p><pre><code>$ google-chrome-stable --args --user-data-dir=/data/chrome-data-001/</code></pre><p><strong>指定浏览器启动页面地址：</strong></p><pre><code>https://www.google.com/ncr</code></pre><p><strong>指定数据目录：</strong></p><pre><code>--user-data-dir=/data/chrome-data-001/</code></pre><p><strong>忽略不安全的Origin地址：</strong></p><pre><code>--unsafely-treat-insecure-origin-as-secure=http://172.20.10.5</code></pre><p><strong>禁用浏览器同源策略 (CORS) 和部分安全限制：</strong></p><pre><code>--disable-web-security</code></pre><p><strong>全屏显示：</strong></p><pre><code>--start-fullscreen</code></pre><p><strong>自助机模式：</strong></p><pre><code>--kiosk</code></pre><p><strong>禁用顶部提示条：</strong></p><pre><code>--disable-infobars</code></pre><p><strong>跳过首次运行时的欢迎界面：</strong></p><pre><code>--no-first-run</code></pre><p><strong>跳过初始化过程：</strong></p><pre><code>--fast --fast-start</code></pre><p><strong>禁用翻译功能：</strong></p><pre><code>--disable-translate</code></pre><p><strong>禁用内置翻译UI：</strong></p><pre><code>--disable-features=TranslateUI</code></pre><p><strong>设置代理：</strong></p><pre><code>--proxy-server=&#39;socks5://127.0.0.1:1080&#39;</code></pre><p><strong>禁用滚动条：</strong></p><pre><code>--hide-scrollbars</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;启动&quot;&gt;&lt;a href=&quot;#启动&quot; class=&quot;headerlink&quot; title=&quot;启动&quot;&gt;&lt;/a&gt;启动&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;Linux:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ google-chrome-stable
+&lt;/code&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+      <category term="Chrome" scheme="https://ismdeep.github.io/tags/Chrome/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Apt Sources List</title>
+    <link href="https://ismdeep.github.io/posts/2025-09-24-apt-sources-list.html"/>
+    <id>https://ismdeep.github.io/posts/2025-09-24-apt-sources-list.html</id>
+    <published>2025-09-24T12:07:15.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Debian"><a href="#Debian" class="headerlink" title="Debian"></a>Debian</h1><h2 id="Debian-10"><a href="#Debian-10" class="headerlink" title="Debian 10"></a>Debian 10</h2><p>传统格式（<code>/etc/apt/sources.list</code>）：</p><pre><code>deb http://mirrors.cloud.tencent.com/debian-archive/debian          buster         main contrib non-freedeb http://mirrors.cloud.tencent.com/debian-archive/debian          buster-updates main contrib non-freedeb http://mirrors.cloud.tencent.com/debian-archive/debian-security buster/updates main contrib non-free</code></pre><h2 id="Debian-11"><a href="#Debian-11" class="headerlink" title="Debian 11"></a>Debian 11</h2><p>传统格式（<code>/etc/apt/sources.list</code>）：</p><pre><code>deb http://mirrors.tuna.tsinghua.edu.cn/debian          bullseye          main contrib non-freedeb http://mirrors.tuna.tsinghua.edu.cn/debian          bullseye-updates  main contrib non-freedeb http://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free</code></pre><h2 id="Debian-12"><a href="#Debian-12" class="headerlink" title="Debian 12"></a>Debian 12</h2><p>传统格式（<code>/etc/apt/sources.list</code>）：</p><pre><code>deb http://mirrors.tuna.tsinghua.edu.cn/debian/         bookworm           main contrib non-free non-free-firmwaredeb http://mirrors.tuna.tsinghua.edu.cn/debian/         bookworm-updates   main contrib non-free non-free-firmwaredeb http://mirrors.tuna.tsinghua.edu.cn/debian/         bookworm-backports main contrib non-free non-free-firmwaredeb http://mirrors.tuna.tsinghua.edu.cn/debian-security bookworm-security  main contrib non-free non-free-firmware</code></pre><p>DEB822格式（<code>/etc/apt/sources.list.d/debian.sources</code>）：</p><pre><code>Types: debURIs: http://mirrors.tuna.tsinghua.edu.cn/debianSuites: bookworm bookworm-updates bookworm-backportsComponents: main contrib non-free non-free-firmwareSigned-By: /usr/share/keyrings/debian-archive-keyring.gpgTypes: debURIs: http://mirrors.tuna.tsinghua.edu.cn/debian-securitySuites: bookworm-securityComponents: main contrib non-free non-free-firmwareSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg</code></pre><h2 id="Debian-13"><a href="#Debian-13" class="headerlink" title="Debian 13"></a>Debian 13</h2><p>传统格式（<code>/etc/apt/sources.list</code>）：</p><pre><code>deb http://mirrors.tuna.tsinghua.edu.cn/debian          trixie           main contrib non-free non-free-firmwaredeb http://mirrors.tuna.tsinghua.edu.cn/debian          trixie-updates   main contrib non-free non-free-firmwaredeb http://mirrors.tuna.tsinghua.edu.cn/debian          trixie-backports main contrib non-free non-free-firmwaredeb http://mirrors.tuna.tsinghua.edu.cn/debian-security trixie-security  main contrib non-free non-free-firmware</code></pre><p>DEB822格式（<code>/etc/apt/sources.list.d/debian.sources</code>）：</p><pre><code>Types: debURIs: http://mirrors.tuna.tsinghua.edu.cn/debianSuites: trixie trixie-updates trixie-backportsComponents: main contrib non-free non-free-firmwareSigned-By: /usr/share/keyrings/debian-archive-keyring.gpgTypes: debURIs: http://mirrors.tuna.tsinghua.edu.cn/debian-securitySuites: trixie-securityComponents: main contrib non-free non-free-firmwareSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg</code></pre><h1 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h1><h2 id="Ubuntu-20-04-LTS"><a href="#Ubuntu-20-04-LTS" class="headerlink" title="Ubuntu 20.04 LTS"></a>Ubuntu 20.04 LTS</h2><p>传统格式（<code>/etc/apt/sources.list</code>）：</p><pre><code>deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu focal           main restricted universe multiversedeb http://mirrors.tuna.tsinghua.edu.cn/ubuntu focal-updates   main restricted universe multiversedeb http://mirrors.tuna.tsinghua.edu.cn/ubuntu focal-backports main restricted universe multiversedeb http://mirrors.tuna.tsinghua.edu.cn/ubuntu focal-security  main restricted universe multiverse</code></pre><h2 id="Ubuntu-24-04-LTS"><a href="#Ubuntu-24-04-LTS" class="headerlink" title="Ubuntu 24.04 LTS"></a>Ubuntu 24.04 LTS</h2><p>传统格式（<code>/etc/apt/sources.list</code>）：</p><pre><code>deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu noble           main restricted universe multiversedeb http://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-updates   main restricted universe multiversedeb http://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-backports main restricted universe multiversedeb http://mirrors.tuna.tsinghua.edu.cn/ubuntu noble-security  main restricted universe multiverse</code></pre><p>DEB822格式（<code>/etc/apt/sources.list.d/ubuntu.sources</code>）：</p><pre><code>Types: debURIs: http://mirrors.tuna.tsinghua.edu.cn/ubuntuSuites: noble noble-updates noble-backportsComponents: main restricted universe multiverseSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpgTypes: debURIs: http://mirrors.tuna.tsinghua.edu.cn/ubuntuSuites: noble-securityComponents: main restricted universe multiverseSigned-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg</code></pre><h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><p>传统格式（<code>/etc/apt/sources.list.d/docker.list</code>）</p><p>文件 <code>/etc/apt/keyrings/docker.gpg</code> 创建方法（需要能访问互联网）：</p><pre><code>$ sudo mkdir -p /etc/apt/keyrings/ &amp;&amp; \  curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/gpg | \  sudo gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg &amp;&amp; \  echo &quot;OK&quot;</code></pre><p><code>/etc/apt/keyrings/docker.gpg</code> 文件 base64 编码结果：</p><pre><code>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</code></pre><h2 id="Debian-10-1"><a href="#Debian-10-1" class="headerlink" title="Debian 10"></a>Debian 10</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable</code></pre><h2 id="Debian-11-1"><a href="#Debian-11-1" class="headerlink" title="Debian 11"></a>Debian 11</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bullseye stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bullseye stable</code></pre><h2 id="Debian-12-1"><a href="#Debian-12-1" class="headerlink" title="Debian 12"></a>Debian 12</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bookworm stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bookworm stable</code></pre><h2 id="Debian-13-1"><a href="#Debian-13-1" class="headerlink" title="Debian 13"></a>Debian 13</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian trixie stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian trixie stable</code></pre><h2 id="Ubuntu-20-04"><a href="#Ubuntu-20-04" class="headerlink" title="Ubuntu 20.04"></a>Ubuntu 20.04</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu focal stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu focal stable</code></pre><h2 id="Ubuntu-22-04"><a href="#Ubuntu-22-04" class="headerlink" title="Ubuntu 22.04"></a>Ubuntu 22.04</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu jammy stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu jammy stable</code></pre><h2 id="Ubuntu-24-04"><a href="#Ubuntu-24-04" class="headerlink" title="Ubuntu 24.04"></a>Ubuntu 24.04</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu noble stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu noble stable</code></pre><h2 id="deepin-v20-deepin-v25-UOS-Desktop-V20"><a href="#deepin-v20-deepin-v25-UOS-Desktop-V20" class="headerlink" title="deepin v20, deepin v25, UOS Desktop V20"></a>deepin v20, deepin v25, UOS Desktop V20</h2><p><strong>amd64:</strong></p><pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable</code></pre><p><strong>arm64:</strong></p><pre><code>deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Debian&quot;&gt;&lt;a href=&quot;#Debian&quot; class=&quot;headerlink&quot; title=&quot;Debian&quot;&gt;&lt;/a&gt;Debian&lt;/h1&gt;&lt;h2 id=&quot;Debian-10&quot;&gt;&lt;a href=&quot;#Debian-10&quot; class=&quot;headerlink
+      
+    
+    </summary>
+    
+    
+      <category term="Ubuntu" scheme="https://ismdeep.github.io/tags/Ubuntu/"/>
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>YAML行尾不可见字符引发的问题</title>
+    <link href="https://ismdeep.github.io/posts/2025-07-10-how-hidden-trailing-characters-in-yaml.html"/>
+    <id>https://ismdeep.github.io/posts/2025-07-10-how-hidden-trailing-characters-in-yaml.html</id>
+    <published>2025-07-10T05:24:06.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h1><p>YAML（YAML Ain’t Markup Language）作为一种<strong>人类可读性强的配置语言</strong>被广泛应用在各个应用系统中，包括：Kubernetes、Ansible、Docker Compose等等。</p><h2 id="1-1-基本语法规则"><a href="#1-1-基本语法规则" class="headerlink" title="1.1 基本语法规则"></a>1.1 基本语法规则</h2><p>键值对：</p><pre><code>name: Johnage: 30</code></pre><p>缩进表示层级：</p><ul><li>使用空格缩进，禁止使用 tab</li><li>通常每层缩进用 2 或 4 个空格</li></ul><pre><code>person:  name: John  age: 30</code></pre><p>列表（数组）：</p><pre><code>persons:  - name: John    age: 30  - name: Mike    age: 28</code></pre><p>嵌套结构：</p><pre><code>server:  host: localhost  ports:    - 80    - 443</code></pre><p>多行字符表示：</p><ul><li>使用 <code>|</code> 表示保留换行</li><li>使用 <code>&gt;</code> 表示折叠成一行</li></ul><pre><code>description: |  Line one  Line twosummary: &gt;  This is a very long  line that will be folded.</code></pre><p>注释：</p><pre><code>name: John  # 这是注释</code></pre><p>布尔、null、数字：</p><pre><code>enabled: truedisabled: falsenothing: nullcount: 100</code></pre><h2 id="1-2-常见使用错误"><a href="#1-2-常见使用错误" class="headerlink" title="1.2 常见使用错误"></a>1.2 常见使用错误</h2><ul><li>缩进混用空格和tab</li><li>缩进不对齐</li><li>键名重复</li><li>行尾隐藏字符（如空格、零宽字符等不可见字符）</li></ul><h1 id="二、行尾不可见字符"><a href="#二、行尾不可见字符" class="headerlink" title="二、行尾不可见字符"></a>二、行尾不可见字符</h1><p>常见的 YAML 行尾不可见字符</p><ol><li><strong>空格（space, <code>0x20</code>）</strong><ul><li>多余空格有时会影响多行字符串的拼接或注释识别。</li></ul></li><li><strong>制表符（tab, <code>0x09</code>）</strong><ul><li>YAML <strong>禁止使用 tab</strong> 来缩进，但若 tab 出现在行尾，不一定会报错，却可能影响格式或行为。</li></ul></li><li><strong>不可见的 Unicode 字符</strong>（如 <code>U+200B</code> 零宽空格）<ul><li>通常是从复制粘贴中引入，肉眼难以察觉。</li></ul></li></ol><h1 id="三、Go-程序解析"><a href="#三、Go-程序解析" class="headerlink" title="三、Go 程序解析"></a>三、Go 程序解析</h1><p>行尾不可见字符，程序解析 YAML 内容时，并不会读取行尾不可见字符，如果希望程序读取某个变量时，需要内容末尾的空格，那么整个内容需要通过引号进行包裹。</p><p>例如：</p><pre><code>version: 1name: &#39;Alice &#39;age: 30</code></pre><h1 id="四、Go-程序渲染"><a href="#四、Go-程序渲染" class="headerlink" title="四、Go 程序渲染"></a>四、Go 程序渲染</h1><p>以下程序用于将 test.yaml 中的内容嵌入作为 Config 结构体实例中 Content 变量的内容，并输出为 Config 结构体的 yaml 文本。</p><pre><code>package mainimport (    _ &quot;embed&quot;    &quot;fmt&quot;    &quot;gopkg.in/yaml.v3&quot;)type Config struct &#123;    Content string `yaml:&quot;content&quot;`&#125;//go:embed test.yamlvar content stringfunc main() &#123;    m := Config&#123;        Content: content,    &#125;    raw, err := yaml.Marshal(m)    if err != nil &#123;        panic(err)    &#125;    fmt.Println(string(raw))&#125;</code></pre><p><strong>首先，</strong>正常 test.yaml 内容如下：</p><pre><code>version: 1name: Aliceage: 30</code></pre><p>对应输出文本如下：</p><pre><code>content: |-    version: 1    name: Alice    age: 30</code></pre><p>可见，content 中的内容，依旧保持着 yaml 语法的人类可读性强的特点。</p><p><strong>然而，</strong>如果内容中某一行末尾存在不可见字符，比如下面 test.yaml 中的 name 行 Alice 后面还有一个空格：</p><pre><code>version: 1name: Alice age: 30</code></pre><p>那么在渲染文本时，YAML 就会对内容进行转义，对应输出文件如下：</p><pre><code>content: &quot;version: 1\n\nname: Alice \nage: 30&quot;</code></pre><p><strong>那么，</strong>遇到确实内容末尾需要加上空格，就必须使用引号进行包裹，比如：</p><pre><code>version: 1name: &#39;Alice &#39;age: 30</code></pre><p>其对应输出如下：</p><pre><code>content: |-    version: 1    name: &#39;Alice &#39;    age: 30</code></pre><p>依旧能够保持良好的可读性。</p><h1 id="五、Kubernetes-Config-Map"><a href="#五、Kubernetes-Config-Map" class="headerlink" title="五、Kubernetes Config Map"></a>五、Kubernetes Config Map</h1><p>以下是一份因为行尾跟随了不可见字符而渲染之后的 Kubernetes Config Map 配置：</p><pre><code>apiVersion: v1data:  api-config: &quot;server:\n  address: 0.0.0.0:80 \n  mode: debug&quot;kind: ConfigMap</code></pre><p>而这样的因为行尾不可见字符渲染出来的配置，往往会给排查环境问题工作带来麻烦。</p><p>而其对应正常内容应该如下：</p><pre><code>apiVersion: v1data:  api-config: |-    server:      address: 0.0.0.0:80      mode: debugkind: ConfigMap</code></pre><h1 id="六、检查与防范"><a href="#六、检查与防范" class="headerlink" title="六、检查与防范"></a>六、检查与防范</h1><h2 id="6-1-检查工具-cat"><a href="#6-1-检查工具-cat" class="headerlink" title="6.1 检查工具 cat"></a>6.1 检查工具 cat</h2><p>通过 cat 命令可以显示不可见字符：</p><pre><code>$ cat -A file.yaml</code></pre><p>其中：末尾 <code>$</code> 表示行尾</p><pre><code>version: 1$$name: Alice $age: 30$</code></pre><h2 id="6-2-清理"><a href="#6-2-清理" class="headerlink" title="6.2 清理"></a>6.2 清理</h2><p>通过 sed 命令可批量移除行尾空格：</p><pre><code>$ sed -i &#39;s/[ \t]*$//&#39; file.yaml</code></pre><h2 id="6-4-预防建议"><a href="#6-4-预防建议" class="headerlink" title="6.4 预防建议"></a>6.4 预防建议</h2><ul><li>统一使用空格缩进，禁用 tab</li><li>启用编辑器的“保存时自动去除行尾空格”</li><li>使用版本控制 + Lint 工具进行 YAML 格式校验</li><li>避免从网页、PDF、Excel 等非纯文本源复制内容进 YAML</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、介绍&quot;&gt;&lt;a href=&quot;#一、介绍&quot; class=&quot;headerlink&quot; title=&quot;一、介绍&quot;&gt;&lt;/a&gt;一、介绍&lt;/h1&gt;&lt;p&gt;YAML（YAML Ain’t Markup Language）作为一种&lt;strong&gt;人类可读性强的配置语言&lt;/stron
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+      <category term="YAML" scheme="https://ismdeep.github.io/tags/YAML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Debian 系统配置</title>
+    <link href="https://ismdeep.github.io/posts/2025-06-05-debian-settings.html"/>
+    <id>https://ismdeep.github.io/posts/2025-06-05-debian-settings.html</id>
+    <published>2025-06-05T12:23:26.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、Debian-11"><a href="#一、Debian-11" class="headerlink" title="一、Debian 11"></a>一、Debian 11</h1><h2 id="1-1-设置镜像地址"><a href="#1-1-设置镜像地址" class="headerlink" title="1.1 设置镜像地址"></a>1.1 设置镜像地址</h2><pre><code>$ sudo sed -i &#39;s+http://deb.debian.org/+https://mirrors.ustc.edu.cn/+g&#39; /etc/apt/sources.list</code></pre><h1 id="二、Debian-10"><a href="#二、Debian-10" class="headerlink" title="二、Debian 10"></a>二、Debian 10</h1><h2 id="2-1-设置镜像地址"><a href="#2-1-设置镜像地址" class="headerlink" title="2.1 设置镜像地址"></a>2.1 设置镜像地址</h2><pre><code>$ sudo sed -i &#39;s+http://deb.debian.org/+https://mirrors.ustc.edu.cn/+g&#39; /etc/apt/sources.list</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、Debian-11&quot;&gt;&lt;a href=&quot;#一、Debian-11&quot; class=&quot;headerlink&quot; title=&quot;一、Debian 11&quot;&gt;&lt;/a&gt;一、Debian 11&lt;/h1&gt;&lt;h2 id=&quot;1-1-设置镜像地址&quot;&gt;&lt;a href=&quot;#1-1-设置镜
+      
+    
+    </summary>
+    
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何使用 Docker 安装 binfmt 支持多架构容器运行与构建</title>
+    <link href="https://ismdeep.github.io/posts/2025-05-26-enable-multi-architecture-container-support-with-binfmt-and-docker.html"/>
+    <id>https://ismdeep.github.io/posts/2025-05-26-enable-multi-architecture-container-support-with-binfmt-and-docker.html</id>
+    <published>2025-05-26T05:35:10.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>在日常容器开发或镜像构建过程中，我们常常遇到这样的需求：<strong>在 x86 的主机上运行 ARM 架构的容器</strong>，或构建支持多架构（如 <code>amd64</code> 和 <code>arm64</code>）的镜像。这时候就需要借助 Linux 内核的 <code>binfmt_misc</code> 功能。</p><p>本文将介绍如何通过一条 Docker 命令快速为宿主机安装 <code>binfmt</code>，以支持跨架构容器运行。</p><h1 id="什么是-binfmt-misc？"><a href="#什么是-binfmt-misc？" class="headerlink" title="什么是 binfmt_misc？"></a>什么是 <code>binfmt_misc</code>？</h1><p><code>binfmt_misc</code>（Binary Format Miscellaneous）是 Linux 内核的一项功能，它允许用户为系统注册新的可执行文件格式。例如，当你尝试在 x86_64 的 Linux 上运行一个 ARM64 的二进制时，系统可以通过 <code>qemu-aarch64</code> 解释器将其运行，就像原生程序一样。</p><p>这项机制的关键在于：</p><ul><li>需要内核开启 <code>binfmt_misc</code> 支持（大多数发行版默认启用）</li><li>需要为目标架构注册对应的解释器（如 QEMU）</li></ul><h1 id="快速安装-binfmt-支持的命令"><a href="#快速安装-binfmt-支持的命令" class="headerlink" title="快速安装 binfmt 支持的命令"></a>快速安装 binfmt 支持的命令</h1><p>官方推荐使用 <code>tonistiigi/binfmt</code> 镜像，它是由 Docker 构建工具 <code>buildx</code> 的作者 Tonis Tiigi 提供的轻量级 binfmt 安装器。</p><p>执行以下命令即可：</p><pre><code>$ docker run --rm --privileged docker.1panel.live/tonistiigi/binfmt --install all</code></pre><p><strong>命令说明：</strong></p><ul><li><code>--rm</code>：容器在执行后立即删除，保持系统干净。</li><li><code>--privileged</code>：授予容器特权访问，允许其修改宿主机的内核设置。</li><li><code>docker.1panel.live/tonistiigi/binfmt</code>：镜像地址（也可以使用 <code>tonistiigi/binfmt</code> 官方源）。</li><li><code>--install all</code>：注册所有常用架构的 binfmt 支持，如：<ul><li><code>arm</code></li><li><code>arm64</code></li><li><code>386</code></li><li><code>s390x</code></li><li><code>ppc64le</code></li><li><code>riscv64</code></li></ul></li></ul><hr><h1 id="如何验证是否安装成功？"><a href="#如何验证是否安装成功？" class="headerlink" title="如何验证是否安装成功？"></a>如何验证是否安装成功？</h1><p>可以查看 <code>/proc/sys/fs/binfmt_misc/</code> 目录：</p><pre><code>$ ls /proc/sys/fs/binfmt_misc/</code></pre><p>如果看到如下输出：</p><pre><code>qemu-aarch64qemu-armqemu-ppc64leqemu-riscv64...</code></pre><p>说明安装成功，你现在可以在 x86 机器上运行 arm64 镜像了！</p><hr><h1 id="使用场景：构建多架构-Docker-镜像"><a href="#使用场景：构建多架构-Docker-镜像" class="headerlink" title="使用场景：构建多架构 Docker 镜像"></a>使用场景：构建多架构 Docker 镜像</h1><p>配合 <code>docker buildx</code>，我们可以构建支持多平台的镜像：</p><pre><code>$ docker buildx create --use$ docker buildx build --platform linux/amd64,linux/arm64 -t myimage:latest .</code></pre><p>这样，你构建的镜像就可以在树莓派（ARM）和普通 PC（x86）上都能使用。</p><hr><h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="1-没有开启-binfmt-misc-支持怎么办？"><a href="#1-没有开启-binfmt-misc-支持怎么办？" class="headerlink" title="1. 没有开启 binfmt_misc 支持怎么办？"></a>1. 没有开启 <code>binfmt_misc</code> 支持怎么办？</h2><p>请确保你的内核支持该功能，并挂载了 <code>binfmt_misc</code>：</p><pre><code>$ sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc</code></pre><h2 id="2-如何卸载已安装的解释器？"><a href="#2-如何卸载已安装的解释器？" class="headerlink" title="2. 如何卸载已安装的解释器？"></a>2. 如何卸载已安装的解释器？</h2><p>可以通过以下命令逐个取消注册：</p><pre><code>$ echo -1 &gt; /proc/sys/fs/binfmt_misc/qemu-aarch64</code></pre><p>或者卸载整个挂载点：</p><pre><code>$ sudo umount /proc/sys/fs/binfmt_misc</code></pre><hr><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过执行一条简单的 Docker 命令：</p><pre><code>$ docker run --rm --privileged docker.1panel.live/tonistiigi/binfmt --install all</code></pre><p>你就可以为宿主机注册多架构支持，大大简化跨平台镜像构建与测试的流程。</p><p>无论你是想让 x86 主机运行 ARM 镜像，还是想打造通用镜像，<code>binfmt_misc</code> 都是不可或缺的一步。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在日常容器开发或镜像构建过程中，我们常常遇到这样的需求：&lt;strong&gt;在 x86 的主机上运行 ARM 架构的容器&lt;/strong&gt;，或构建支持多架构（如 &lt;code&gt;amd64&lt;/code&gt; 和 &lt;code&gt;arm64&lt;/code&gt;）的镜像。这时候就需要借助 Linux
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【检查清单】服务器系统安装检查清单</title>
+    <link href="https://ismdeep.github.io/posts/2025-05-22-server-system-installation.html"/>
+    <id>https://ismdeep.github.io/posts/2025-05-22-server-system-installation.html</id>
+    <published>2025-05-22T06:42:49.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>以下内容应该在服务器系统安装完成后进行检查。</p><ul><li><p><input disabled="" type="checkbox"> 必备软件包</p><p><strong>Debian 系列：</strong></p><p>更新索引并升级软件包：</p><pre><code>$ sudo apt update &amp;&amp; sudo apt upgrade -y</code></pre><p>安装系统管理工具：</p><pre><code>$ sudo apt install -y htop glances tmux screen lsof strace dstat sysstat ncdu tree</code></pre><p>安装网络工具：</p><pre><code>$ sudo apt install -y iproute2 net-tools curl wget nmap traceroute mtr iperf3 tcpdump dnsutils</code></pre><p>安装监控与日志工具：</p><pre><code>$ sudo apt install -y logrotate goaccess</code></pre><p>安装安全相关工具：</p><pre><code>$ sudo apt install -y ufw fail2ban auditd iptables nftables</code></pre><p>安装文本和压缩工具：</p><pre><code>$ sudo apt install -y rsync vim pv tar gzip xz-utils zip unzip findutils grep sed</code></pre><p>安装版本控制和自动化工具：</p><pre><code>$ sudo apt install -y git cron ansible</code></pre><p><strong>CentOS 系列：</strong></p><p>更新索引并升级软件包：</p><pre><code>$ sudo yum update -y</code></pre><p>安装系统管理工具：</p><pre><code>$ sudo yum install -y htop tmux screen lsof strace sysstat ncdu tree</code></pre><p>安装网络工具：</p><pre><code>$ sudo yum install -y iproute net-tools curl wget nmap traceroute mtr iperf3 tcpdump bind-utils </code></pre><p>安装监控与日志工具</p><pre><code>$ sudo yum install -y logrotate</code></pre><p>安装安全相关工具</p><pre><code>$ sudo yum install -y firewalld audit sudo iptables-services nftables</code></pre><p>安装文本和压缩工具</p><pre><code>$ sudo yum install -y vim rsync pv tar gzip xz zip unzip findutils grep sed gawk</code></pre><p>安装版本控制和自动化工具</p><pre><code>$ sudo yum install -y git cronie ansible</code></pre></li><li><p><input disabled="" type="checkbox"> 配置 SSH 客户端保持在线</p><p>修改 <code>/etc/ssh/sshd_config</code> 中内容</p><pre><code>ClientAliveInterval 0ClientAliveCountMax 0</code></pre><p>并执行</p><pre><code>$ sudo systemctl restart sshd</code></pre></li><li><p><input disabled="" type="checkbox"> 配置 SSH 免密</p><p>方法一、通过 <code>ssh-copy-id</code> 添加免密公钥</p><p>方法二、将公钥内容加入到 <code>root</code> 账号的 <code>.ssh/authorized_keys</code> 文件中</p></li><li><p><input disabled="" type="checkbox"> 启用 sshd 服务</p><pre><code>$ sudo systemctl enable sshd --now</code></pre></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;以下内容应该在服务器系统安装完成后进行检查。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 
+必备软件包&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Debian 系列：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;更新索引并升级软件包：&lt;/
+      
+    
+    </summary>
+    
+    
+      <category term="Checklist" scheme="https://ismdeep.github.io/tags/Checklist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【检查清单】测试服务器系统安装后检查清单</title>
+    <link href="https://ismdeep.github.io/posts/2025-05-21-checklist-testing-pc-server.html"/>
+    <id>https://ismdeep.github.io/posts/2025-05-21-checklist-testing-pc-server.html</id>
+    <published>2025-05-21T02:55:09.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p><input disabled="" type="checkbox"> 禁用 lightdm</p><p>执行 <code>$ sudo systemctl disable lightdm --now</code></p></li><li><p><input disabled="" type="checkbox"> 禁用开机画面</p><p>修改 &#x2F;etc&#x2F;default&#x2F;grub 将 <code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</code> 改成 <code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;&quot;</code> 并执行 <code>$ update-grub</code></p></li><li><p><input disabled="" type="checkbox"> 安装 xrdp</p><p>步骤一、安装 xrdp <code>$ sudo apt install -y xrdp</code></p><p>步骤二、修改 <code>/etc/xrdp/xrdp.ini</code> 将 <code>allow_channels</code> 值设置为 <code>false</code></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 
+禁用 lightdm&lt;/p&gt;
+&lt;p&gt;执行 &lt;code&gt;$ sudo systemctl disable lightdm --now&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Checklist" scheme="https://ismdeep.github.io/tags/Checklist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【检查清单】问题跟进表格检查清单</title>
+    <link href="https://ismdeep.github.io/posts/2025-05-21-checklist-issue-tracking.html"/>
+    <id>https://ismdeep.github.io/posts/2025-05-21-checklist-issue-tracking.html</id>
+    <published>2025-05-21T02:43:06.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>检查表头：</p><ul><li><input disabled="" type="checkbox"> 序号</li><li><input disabled="" type="checkbox"> 问题分类</li><li><input disabled="" type="checkbox"> 问题标题</li><li><input disabled="" type="checkbox"> 问题说明</li><li><input disabled="" type="checkbox"> 发现时间</li><li><input disabled="" type="checkbox"> 解决时间</li><li><input disabled="" type="checkbox"> 进度</li><li><input disabled="" type="checkbox"> 根因分析</li><li><input disabled="" type="checkbox"> 解决方法</li><li><input disabled="" type="checkbox"> 备注</li></ul><p>例如：</p><table><thead><tr><th>序号</th><th>问题分类</th><th>问题标题</th><th>问题说明</th><th>发现时间</th><th>解决时间</th><th>进度</th><th>根因分析</th><th>解决方法</th><th>备注</th></tr></thead><tbody><tr><td>1</td><td>XXXX</td><td>XXXX</td><td>XXXX</td><td>2025&#x2F;5&#x2F;13</td><td>2025&#x2F;5&#x2F;16</td><td>已解决</td><td>XXXX</td><td>XXXX</td><td></td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;检查表头：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 序号&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; type=&quot;checkbox&quot;&gt; 问题分类&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&quot;&quot; t
+      
+    
+    </summary>
+    
+    
+      <category term="Checklist" scheme="https://ismdeep.github.io/tags/Checklist/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>资源推荐</title>
+    <link href="https://ismdeep.github.io/posts/resource.html"/>
+    <id>https://ismdeep.github.io/posts/resource.html</id>
+    <published>2025-05-05T12:24:59.000Z</published>
+    <updated>2025-10-29T08:24:19.306Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><ul><li><a href="https://wiki.csie.ncku.edu.tw/linux/schedule">Linux 核心設計&#x2F;實作 (Linux Kernel Internals)</a>, 黃敬群</li></ul><h1 id="算法竞赛"><a href="#算法竞赛" class="headerlink" title="算法竞赛"></a>算法竞赛</h1><ul><li><a href="https://github.com/OI-wiki/OI-wiki">OI-wiki</a>: 涵盖竞赛基础知识、常见题型、解题思路、常用工具等，帮助大家快速深入地学习编程竞赛。</li></ul><h1 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h1><ul><li><a href="https://wangcc.me/LSHTMlearningnote/">醫學統計學</a>，<em>王 超辰 Chaochen Wang</em></li><li><a href="https://bookdown.org/hezhijian/book/">数理统计讲义</a>，<em>何志坚</em></li></ul><h1 id="技能图谱"><a href="#技能图谱" class="headerlink" title="技能图谱"></a>技能图谱</h1><ul><li><a href="https://github.com/TeamStuQ/skill-map">StuQ 程序员技能图谱</a>，开源地址：<a href="https://github.com/TeamStuQ/skill-map">https://github.com/TeamStuQ/skill-map</a></li></ul><h1 id="密码学"><a href="#密码学" class="headerlink" title="密码学"></a>密码学</h1><ul><li><a href="https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.html">Cryptographic Mechanisms: Recommendations and Key Lengths</a>, 加密机制技术指南。<a href="https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.pdf?__blob=publicationFile&v=7">pdf</a></li></ul><h1 id="云原生"><a href="#云原生" class="headerlink" title="云原生"></a>云原生</h1><ul><li><a href="https://landscape.cncf.io/">Cloud Native Landscape</a> 云原生全景图。</li></ul><h1 id="图书馆"><a href="#图书馆" class="headerlink" title="图书馆"></a>图书馆</h1><ul><li><a href="https://freecomputerbooks.com/">https://freecomputerbooks.com/</a> 世界各地免费计算机、数学、技术书籍的链接。</li><li><a href="https://libgen.is/">Library Genesis</a></li></ul><h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><ul><li><a href="https://softwareengineering.stackexchange.com/questions/165725/git-branching-and-tagging-best-practices">Git branching and tagging best practices</a>, Git 分支和标签管理最佳实践，此文参考自：<a href="https://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a>, <a href="https://nvie.com/files/Git-branching-model.pdf">pdf</a></li><li><a href="https://beej.us/guide/bggit/">Beej’s Guide to Git</a></li></ul><h1 id="Go"><a href="#Go" class="headerlink" title="Go"></a>Go</h1><h2 id="优秀的代码仓库"><a href="#优秀的代码仓库" class="headerlink" title="优秀的代码仓库"></a>优秀的代码仓库</h2><ul><li><a href="https://github.com/IBM/fp-go">https://github.com/IBM/fp-go</a></li><li><a href="https://github.com/avelino/awesome-go">https://github.com/avelino/awesome-go</a></li></ul><h2 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h2><ul><li><a href="https://github.com/darius-khll/golang-developer-roadmap/blob/master/i18n/zh-CN/ReadMe-zh-CN.md">Go开发者路线图</a></li><li><a href="https://gfw.go101.org/">Go 101</a></li><li><a href="https://www.topgoer.com/">Go语言入门资料</a></li></ul><h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ul><li><a href="https://developer.aliyun.com/article/709387">数据库设计规范-阿里云开发者社区</a></li><li><a href="https://www.dboop.com/dba/%E4%BF%A1%E5%88%9B%E5%92%8C%E5%9B%BD%E4%BA%A7%E6%95%B0%E6%8D%AE%E5%BA%93/">信创和国产数据库</a></li><li><a href="https://github.com/awesome-selfhosted/awesome-selfhosted">Awesome-Selfhosted</a> 自托管软件宝藏库。</li><li><a href="https://www.sqlite.org/testing.html">How SQLite Is Tested</a></li></ul><h1 id="开放课程"><a href="#开放课程" class="headerlink" title="开放课程"></a>开放课程</h1><ul><li><a href="https://ocw.aca.ntu.edu.tw/ntu-ocw/">臺大開放式課程 (NTU OpenCourseWare)</a></li><li><a href="https://www.hardbreak.wiki/">开源硬件黑客Wiki</a></li><li><a href="https://www.scattered-thoughts.net/writing/small-tech/">Small Tech</a></li></ul><h1 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h1><ul><li><a href="https://www.alignmentforum.org/posts/NfFST5Mio7BCAQHPA/an-extremely-opinionated-annotated-list-of-my-favourite">An Extremely Opinionated Annotated List of My Favourite Mechanistic Interpretability Papers v2</a>: 我最喜欢的机械可解释性论 文的极具主观性的注释列表 v2</li><li><a href="https://www.jeremykun.com/2024/05/04/fhe-overview/">全同态加密的高级技术概述</a></li><li><a href="https://eprint.iacr.org/">Cryptology ePrint Archive</a></li><li><a href="https://arxiv.org/">arXiv</a>是一个收集物理学、数学、计算机科学和生物学的论文预印本的网站。</li></ul><h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="系统工具"><a href="#系统工具" class="headerlink" title="系统工具"></a>系统工具</h2><ul><li><a href="https://asciinema.org/">asciinema</a> 是一个用于录制终端会话的工具。</li><li><a href="https://www.ventoy.net/">Ventoy</a>: 一个制作可启动U盘的开源工具，有了Ventoy你就无需反复地格式化U盘，只需要把 ISO&#x2F;WIM&#x2F;IMG&#x2F;VHD(x)&#x2F;EFI 等类型的文件直接拷贝到U盘里面即可。</li><li><a href="https://github.com/yudai/gotty">gotty</a>: 一个简单的Web浏览器中访问远端服务器终端命令行的工具。</li><li><a href="https://gnome-terminator.org/">terminator</a>: 一个使用简单但分屏功能强大的终端模拟器，极力推荐 Linux 用户使用🌟🌟🌟🌟🌟。Debian&#x2F;Ubuntu系列上只需要 <code>$ sudo apt install -y terminator</code> 即可安装。</li><li><a href="https://docs.xfce.org/apps/ristretto/start">ristretto</a> 是一款适配用于xfce4桌面环境的简易图像查看器。它能查看、全屏查看、缩放查看或以幻灯片视图查看图片。<pre><code>$ sudo apt install -y ristretto</code></pre></li><li><a href="engrampa">engrampa</a> 是 Linux 环境下非常优秀的压缩软件。<pre><code>$ sudo apt install -y engrampa</code></pre></li><li><a href="https://github.com/mate-desktop/atril">atril</a>: Linux 下文档阅读器。<pre><code>$ sudo apt install -y atril</code></pre></li></ul><h2 id="效率工具"><a href="#效率工具" class="headerlink" title="效率工具"></a>效率工具</h2><ul><li><a href="https://www.notion.so/">Notion</a>: 是一款集成了笔记、知识库、数据表格、看板、日历等多种能力于一体的应用程序。非常值得推荐🌟🌟🌟🌟🌟。</li><li><a href="https://acronymify.com/">Acronymify!</a>: 一个可以用来生成缩写词的在线工具。</li><li><a href="https://www.windy.com/">Windy</a>: Wind map &amp; weather forecast.</li><li><a href="https://chat.lmsys.org/">LMSYS</a>: Benchmarking LLMs and VLMs in the Wild.</li><li><a href="https://www.freeplane.org/">freeplane</a> 是一款免费开源的软件应用，支持思考、分享信息、在工作、学校和家中完成任务。它为您提供了一套思维导图（也称为概念图或信息图）和导航映射信息的工具。Freeplane 的功能将吸引高级用户，但对于普通用户来说，它也是 Xmind、Mindmeister 和类似思维导图软件的更强大替代品。</li></ul><h1 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h1><h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><ul><li><p><a href="https://www.sublimetext.com/">Sublime Text</a><br>Debian&#x2F;Ubuntu 安装方法：<br>切换 <code>root</code> 账号下执行以下命令：</p><pre><code>$ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg &gt; /dev/null$ echo &quot;deb https://download.sublimetext.com/ apt/stable/&quot; | tee /etc/apt/sources.list.d/sublime-text.list$ apt-get update &amp;&amp; apt-get install sublime-text</code></pre></li><li><p><a href="https://tools.datapipe.top/">IT在线工具箱</a>: 涵盖UUID生成器、Base64编码解码、JSON美化等常用工具的在线网站。</p></li><li><p>JSON格式化 <a href="https://jsonviewer.stack.hu/">Online JSON Viewer and Formatter</a></p></li><li><p><a href="https://regex-vis.com/">Regex Vis</a>: 一个图形化解释正则表达式的在线网站。</p></li><li><p><a href="https://coolors.co/palettes/trending">Coolors</a>: 配色推荐。</p></li></ul><h2 id="数据库-1"><a href="#数据库-1" class="headerlink" title="数据库"></a>数据库</h2><ul><li>dbeaver</li><li><a href="https://github.com/qishibo/AnotherRedisDesktopManager/releases">Another Redis Desktop Manager</a> 是一个支持 macOS, Windows, Linux 跨平台的 Redis 图形化客户端。</li></ul><h2 id="API-客户端"><a href="#API-客户端" class="headerlink" title="API 客户端"></a>API 客户端</h2><ul><li><a href="https://www.usebruno.com/">Bruno</a> 是一个开源用于替代Postman、Insomnia等的快速且Git友好的API客户端。</li></ul><h2 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h2><ul><li><a href="https://www.jenkins.io/">Jenkins</a>: 自动构建流水线推荐使用 <a href="https://www.jenkins.io/">Jenkins</a> 部署。可以参照<a href="https://www.jenkins.io/doc/book/pipeline/syntax/">官方语法文档</a>，支持两种写法：声明式和脚本式。社区中很多人都在诟病基于 Groovy 语法的 Jenkinsfile 编写方式，有人开发出了支持 YAML 语法编写构建流水线脚本的插件 <a href="https://plugins.jenkins.io/pipeline-as-yaml/">Pipeline As Yaml Plugin for Jenkins</a> （链接含编写语法文档），不过这个插件目前还在孵化期，需要谨慎使用。</li></ul><h2 id="文件对比"><a href="#文件对比" class="headerlink" title="文件对比"></a>文件对比</h2><ul><li>meld</li></ul><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ul><li><a href="https://locust.io/">Locust</a> 是一款支持分布式的性能压测工具。笔者还开发了一款用于部署Locust压测集群的工具 <a href="https://github.com/ismdeep/load-hive">load-hive</a> ，以及对应的示例项目 <a href="https://github.com/ismdeep/load-hive-demo">load-hive-demo</a></li></ul><h1 id="Chrome-插件"><a href="#Chrome-插件" class="headerlink" title="Chrome 插件"></a>Chrome 插件</h1><ul><li><a href="https://chromewebstore.google.com/detail/proxy-switchyomega-3-zero/pfnededegaaopdmhkdmcofjmoldfiped">Proxy SwitchyOmega 3 (ZeroOmega)</a></li><li><a href="https://chromewebstore.google.com/detail/octotree-github-code-tree/bkhaagjahfmjljalopjnoealnfndnagc">Octotree - GitHub code tree</a></li></ul><h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><ul><li>代码文件长度检查（已 <code>.go</code> 文件为例）<pre><code>$ find ./ -type f -name &quot;*.go&quot; -exec awk &#39;length &gt; 120 &#123; print FILENAME &quot;:&quot; FNR; &#125;&#39; &#123;&#125; + | sed &#39;s|^\./||&#39;</code></pre></li><li>rsync<pre><code>$ rsync -a -r --no-i-r --info=progress2 --info=name0 --no-owner --no-group --no-perms --delete &#39;&lt;Src&gt;&#39; &#39;&lt;Dest&gt;&#39;</code></pre></li><li>进入被调用脚本所在目录<pre><code># Get to workdircd &quot;$(realpath &quot;$(dirname &quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;)&quot;)&quot;</code></pre></li></ul><h1 id="编程字体"><a href="#编程字体" class="headerlink" title="编程字体"></a>编程字体</h1><ul><li><a href="https://www.youtube.com/watch?v=ww2mIn5OsEI">哪个是程序员最爱的编程字体？2百万阅读的帖子选出最帅的七种字体 7 Best Fonts for Programming and Coding</a></li></ul><h1 id="效率工具-1"><a href="#效率工具-1" class="headerlink" title="效率工具"></a>效率工具</h1><h2 id="文件整理方法"><a href="#文件整理方法" class="headerlink" title="文件整理方法"></a>文件整理方法</h2><ul><li><a href="https://www.youtube.com/watch?v=l5n4D8HepWY">【效率】如何在一秒钟内找到文件，够用一辈子的文件整理方法</a></li></ul><h2 id="Notion"><a href="#Notion" class="headerlink" title="Notion"></a>Notion</h2><ul><li><a href="https://www.youtube.com/watch?v=OeSBaVM4lFI">如何靠玩「乐高」，每年赚100万美元？</a></li></ul><h1 id="博客站点"><a href="#博客站点" class="headerlink" title="博客站点"></a>博客站点</h1><ul><li><a href="https://qiwsir.github.io/">老齐教室</a>，齐伟</li><li><a href="https://blog.trailofbits.com/">Trail of Bits Blog</a></li><li><a href="http://arthurchiao.art/">ArthurChiao’s Blog</a></li><li><a href="https://wiki.linuxchina.net/">https://wiki.linuxchina.net/</a></li><li><a href="https://www.dboop.com/">https://www.dboop.com/</a></li><li><a href="https://www.huihoo.com/">https://www.huihoo.com/</a></li><li><a href="https://dthompson.us/">https://dthompson.us/</a></li><li><a href="https://www.systeminit.com/blog">https://www.systeminit.com/blog</a></li><li><a href="https://manateelazycat.github.io/">https://manateelazycat.github.io/</a></li></ul><h1 id="有趣的项目"><a href="#有趣的项目" class="headerlink" title="有趣的项目"></a>有趣的项目</h1><ul><li><a href="https://github.com/ading2210/linuxpdf">LinuxPDF</a></li><li><a href="https://github.com/ading2210/doompdf">DoomPDF</a></li></ul><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul><li><p><a href="https://www.youtube.com/watch?v=QZwgC5Ro-Vs">【没动力？没热情？】《认知觉醒》深度解析：成长你所需要知道的事情</a></p></li><li><p><a href="https://www.infoq.cn/article/FjTpGpRfPdWUyBWTQmd7">消息队列为何经久不衰</a></p></li><li><p><a href="https://mp.weixin.qq.com/s/EcXRnfIrdyLgJyhl0ITprg">2025年，我的第一个建议是别当程序员了！但如果非要当，这些办法可以教会你如何提升自己</a></p></li><li><p><a href="https://www.youtube.com/watch?v=tiN6T1LewmQ">搜索技术，普通人变强的唯一外挂。全套详细宝藏教程~</a></p></li><li><p><a href="https://www.cnblogs.com/Tsingwaa/articles/15945821.html">【中文论文Latex写作】Mac&#x2F;Win 在VS Code 配置 XeLaTeX 和 Git - Tsingwaa - 博客园</a></p></li><li><p><a href="https://www.ilograph.com/blog/posts/diagram-mistakes/">架构图中的 7 个常见错误 |Ilograph 博客 — 7 Common Mistakes in Architecture Diagrams | Ilograph Blog</a></p></li><li><p><a href="https://speakdatascience.com/postgresql-best-practices/">7 Crucial PostgreSQL Best Practices - Speak Data Science</a></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Linux&quot;&gt;&lt;a href=&quot;#Linux&quot; class=&quot;headerlink&quot; title=&quot;Linux&quot;&gt;&lt;/a&gt;Linux&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://wiki.csie.ncku.edu.tw/linux/schedul
+      
+    
+    </summary>
+    
+    
+      <category term="Resource" scheme="https://ismdeep.github.io/tags/Resource/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DockerHub 国内加速镜像列表</title>
+    <link href="https://ismdeep.github.io/posts/2025-04-15-docker-registry-mirrors.html"/>
+    <id>https://ismdeep.github.io/posts/2025-04-15-docker-registry-mirrors.html</id>
+    <published>2025-04-15T05:26:09.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>Docker Hub 是 Docker 提供的一项服务，用于与您的团队查找和共享容器映像。 它是世界上最大的容器映像存储库，其中包含一系列内容源，包括容器社区开发人员，开源项目和独立软件供应商（ISV），它们在容器中构建和分发其代码。</p><p>但是目前国内已经无法正常访问 Docker Hub 官方仓库了，对此通过镜像站拉取 Docker 镜像是一个不错的方案。以下列出一些优秀的镜像站相关的项目地址：</p><ul><li><a href="https://github.com/dongyubin/DockerHub">https://github.com/dongyubin/DockerHub</a></li><li><a href="https://github.com/kubesre/docker-registry-mirrors">https://github.com/kubesre/docker-registry-mirrors</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Docker Hub 是 Docker 提供的一项服务，用于与您的团队查找和共享容器映像。 它是世界上最大的容器映像存储库，其中包含一系列内容源，包括容器社区开发人员，开源项目和独立软件供应商（ISV），它们在容器中构建和分发其代码。&lt;/p&gt;
+&lt;p&gt;但是目前国内已经无法正常
+      
+    
+    </summary>
+    
+    
+      <category term="Docker" scheme="https://ismdeep.github.io/tags/Docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【已解决】CentOS系列系统在VirtualBox中Host-Only网络模式下没有默认路由</title>
+    <link href="https://ismdeep.github.io/posts/2025-03-26-fix-no-default-route-on-centos-in-virtualbox.html"/>
+    <id>https://ismdeep.github.io/posts/2025-03-26-fix-no-default-route-on-centos-in-virtualbox.html</id>
+    <published>2025-03-26T01:52:56.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、现象"><a href="#一、现象" class="headerlink" title="一、现象"></a>一、现象</h1><p>执行 <code>$ ip route</code> 命令，输出中没有默认路由。</p><pre><code>[root@localhost ~]# ip route192.168.56.0/24 dev enp0s3 proto kernel scope link src 192.168.56.102 metric 100 </code></pre><h1 id="二、解决方法"><a href="#二、解决方法" class="headerlink" title="二、解决方法"></a>二、解决方法</h1><p>编辑以下文件并重启系统：</p><pre><code>/etc/sysconfig/network-scripts/ifcfg-enp0s3</code></pre><p>参数配置如下（有则修改，没有则添加）：</p><pre><code>BOOTPROTO=noneIPADDR=192.168.56.101PREFIX=24GATEWAY=192.168.56.1</code></pre><h1 id="三、结果"><a href="#三、结果" class="headerlink" title="三、结果"></a>三、结果</h1><pre><code>[root@localhost ~]# ip routedefault via 192.168.56.1 dev enp0s3 proto static metric 100 192.168.56.0/24 dev enp0s3 proto kernel scope link src 192.168.56.101 metric 100 </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、现象&quot;&gt;&lt;a href=&quot;#一、现象&quot; class=&quot;headerlink&quot; title=&quot;一、现象&quot;&gt;&lt;/a&gt;一、现象&lt;/h1&gt;&lt;p&gt;执行 &lt;code&gt;$ ip route&lt;/code&gt; 命令，输出中没有默认路由。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[root@
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+      <category term="CentOS" scheme="https://ismdeep.github.io/tags/CentOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>常用 Linux 命令</title>
+    <link href="https://ismdeep.github.io/posts/2025-03-06-essential-linux-commands.html"/>
+    <id>https://ismdeep.github.io/posts/2025-03-06-essential-linux-commands.html</id>
+    <published>2025-03-06T12:51:21.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><p>Rsync 同步文件</p><pre><code>$ rsync -a -r --no-i-r --info=progress2 --info=name0 \    --no-owner --no-group --no-perms \    &lt;SOURCE&gt; \    &lt;TARGET&gt;</code></pre></li><li><p>查看 Debian 更新源文件及内容</p><pre><code>$ find \    /etc/apt/sources.list \    /etc/apt/sources.list.d/ \    -type f \    -exec echo -e &quot;\n$ cat &#123;&#125;&quot; \; -exec cat &#123;&#125; \;</code></pre></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Rsync 同步文件&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ rsync -a -r --no-i-r --info=progress2 --info=name0 &#92;
+    --no-owner --no-group --no-perms &#92;
+    &amp;lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>面向对象编程的核心思想：消息传递</title>
+    <link href="https://ismdeep.github.io/posts/2025-01-28-oop-messaging.html"/>
+    <id>https://ismdeep.github.io/posts/2025-01-28-oop-messaging.html</id>
+    <published>2025-01-28T09:11:01.000Z</published>
+    <updated>2025-10-29T08:24:19.305Z</updated>
+    
+    <content type="html"><![CDATA[<p>在面向对象编程（Object-Oriented Programming，OOP）中，我们常常听到封装、继承、多态和抽象被描述为其核心原则。然而，对于真正理解OOP来说，有一个更深层次、更具哲学意味的核心思想常被忽略，那就是<strong>消息传递（Message Passing）</strong>。</p><h1 id="什么是消息传递？"><a href="#什么是消息传递？" class="headerlink" title="什么是消息传递？"></a>什么是消息传递？</h1><p>消息传递指的是对象之间通过发送和接收消息进行交互。每个对象都拥有自己的状态（数据）和行为（方法），而消息传递是对象与对象之间沟通和协作的机制。简而言之，<strong>消息传递是OOP中实现对象之间互动的核心方式</strong>。</p><p>在实际编程中，消息传递的体现通常是通过方法调用实现的。对象A向对象B发送一条消息，请求其执行某个操作（调用方法），对象B接收到这条消息后，根据其内部的逻辑和状态作出相应的反应。</p><h1 id="Alan-Kay-对面向对象的定义"><a href="#Alan-Kay-对面向对象的定义" class="headerlink" title="Alan Kay 对面向对象的定义"></a>Alan Kay 对面向对象的定义</h1><p>Alan Kay，被誉为面向对象编程之父，曾这样定义OOP：</p><blockquote><p>“The big idea is ‘messaging’ — that is, the exchange of data by sending messages to objects. The key in making great and growable systems is much more to design how its modules communicate rather than what their internal properties and behaviors should be.”</p></blockquote><p>翻译：</p><blockquote><p>“核心理念是‘消息传递’——即通过向对象发送消息来交换数据。构建优秀且可扩展系统的关键，更在于设计模块之间如何通信，而不是关注它们的内部属性和行为。”</p></blockquote><h1 id="消息传递的重要性"><a href="#消息传递的重要性" class="headerlink" title="消息传递的重要性"></a>消息传递的重要性</h1><p>为什么说消息传递是面向对象编程的核心？它与OOP的其他原则紧密相连，共同支撑了面向对象的体系：</p><ol><li><strong>封装的基础</strong> 消息传递强调对象通过暴露有限的接口来接收消息，而不是直接让其他对象访问其内部数据。这种方式保证了对象内部实现的封装性，外部对象只需要知道如何发送消息，而不需要了解消息接收者的具体实现细节。</li><li><strong>多态性的体现</strong> 多态性在消息传递中尤为关键。当多个对象能够响应相同的消息（方法调用）时，它们可以根据自己的类型和特性作出不同的反应。这种机制使得对象之间的交互更加灵活，支持动态行为的扩展。</li><li><strong>松耦合设计</strong> 消息传递实现了对象之间的松耦合。一个对象不需要知道另一个对象的内部结构或实现细节，只需要知道如何向其发送消息。这样的设计增强了系统的模块化和可维护性。</li></ol><h1 id="消息传递的实际应用"><a href="#消息传递的实际应用" class="headerlink" title="消息传递的实际应用"></a>消息传递的实际应用</h1><p>以下是一个简单的例子，展示了消息传递的基本思想：</p><pre><code>class Car:    def start_engine(self):        print(&quot;The engine is now running.&quot;)class Driver:    def start_car(self, car):        car.start_engine()  # 发送消息给 Car 对象# 使用示例car = Car()driver = Driver()driver.start_car(car)</code></pre><p>在这个例子中：</p><ul><li><code>Driver</code> 对象通过调用 <code>start_car</code> 方法向 <code>Car</code> 对象发送一条消息（请求启动引擎）。</li><li><code>Car</code> 对象接收到消息后，执行 <code>start_engine</code> 方法，完成引擎的启动。</li></ul><p>消息传递的核心思想在这里清晰可见：<strong>对象之间并不直接操作对方的内部状态，而是通过发送和接收消息实现交互。</strong></p><h1 id="消息传递与现实世界的类比"><a href="#消息传递与现实世界的类比" class="headerlink" title="消息传递与现实世界的类比"></a>消息传递与现实世界的类比</h1><p>为了更好地理解消息传递，可以将其与现实生活中的通信进行类比。例如：</p><ul><li>当你向朋友发短信邀请他们共进晚餐时，你发送了一条消息。朋友可以根据自己的状态（是否有空、是否感兴趣）来决定是否接受邀请。这就像对象接收到消息后，依据自身逻辑决定执行什么操作。</li><li>在公司中，一个部门（对象A）向另一个部门（对象B）发送邮件请求某项资源。部门B根据邮件内容和当前资源状况作出回应。这种协作完全依赖消息的传递，而不是直接干涉对方的日常运作。</li></ul><h1 id="消息传递与面向对象编程的未来"><a href="#消息传递与面向对象编程的未来" class="headerlink" title="消息传递与面向对象编程的未来"></a>消息传递与面向对象编程的未来</h1><p>随着软件复杂度的提高，消息传递的思想正在以更现代的形式演化。例如：</p><ul><li><strong>微服务架构</strong>：微服务之间通过消息队列（如 RabbitMQ、Kafka）或 HTTP 请求传递消息，彼此独立运行，体现了OOP的消息传递核心思想。</li><li><strong>Actor 模型</strong>：在并发编程中，Actor 模型强调通过消息传递进行状态共享和任务分发，例如 Erlang 和 Akka。</li><li><strong>事件驱动架构</strong>：系统通过发布和订阅事件（消息）实现松耦合的模块交互，如 JavaScript 的事件循环机制或消息总线架构。</li></ul><h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>面向对象编程的核心不仅仅是代码中的类与对象的设计，更是一种关于对象如何交互的哲学。<strong>消息传递</strong>作为OOP的灵魂，赋予了对象自足性和协作能力，使得复杂系统能够被优雅地设计和扩展。</p><p>当我们在编写面向对象的代码时，不妨多思考对象之间如何通过消息传递有效地协作，而不仅仅是关注单个对象的实现细节。正是这种思想，让OOP成为现代软件开发的基石。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在面向对象编程（Object-Oriented Programming，OOP）中，我们常常听到封装、继承、多态和抽象被描述为其核心原则。然而，对于真正理解OOP来说，有一个更深层次、更具哲学意味的核心思想常被忽略，那就是&lt;strong&gt;消息传递（Message Passi
+      
+    
+    </summary>
+    
+    
+      <category term="OOP" scheme="https://ismdeep.github.io/tags/OOP/"/>
+    
+  </entry>
+  
+</feed>
