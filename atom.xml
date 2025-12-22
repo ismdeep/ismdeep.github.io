@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ismdeep</title>
+  
+  <subtitle>Enjoy programming and build awesome stuff.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ismdeep.github.io/"/>
+  <updated>2025-12-22T01:37:01.346Z</updated>
+  <id>https://ismdeep.github.io/</id>
+  
+  <author>
+    <name>ismdeep</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>查看 CA 根证书信息</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-22-show-ca-crt.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-22-show-ca-crt.html</id>
+    <published>2025-12-22T01:33:24.000Z</published>
+    <updated>2025-12-22T01:37:01.346Z</updated>
+    
+    <content type="html"><![CDATA[<p>可以用 <strong>openssl x509</strong> 来查看 <code>ca.crt</code>（CA 证书）的详细信息。</p><h1 id="一、查看证书的完整可读信息（最常用）"><a href="#一、查看证书的完整可读信息（最常用）" class="headerlink" title="一、查看证书的完整可读信息（最常用）"></a>一、查看证书的完整可读信息（最常用）</h1><pre><code>openssl x509 -in ca.crt -noout -text</code></pre><p>会看到包括：</p><ul><li>证书版本（Version）</li><li>序列号（Serial Number）</li><li>签名算法（Signature Algorithm）</li><li>颁发者（Issuer）</li><li>使用者（Subject）</li><li>有效期（Not Before &#x2F; Not After）</li><li>公钥信息</li><li>扩展字段（Key Usage、Basic Constraints、Subject Key Identifier 等）</li></ul><p>判断是否为 CA 证书，重点看：</p><pre><code>X509v3 Basic Constraints:    CA:TRUE</code></pre><h1 id="二、只看关键信息（简洁版）"><a href="#二、只看关键信息（简洁版）" class="headerlink" title="二、只看关键信息（简洁版）"></a>二、只看关键信息（简洁版）</h1><pre><code>openssl x509 -in ca.crt -noout \  -issuer \  -subject \  -dates \  -serial</code></pre><p>输出示例：</p><pre><code>issuer= /C=CN/O=Example CA/OU=Root CA/CN=Example Root CAsubject= /C=CN/O=Example CA/OU=Root CA/CN=Example Root CAnotBefore=Jan  1 00:00:00 2024 GMTnotAfter=Dec 31 23:59:59 2033 GMTserial=01A3F5</code></pre><h1 id="三、查看指纹（常用于比对）"><a href="#三、查看指纹（常用于比对）" class="headerlink" title="三、查看指纹（常用于比对）"></a>三、查看指纹（常用于比对）</h1><pre><code>openssl x509 -in ca.crt -noout -fingerprint -sha256</code></pre><p>SHA-1（旧系统可能还在用）</p><pre><code>openssl x509 -in ca.crt -noout -fingerprint</code></pre><h1 id="四、查看公钥信息"><a href="#四、查看公钥信息" class="headerlink" title="四、查看公钥信息"></a>四、查看公钥信息</h1><pre><code>openssl x509 -in ca.crt -noout -pubkey</code></pre><p>如果你想进一步分析公钥（如 RSA 位数）：</p><pre><code>openssl x509 -in ca.crt -noout -pubkey | openssl rsa -pubin -text -noout</code></pre><h1 id="五、判断是否为自签名-CA"><a href="#五、判断是否为自签名-CA" class="headerlink" title="五、判断是否为自签名 CA"></a>五、判断是否为自签名 CA</h1><pre><code>openssl x509 -in ca.crt -noout -issuer -subject</code></pre><p>如果 <strong>Issuer &#x3D;&#x3D; Subject</strong>，通常是 <strong>自签名根 CA</strong>。</p><h1 id="六、校验证书格式是否正常"><a href="#六、校验证书格式是否正常" class="headerlink" title="六、校验证书格式是否正常"></a>六、校验证书格式是否正常</h1><pre><code>openssl x509 -in ca.crt -noout</code></pre><p>无输出、无报错说明格式 OK。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;可以用 &lt;strong&gt;openssl x509&lt;/strong&gt; 来查看 &lt;code&gt;ca.crt&lt;/code&gt;（CA 证书）的详细信息。&lt;/p&gt;
+&lt;h1 id=&quot;一、查看证书的完整可读信息（最常用）&quot;&gt;&lt;a href=&quot;#一、查看证书的完整可读信息（最常用）&quot; clas
+      
+    
+    </summary>
+    
+    
+      <category term="Cryptography" scheme="https://ismdeep.github.io/tags/Cryptography/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSH 登录通知配置方法</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-17-ssh-login-notify.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-17-ssh-login-notify.html</id>
+    <published>2025-12-17T07:36:20.000Z</published>
+    <updated>2025-12-22T01:37:01.346Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、准备秘钥"><a href="#一、准备秘钥" class="headerlink" title="一、准备秘钥"></a>一、准备秘钥</h1><p>这里需要准备一个企业微信机器人密钥的密钥文件。</p><p>步骤一、创建目录 <code>/etc/secrets</code></p><pre><code>$ sudo mkdir -p /etc/secrets</code></pre><p>步骤二、写入密钥</p><pre><code>$ sudo vim /etc/secrets/ssh-login-notify-wecom-bot-key</code></pre><p>写入企业微信机器人密钥 Base64 编码内容。</p><h1 id="二、通知脚本"><a href="#二、通知脚本" class="headerlink" title="二、通知脚本"></a>二、通知脚本</h1><p>发送通知到企业微信机器人</p><pre><code>$ sudo vim /usr/libexec/ssh-login-notify.sh</code></pre><p>内容如下：</p><pre><code>#!/usr/bin/env bash### 1. Write WeCom bot key as base64 encoded content in /etc/secrets/ssh-login-notify-wecom-bot-key# 2. Write this script to /usr/libexec/ssh-login-notify.sh# 3. Run command: sudo chmod +x /usr/libexec/ssh-login-notify.sh# 4. Edit /etc/pam.d/sshd#   # SSH LOGIN NOTIFY#   session optional pam_exec.so /usr/libexec/ssh-login-notify.shset -edo_notify() &#123;  wecom_bot_key=&quot;$(&lt; /etc/secrets/ssh-login-notify-wecom-bot-key base64 -d)&quot;  pam_user=&quot;$&#123;PAM_USER:-&quot;&quot;&#125;&quot;  pam_rhost=&quot;$&#123;PAM_RHOST:-&quot;&quot;&#125;&quot;  pam_type=&quot;$&#123;PAM_TYPE:-&quot;&quot;&#125;&quot;  pam_service=&quot;$&#123;PAM_SERVICE:-&quot;&quot;&#125;&quot;  pam_tty=&quot;$&#123;PAM_TTY:-&quot;&quot;&#125;&quot;  event_date_time=$(TZ=Asia/Shanghai date &#39;+%F %T&#39;)  event_hostname=$(hostname)  msg=&quot;[SSH Session Notify] type: $&#123;pam_type&#125;, pam_service: $&#123;pam_service&#125;, pam_tty: $&#123;pam_tty&#125; user: $pam_user, from: $pam_rhost, host: $event_hostname, time: $event_date_time&quot;  # 1. 记录本地日志  echo &quot;$&#123;msg&#125;&quot; &gt;&gt; /var/log/ssh-login.log  # 2. 发送企业微信通知  curl &quot;https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$&#123;wecom_bot_key&#125;&quot; \    -H &#39;Content-Type: application/json&#39; \    -d &#39;&#123;&quot;msgtype&quot;: &quot;text&quot;, &quot;text&quot;: &#123;&quot;content&quot;: &quot;&#39;&quot;$&#123;msg&#125;&quot;&#39;&quot;&#125;&#125;&#39;&#125;do_notify &gt;/dev/null 2&gt;&amp;1 || true</code></pre><p>赋予可执行权限：</p><pre><code>$ sudo chmod +x /usr/libexec/ssh-login-notify.sh</code></pre><h1 id="三、编辑-etc-pam-d-sshd"><a href="#三、编辑-etc-pam-d-sshd" class="headerlink" title="三、编辑 &#x2F;etc&#x2F;pam.d&#x2F;sshd"></a>三、编辑 &#x2F;etc&#x2F;pam.d&#x2F;sshd</h1><p>修改 <code>/etc/pam.d/sshd</code> 配置文件：</p><pre><code>$ sudo vim /etc/pam.d/sshd</code></pre><p>增加内容如下：</p><pre><code># SSH LOGIN NOTIFYsession optional pam_exec.so /usr/libexec/ssh-login-notify.sh</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、准备秘钥&quot;&gt;&lt;a href=&quot;#一、准备秘钥&quot; class=&quot;headerlink&quot; title=&quot;一、准备秘钥&quot;&gt;&lt;/a&gt;一、准备秘钥&lt;/h1&gt;&lt;p&gt;这里需要准备一个企业微信机器人密钥的密钥文件。&lt;/p&gt;
+&lt;p&gt;步骤一、创建目录 &lt;code&gt;/etc/sec
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+      <category term="SSH" scheme="https://ismdeep.github.io/tags/SSH/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Debian 系列环境安装 Sublime Text</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-13-install-sublime-text.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-13-install-sublime-text.html</id>
+    <published>2025-12-13T09:07:31.000Z</published>
+    <updated>2025-12-22T01:37:01.346Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><pre><code>$ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | \  gpg --dearmor | \  sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg &gt; /dev/null$ echo &quot;deb https://download.sublimetext.com/ apt/stable/&quot; | \  sudo tee /etc/apt/sources.list.d/sublime-text.list</code></pre><h1 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h1><pre><code>$ sudo apt-get update &amp;&amp; \  sudo apt-get install -y sublime-text</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、准备&quot;&gt;&lt;a href=&quot;#一、准备&quot; class=&quot;headerlink&quot; title=&quot;一、准备&quot;&gt;&lt;/a&gt;一、准备&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;$ wget -qO - https://download.sublimetext.com/sublimeh
+      
+    
+    </summary>
+    
+    
+      <category term="Sublime Text" scheme="https://ismdeep.github.io/tags/Sublime-Text/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Debian 软件包构建</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-13-debian-package-build.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-13-debian-package-build.html</id>
+    <published>2025-12-13T08:33:25.000Z</published>
+    <updated>2025-12-22T01:37:01.346Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><pre><code>$ sudo apt update$ sudo apt build-dep -y .</code></pre><h1 id="二、打包"><a href="#二、打包" class="headerlink" title="二、打包"></a>二、打包</h1><pre><code>$ dpkg-buildpackage -us -uc</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、准备&quot;&gt;&lt;a href=&quot;#一、准备&quot; class=&quot;headerlink&quot; title=&quot;一、准备&quot;&gt;&lt;/a&gt;一、准备&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;$ sudo apt update
+$ sudo apt build-dep -y .
+&lt;/code&gt;&lt;/p
+      
+    
+    </summary>
+    
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows11 关闭右键显示更多选项入口</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-12-windows-11-disable-show-more-options-menu.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-12-windows-11-disable-show-more-options-menu.html</id>
+    <published>2025-12-12T01:17:46.000Z</published>
+    <updated>2025-12-22T01:37:01.346Z</updated>
+    
+    <content type="html"><![CDATA[<p>通过命令行（管理员）执行以下命令：</p><pre><code>reg.exe add &quot;HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32&quot; /f /ve</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;通过命令行（管理员）执行以下命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;reg.exe add &amp;quot;HKCU&#92;Software&#92;Classes&#92;CLSID&#92;&amp;#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&amp;#125;&#92;InprocSer
+      
+    
+    </summary>
+    
+    
+      <category term="Windows" scheme="https://ismdeep.github.io/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>VirtualBox 安装 Debian 13 指南（仅主机模式 + XFCE + 无 root 密码）</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-05-install-debian-13-with-xfce4-on-virtualbox.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-05-install-debian-13-with-xfce4-on-virtualbox.html</id>
+    <published>2025-12-05T09:43:30.000Z</published>
+    <updated>2025-12-22T01:37:01.346Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文档描述如何在 VirtualBox 中安装 Debian 13，并配置仅主机（Host-Only）网络、XFCE 桌面环境、SSH Server、不设置 root 密码，以及安装完成后配置固定 IP 地址和清理无用源。</p><p>系统镜像：debian-13.1.0-amd64-DVD-1.iso</p><h1 id="1-创建-VirtualBox-虚拟机"><a href="#1-创建-VirtualBox-虚拟机" class="headerlink" title="1. 创建 VirtualBox 虚拟机"></a>1. 创建 VirtualBox 虚拟机</h1><h2 id="1-1-新建虚拟机"><a href="#1-1-新建虚拟机" class="headerlink" title="1.1 新建虚拟机"></a>1.1 新建虚拟机</h2><ol><li>VirtualBox → <strong>新建</strong></li><li>配置：<ul><li>名称：<code>Debian13-XFCE</code></li><li>类型：Linux</li><li>版本：Debian (64-bit)</li></ul></li><li>内存：<strong>4GB</strong>（或更多）</li><li>硬盘：VDI → 动态分配 → <strong>20GB+</strong></li></ol><h2 id="1-2-配置网络（Host-Only）"><a href="#1-2-配置网络（Host-Only）" class="headerlink" title="1.2 配置网络（Host-Only）"></a>1.2 配置网络（Host-Only）</h2><ol><li>虚拟机 → <strong>设置</strong></li><li><strong>网络</strong><ul><li>网卡 1 → 勾选 <strong>启用网络连接</strong></li><li>“连接方式”选：<strong>仅主机（Host-Only Adapter）</strong></li><li>适配器名称一般为：<code>VirtualBox Host-Only Ethernet Adapter</code></li></ul></li></ol><hr><h1 id="2-启动-Debian-13-安装"><a href="#2-启动-Debian-13-安装" class="headerlink" title="2. 启动 Debian 13 安装"></a>2. 启动 Debian 13 安装</h1><p>加载 Debian 13 ISO 后选择：</p><p>→ <strong>Graphical Install</strong></p><hr><h1 id="3-安装过程关键选项"><a href="#3-安装过程关键选项" class="headerlink" title="3. 安装过程关键选项"></a>3. 安装过程关键选项</h1><h2 id="3-1-地区、语言、键盘"><a href="#3-1-地区、语言、键盘" class="headerlink" title="3.1 地区、语言、键盘"></a>3.1 地区、语言、键盘</h2><p>按需求选择即可。</p><h2 id="3-2-网络配置"><a href="#3-2-网络配置" class="headerlink" title="3.2 网络配置"></a>3.2 网络配置</h2><p>Host-Only 网络通常无 DHCP，可在安装时跳过 IP 配置（后续再设）。</p><h2 id="3-3-用户与密码"><a href="#3-3-用户与密码" class="headerlink" title="3.3 用户与密码"></a>3.3 用户与密码</h2><ul><li><strong>root 密码留空</strong>（系统将禁用 root 登录）</li><li>创建管理员用户：<ul><li>全名：<code>debian</code></li><li>用户名：<code>debian</code></li><li>用户密码：自定义设置</li></ul></li></ul><h2 id="3-4-软件选择（重要）"><a href="#3-4-软件选择（重要）" class="headerlink" title="3.4 软件选择（重要）"></a>3.4 软件选择（重要）</h2><p>请按以下选择：</p><ul><li>GNOME</li><li>Xfce</li><li>SSH server</li><li>Standard system utilities</li></ul><p>确保不选 GNOME。</p><h2 id="3-5-安装-GRUB"><a href="#3-5-安装-GRUB" class="headerlink" title="3.5 安装 GRUB"></a>3.5 安装 GRUB</h2><p>安装至默认硬盘 <code>/dev/sda</code>。</p><hr><h1 id="4-系统安装完成后的配置"><a href="#4-系统安装完成后的配置" class="headerlink" title="4. 系统安装完成后的配置"></a>4. 系统安装完成后的配置</h1><hr><h2 id="4-1-设置固定-IP-地址（192-168-56-101）"><a href="#4-1-设置固定-IP-地址（192-168-56-101）" class="headerlink" title="4.1 设置固定 IP 地址（192.168.56.101）"></a>4.1 设置固定 IP 地址（192.168.56.101）</h2><p><strong>方法：使用系统设置 GUI 完成</strong></p><ol><li>打开 <strong>Settings → Network</strong></li><li>选择 <strong>Wired Connection</strong></li><li>进入 <strong>IPv4</strong></li><li><strong>Method</strong>：选择 <strong>Manual</strong></li><li>地址配置如下：</li></ol><table><thead><tr><th>字段</th><th>值</th></tr></thead><tbody><tr><td>Address</td><td><strong>192.168.56.101</strong></td></tr><tr><td>Netmask</td><td><strong>255.255.255.0</strong></td></tr><tr><td>Gateway</td><td><strong>192.168.56.1</strong></td></tr><tr><td>DNS Servers</td><td><strong>192.168.56.1</strong></td></tr></tbody></table><blockquote><p>说明：<br> VirtualBox Host-Only 适配器默认网关与 DNS 均为 <code>192.168.56.1</code>，可保证主机与虚拟机互通。</p></blockquote><ol><li>保存并重启网络。</li></ol><p><strong>测试</strong></p><pre><code>ip aping 192.168.56.1</code></pre><hr><h2 id="4-2-删除-etc-apt-sources-list-中-CD-ROM-源"><a href="#4-2-删除-etc-apt-sources-list-中-CD-ROM-源" class="headerlink" title="4.2 删除 &#x2F;etc&#x2F;apt&#x2F;sources.list 中 CD-ROM 源"></a>4.2 删除 &#x2F;etc&#x2F;apt&#x2F;sources.list 中 CD-ROM 源</h2><p>安装后系统通常包含类似：</p><pre><code>deb cdrom:[Debian GNU/Linux 13 ...]/</code></pre><p>请手动删除或注释：</p><pre><code>sudo nano /etc/apt/sources.list</code></pre><p>删除 <code>deb cdrom:</code> 开头的行即可。</p><blockquote><p>注意：环境为纯内网环境，不需要执行 <code>apt update</code>。</p></blockquote><h1 id="5-完成"><a href="#5-完成" class="headerlink" title="5. 完成"></a>5. 完成</h1><p>你的 Debian 13 + XFCE + Host-Only + SSH 系统现已安装完毕，可从宿主机访问：</p><pre><code>ssh debian@192.168.56.101</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文档描述如何在 VirtualBox 中安装 Debian 13，并配置仅主机（Host-Only）网络、XFCE 桌面环境、SSH Server、不设置 root 密码，以及安装完成后配置固定 IP 地址和清理无用源。&lt;/p&gt;
+&lt;p&gt;系统镜像：debian-13.1.0
+      
+    
+    </summary>
+    
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>uni-app 快速开始</title>
+    <link href="https://ismdeep.github.io/posts/2025-11-28-uni-app-quick-start.html"/>
+    <id>https://ismdeep.github.io/posts/2025-11-28-uni-app-quick-start.html</id>
+    <published>2025-11-28T02:04:31.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><p>Node 版本：v20.19.4</p><p><code>~/.npmrc</code> 配置内容：</p><pre><code>registry=https://registry.npmmirror.com/</code></pre><h1 id="二、快速开始"><a href="#二、快速开始" class="headerlink" title="二、快速开始"></a>二、快速开始</h1><p>步骤一、安装 <code>@vue/cli</code></p><pre><code>$ npm install -g @vue/cli</code></pre><p>步骤二、初始化应用代码目录</p><pre><code>$ vue create -p dcloudio/uni-preset-vue my-uni-app</code></pre><p>步骤三、进入应用代码目录启动应用</p><pre><code>$ npm run dev:h5</code></pre><h1 id="三、构建打包"><a href="#三、构建打包" class="headerlink" title="三、构建打包"></a>三、构建打包</h1><h2 id="3-1-H5-页面"><a href="#3-1-H5-页面" class="headerlink" title="3.1 H5 页面"></a>3.1 H5 页面</h2><pre><code>$ npm run build:h5</code></pre><h2 id="3-2-微信小程序"><a href="#3-2-微信小程序" class="headerlink" title="3.2 微信小程序"></a>3.2 微信小程序</h2><pre><code>$ npm run build:mp-weixin</code></pre><h2 id="3-3-其他"><a href="#3-3-其他" class="headerlink" title="3.3 其他"></a>3.3 其他</h2><p>更多打包目标命令见 <code>package.json</code></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、准备&quot;&gt;&lt;a href=&quot;#一、准备&quot; class=&quot;headerlink&quot; title=&quot;一、准备&quot;&gt;&lt;/a&gt;一、准备&lt;/h1&gt;&lt;p&gt;Node 版本：v20.19.4&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;~/.npmrc&lt;/code&gt; 配置内容：&lt;/p&gt;
+&lt;pre&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+      <category term="Web" scheme="https://ismdeep.github.io/tags/Web/"/>
+    
+      <category term="uni-app" scheme="https://ismdeep.github.io/tags/uni-app/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>快速搭建 apt 仓库构建环境</title>
+    <link href="https://ismdeep.github.io/posts/2025-11-27-build-your-own-apt-repo.html"/>
+    <id>https://ismdeep.github.io/posts/2025-11-27-build-your-own-apt-repo.html</id>
+    <published>2025-11-27T06:18:12.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>步骤一、创建子目录</p><pre><code>$ mkdir -p ./packages/</code></pre><p>步骤二、创建配置信息文件 <code>meta.json</code></p><pre><code>&#123;  &quot;container_name&quot;: &quot;aptly-repo-builder&quot;,  &quot;remote_server&quot;: &quot;xx.xx.xx.xx&quot;,  &quot;remote_dir&quot;: &quot;&lt;remote-dir&gt;&quot;,  &quot;docker_image&quot;: &quot;&lt;local-target-docker-image-address&gt;&quot;,  &quot;distribution&quot;: &quot;latest&quot;,  &quot;component&quot;: &quot;main&quot;&#125;</code></pre><p>步骤三、创建 <code>build.sh</code> 文件</p><pre><code>#!/usr/bin/env bashset -e# 日志函数# 日志颜色代码：URL_ADDRESS# 日志颜色代码：https://misc.flogisoft.com/bash/tip_colors_and_formatting# 日志格式：时间 [日志级别] 日志内容# 日志级别：DEBUG, INFO, OK, WARN, ERROR# 日志颜色：蓝色, 青色, 绿色, 黄色, 红色# 日志输出：标准输出, 标准错误# 日志示例：2021-01-01 00:00:00 +0800 [ DEBUG ] hello world.# 日志示例：2021-01-01 00:00:00 +0800 [ INFO ] hello world.# 日志示例：2021-01-01 00:00:00 +0800 [ OK ] hello world.# 日志示例：2021-01-01 00:00:00 +0800 [ WARN ] hello world.# 日志示例：2021-01-01 00:00:00 +0800 [ ERROR ] hello world.if [[ &quot;$&#123;TERM&#125;&quot; =~ ^(xterm|screen|vt100) ]]; then  log_debug() &#123;   echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ \033[34mDEBUG\033[0m ] $*&quot;; &#125;  log_info() &#123;    echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ \033[36mINFO\033[0m ] $*&quot;; &#125;  log_success() &#123; echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ \033[32mOK\033[0m ] $*&quot;; &#125;  log_warn() &#123;    echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ \033[33mWARN\033[0m ] $*&quot; &gt;&amp;2; &#125;  log_error() &#123;   echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ \033[31mERROR\033[0m ] $*&quot; &gt;&amp;2; &#125;else  log_debug() &#123;   echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ DEBUG ] $*&quot;; &#125;  log_info() &#123;    echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ INFO ] $*&quot;; &#125;  log_success() &#123; echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ OK ] $*&quot;; &#125;  log_warn() &#123;    echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ WARN ] $*&quot; &gt;&amp;2; &#125;  log_error() &#123;   echo -e &quot;$(date &#39;+%Y-%m-%d %H:%M:%S %z&#39;) [ ERROR ] $*&quot; &gt;&amp;2; &#125;fi# Get to workdircd &quot;$(realpath &quot;$(dirname &quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;)&quot;)&quot;# jq command is requiredcommand -v jq &gt;/dev/null 2&gt;/dev/null || (log_error &quot;command required: jq&quot; &amp;&amp; false)# aptly command is requiredcommand -v aptly &gt;/dev/null 2&gt;/dev/null || (log_error &quot;command required: aptly&quot; &amp;&amp; false)workdir=&quot;$(pwd)&quot;export APTLY_ROOT_DIR=&quot;$&#123;workdir&#125;/aptly&quot;mkdir -p &quot;$&#123;APTLY_ROOT_DIR&#125;&quot;tmpdir=&quot;$(mktemp -d)&quot;config_file=&quot;$&#123;tmpdir:?&#125;/aptly.conf.json&quot;&lt; aptly.conf.json.envsubst envsubst &gt; &quot;$&#123;config_file&#125;&quot;distribution=&quot;$(jq -r &#39;.distribution&#39; meta.json)&quot;component=&quot;$(jq -r &#39;.component&#39; meta.json)&quot;log_info &quot;distribution: $&#123;distribution&#125;&quot;log_info &quot;component: $&#123;component&#125;&quot;if ! aptly -config=&quot;$&#123;config_file&#125;&quot; repo show &quot;$&#123;distribution&#125;&quot;; then  # 创建 repo  aptly -config=&quot;$&#123;config_file&#125;&quot; repo create -distribution=&quot;$&#123;distribution&#125;&quot; -component=&quot;$&#123;component&#125;&quot; &quot;$&#123;distribution&#125;&quot;  # 添加包  aptly -config=&quot;$&#123;config_file&#125;&quot; repo add &quot;$&#123;distribution&#125;&quot; ./packages/  # 发布时禁用硬链接  aptly -config=&quot;$&#123;config_file&#125;&quot; publish repo &quot;$&#123;distribution&#125;&quot;else  # 更新包  aptly -config=&quot;$&#123;config_file&#125;&quot; repo add &quot;$&#123;distribution&#125;&quot; ./packages/  # 更新发布时禁用硬链接  aptly -config=&quot;$&#123;config_file&#125;&quot; publish update &quot;$&#123;distribution&#125;&quot;fiecho &quot;$(date -R) [ INFO ] aptly build repo successfully.&quot;rm -rf &quot;$&#123;tmpdir:?&#125;/&quot;</code></pre><p>步骤四、创建 <code>Dockerfile</code> 文件</p><pre><code>FROM docker.1ms.run/library/debian:13COPY debian.sources /etc/apt/sources.list.d/debian.sourcesRUN \    apt update &amp;&amp; \    apt upgrade -y &amp;&amp; \    apt install -y aptly jq gettext-base</code></pre><p>步骤五、创建文件 <code>debian.sources</code></p><pre><code>Types: debURIs: http://mirrors.tuna.tsinghua.edu.cn/debianSuites: trixie trixie-updates trixie-backportsComponents: main contrib non-free non-free-firmwareSigned-By: /usr/share/keyrings/debian-archive-keyring.gpgTypes: debURIs: http://mirrors.tuna.tsinghua.edu.cn/debian-securitySuites: trixie-securityComponents: main contrib non-free non-free-firmwareSigned-By: /usr/share/keyrings/debian-archive-keyring.gpg</code></pre><p>步骤六、创建文件 <code>aptly.conf.json.envsubst</code></p><pre><code>&#123;  &quot;rootDir&quot;: &quot;$&#123;APTLY_ROOT_DIR&#125;&quot;,  &quot;downloadConcurrency&quot;: 4,  &quot;downloadSpeedLimit&quot;: 0,  &quot;downloadRetries&quot;: 0,  &quot;downloader&quot;: &quot;default&quot;,  &quot;databaseOpenAttempts&quot;: -1,  &quot;architectures&quot;: [],  &quot;dependencyFollowSuggests&quot;: false,  &quot;dependencyFollowRecommends&quot;: false,  &quot;dependencyFollowAllVariants&quot;: false,  &quot;dependencyFollowSource&quot;: false,  &quot;dependencyVerboseResolve&quot;: false,  &quot;gpgDisableSign&quot;: true,  &quot;gpgDisableVerify&quot;: true,  &quot;gpgProvider&quot;: &quot;gpg&quot;,  &quot;downloadSourcePackages&quot;: false,  &quot;skipLegacyPool&quot;: true,  &quot;ppaDistributorID&quot;: &quot;debian&quot;,  &quot;ppaCodename&quot;: &quot;&quot;,  &quot;skipContentsPublishing&quot;: false,  &quot;skipBz2Publishing&quot;: false,  &quot;FileSystemPublishEndpoints&quot;: &#123;&#125;,  &quot;S3PublishEndpoints&quot;: &#123;&#125;,  &quot;SwiftPublishEndpoints&quot;: &#123;&#125;,  &quot;AzurePublishEndpoints&quot;: &#123;&#125;,  &quot;AsyncAPI&quot;: false,  &quot;enableMetricsEndpoint&quot;: false&#125;</code></pre><p>步骤七、创建 <code>Makefile</code> 文件</p><pre><code>SHELL := /bin/bashcontainer_name := $(shell jq -r &#39;.container_name&#39; meta.json)remote_server  := $(shell jq -r &#39;.remote_server&#39; meta.json)remote_dir     := $(shell jq -r &#39;.remote_dir&#39; meta.json)docker_image   := $(shell jq -r &#39;.docker_image&#39; meta.json)help:    @cat Makefile | grep &#39;# `&#39; | grep -v &#39;@cat Makefile&#39;.PHONY: docker-imagedocker-image:    docker build \        --progress plain \        --pull \        --tag $&#123;docker_image&#125; \        --file Dockerfile \        .# `make build`                     Build.PHONY: buildbuild: docker-image    docker run \        --rm \        --name &quot;$&#123;container_name&#125;&quot; \        -v &quot;$$(pwd)/:/data/&quot; \        $&#123;docker_image&#125; \            bash /data/build.sh# `make shell`                     Shell.PHONY: shellshell: docker-image    docker run \        --rm \        -it \        -v &quot;$$(pwd)/:/data/&quot; \        --workdir /data \        $&#123;docker_image&#125; \            bash# `make publish`                   Publish.PHONY: publishpublish:    ssh &#39;root@$&#123;remote_server&#125;&#39; mkdir -p &#39;$&#123;remote_path&#125;/&#39;    rsync \        -a -r --no-i-r \        --info=progress2 --info=name0 \        --no-owner --no-group --no-perms \        --delete \        &quot;$$(pwd)/aptly/public/&quot; \        &#39;root@$&#123;remote_server&#125;:$&#123;remote_dir&#125;/&#39;# `make clean`                     Clean.PHONY: cleanclean:    docker stop $&#123;container_name&#125; &gt;/dev/null 2&gt;&amp;1 || true    docker rm   $&#123;container_name&#125; &gt;/dev/null 2&gt;&amp;1 || true</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;步骤一、创建子目录&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ mkdir -p ./packages/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;步骤二、创建配置信息文件 &lt;code&gt;meta.json&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#123;
+  &amp;quot;contai
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.github.io/tags/DevOps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>快速搭建 yum 仓库构建环境</title>
+    <link href="https://ismdeep.github.io/posts/2025-11-26-build-your-own-yum-repo.html"/>
+    <id>https://ismdeep.github.io/posts/2025-11-26-build-your-own-yum-repo.html</id>
+    <published>2025-11-26T08:27:46.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>步骤一、创建配置信息文件 <code>meta.json</code></p><pre><code>&#123;  &quot;container_name&quot;: &quot;yum-repo-builder&quot;,  &quot;remote_server&quot;: &quot;xx.xx.xx.xx&quot;,  &quot;remote_dir&quot;: &quot;&lt;remote-dir&gt;&quot;,  &quot;docker_image&quot;: &quot;&lt;local-target-docker-image-address&gt;&quot;&#125;</code></pre><p>步骤二、创建子目录</p><pre><code>$ mkdir -p ./files/packages/</code></pre><p>步骤三、创建 <code>build.sh</code> 文件</p><pre><code>#!/usr/bin/env bashset -e# Get to workdircd &quot;$(realpath &quot;$(dirname &quot;$(realpath &quot;$&#123;BASH_SOURCE[0]&#125;&quot;)&quot;)&quot;)&quot;command -v createrepo &gt;/dev/null 2&gt;&amp;1 || \  (echo &quot;$(date -R) [ ERROR ] command required: createrepo&quot; &amp;&amp; false)echo &#39;+ createrepo ./files/&#39;createrepo ./files/</code></pre><p>步骤四、创建 <code>Dockerfile</code> 文件</p><pre><code>FROM docker.1ms.run/openeuler/openeuler:24.03RUN yum update -yRUN yum install -y createrepo</code></pre><p>步骤五、创建 <code>Makefile</code> 文件</p><pre><code>SHELL := /bin/bashcontainer_name := $(shell jq -r &#39;.container_name&#39; meta.json)remote_server  := $(shell jq -r &#39;.remote_server&#39; meta.json)remote_dir     := $(shell jq -r &#39;.remote_dir&#39; meta.json)docker_image   := $(shell jq -r &#39;.docker_image&#39; meta.json)help:    @cat Makefile | grep &#39;# `&#39; | grep -v &#39;@cat Makefile&#39;.PHONY: docker-imagedocker-image:    docker build \        --progress plain \        --pull \        --tag $&#123;docker_image&#125; \        --file Dockerfile \        .# `make build`                     Build.PHONY: buildbuild: docker-image    docker run \        --rm \        --name &quot;$&#123;container_name&#125;&quot; \        -v &quot;$$(pwd)/:/data/&quot; \        $&#123;docker_image&#125; \            bash /data/build.sh# `make shell`                     Shell.PHONY: shellshell: docker-image    docker run \        --rm \        -it \        -v &quot;$$(pwd)/:/data/&quot; \        --workdir /data \        $&#123;docker_image&#125; \            bash# `make publish`                   Publish.PHONY: publishpublish:    ssh &#39;root@$&#123;remote_server&#125;&#39; mkdir -p &#39;$&#123;remote_path&#125;/&#39;    rsync \        -a -r --no-i-r \        --info=progress2 --info=name0 \        --no-owner --no-group --no-perms \        --delete \        &quot;$$(pwd)/files/&quot; \        &#39;root@$&#123;remote_server&#125;:$&#123;remote_dir&#125;/&#39;# `make clean`                     Clean.PHONY: cleanclean:    docker stop $&#123;container_name&#125; &gt;/dev/null 2&gt;&amp;1 || true    docker rm   $&#123;container_name&#125; &gt;/dev/null 2&gt;&amp;1 || true</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;步骤一、创建配置信息文件 &lt;code&gt;meta.json&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;#123;
+  &amp;quot;container_name&amp;quot;: &amp;quot;yum-repo-builder&amp;quot;,
+  &amp;quot;remote_serv
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.github.io/tags/DevOps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何设计优秀的 API</title>
+    <link href="https://ismdeep.github.io/posts/2025-11-20-good-apis.html"/>
+    <id>https://ismdeep.github.io/posts/2025-11-20-good-apis.html</id>
+    <published>2025-11-20T15:28:24.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>一个设计良好的 API 是“隐形”的——它应当自然顺畅、毫不费力地工作。在这份简单背后，其实依赖一套一致的设计原则，使 API 具备可预测性、安全性和可扩展性。</p><p>以下是一些优秀的 API 的特点：</p><ul><li><p>幂等性</p><ul><li><strong>GET、HEAD、PUT、DELETE 必须具备幂等性</strong>：相同请求发送两次，应返回相同结果，且没有任何意外副作用。</li><li><strong>POST 和 PATCH 不具备幂等性</strong>：每次调用都会创建新资源或以不同方式修改状态。</li></ul><p><strong>实现方法</strong>：使用存储在 Redis 或数据库中的 <em>幂等键（Idempotency Key）</em>。<br> 客户端在重试时发送相同的键，服务器识别后返回原始响应，而不是再次处理。</p></li><li><p>版本管理</p></li><li><p>基于名词的资源命名</p><p>资源名必须用名词，而不是动词。<br> 例如：</p><ul><li>正确：<code>/api/products</code></li><li>错误：<code>/api/getProducts</code></li></ul></li><li><p>安全性</p><p>为每一个端点做好认证保护。<br> Bearer Token（如 JWT）包含：</p><ul><li>Header（头部）</li><li>Payload（负载）</li><li>Signature（签名）<br> 用于校验请求合法性。</li></ul><p>务必使用 HTTPS，并在每次调用中验证 Token。</p></li><li><p>分页</p><p>在返回大型数据集时使用分页参数，使响应高效、可控、稳定。<br> 例如：<code>?limit=10&amp;offset=20</code></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一个设计良好的 API 是“隐形”的——它应当自然顺畅、毫不费力地工作。在这份简单背后，其实依赖一套一致的设计原则，使 API 具备可预测性、安全性和可扩展性。&lt;/p&gt;
+&lt;p&gt;以下是一些优秀的 API 的特点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;幂等性&lt;/p&gt;
+&lt;ul&gt;
+&lt;l
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+      <category term="System Design" scheme="https://ismdeep.github.io/tags/System-Design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>部署带 SSL 认证的 Redis 服务</title>
+    <link href="https://ismdeep.github.io/posts/2025-11-18-redis-with-ssl.html"/>
+    <id>https://ismdeep.github.io/posts/2025-11-18-redis-with-ssl.html</id>
+    <published>2025-11-18T12:36:30.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、自签-SSL-证书"><a href="#一、自签-SSL-证书" class="headerlink" title="一、自签 SSL 证书"></a>一、自签 SSL 证书</h1><p>创建一个空白文件夹 <code>certs</code> 并在这个目录中执行以下命令生成证书文件：</p><pre><code>$ openssl genrsa -out ca.key 4096 &amp;&amp; \  openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj &quot;/CN=Redis-CA&quot; &amp;&amp; \  openssl genrsa -out redis.key 4096 &amp;&amp; \  openssl req -new -key redis.key -out redis.csr -subj &quot;/CN=redis&quot; &amp;&amp; \  openssl x509 -req -in redis.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out redis.crt -days 3650 -sha256</code></pre><h1 id="二、docker-compose-yaml"><a href="#二、docker-compose-yaml" class="headerlink" title="二、docker-compose.yaml"></a>二、docker-compose.yaml</h1><pre><code>services:  redis-with-ssl:    container_name: redis-with-ssl    image: hub.deepin.com/library/redis:7.4.6    command:      - &#39;redis-server&#39;      - &#39;--requirepass redis-password-xxxxxx&#39;      - &#39;--port&#39;      - &#39;0&#39;      - &#39;--tls-port&#39;      - &#39;6379&#39;      - &#39;--tls-cert-file&#39;      - &#39;/certs/redis.crt&#39;      - &#39;--tls-key-file&#39;      - &#39;/certs/redis.key&#39;      - &#39;--tls-ca-cert-file&#39;      - &#39;/certs/ca.crt&#39;      - &#39;--tls-auth-clients&#39;      - &#39;yes&#39;    volumes:      - &#39;./certs/:/certs/:ro&#39;      - &#39;./data/:/data/&#39;    ports:      - &#39;6379:6379&#39;    restart: always</code></pre><h1 id="三、常见问题"><a href="#三、常见问题" class="headerlink" title="三、常见问题"></a>三、常见问题</h1><h2 id="3-1-提示-data-redis-key-Permission-Denied"><a href="#3-1-提示-data-redis-key-Permission-Denied" class="headerlink" title="3.1 提示 &#x2F;data&#x2F;redis.key  Permission Denied"></a>3.1 提示 &#x2F;data&#x2F;redis.key  Permission Denied</h2><pre><code>$ cd ./certs/ &amp;&amp; chmod 0444 *</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、自签-SSL-证书&quot;&gt;&lt;a href=&quot;#一、自签-SSL-证书&quot; class=&quot;headerlink&quot; title=&quot;一、自签 SSL 证书&quot;&gt;&lt;/a&gt;一、自签 SSL 证书&lt;/h1&gt;&lt;p&gt;创建一个空白文件夹 &lt;code&gt;certs&lt;/code&gt; 并在这个目
+      
+    
+    </summary>
+    
+    
+      <category term="Redis" scheme="https://ismdeep.github.io/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UOS/deepin 文本编辑器设计缺陷规避方法</title>
+    <link href="https://ismdeep.github.io/posts/2025-11-18-uos-deepin-editor.html"/>
+    <id>https://ismdeep.github.io/posts/2025-11-18-uos-deepin-editor.html</id>
+    <published>2025-11-18T00:42:56.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、问题"><a href="#一、问题" class="headerlink" title="一、问题"></a>一、问题</h1><p>在 UOS 或 deepin 系统上，文本编辑器本该是一款非常常用且简单易用的编辑器软件。然后软件中有什么奇怪的功能但又无法通过设置进行关闭，比如这个软件可以记住之前打开过的文件，且无论如何至少会记住最后关闭的文件。比如最后关闭的是A文件，接下来你重新打开B文件的时候，会顺带把之前最后关闭的A文件也一起打开。</p><h1 id="二、解决方法"><a href="#二、解决方法" class="headerlink" title="二、解决方法"></a>二、解决方法</h1><p>经过分析发现其实这些东西都是在其对应的配置文件中的，可以通过以下方式讲这个文件进行锁定，不让文本编辑器进行修改，那也就不会产生上述的问题了。</p><p>步骤一、编辑这个文件 <code>~/.config/deepin/deepin-editor/config.conf</code></p><pre><code>$ vim ~/.config/deepin/deepin-editor/config.conf</code></pre><p>目前我配置内容如下：</p><pre><code>[advance.editor.bookmark][advance.editor.browsing_history_temfile][advance.open_save_setting.open_save_curfile_path][advance.open_save_setting.open_save_lastopt_path][advance.window.window_height][advance.window.window_width]</code></pre><p>步骤二、设置文件只读权限</p><pre><code>$ chmod 0400 ~/.config/deepin/deepin-editor/config.conf</code></pre><h1 id="三、题外吐槽"><a href="#三、题外吐槽" class="headerlink" title="三、题外吐槽"></a>三、题外吐槽</h1><p>这个软件的设计者和开发者总喜欢往这个软件中加入一些奇奇怪怪的东西，从 UOS V20 发布之后，这么多年过去了，竟然还有心思不断给这个软件更新迭代。</p><p>然而，这也不过就是一个文本编辑器，有什么好迭代的呢？多花点时间和精力在系统Bug和兼容性问题上不好吗？</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、问题&quot;&gt;&lt;a href=&quot;#一、问题&quot; class=&quot;headerlink&quot; title=&quot;一、问题&quot;&gt;&lt;/a&gt;一、问题&lt;/h1&gt;&lt;p&gt;在 UOS 或 deepin 系统上，文本编辑器本该是一款非常常用且简单易用的编辑器软件。然后软件中有什么奇怪的功能但又无法
+      
+    
+    </summary>
+    
+    
+      <category term="deepin" scheme="https://ismdeep.github.io/tags/deepin/"/>
+    
+      <category term="UOS" scheme="https://ismdeep.github.io/tags/UOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Maven</title>
+    <link href="https://ismdeep.github.io/posts/2025-11-08-maven.html"/>
+    <id>https://ismdeep.github.io/posts/2025-11-08-maven.html</id>
+    <published>2025-11-07T16:04:36.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>官网下载地址：<a href="https://maven.apache.org/download.cgi">https://maven.apache.org/download.cgi</a></p><h1 id="一、常用命令"><a href="#一、常用命令" class="headerlink" title="一、常用命令"></a>一、常用命令</h1><p>清理：</p><pre><code>$ mvn --file pom.xml clean</code></pre><p>清理并安装（指定 settings 文件）：</p><pre><code>$ mvn --file pom.xml --settings maven-settings.xml clean install</code></pre><h1 id="二、settings-xml"><a href="#二、settings-xml" class="headerlink" title="二、settings.xml"></a>二、settings.xml</h1><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;!--Licensed to the Apache Software Foundation (ASF) under oneor more contributor license agreements.  See the NOTICE filedistributed with this work for additional informationregarding copyright ownership.  The ASF licenses this fileto you under the Apache License, Version 2.0 (the&quot;License&quot;); you may not use this file except in compliancewith the License.  You may obtain a copy of the License at    http://www.apache.org/licenses/LICENSE-2.0Unless required by applicable law or agreed to in writing,software distributed under the License is distributed on an&quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANYKIND, either express or implied.  See the License for thespecific language governing permissions and limitationsunder the License.--&gt;&lt;!-- | This is the configuration file for Maven. It can be specified at two levels: | |  1. User Level. This settings.xml file provides configuration for a single user, |                 and is normally provided in $&#123;user.home&#125;/.m2/settings.xml. | |                 NOTE: This location can be overridden with the CLI option: | |                 -s /path/to/user/settings.xml | |  2. Global Level. This settings.xml file provides configuration for all Maven |                 users on a machine (assuming they&#39;re all using the same Maven |                 installation). It&#39;s normally provided in |                 $&#123;maven.conf&#125;/settings.xml. | |                 NOTE: This location can be overridden with the CLI option: | |                 -gs /path/to/global/settings.xml | | The sections in this sample file are intended to give you a running start at | getting the most out of your Maven installation. Where appropriate, the default | values (values used when the setting is not specified) are provided. | |--&gt;&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.2.0&quot;          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd&quot;&gt;  &lt;!-- localRepository   | The path to the local repository maven will use to store artifacts.   |   | Default: $&#123;user.home&#125;/.m2/repository  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;  --&gt;  &lt;!-- interactiveMode   | This will determine whether maven prompts you when it needs input. If set to false,   | maven will use a sensible default value, perhaps based on some other setting, for   | the parameter in question.   |   | Default: true  &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;  --&gt;  &lt;!-- offline   | Determines whether maven should attempt to connect to the network when executing a build.   | This will have an effect on artifact downloads, artifact deployment, and others.   |   | Default: false  &lt;offline&gt;false&lt;/offline&gt;  --&gt;  &lt;!-- pluginGroups   | This is a list of additional group identifiers that will be searched when resolving plugins by their prefix, i.e.   | when invoking a command line like &quot;mvn prefix:goal&quot;. Maven will automatically add the group identifiers   | &quot;org.apache.maven.plugins&quot; and &quot;org.codehaus.mojo&quot; if these are not already contained in the list.   |--&gt;  &lt;pluginGroups&gt;    &lt;!-- pluginGroup     | Specifies a further group identifier to use for plugin lookup.    &lt;pluginGroup&gt;com.your.plugins&lt;/pluginGroup&gt;    --&gt;  &lt;/pluginGroups&gt;  &lt;!-- TODO Since when can proxies be selected as depicted? --&gt;  &lt;!-- proxies   | This is a list of proxies which can be used on this machine to connect to the network.   | Unless otherwise specified (by system property or command-line switch), the first proxy   | specification in this list marked as active will be used.   |--&gt;  &lt;proxies&gt;    &lt;!-- proxy     | Specification for one proxy, to be used in connecting to the network.     |    &lt;proxy&gt;      &lt;id&gt;optional&lt;/id&gt;      &lt;active&gt;true&lt;/active&gt;      &lt;protocol&gt;http&lt;/protocol&gt;      &lt;username&gt;proxyuser&lt;/username&gt;      &lt;password&gt;proxypass&lt;/password&gt;      &lt;host&gt;proxy.host.net&lt;/host&gt;      &lt;port&gt;80&lt;/port&gt;      &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;    &lt;/proxy&gt;    --&gt;  &lt;/proxies&gt;  &lt;!-- servers   | This is a list of authentication profiles, keyed by the server-id used within the system.   | Authentication profiles can be used whenever maven must make a connection to a remote server.   |--&gt;  &lt;servers&gt;    &lt;!-- server     | Specifies the authentication information to use when connecting to a particular server, identified by     | a unique name within the system (referred to by the &#39;id&#39; attribute below).     |     | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are     |       used together.     |    &lt;server&gt;      &lt;id&gt;deploymentRepo&lt;/id&gt;      &lt;username&gt;repouser&lt;/username&gt;      &lt;password&gt;repopwd&lt;/password&gt;    &lt;/server&gt;    --&gt;    &lt;!-- Another sample, using keys to authenticate.    &lt;server&gt;      &lt;id&gt;siteServer&lt;/id&gt;      &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;      &lt;passphrase&gt;optional; leave empty if not used.&lt;/passphrase&gt;    &lt;/server&gt;    --&gt;  &lt;/servers&gt;  &lt;!-- mirrors   | This is a list of mirrors to be used in downloading artifacts from remote repositories.   |   | It works like this: a POM may declare a repository to use in resolving certain artifacts.   | However, this repository may have problems with heavy traffic at times, so people have mirrored   | it to several places.   |   | That repository definition will have a unique id, so we can create a mirror reference for that   | repository, to be used as an alternate download site. The mirror site will be the preferred   | server for that repository.   |--&gt;  &lt;mirrors&gt;    &lt;!-- mirror     | Specifies a repository mirror site to use instead of a given repository. The repository that     | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used     | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.     |    &lt;mirror&gt;      &lt;id&gt;mirrorId&lt;/id&gt;      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;    &lt;/mirror&gt;     --&gt;    &lt;mirror&gt;      &lt;id&gt;maven-default-http-blocker&lt;/id&gt;      &lt;mirrorOf&gt;external:http:*&lt;/mirrorOf&gt;      &lt;name&gt;Pseudo repository to mirror external repositories initially using HTTP.&lt;/name&gt;      &lt;url&gt;http://0.0.0.0/&lt;/url&gt;      &lt;blocked&gt;true&lt;/blocked&gt;    &lt;/mirror&gt;&lt;mirror&gt;    &lt;id&gt;alimaven&lt;/id&gt;    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;    &lt;name&gt;阿里云公共仓库&lt;/name&gt;    &lt;url&gt;https://maven.aliyun.com/repository/public&lt;/url&gt;&lt;/mirror&gt;  &lt;/mirrors&gt;  &lt;!-- profiles   | This is a list of profiles which can be activated in a variety of ways, and which can modify   | the build process. Profiles provided in the settings.xml are intended to provide local machine-   | specific paths and repository locations which allow the build to work in the local environment.   |   | For example, if you have an integration testing plugin - like cactus - that needs to know where   | your Tomcat instance is installed, you can provide a variable here such that the variable is   | dereferenced during the build process to configure the cactus plugin.   |   | As noted above, profiles can be activated in a variety of ways. One way - the activeProfiles   | section of this document (settings.xml) - will be discussed later. Another way essentially   | relies on the detection of a property, either matching a particular value for the property,   | or merely testing its existence. Profiles can also be activated by JDK version prefix, where a   | value of &#39;1.4&#39; might activate a profile when the build is executed on a JDK version of &#39;1.4.2_07&#39;.   | Finally, the list of active profiles can be specified directly from the command line.   |   | NOTE: For profiles defined in the settings.xml, you are restricted to specifying only artifact   |       repositories, plugin repositories, and free-form properties to be used as configuration   |       variables for plugins in the POM.   |   |--&gt;  &lt;profiles&gt;    &lt;!-- profile     | Specifies a set of introductions to the build process, to be activated using one or more of the     | mechanisms described above. For inheritance purposes, and to activate profiles via &lt;activatedProfiles/&gt;     | or the command line, profiles have to have an ID that is unique.     |     | An encouraged best practice for profile identification is to use a consistent naming convention     | for profiles, such as &#39;env-dev&#39;, &#39;env-test&#39;, &#39;env-production&#39;, &#39;user-jdcasey&#39;, &#39;user-brett&#39;, etc.     | This will make it more intuitive to understand what the set of introduced profiles is attempting     | to accomplish, particularly when you only have a list of profile id&#39;s for debug.     |     | This profile example uses the JDK version to trigger activation, and provides a JDK-specific repo.    &lt;profile&gt;      &lt;id&gt;jdk-1.4&lt;/id&gt;      &lt;activation&gt;        &lt;jdk&gt;1.4&lt;/jdk&gt;      &lt;/activation&gt;      &lt;repositories&gt;        &lt;repository&gt;          &lt;id&gt;jdk14&lt;/id&gt;          &lt;name&gt;Repository for JDK 1.4 builds&lt;/name&gt;          &lt;url&gt;http://www.myhost.com/maven/jdk14&lt;/url&gt;          &lt;layout&gt;default&lt;/layout&gt;          &lt;snapshotPolicy&gt;always&lt;/snapshotPolicy&gt;        &lt;/repository&gt;      &lt;/repositories&gt;    &lt;/profile&gt;    --&gt;    &lt;!--     | Here is another profile, activated by the property &#39;target-env&#39; with a value of &#39;dev&#39;, which     | provides a specific path to the Tomcat instance. To use this, your plugin configuration might     | hypothetically look like:     |     | ...     | &lt;plugin&gt;     |   &lt;groupId&gt;org.myco.myplugins&lt;/groupId&gt;     |   &lt;artifactId&gt;myplugin&lt;/artifactId&gt;     |     |   &lt;configuration&gt;     |     &lt;tomcatLocation&gt;$&#123;tomcatPath&#125;&lt;/tomcatLocation&gt;     |   &lt;/configuration&gt;     | &lt;/plugin&gt;     | ...     |     | NOTE: If you just wanted to inject this configuration whenever someone set &#39;target-env&#39; to     |       anything, you could just leave off the &lt;value/&gt; inside the activation-property.     |    &lt;profile&gt;      &lt;id&gt;env-dev&lt;/id&gt;      &lt;activation&gt;        &lt;property&gt;          &lt;name&gt;target-env&lt;/name&gt;          &lt;value&gt;dev&lt;/value&gt;        &lt;/property&gt;      &lt;/activation&gt;      &lt;properties&gt;        &lt;tomcatPath&gt;/path/to/tomcat/instance&lt;/tomcatPath&gt;      &lt;/properties&gt;    &lt;/profile&gt;    --&gt;  &lt;/profiles&gt;  &lt;!-- activeProfiles   | List of profiles that are active for all builds.   |  &lt;activeProfiles&gt;    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;  &lt;/activeProfiles&gt;  --&gt;&lt;/settings&gt;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;官网下载地址：&lt;a href=&quot;https://maven.apache.org/download.cgi&quot;&gt;https://maven.apache.org/download.cgi&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&quot;一、常用命令&quot;&gt;&lt;a href=&quot;#一、常用命令&quot; cl
+      
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="https://ismdeep.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的工具列表</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-29-tools.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-29-tools.html</id>
+    <published>2025-10-29T00:46:28.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<table><thead><tr><th>类别</th><th>工具</th><th>说明</th></tr></thead><tbody><tr><td>计算机</td><td>MacBook Pro M1 2021, ThinkPad X260</td><td></td></tr><tr><td>操作系统</td><td>macOS, Debian 13 with xfce4, UOS with xfce4</td><td></td></tr><tr><td>笔记本支架</td><td>绿联笔记本支架</td><td></td></tr><tr><td>Java 开发环境</td><td><a href="https://www.jetbrains.com/idea/">IDEA</a></td><td></td></tr><tr><td>Go 开发环境</td><td><a href="https://www.jetbrains.com/go/">GoLand</a></td><td></td></tr><tr><td>Python 开发环境</td><td><a href="https://www.jetbrains.com/pycharm/">PyCharm</a></td><td></td></tr><tr><td>Web 前端开发环境</td><td><a href="https://www.jetbrains.com/webstorm/">WebStorm</a></td><td></td></tr><tr><td>PHP 开发环境</td><td><a href="https://www.jetbrains.com/phpstorm/">PhpStorm</a></td><td></td></tr><tr><td>数据库连接工具</td><td><a href="https://www.jetbrains.com/datagrip/">DataGrip</a>, <a href="https://dbeaver.io/">DBeaver</a></td><td></td></tr><tr><td>Markdown 工具</td><td><a href="https://typora.io/">Typora</a></td><td></td></tr><tr><td>配置文件编辑工具</td><td><a href="https://www.sublimetext.com/">Sublime Text 3</a>, Vim</td><td></td></tr><tr><td>Docker 工具</td><td><a href="https://orbstack.dev/">OrbStack</a>, Docker CE</td><td></td></tr><tr><td>虚拟机</td><td><a href="https://www.virtualbox.org/">VirtualBox</a>, <a href="https://orbstack.dev/">VM in OrbStack</a></td><td></td></tr><tr><td>代码编译环境</td><td><a href="https://www.debian.org/">Debian 13</a></td><td></td></tr><tr><td>终端工具</td><td><a href="https://iterm2.com/">iTerm 2</a>, terminator</td><td></td></tr><tr><td>FTP, SFTP 工具</td><td><a href="https://panic.com/transmit/">Transmit</a>, <a href="https://winscp.net/eng/download.php">WinSCP</a></td><td></td></tr><tr><td>架构图绘制</td><td><a href="https://github.com/jgraph/drawio">draw.io</a>, <a href="https://plantuml.com/zh/">PlantUML</a>, …</td><td></td></tr><tr><td>Redis 客户端</td><td><a href="https://github.com/qishibo/AnotherRedisDesktopManager">Another Redis Desktop Manager</a></td><td></td></tr><tr><td>思维导图</td><td><a href="https://xmind.com/">Xmind</a>, <a href="https://sourceforge.net/projects/freeplane/files/freeplane%20stable/">Freeplane</a></td><td></td></tr><tr><td>密码管理工具</td><td><a href="https://keepassxc.org/">KeePassXC</a></td><td></td></tr><tr><td>文本对比工具</td><td><a href="https://gnome.pages.gitlab.gnome.org/meld/">Meld</a></td><td></td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;类别&lt;/th&gt;
+&lt;th&gt;工具&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;计算机&lt;/td&gt;
+&lt;td&gt;MacBook Pro M1 2021, ThinkPad X260&lt;/td&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="Tools" scheme="https://ismdeep.github.io/tags/Tools/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Incus</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-28-incus.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-28-incus.html</id>
+    <published>2025-10-28T06:24:58.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、基础要求"><a href="#一、基础要求" class="headerlink" title="一、基础要求"></a>一、基础要求</h1><p>操作系统：Debian 13</p><h1 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h1><pre><code>$ sudo apt update$ sudo apt install -y incus</code></pre><h1 id="三、使用"><a href="#三、使用" class="headerlink" title="三、使用"></a>三、使用</h1><h2 id="3-1-查看列表"><a href="#3-1-查看列表" class="headerlink" title="3.1 查看列表"></a>3.1 查看列表</h2><pre><code>$ sudo incus list</code></pre><h2 id="3-2-创建一个容器"><a href="#3-2-创建一个容器" class="headerlink" title="3.2 创建一个容器"></a>3.2 创建一个容器</h2><pre><code>$ sudo incus launch images:ubuntu/24.04 first</code></pre><h2 id="3-3-拷贝容器"><a href="#3-3-拷贝容器" class="headerlink" title="3.3 拷贝容器"></a>3.3 拷贝容器</h2><pre><code>$ sudo incus copy first second</code></pre><h2 id="3-4-创建一个虚拟机"><a href="#3-4-创建一个虚拟机" class="headerlink" title="3.4 创建一个虚拟机"></a>3.4 创建一个虚拟机</h2><pre><code>$ sudo incus launch images:debian/12 debian --vm</code></pre><h2 id="3-5-启动"><a href="#3-5-启动" class="headerlink" title="3.5 启动"></a>3.5 启动</h2><pre><code>$ sudo incus start first</code></pre><h2 id="3-6-停止"><a href="#3-6-停止" class="headerlink" title="3.6 停止"></a>3.6 停止</h2><pre><code>$ sudo incus stop first</code></pre><h2 id="3-7-查看信息"><a href="#3-7-查看信息" class="headerlink" title="3.7 查看信息"></a>3.7 查看信息</h2><pre><code>$ sudo incus info first</code></pre><h2 id="3-8-删除"><a href="#3-8-删除" class="headerlink" title="3.8 删除"></a>3.8 删除</h2><pre><code>$ sudo incus delete first</code></pre><h2 id="3-9-进入执行命令"><a href="#3-9-进入执行命令" class="headerlink" title="3.9 进入执行命令"></a>3.9 进入执行命令</h2><pre><code>$ sudo incus exec first -- bash$ sudo incus exec first -- free -m</code></pre><h1 id="四、常见问题"><a href="#四、常见问题" class="headerlink" title="四、常见问题"></a>四、常见问题</h1><h2 id="4-1-No-root-device-could-be-found"><a href="#4-1-No-root-device-could-be-found" class="headerlink" title="4.1 No root device could be found"></a>4.1 No root device could be found</h2><p>报错信息：</p><pre><code>Error: Failed instance creation: Failed creating instance record: Failed initializing instance: Failed getting root disk: No root device could be found</code></pre><p>解决方法：</p><pre><code>$ sudo incus storage create default dir$ sudo incus profile device add default root disk path=/ pool=default</code></pre><p>验证：</p><pre><code>$ sudo incus profile show default</code></pre><p>期望输出：</p><pre><code>$ sudo incus profile show defaultconfig: &#123;&#125;description: Default Incus profiledevices:  root:    path: /    pool: default    type: diskname: defaultused_by: []project: default</code></pre><h2 id="4-2-doesn’t-have-any-network-attached-to-it"><a href="#4-2-doesn’t-have-any-network-attached-to-it" class="headerlink" title="4.2 doesn’t have any network attached to it"></a>4.2 doesn’t have any network attached to it</h2><p>报错信息：</p><pre><code>The instance you are starting doesn&#39;t have any network attached to it.  To create a new network, use: incus network create  To attach a network to an instance, use: incus network attach</code></pre><p>解决方法：</p><pre><code>$ sudo incus network create incusbr0$ sudo incus profile device add default eth0 nic network=incusbr0 name=eth0</code></pre><p>验证方法：</p><pre><code>$ sudo incus profile show default</code></pre><p>期望输出：</p><pre><code>$ sudo incus profile show defaultconfig: &#123;&#125;description: Default Incus profiledevices:  eth0:    name: eth0    network: incusbr0    type: nic  root:    path: /    pool: default    type: diskname: defaultused_by: []project: default</code></pre><h1 id="附录一、Debian-13-下一键安装并配置"><a href="#附录一、Debian-13-下一键安装并配置" class="headerlink" title="附录一、Debian 13 下一键安装并配置"></a>附录一、Debian 13 下一键安装并配置</h1><pre><code>$ sudo apt update &amp;&amp; \  sudo apt install -y incus &amp;&amp; \  sudo incus storage create default dir &amp;&amp; \  sudo incus profile device add default root disk path=/ pool=default &amp;&amp; \  sudo incus network create incusbr0 &amp;&amp; \  sudo incus profile device add default eth0 nic network=incusbr0 name=eth0 &amp;&amp; \  sudo incus profile show default</code></pre><h1 id="相关阅读"><a href="#相关阅读" class="headerlink" title="相关阅读"></a>相关阅读</h1><ul><li><a href="https://linuxcontainers.org/incus/">https://linuxcontainers.org/incus/</a></li><li><a href="https://linuxcontainers.org/incus/try-it/">https://linuxcontainers.org/incus/try-it/</a></li><li><a href="https://linuxcontainers.org/incus/docs/main/installing/">https://linuxcontainers.org/incus/docs/main/installing/</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、基础要求&quot;&gt;&lt;a href=&quot;#一、基础要求&quot; class=&quot;headerlink&quot; title=&quot;一、基础要求&quot;&gt;&lt;/a&gt;一、基础要求&lt;/h1&gt;&lt;p&gt;操作系统：Debian 13&lt;/p&gt;
+&lt;h1 id=&quot;二、安装&quot;&gt;&lt;a href=&quot;#二、安装&quot; class
+      
+    
+    </summary>
+    
+    
+      <category term="Incus" scheme="https://ismdeep.github.io/tags/Incus/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>好的开源项目</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-25-good-open-source-project.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-25-good-open-source-project.html</id>
+    <published>2025-10-25T14:55:16.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>是否是好的开源项目大致看以下三点：</p><ol><li>许可证：是否为 <a href="https://opensource.org/licenses">OSI 核准</a> 的开源协议。</li><li>自托管：能否把<strong>完整产品</strong>端到端地自己部署。</li><li>商业化：有没有商业中立、无厂商绑架；更妙的是，有 <strong>多家</strong> 公司背书而非一家独大。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;是否是好的开源项目大致看以下三点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;许可证：是否为 &lt;a href=&quot;https://opensource.org/licenses&quot;&gt;OSI 核准&lt;/a&gt; 的开源协议。&lt;/li&gt;
+&lt;li&gt;自托管：能否把&lt;strong&gt;完整产品&lt;/strong&gt;端
+      
+    
+    </summary>
+    
+    
+      <category term="Open Source" scheme="https://ismdeep.github.io/tags/Open-Source/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【已解决】Xrdp 远程桌面中出现 Authorization is required 的问题</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-17-solved-xrdp-authorization-is-required-problem.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-17-solved-xrdp-authorization-is-required-problem.html</id>
+    <published>2025-10-17T07:58:39.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>在使用 xrdp 远程桌面的过程中，比如我们需要挂载U盘、卸载U盘等操作时，会弹出一个授权窗口，需要输入密码。</p><p>主要原因是通过 <strong>xRDP 登录的会话</strong> 并没有经过真正的系统登录会话（即 <em>polkit</em> 认为“非本地登录”）。</p><p><strong>解决方法：</strong></p><p><strong>步骤一</strong>、创建文件 <code>/etc/polkit-1/rules.d/49-allow-sudo.rules</code> 并写入以下内容：</p><pre><code>polkit.addRule(function(action, subject) &#123;    if (subject.isInGroup(&quot;sudo&quot;)) &#123;        return polkit.Result.YES;    &#125;&#125;);</code></pre><p><strong>步骤二</strong>、重启服务</p><pre><code>$ sudo systemctl restart polkit</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在使用 xrdp 远程桌面的过程中，比如我们需要挂载U盘、卸载U盘等操作时，会弹出一个授权窗口，需要输入密码。&lt;/p&gt;
+&lt;p&gt;主要原因是通过 &lt;strong&gt;xRDP 登录的会话&lt;/strong&gt; 并没有经过真正的系统登录会话（即 &lt;em&gt;polkit&lt;/em&gt; 认为“非本
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Windows 11 LTSC KMS 激活（不需要激活工具）</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-17-windows-11-ltsc-kms.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-17-windows-11-ltsc-kms.html</id>
+    <published>2025-10-17T01:39:44.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>以管理员身份打开命令提示符（或Powershell）执行以下命令：</p><pre><code>slmgr -ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462Dslmgr -skms kms.0t.net.cnslmgr -ato</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;以管理员身份打开命令提示符（或Powershell）执行以下命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;slmgr -ipk M7XTQ-FN8P6-TTKYV-9D4CC-J462D
+slmgr -skms kms.0t.net.cn
+slmgr -ato
+&lt;/code&gt;&lt;/p
+      
+    
+    </summary>
+    
+    
+      <category term="Windows" scheme="https://ismdeep.github.io/tags/Windows/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PEAP 认证配置（Debian 13）</title>
+    <link href="https://ismdeep.github.io/posts/2025-10-14-debian-13-peap-configuration.html"/>
+    <id>https://ismdeep.github.io/posts/2025-10-14-debian-13-peap-configuration.html</id>
+    <published>2025-10-14T01:45:17.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<p>编辑 <code>/etc/NetworkManager/system-connections/Wired</code> 文件，增加以下内容：</p><pre><code>[802-1x]eap=peap;identity=&lt;account&gt;password=&lt;password&gt;phase2-auth=gtc</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;编辑 &lt;code&gt;/etc/NetworkManager/system-connections/Wired&lt;/code&gt; 文件，增加以下内容：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[802-1x]
+eap=peap;
+identity=&amp;lt;account&amp;gt;
+passwo
+      
+    
+    </summary>
+    
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一些配置文件编写原则</title>
+    <link href="https://ismdeep.github.io/posts/2025-09-26-configuration-principles.html"/>
+    <id>https://ismdeep.github.io/posts/2025-09-26-configuration-principles.html</id>
+    <published>2025-09-26T05:01:33.000Z</published>
+    <updated>2025-12-22T01:37:01.345Z</updated>
+    
+    <content type="html"><![CDATA[<table><thead><tr><th>原则</th><th>说明</th><th>例子</th></tr></thead><tbody><tr><td>Endpoint</td><td>端点地址末尾不要加 &#x2F;</td><td><code>https://endpoint.example.com</code></td></tr><tr><td>路径</td><td>路径末尾不要加 &#x2F;</td><td><code>/var/lib/demo001/conf</code></td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;原则&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;例子&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;Endpoint&lt;/td&gt;
+&lt;td&gt;端点地址末尾不要加 &amp;#x2F;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ht
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+  </entry>
+  
+</feed>
