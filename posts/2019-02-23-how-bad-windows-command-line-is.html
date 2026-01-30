@@ -1,0 +1,285 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Windows 命令行到底有多糟糕？ | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Windows 命令行到底有多糟糕？</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Windows 命令行到底有多糟糕？</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>Kevin Gallo 刚刚宣布在 Windows 上支持 bash.</p>
+<p>如果你从来就没有在Windows上通过批处理语言进行交互的话似乎并没有什么大的问题。当然，批处理并不会比 Bash 差很多，对吗？</p>
+<p>Bash：一种既不是设计也不是进化的语言。对问题的充分解决方案已经变得难以达到数量级。虽然它是有用的，但是危险无处不在。bash：为了方便起见，我们有多想放弃这门语言？</p>
+<p>当然，可能 Bash 更加糟糕。但是，真的有那么糟糕吗？Bash 有一个价值：这够好了。很难想象它会这么繁荣。</p>
+<p>但是事实是什么呢？Batch 是真的糟糕。以及他们的信仰是多糟糕呢？比如：</p>
+<ul>
+<li>批处理脚本执行的时间复杂度至少是O(n*(n-1)&#x2F;2) (即：O($n^2$))，其中 n 是文件的行数（包括注释）。原因是批处理引擎会读取整个文件，然后执行一行，然后再一次读取这个文件，然后执行下一行，往复如此。</li>
+<li>习惯性地使用 GOTO 去跳过相当大的注释块，这样你就不需要去“执行”它们。</li>
+<li>像 for 这样循环语句的词法块是不会分开来解释的。他们被组合在一起然后一次性全部解释。也就是说在 for 循环中加上本来没什么关系的 <code>::</code> 注释或是 <code>if</code> 语句，结尾 <code>)</code> 会丢失，然后批处理就不知道要做什么了。它会像你可能忘记加上 <code>)</code> 去结束 <code>for</code> 循环。</li>
+<li>永远不要注释代码。如果你做了，迟早会出问题的。例如：在一些 Windows 系统中，<code>REM</code>形式注释，如 <code>REM Ensure &gt; true</code> ， 实际上会通过管道把注释输出到 <code>true</code> 文件。由于注释是没有输出的，效果就是生成了一个文件名为 <code>true</code> 的空文件。</li>
+<li>如果你在 <code>for</code> 代码块中添加两个 <code>::</code> 注释，你可能会得到 <code>The system cannot find the drive specified</code> 这样的错误，并且有可能你的脚本会出现错误代码123. 这样的情况是因为 <code>::</code> 这样的注释格式根本并不被视为注释。而且在标签格式中，<code>::</code> 必须在行首，而且不可以有前导空格符。并且连续两个标签也会出问题，因为批处理将其视为同一行。</li>
+</ul>
+<p>这样的例子数不胜数。</p>
+<p>几年前我还在学校的时候，我觉得PowerShell可能是一个有趣的现代化的shell吧。然后并不是，PowerShell只不过是一个治疗小儿麻痹症的东西而已。毕竟 Jeffrey Snover 是Windows 生态系统中的 Jonas Salk.</p>
+<p>批处理像是一个出现在地球上的外星设备。起初你觉得这是一个礼物，但后来你会发现这是一个用来毁灭世界的机器。唯一的解决办法就是彻底摆脱它。</p>
+<p>就像《死灵之书》或是其他撒旦书中一样，Batch 一开始看起来并不那么糟糕，但是当媒介（这里指计算机）读取它之时，你会发现地狱之门已经打开。你会被电脑的屏幕吸引过去，然后深思自己10分钟之前犯了些什么恐怖的错误。于是你会抓狂，只想知道这个地方为什么会有警告或是错误。</p>
+<p>Bash 就像是一个看起来美好而甜蜜的邻居，但也许他们没有你想拥有的生活。他们有一些相当严重的性格缺陷，显然会犯错误，但最终他们是一个很好的人，他们努力确保依赖他们的人做得很好。</p>
+<p>批量是看起来像那个邻居的人，但后来证明是一个连环杀手。</p>
+<p>所以，这是 Windows 环境的现实。做题你选择 批处理 或是 PowerShell，今天你可以选择 批处理，PowerShell 或是 Bash. （反正，你懂的。）</p>
+<p>当你做出选择时，值得参观堕落者的坟墓。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">February 23, 2019&nbsp;&nbsp;14:54:15</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2019-02-23-how-bad-windows-command-line-is.html">https://ismdeep.github.io/posts/2019-02-23-how-bad-windows-command-line-is.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Hacker/">#Hacker</a>
+                        
+                            <a href="/tags/Windows/">#Windows</a>
+                        
+                            <a href="/tags/bash/">#bash</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

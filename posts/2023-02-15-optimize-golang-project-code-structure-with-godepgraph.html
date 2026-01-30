@@ -1,0 +1,314 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>通过 godepgraph 优化Go项目代码结构 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">通过 godepgraph 优化Go项目代码结构</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%BF%90%E8%A1%8C"><span class="toc-text">基础运行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AD%9B%E9%80%89"><span class="toc-text">筛选</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E5%90%88-graphviz-%E5%8F%AF%E8%A7%86%E5%8C%96%E4%BE%9D%E8%B5%96%E6%A0%91"><span class="toc-text">结合 graphviz 可视化依赖树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E6%8A%80%E5%B7%A7-sed"><span class="toc-text">小技巧 sed</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">通过 godepgraph 优化Go项目代码结构</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>最近在Golang项目开发过程中，发现一些启动依赖关系搞不清楚的问题。项目中会使用 <code>init()</code> 函数进行初始化，然而一个项目会有多个可执行程序，比如： </p>
+<ul>
+<li>A 程序仅调用 A 应用应该调用的 init 代码，结果在开发过程中，却使得 A 应用调用了其他应用程序的 init 代码。然而这种问题，在构建阶段是无法发现的。</li>
+<li>原本规划好了调用层级，比如大致调用层级关系如： app层 -&gt; internal层 -&gt; pkg层</li>
+</ul>
+<p>本文将介绍如何使用 godepgraph 工具解决 Golang 项目开发过程中优化代码结构。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><pre><code class="bash">go install github.com/kisielk/godepgraph@latest
+</code></pre>
+<h1 id="基础运行"><a href="#基础运行" class="headerlink" title="基础运行"></a>基础运行</h1><pre><code class="bash">godepgraph github.com/ismdeep/station/cmd/server
+</code></pre>
+<p>输出如下：</p>
+<pre><code>digraph godep &#123;
+splines=ortho
+nodesep=0.4
+ranksep=0.8
+node [shape=&quot;box&quot;,style=&quot;rounded,filled&quot;]
+edge [arrowsize=&quot;0.5&quot;]
+&quot;bufio&quot; [label=&quot;bufio&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/bufio&quot; target=&quot;_blank&quot;];
+&quot;bytes&quot; [label=&quot;bytes&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/bytes&quot; target=&quot;_blank&quot;];
+&quot;compress/bzip2&quot; [label=&quot;compress/bzip2&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/bzip2&quot; target=&quot;_blank&quot;];
+&quot;compress/flate&quot; [label=&quot;compress/flate&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/flate&quot; target=&quot;_blank&quot;];
+&quot;compress/gzip&quot; [label=&quot;compress/gzip&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/gzip&quot; target=&quot;_blank&quot;];
+&quot;compress/zlib&quot; [label=&quot;compress/zlib&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/compress/zlib&quot; target=&quot;_blank&quot;];
+&quot;container/list&quot; [label=&quot;container/list&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/container/list&quot; target=&quot;_blank&quot;];
+&quot;unicode&quot; [label=&quot;unicode&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode&quot; target=&quot;_blank&quot;];
+&quot;unicode/utf16&quot; [label=&quot;unicode/utf16&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode/utf16&quot; target=&quot;_blank&quot;];
+&quot;unicode/utf8&quot; [label=&quot;unicode/utf8&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unicode/utf8&quot; target=&quot;_blank&quot;];
+&quot;unsafe&quot; [label=&quot;unsafe&quot; color=&quot;palegreen&quot; URL=&quot;https://godoc.org/unsafe&quot; target=&quot;_blank&quot;];
+&#125;
+</code></pre>
+<p>但是这样的输出显示是有太多是我们不想去关心的。可以通过以下参数进行筛选。</p>
+<h1 id="筛选"><a href="#筛选" class="headerlink" title="筛选"></a>筛选</h1><p>通过 <code>-onlyprefixes</code> 可以筛选仅以某个包名为前缀的包。</p>
+<pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server
+</code></pre>
+<h1 id="结合-graphviz-可视化依赖树"><a href="#结合-graphviz-可视化依赖树" class="headerlink" title="结合 graphviz 可视化依赖树"></a>结合 graphviz 可视化依赖树</h1><p>首先安装 graphviz 包</p>
+<pre><code>sudo apt update
+sudo apt install -y graphviz
+</code></pre>
+<p>产生依赖关系树并输出svg图片</p>
+<pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server | dot -Tsvg -o server.svg
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2023/02/16/8a02a3a4014094adbd2ddd1e283c5ec6-86bbd4.svg" alt="server"></p>
+<h1 id="小技巧-sed"><a href="#小技巧-sed" class="headerlink" title="小技巧 sed"></a>小技巧 sed</h1><p>从上图来看，包名前缀也是比较多余，可以通过 sed 命令清理掉。</p>
+<pre><code>godepgraph -onlyprefixes github.com/ismdeep/station github.com/ismdeep/station/cmd/server | sed &#39;s/github\.com\/ismdeep\/station\///g&#39; | dot -Tsvg -o server.svg
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2023/02/16/a7e48b23290bd455f8ba6b356d548874-5625ac.svg" alt="server"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">February 15, 2023&nbsp;&nbsp;17:19:12</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2023-02-15-optimize-golang-project-code-structure-with-godepgraph.html">https://ismdeep.github.io/posts/2023-02-15-optimize-golang-project-code-structure-with-godepgraph.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Go/">#Go</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

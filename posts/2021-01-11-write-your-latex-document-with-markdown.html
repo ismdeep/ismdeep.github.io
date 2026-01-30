@@ -1,0 +1,346 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>用 Markdown 来进行 LaTeX 写作 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">用 Markdown 来进行 LaTeX 写作</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF-Markdown-%EF%BC%9F"><span class="toc-text">1. 什么是 Markdown ？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF-LaTeX-%EF%BC%9F"><span class="toc-text">2. 什么是 $\LaTeX$ ？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%96%87%E4%BB%B6%E7%BB%84%E7%BB%87%E6%96%B9%E5%BC%8F"><span class="toc-text">3. 文件组织方式</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">用 Markdown 来进行 LaTeX 写作</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>一直以来 Markdown 和 LaTeX 都在吸引着我，各自有着各自的优缺点。Markdown 很简单，但是在论文排版、书籍排版等方面不够专业，只能用做简单的博客方面。LaTeX 有非常强大的排版系统，但是书写起来不够优雅，目前还没有见到有什么所见即所得的 LaTeX 编辑器。于是本文主要讲述目前笔者摸索出来的一套将 Markdown 与 LaTeX 结合起来进行文章混合写作的方法。</p>
+<h1 id="1-什么是-Markdown-？"><a href="#1-什么是-Markdown-？" class="headerlink" title="1. 什么是 Markdown ？"></a>1. 什么是 Markdown ？</h1><p>Markdown 是一种轻量级的标记语言，允许人们使用简单易读的纯文本格式编写文档。编写出来的文档能够很轻松的转换成 HTML、Word、epub 等文档。得益于其简单易读的语法格式，Markdown 成为了程序员们编写文档的主要工具。不仅如此，越来越多的人开始使用 Markdown 来进行写作。Markdown 是一种文档标记语言，而针对 Markdown 的文档编辑器也非常多。主流使用的有：Typora、MWeb、MarkdownPad、Mou等。除了这些 Markdown 的文档编辑器，甚至有很多笔记软件也内置了 Markdown 语法支持，比如我们熟悉的印象笔记、有道云笔记、为知笔记、Notion等等。</p>
+<h1 id="2-什么是-LaTeX-？"><a href="#2-什么是-LaTeX-？" class="headerlink" title="2. 什么是 $\LaTeX$ ？"></a>2. 什么是 $\LaTeX$ ？</h1><p>$\LaTeX$ 是一种基于 $\TeX$ 的排版系统。利用这种格式系统进行处理，即使使用者没有排版和程序设计的知识也可以充分发挥由 $\TeX$ 所提供的强大功能，使用者不需要一一亲自去设计或校对就能在几天甚至是几小时内生成很多具有书籍品质的印刷品。$\LaTeX$ 在生成复杂的表格和数学公式方面尤为突出。因此它非常适用于生成高质量的科技和数学、物理文档。</p>
+<h1 id="3-文件组织方式"><a href="#3-文件组织方式" class="headerlink" title="3. 文件组织方式"></a>3. 文件组织方式</h1><p>Markdown 文件不宜过大，所以写的文件按章存放：<code>chapter01.md</code>, <code>chapter02.md</code> 等等。</p>
+<p>如 <code>chapter01.md</code> ：</p>
+<pre><code class="markdown"># 简介
+
+路径规划 \cite&#123;Zafar2018&#125; 在很多领域都具有广泛的应用，在高新科技领域的应用有：机器人的自主无碰撞行为；无人机的避障突防飞行等。
+</code></pre>
+<p>通过 <code>pandoc -r markdown-auto_identifiers -w latex chapter01.md -o chapter01.tex</code> 可以生成对应的 <code>.tex</code> 文件。有了 <code>.tex</code> 文件，则可以在主文件中进行引用了。</p>
+<p><code>main.tex</code> 如下：</p>
+<pre><code class="tex">\documentclass[UTF8]&#123;ctexart&#125;
+
+\usepackage&#123;url&#125;
+\usepackage&#123;hyperref&#125;
+
+\title&#123;路径规划算法研究&#125;
+
+\author&#123;L. Jiang&#125;
+
+\date&#123;\today&#125;
+
+\begin&#123;document&#125;
+
+\maketitle
+
+\tableofcontents
+
+\input&#123;chapter01&#125;
+
+\bibliographystyle&#123;IEEEtran&#125;
+\bibliography&#123;IEEEabrv,my&#125;
+
+\end&#123;document&#125;
+</code></pre>
+<p>而参考文献只需要新建一个 <code>my.bib</code> 文件，然后将文献管理器（如：Mendeley，EndNote等）导出的 BibTeX 格式的内容复制进去即可。而本人在使用 Mendeley 作为文献管理器时，最后直接将整个 Mendeley 所有文献全部导出或者将某个分类目录下的全部导出到 <code>my.bib</code> 文件即可，非常地银杏。</p>
+<p><img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f0d7d378-231b-4d5f-a3a2-50b80f3b973d/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5/20210111/us-west-2/s3/aws4_request&X-Amz-Date=20210111T062612Z&X-Amz-Expires=86400&X-Amz-Signature=6acd0d3964858640df336f40743541177da0b69b9bdf8481f7079ca41085ef3b&X-Amz-SignedHeaders=host&response-content-disposition=filename%20=%22Untitled.png%22"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">January 11, 2021&nbsp;&nbsp;11:17:15</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2021-01-11-write-your-latex-document-with-markdown.html">https://ismdeep.github.io/posts/2021-01-11-write-your-latex-document-with-markdown.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/LaTeX/">#LaTeX</a>
+                        
+                            <a href="/tags/Markdown/">#Markdown</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

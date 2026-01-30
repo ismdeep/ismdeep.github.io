@@ -1,0 +1,353 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>安装 Nginx + MySQL + PHP 环境（ macOS篇 ） | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">安装 Nginx + MySQL + PHP 环境（ macOS篇 ）</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#0x01-%E5%AE%89%E8%A3%85-Homebrew"><span class="toc-text">0x01 安装 Homebrew</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x02-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%B8%80%E4%BA%9B%E8%BD%AF%E4%BB%B6"><span class="toc-text">0x02 安装必要的一些软件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x03-%E5%AE%89%E8%A3%85-Nginx"><span class="toc-text">0x03 安装 Nginx</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x04-%E5%AE%89%E8%A3%85-MySQL"><span class="toc-text">0x04 安装 MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x05-%E5%AE%89%E8%A3%85-php72"><span class="toc-text">0x05 安装 php72</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x06-%E9%85%8D%E7%BD%AE"><span class="toc-text">0x06 配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0x06-%E5%90%AF%E5%8A%A8-%E5%85%B3%E9%97%AD%E5%91%BD%E4%BB%A4"><span class="toc-text">0x06 启动 &amp; 关闭命令</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">安装 Nginx + MySQL + PHP 环境（ macOS篇 ）</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>现在的 PHP 开发基本上都是基于 Nginx + PHP-FPM + MySQL 环境来运行的，那么接下来笔者打算来简单介绍一下 macOS 环境下搭建 PHP 开发环境的步骤。</p>
+<h4 id="0x01-安装-Homebrew"><a href="#0x01-安装-Homebrew" class="headerlink" title="0x01 安装 Homebrew"></a>0x01 安装 Homebrew</h4><pre><code class="bash">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+<h4 id="0x02-安装必要的一些软件"><a href="#0x02-安装必要的一些软件" class="headerlink" title="0x02 安装必要的一些软件"></a>0x02 安装必要的一些软件</h4><pre><code class="bash">brew install wget
+brew install autoconf
+brew install openssl
+</code></pre>
+<h4 id="0x03-安装-Nginx"><a href="#0x03-安装-Nginx" class="headerlink" title="0x03 安装 Nginx"></a>0x03 安装 Nginx</h4><pre><code class="bash">brew install nginx
+</code></pre>
+<h4 id="0x04-安装-MySQL"><a href="#0x04-安装-MySQL" class="headerlink" title="0x04 安装 MySQL"></a>0x04 安装 MySQL</h4><pre><code class="bash">brew install mysql
+</code></pre>
+<h4 id="0x05-安装-php72"><a href="#0x05-安装-php72" class="headerlink" title="0x05 安装 php72"></a>0x05 安装 php72</h4><pre><code class="bash">brew install php72
+</code></pre>
+<h4 id="0x06-配置"><a href="#0x06-配置" class="headerlink" title="0x06 配置"></a>0x06 配置</h4><ol>
+<li><p>配置 php-fpm 权限</p>
+<p>打开 <code>/usr/local/etc/php/7.2/php-fpm.d/www.conf</code> 并找到 <code>user = _www</code> 和 <code>group = _www</code> ，应该就是相邻的两行，将 <code>user = _www</code> 的 <code>_www</code> 替换成自己的用户名，比如笔者用户名为 <code>ismdeep</code> ，则这一行就替换成 <code>user = ismdeep</code> 即可。<strong>注意：这里的 <code>group = _www</code> 是不需要修改的。</strong></p>
+<p><strong>用户名如何看？</strong> 打开终端，然后输入 <code>whoami</code> 即可。</p>
+</li>
+<li><p>配置 nginx 站点</p>
+<p>配置前，你需要想好一个用于测试的域名。这个域名当然不用去域名注册商注册。你只需要一个本地的一个名称即可。笔者推荐使用 <code>.test</code> 作为后缀。虽然我看网上也有教程教大家安装 dnsmaq 然后配置所有 <code>.dev</code> 后缀的域名都指向本地 <code>127.0.0.1</code> IP. 但是笔者觉得这样做并不好，两个原因：1. 多安装了一个软件；2. <code>.dev</code> 后缀域名在 Chrome 浏览器中会自动定向到 https</p>
+<p>嗨呀，想个名字好难呀。这里笔者以 <code>firstwebsite.test</code> 作为用于测试的域名。</p>
+<ul>
+<li><p>第一步，修改 <code>/etc/hosts</code> 文件。在最后添加 <code>127.0.0.1	firstwebsite.test</code> <strong>注意：IP 与域名之间用 tab 键进行分割。空格可能会有问题。</strong> 至于域名配置是否成功可以打开终端输入 <code>ping firstwebsite.test</code> 测试一下。如果返回是 <code>127.0.0.1</code> 那么说明配置是成功的。</p>
+</li>
+<li><p>第二步，你需要确定你的 php 代码所存放的目录。比如这里笔者写了一个简单的 php 程序放在了 <code>/Users/ismdeep/Data/firstwebsite</code></p>
+</li>
+<li><p>第三步，通过命令行进入 <code>/usr/local/etc/nginx/servers</code> 目录。然后在其中添加文件 <code>firstwebsite</code> ，并输入一下文本至 <code>firstwebsite</code></p>
+<pre><code class="text">server &#123;
+    listen       80;
+    server_name  firstwebsite.test;
+    root /Users/ismdeep/Data/firstwebsite;
+
+    location / &#123;
+        index index.php index.html;
+        autoindex on;
+    &#125;
+
+    location ~ \.php$ &#123;
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    &#125;
+
+&#125;
+</code></pre>
+</li>
+<li><p>第四步，重启 php-fpm 和 nginx</p>
+<pre><code class="bash">sudo killall php-fpm
+sudo php-fpm -D
+sudo /usr/local/Cellar/nginx/1.17.9/bin/nginx -s quit
+sudo /usr/local/Cellar/nginx/1.17.9/bin/nginx
+</code></pre>
+</li>
+<li><p>第五步，打开浏览器并访问 <code>firstwebsite.test</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="0x06-启动-关闭命令"><a href="#0x06-启动-关闭命令" class="headerlink" title="0x06 启动 &amp; 关闭命令"></a>0x06 启动 &amp; 关闭命令</h4><ul>
+<li>php-fpm<ul>
+<li>启动 <code>sudo killall php-fpm</code></li>
+<li>停止 <code>sudo /usr/local/Cellar/php@7.2/7.2.29/sbin/php-fpm -D</code></li>
+</ul>
+</li>
+<li>nginx<ul>
+<li>启动 <code>sudo /usr/local/Cellar/nginx/1.17.9/bin/nginx</code></li>
+<li>停止 <code>sudo /usr/local/Cellar/nginx/1.17.9/bin/nginx -s quit</code></li>
+</ul>
+</li>
+<li>mysql<ul>
+<li>启动 <code>brew services start mysql</code></li>
+<li>停止 <code>brew services stop mysql</code></li>
+<li>重启 <code>brew services restart mysql</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>提示：</strong> 以上命令中使用了绝对路径的调用方式。这是笔者一个执行程序的习惯。你可以把对应的目录加入到 <code>PATH</code> 环境变量中。</p>
+<p>软件对应的版本号可能会随着本文发布之后的时间推移会有所变化。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">April 22, 2020&nbsp;&nbsp;13:14:08</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2020-04-22-install-nginx-mysql-php-on-macos.html">https://ismdeep.github.io/posts/2020-04-22-install-nginx-mysql-php-on-macos.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/MySQL/">#MySQL</a>
+                        
+                            <a href="/tags/Development/">#Development</a>
+                        
+                            <a href="/tags/Server/">#Server</a>
+                        
+                            <a href="/tags/macOS/">#macOS</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

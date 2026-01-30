@@ -1,0 +1,362 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Docker 中的 Trojan 客户端 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Docker 中的 Trojan 客户端</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Docker 中的 Trojan 客户端</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>本文主要讲述如何通过 Docker 运行一个 Trojan 客户端，而并不介绍 Trojan 服务器端如何搭建。</p>
+<p>这里笔者用的是 GitHub 上开源的 trojan 项目 <a target="_blank" rel="noopener" href="https://github.com/trojan-gfw/trojan">https://github.com/trojan-gfw/trojan</a></p>
+<ol>
+<li><p>通过 git 将项目下载到本地</p>
+<pre><code class="bash">git clone https://github.com/trojan-gfw/trojan.git
+</code></pre>
+</li>
+<li><p>修改项目中 Dockerfile</p>
+<p>这一步对于使用大陆局域网的用户来说是非常重要的。将下面这行代码添加至 Dockerfile 中 <code>FROM alpine:3.11</code> 的下一行</p>
+<pre><code class="bash">RUN sed -i &#39;s/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g&#39; /etc/apk/repositories
+</code></pre>
+<p>大致如下：</p>
+<pre><code class="text">FROM alpine:3.11
+
+RUN sed -i &#39;s/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g&#39; /etc/apk/repositories
+
+COPY . trojan
+...
+</code></pre>
+</li>
+<li><p>构建 Docker 镜像</p>
+<p>通过 cd 命令切换目录至 Dockerfile 文件所在目录，然后</p>
+<pre><code class="bash">docker build -t trojan .
+</code></pre>
+</li>
+<li><p>查看 Docker 镜像是否存在</p>
+<pre><code class="bash">docker images
+</code></pre>
+<pre><code class="bash">$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+trojan              latest              44d7a749e0bf        2 days ago          11.5MB
+mongo               latest              2b2cc1f48aed        6 days ago          388MB
+redis               latest              235592615444        12 days ago         104MB
+mysql               5.6                 8de95e6026c3        2 weeks ago         302MB
+mysql               5.7                 9cfcce23593a        2 weeks ago         448MB
+mysql               8.0                 be0dbf01a0f3        2 weeks ago         541MB
+alpine              latest              a24bb4013296        3 weeks ago         5.57MB
+ubuntu-lnmp         latest              8dcf6426c958        5 weeks ago         892MB
+ubuntu              latest              1d622ef86b13        2 months ago        73.9MB
+ubuntu              18.04               c3c304cb4f22        2 months ago        64.2MB
+alpine              3.11                f70734b6a266        2 months ago        5.61MB
+nginx               latest              602e111c06b6        2 months ago        127MB
+</code></pre>
+</li>
+<li><p>准备你的 Trojan 配置文件</p>
+<p>创建一个单独的目录用来存放 Trojan 配置文件，如笔者使用 <code>/Users/ismdeep/Data/trojan-config</code> 作为 Trojan 配置文件目录，然后将配置文件命名为 <code>config.json</code> 放入此文件夹。配置文件格式大致如下</p>
+<pre><code class="json">&#123;
+    &quot;run_type&quot;: &quot;client&quot;,
+    &quot;local_addr&quot;: &quot;0.0.0.0&quot;,
+    &quot;local_port&quot;: 1080,
+    &quot;remote_addr&quot;: &quot;&quot;,
+    &quot;remote_port&quot;: 443,
+    &quot;password&quot;: [
+        &quot;&quot;
+    ],
+    &quot;log_level&quot;: 1,
+    &quot;ssl&quot;: &#123;
+        &quot;verify&quot;: true,
+        &quot;verify_hostname&quot;: true,
+        &quot;cert&quot;: &quot;&quot;,
+        &quot;cipher&quot;: &quot;ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA&quot;,
+        &quot;cipher_tls13&quot;: &quot;TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384&quot;,
+        &quot;sni&quot;: &quot;&quot;,
+        &quot;alpn&quot;: [
+            &quot;h2&quot;,
+            &quot;http/1.1&quot;
+        ],
+        &quot;reuse_session&quot;: true,
+        &quot;session_ticket&quot;: false,
+        &quot;curves&quot;: &quot;&quot;
+    &#125;,
+    &quot;tcp&quot;: &#123;
+        &quot;no_delay&quot;: true,
+        &quot;keep_alive&quot;: true,
+        &quot;reuse_port&quot;: false,
+        &quot;fast_open&quot;: false,
+        &quot;fast_open_qlen&quot;: 20
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>创建 Docker 容器并运行</p>
+<pre><code class="bash">docker run --name trojan -v /Users/ismdeep/Data/trojan-config:/config -p 1080:1080 -d trojan
+</code></pre>
+</li>
+<li><p>启动 &amp; 停止</p>
+<pre><code class="bash"># 启动
+docker start trojan
+
+# 停止
+docker stop trojan
+</code></pre>
+</li>
+<li><p>总结</p>
+<p>这部分操作还是比较简单的，你只需要一点 Docker 基本操作知识即可。</p>
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">June 23, 2020&nbsp;&nbsp;16:45:58</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2020-06-23-trojan-client-on-docker.html">https://ismdeep.github.io/posts/2020-06-23-trojan-client-on-docker.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Hacker/">#Hacker</a>
+                        
+                            <a href="/tags/Docker/">#Docker</a>
+                        
+                            <a href="/tags/Proxy/">#Proxy</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

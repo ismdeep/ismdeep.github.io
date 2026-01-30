@@ -1,0 +1,332 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>MySQL 安装 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">MySQL 安装</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B9%88%E5%A4%9A%E7%89%88%E6%9C%AC%EF%BC%9F"><span class="toc-text">01 为什么会有这么多版本？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-MySQL-%E7%89%88%E6%9C%AC%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">02 MySQL 版本有哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-%E4%B8%8B%E8%BD%BD-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-text">03 下载 MySQL数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#04-%E7%BC%96%E8%BE%91%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">04 编辑配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#05-%E5%AE%89%E8%A3%85-MySQL-%E6%9C%8D%E5%8A%A1"><span class="toc-text">05 安装 MySQL 服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#06-%E5%90%AF%E5%8A%A8-MySQL-%E6%9C%8D%E5%8A%A1"><span class="toc-text">06 启动 MySQL 服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#07-%E5%85%B3%E9%97%AD-MySQL-%E6%9C%8D%E5%8A%A1"><span class="toc-text">07 关闭 MySQL 服务</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">MySQL 安装</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>工欲善其事，必先利其器。几乎所有的计算机类教程中，对新手来说最重要的一篇教程就是如何安装需要使用到的软件，从 C 语言到大数据，再到云计算，到处都充斥着各种各样的开发软件及运行系统。至于为什么需要这么软件，主要原因在于，你安装了这些软件，就如同站在了巨人的肩膀上。前人已经把一些工作做完了，你可以直接拿过来用了。</p>
+<p>话不多说，我们来看看如何安装？</p>
+<p>如教程介绍中一样，我们使用 MySQL 5.7 版本。</p>
+<h3 id="01-为什么会有这么多版本？"><a href="#01-为什么会有这么多版本？" class="headerlink" title="01 为什么会有这么多版本？"></a>01 为什么会有这么多版本？</h3><p>数据库其实也是一套软件，软件都是处于不断更新迭代的过程的，无论是如 QQ、微信这样的聊天软件，还是像 Windows 这样的操作系统，都会为了各种各样的目的，不断更新软件的版本。其目的有修复已知BUG，推出新的功能等等。</p>
+<h3 id="02-MySQL-版本有哪些？"><a href="#02-MySQL-版本有哪些？" class="headerlink" title="02 MySQL 版本有哪些？"></a>02 MySQL 版本有哪些？</h3><p>目前 MySQL 已知主流的版本有 5.0、5.1、5.5、5.6、5.7、8.0 版本号越大说明软件越新，当然功能及稳定性、安全性等<strong>应该</strong>更强。那么，本文我们将使用 MySQL 5.7 作为安装及学习的一个版本。</p>
+<h3 id="03-下载-MySQL数据库"><a href="#03-下载-MySQL数据库" class="headerlink" title="03 下载 MySQL数据库"></a>03 下载 MySQL数据库</h3><p>安装软件的第一步工作就是下载这个软件，当今网络环境，下载软件、安装软件都已经成为了一项技术活，因为一个不小心，都有可能会安装上一些神奇的软件。作为一名程序员，我希望我的系统尽量的干净简单，因为某些神奇的软件会影响我正在运行的服务（这些服务就会包括 MySQL 数据库服务）。</p>
+<p>首先打开 MySQL 官网：<a target="_blank" rel="noopener" href="https://www.mysql.com/">https://www.mysql.com</a> 当然，你也可以去某度上搜索，记住要看清楚你需要打开的网址，不然跳到某个奇怪的页面，笔者可不负责。</p>
+<p>打开之后，你会看到一个类似下图这样的网页</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/5e75c83723faa920fb43dd7a66912006-8e6669.png" alt="20200429205757.png"></p>
+<p>接下来点击网站顶部导航栏中的 <code>DOWNLOADS</code> 进入 MySQL 下载主页，并将页面往下滑，看到这样的一个页面</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/88c7d88dd48e6ccfcf95c9d896985b96-9dce22.png" alt="20200429205948.png"></p>
+<p>接下来点击页面上的 <code>MySQL Community(GPL) Downloads</code> 链接。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/d1ee3c68b972eaf05258f4852c110277-264f60.png" alt="image-20200429210309455"></p>
+<p>在进入这个页面之后点击 <code>MySQL Community Server</code> 链接进入 MySQL 下载选择页面。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/c725b86298c4c69a0b5cfbf2bf6ccf11-134614.png" alt="image-20200429211027662"></p>
+<p>由于目前（2020-04-29） MySQL 最新版版本已经是 MySQL 8.0.20 了，我们需要下载的 MySQL 5.7 已经不在下载选择页面的默认页了。我们需要点击页面上的 <code>Archives</code> 切换导存档 MySQL 下载页面。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/65161ecfbe4dae08f47300f14cb2e871-336aa0.png" alt="image-20200429211244674"></p>
+<p>在进入到这样的页面之后，我们依次选择 <code>Product Version</code> , <code>Operating System</code> 选项，就可以筛选出对应的版本及操作系统的 MySQL 数据库服务器软件了。本教程使用是 MySQL 5.7 版本，我们下拉筛选的时候选择 5.7版本最大的即可。由于大部分同学用的都是 Windows 64位的操作系统，按上图选择即可。最后筛选出来会有两个文件： <code>ZIP Archive</code> 和 <code>ZIP Archive, Debug Binaries &amp; Test Suite</code> ，这里下载第一个 <code>ZIP Archive</code> 即可。</p>
+<p>点击后面的 <code>Download</code> 即可下载。当然，这里下载速度可能会比较感人，笔者顺便给大家安利一个 Windows 下用来下载国外资源很快的软件 <a target="_blank" rel="noopener" href="https://www.internetdownloadmanager.com/">IDM</a></p>
+<p>如果下载速度还是比较慢的话，可以前往 <a target="_blank" rel="noopener" href="https://mirrors.ustc.edu.cn/mysql-ftp/Downloads/MySQL-5.7/">https://mirrors.ustc.edu.cn/mysql-ftp/Downloads/MySQL-5.7/</a> 找相应的下载包。如 MySQL 5.7.29 x64 版本对应名称为：mysql-5.7.29-winx64.zip</p>
+<p>下载之后你会看到名称为 mysql-5.7.xx-winx64.zip 的一个压缩包文件</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/d5574082ca97277200aa64cec25ecf43-77b980.png" alt="image-20200429213606350"></p>
+<p>接下来将这个压缩包文件复制到一个用于存放软件的目录中（<strong>重点：这个目录的完整地址中最好不要出现空格和中文字符以及一些奇怪的符号。尽量用英文即可。</strong>）笔者这里则将其复制到 <code>C:\apps</code> 里面。目录没有可以自己新建。为了避免踩坑，建议大家跟我一样选择 <code>C:\apps</code> 文件来存放我们的压缩包文件。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/7621ce307dfee6ef1be00f82dbfc2463-615b27.png" alt="image-20200429214243271"></p>
+<p>将这个文件解压。（嗨呀，我又要来安利软件了，那就是 <a target="_blank" rel="noopener" href="https://www.7-zip.org/">7-Zip</a> 特点：小巧，才 1MB；效率，解压速度快；安全无捆绑；嗨呀，还是各种国内压缩软件的爷爷，国内这些基本都是拿着人家内核过来加上捆绑的广告就成了自主研发的。）</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/9fb3dd4118a4c84df855de6d5b4fb8ad-a541ce.png" alt="image-20200429214627808"></p>
+<h3 id="04-编辑配置文件"><a href="#04-编辑配置文件" class="headerlink" title="04 编辑配置文件"></a>04 编辑配置文件</h3><p>在 MySQL 目录下新建两个文件 <code>my-default.ini</code> 与 <code>my.ini</code> ，并都保存一下文本。（如果你存放 MySQL 的目录与本文不同则需要对应地修改 <code>basedir</code> 与 <code>datadir</code>）</p>
+<pre><code class="text">[mysqld]
+port = 3306
+basedir=C:\apps\mysql-5.7.29-winx64
+datadir=C:\apps\mysql-5.7.29-winx64\data
+max_connections=200
+character-set-server=utf8mb4
+default-storage-engine=INNODB
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+
+[mysql]
+default-character-set=utf8mb4
+</code></pre>
+<p>接下来打开命令行，并切换到 <code>C:\apps\mysql-5.7.29-winx64</code> 目录下，再执行以下命令。</p>
+<pre><code class="bash">bin\mysqld.exe --initialize-insecure
+</code></pre>
+<p>如下图</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/11b3a8c907f5b0f9f2956aeb3f39b4f6-fc1e29.png" alt="image-20200504110714003"></p>
+<p>这里是初始化一份MySQL的数据，而且这里初始化后的 root 账号密码是空。后续可以根据需求自行修改。</p>
+<p><strong>注：</strong>在这部分执行命令时可能会弹出 <code>msvcr120.dll</code> <code>msvcp120.dll</code> 缺少这样的错误提示。可前往 <a target="_blank" rel="noopener" href="https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/">https://www.techpowerup.com/download/visual-c-redistributable-runtime-package-all-in-one/</a> 下载并安装 Visual C++ 运行时依赖即可。</p>
+<h3 id="05-安装-MySQL-服务"><a href="#05-安装-MySQL-服务" class="headerlink" title="05 安装 MySQL 服务"></a>05 安装 MySQL 服务</h3><p>先说一说这样安装的特点吧， <strong>与系统关联不大，没有多余的系统资源占用，卸载方便，迁移方便</strong> 。</p>
+<p>通过下载的安装包，MySQL 是可以直接运行的，安装时其实只需要注册一个 Windows 服务，卸载时只需要将这个服务删除即可。</p>
+<p>在安装之前，你需要知道如何打开 Windows 命令提示符，包括如何以管理员身份打开 Windows 命令提示符。并且知道如何切换到指定目录。</p>
+<p><strong>首先</strong>，打开 Windows 命令提示符。无论是 Windows 7 还是 Windows 10，都可以通过 <code>C:\Windows\System32</code> 目录找到一个名称为 <code>cmd.exe</code> 的文件。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/3e0fb95c2b8f678cada3cc5daadf9b1f-ea63be.png" alt="image-20200430083519324"></p>
+<p>选中 <code>cmd.exe</code> 右键 - 以管理员身份运行，接下来可能会弹出一个授权窗口，点击确定。就能以管理员身份打开命令提示符了。</p>
+<p>由于我们这里存放 MySQL 数据库的目录是 <code>C:\apps</code> ，那么接下来我们在命令提示符中输入 <code>cd C:\apps</code> 并输入 <code>dir</code> 就能看到 MySQL 解压后的目录。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/d2ff2d5602b2231111387f9284d1148a-d4710d.png" alt="image-20200430084106633"></p>
+<p>接下来输入 <code>cd mysql-5.7.29-winx64</code> 就能进入此目录了，并继续 <code>cd bin</code> 进入 MySQL 的 <code>bin</code> 目录。</p>
+<p><em>小技巧：在命令提示符中输入 <code>cd mysql</code> 之后直接按 tab 键，能自动补全后面的信息，非常方便。</em></p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/565e866763ff6b90ff541fd403e28b3a-a1288a.png" alt="image-20200430084521583"></p>
+<p>在此处执行 <code>mysqld --install</code> 即可安装 MySQL 到 Windows 服务。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/c62fccfa9fc267f0e9ac121a01070afa-5e9bac.png" alt="image-20200504111045615"></p>
+<p>在 Windows 服务列表中就能看到 MySQL 了，如果你不希望 MySQL 服务开机自启动可以选择设置启动类型为手动。</p>
+<h3 id="06-启动-MySQL-服务"><a href="#06-启动-MySQL-服务" class="headerlink" title="06 启动 MySQL 服务"></a>06 启动 MySQL 服务</h3><p>打开命令行可以通过 <code>net start mysql</code> 启动 MySQL 服务。</p>
+<h3 id="07-关闭-MySQL-服务"><a href="#07-关闭-MySQL-服务" class="headerlink" title="07 关闭 MySQL 服务"></a>07 关闭 MySQL 服务</h3><p>打开命令行可以通过 <code>net stop mysql</code> 关闭 MySQL 服务。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">April 29, 2020&nbsp;&nbsp;20:33:46</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2020-04-29-mysql-install.html">https://ismdeep.github.io/posts/2020-04-29-mysql-install.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/MySQL/">#MySQL</a>
+                        
+                            <a href="/tags/Development/">#Development</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

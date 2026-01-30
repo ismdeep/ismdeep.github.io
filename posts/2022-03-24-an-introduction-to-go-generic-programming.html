@@ -1,0 +1,418 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>【译】 Go 泛型编程介绍 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">【译】 Go 泛型编程介绍</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="toc-text">类型参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E9%9B%86%E5%90%88"><span class="toc-text">类型集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC"><span class="toc-text">类型推导</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC"><span class="toc-text">函数参数类型推导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A6%E6%9D%9F%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC"><span class="toc-text">约束类型推导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%8E%A8%E5%AF%BC%E5%AE%9E%E8%B7%B5"><span class="toc-text">类型推导实践</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">【译】 Go 泛型编程介绍</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>原文： <a target="_blank" rel="noopener" href="https://go.dev/blog/intro-generics">https://go.dev/blog/intro-generics</a></p>
+<p>作者： Robert Griesemer，Ian Lance Taylor</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本文基于我们在 GopherCon 2021 上的讲话（视频地址：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Pa_e9EeCdy8">https://www.youtube.com/watch?v=Pa_e9EeCdy8</a> ， B站： <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1V34y1q7wP%EF%BC%89%EF%BC%9A">https://www.bilibili.com/video/BV1V34y1q7wP）：</a></p>
+<p>Go 1.18版本增加了对泛型的支持。泛型是我们自 Go 第一个开源版本以来做出的最大改变。在本文中，我们将介绍新的语言特性。这将不会试图涵盖所有的细节，但我们会点出所有重要的点。更详细的内容，以及许多例子，请参见<a target="_blank" rel="noopener" href="https://go.googlesource.com/proposal/+/HEAD/design/43651-type-parameters.md">提案文件</a>。关于语言变化的详细描述，请看更新的<a target="_blank" rel="noopener" href="https://go.dev/ref/spec">语言规范</a>。(请注意，实际上 Go 1.18 的实现对提案文件所允许的内容施加了一些限制，该规范应该是描述准确的。未来的版本可能会取消这部分限制）。</p>
+<p>泛型是一种编写独立于正在使用的特定类型的代码的方式。那么，现在可以编写用于任何类型的函数或类型。</p>
+<p>泛型为语言增加了三个新的重要内容：</p>
+<ol>
+<li>函数和类型的类型参数。</li>
+<li>将接口类型定义为类型的集合，包括没有方法的类型。</li>
+<li>类型推导，允许在许多情况下调用函数时省略类型参数。</li>
+</ol>
+<h2 id="类型参数"><a href="#类型参数" class="headerlink" title="类型参数"></a>类型参数</h2><p>目前，函数和类型已支持类型参数。一个参数类型列表看起来就像一个普通的参数列表，只是它用方括号代替了小括号。</p>
+<p>为了方便说明这一点，让我们从一个基本的非泛型的浮点值 <code>Min</code> 函数开始吧。</p>
+<pre><code class="go">func Min(x, y float64) float64 &#123;
+    if x &lt; y &#123;
+        return x
+    &#125;
+    return y
+&#125;
+</code></pre>
+<p>我们可以通过添加一个类型参数列表来使这个函数泛型化 —— 使其适用于不同的类型。在这个例子中，我们增加了一个由一个类型参数 <code>T</code> 构成的参数列表，并用 <code>T</code> 替换 <code>float64</code> 的使用。</p>
+<pre><code class="go">func GMin[T constraints.Ordered](x, y T) T &#123;
+    if x &lt; y &#123;
+        return x
+    &#125;
+    return y
+&#125;
+</code></pre>
+<p>那么，现在可以用一个类型参数来调用这个函数了，调用方式如</p>
+<pre><code class="go">x := GMin[int](2, 3)
+</code></pre>
+<p>向 <code>GMin</code> 传入类型参数，在本例中是 <code>int</code> ，称为实例化。实例化分为两个步骤。首先，编译器在整个泛型函数或类型中把所有的类型参数替换成它们各自的类型参数。第二，编译器验证每个类型参数是否满足各自的约束条件。我们很快就会知道这意味着什么，但是如果第二步失败，实例化就会失败，程序就会无效。</p>
+<p>实例化成功后，我们将有一个非泛型函数，可以像其他函数一样被调用。例如，在代码中就是这样</p>
+<pre><code class="go">fmin := GMin[float64]
+m := fmin(2.71, 3.14)
+</code></pre>
+<p><code>GMin[float64]</code> 的实例化产生了一个有效的原始浮点 <code>Min</code> 函数，我们可以在函数调用中使用它。</p>
+<p>类型参数也可用于类型。</p>
+<pre><code class="go">type Tree[T interface&#123;&#125;] struct &#123;
+    left, right *Tree[T]
+    value       T
+&#125;
+
+func (t *Tree[T]) Lookup(x T) *Tree[T] &#123; ... &#125;
+
+var stringTree Tree[string]
+</code></pre>
+<p>在这里，泛型类型 <code>Tree</code> 存储的是类型参数 <code>T</code> 的值。泛型类型可以有方法，比如本例中的 <code>Lookup</code> 方法。为了使用一个泛型，它必须被实例化；<code>Tree[string]</code> 是一个用类型参数 <code>string</code> 来实例化 <code>Tree</code> 的例子。</p>
+<h2 id="类型集合"><a href="#类型集合" class="headerlink" title="类型集合"></a>类型集合</h2><p>让我们深入了解一下可以用来实例化一个类型参数的类型参数。</p>
+<p>一个普通的函数对每个值参数都有一个类型；该类型定义了一组值。例如，如果我们有一个 <code>float64</code> 类型，就像上面非泛型函数 <code>Min</code> 那样，允许的参数值集合是可以用 <code>float64</code> 类型表示的浮点值集合。</p>
+<p>同样地，类型参数列表中的每个类型参数都有一个类型。因为一个类型参数本身就是一个类型，所以类型参数的类型定义了类型的集合。这种元类型被称为<em>类型约束</em>。</p>
+<p>在泛型函数 <code>GMin</code> 中，类型约束是从<a target="_blank" rel="noopener" href="https://golang.org/x/exp/constraints">约束包</a>中导入的。<code>Ordered</code> 约束描述了所有具有可排序值的类型的集合。换句话说，也就是用 &lt; 操作符（或 &lt;&#x3D; , &gt; , 等）进行比较。该约束确保只有具有可排序值的类型才能被传递给 <code>GMin</code> 。这也意味着在 <code>GMin</code> 函数体中，该类型参数的值可以被用于比较操作符  &lt; 的运算。</p>
+<p>在 Go 中，类型约束必须是接口。也就是说，一个接口类型可以作为一个值类型，也可以作为一个元类型。接口定义了方法，所以显然我们可以描述方法存在的类型约束。但是 <code>constraints.Ordered</code> 也是一个接口类型，而且 &lt; 操作符不是一个方法。</p>
+<p>为了实现这个，我们以一种新的方式来看待接口。</p>
+<p>直到最近，Go 规范描述：一个接口定义了一个方法集，大概就是接口中列举的方法集。任何实现了所有这些方法的类型都实现了该接口。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2022/03/24/2eff57257302a26c6d975be8303b035b-32915d.png" alt="img"></p>
+<p>但另一种看法是，接口定义了一个类型集，即实现这些方法的类型。从这个角度来看，任何属于接口类型集的元素的类型都实现了接口。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2022/03/24/1504376fe6b7fbae91bf85f0e0f57e50-ba8f90.png" alt="img"></p>
+<p>这两种观点达到了一样的结果。对于每一组方法，我们可以想象出实现这些方法的相应类型集，这就是接口所定义的类型集。</p>
+<p>不过对于我们的目的来说，类型集视角比方法集视角有一个优势：我们可以明确地将类型添加到集合中，从而以新的方式控制类型集。</p>
+<p>为了发挥作用，我们对接口类型的语法进行了扩展。例如，<code>interface&#123; int|string|bool &#125;</code> 定义了包含 <code>int</code> 、<code>string</code> 和 <code>bool</code> 的类型集。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2022/03/24/3fd88fd47a4e8e489287cea402fa7a99-f5ae4a.png" alt="img"></p>
+<p>另一种说法是，这个接口只被 <code>int</code> 、<code>string</code> 或 <code>bool</code> 所满足。</p>
+<p>我们来看一下 <code>contraints.Ordered</code> 的实际定义：</p>
+<pre><code class="go">type Ordered interface &#123;
+    Integer|Float|~string
+&#125;
+</code></pre>
+<p>这个声明表示，<code>Ordered</code> 接口是所有整数、浮点数和字符串类型的集合。<code>|</code> 表示的是类型的联合（或者是类型的集合）。 <code>Integer</code> 和 <code>Float</code> 是接口类型，在 <code>constraints</code> 中也有类似的定义。注意，<code>Ordered</code> 接口没有定义任何方法。</p>
+<p>对于类型约束，我们通常不关心一个特定的类型，比如 <code>string</code> ；我们对所有的字符串类型感兴趣。这就是 <code>~</code> 标记的作用。表达式 <code>~string</code> 意味着所有基础类型为 <code>string</code> 的类型的集合 —— 这包括 <code>string</code> 类型本身，以及所有用定义声明的类型，如 <code>type MyString string</code> 。</p>
+<p>当然，我们仍然希望在接口中指定方法，而且我们希望能向后兼容。在 Go 1.18 中，一个接口可以像以前一样包含方法和嵌入接口，但它也可以嵌入非接口类型、联合体和底层类型的集合。</p>
+<p>当作为类型约束使用时，由接口定义的类型集准确地指定了允许作为相应类型参数的类型参数的类型。在一个泛型函数体中，如果操作数的类型是带有约束 <code>C</code> 的类型参数 <code>P</code> ，那么如果操作被 <code>C</code> 的类型集中的所有类型所允许，那么操作就是被允许的（目前这里实现上有一些限制，但是普通代码不太可能遇到这些限制）。</p>
+<p>用作约束条件的接口可以被赋予名称（比如 <code>Ordered</code> ），或者它们可以是类型参数列表中的字面接口。比如说：</p>
+<pre><code class="go">[S interface&#123;~[]E&#125;, E interface&#123;&#125;]
+</code></pre>
+<p>这里 <code>S</code> 必须是一个切片类型，其元素类型可以是任何类型。</p>
+<p>因为这是一种常见的情况，对于处于约束位置的 <code>interface&#123;&#125;</code> ，可以省略。可以简单如下编写：</p>
+<pre><code class="go">[S ~[]E, E interface&#123;&#125;]
+</code></pre>
+<p>因为空接口在类型参数列表中很常见，在普通 Go 代码中也是如此，Go 1.18 引入了一个新的预先声明的标识符 <code>any</code> 作为空接口类型的别名。这样一来，我们就得到了这个惯用代码：</p>
+<pre><code class="go">[S ~[]E, E any]
+</code></pre>
+<p>接口用于类型集是一个强大的新机制，也是使类型约束在 Go 中发挥作用的关键。目前，使用新语法形式的接口只能作为约束使用。但不难想象，具有明确的类型约束的接口将会非常有用。</p>
+<h2 id="类型推导"><a href="#类型推导" class="headerlink" title="类型推导"></a>类型推导</h2><p>最后一个新的主要语言特性是类型推导。在某些方面，这是最复杂的变化，但它很重要，因为它让人们可以通过一种自然的风格来编写调用泛型函数的代码。</p>
+<h3 id="函数参数类型推导"><a href="#函数参数类型推导" class="headerlink" title="函数参数类型推导"></a>函数参数类型推导</h3><p>有了类型参数，就需要传递类型参数，这就使代码变得冗长。回到我们的泛型函数 <code>GMin</code> 。</p>
+<pre><code class="go">func GMin[T constraints.Ordered](x, y T) T &#123; ... &#125;
+</code></pre>
+<p>类型参数 <code>T</code> 用于指定普通泛型参数 <code>x</code> 和 <code>y</code> 的类型。正如我们前面所看到的，可以用一个显式类型参数来调用它</p>
+<pre><code class="go">var a, b, m float64
+
+m = GMin[float64](a, b) // 显式类型参数
+</code></pre>
+<p>在许多情况下，编译器可以从普通参数中推断出 <code>T</code> 的类型参数。这使得代码更简短。</p>
+<pre><code class="go">var a, b, m float64
+
+m = GMin(a, b) // 没有 类型参数
+</code></pre>
+<p>其工作原理是将参数 <code>a</code> 和 <code>b</code> 的类型与参数 <code>x</code> 和 <code>y</code> 的类型相匹配。</p>
+<p>这种从函数的参数类型中推断出参数类型的推导，被称为<em>函数参数类型推导</em>。</p>
+<p>函数参数类型推导只适用于在函数参数中使用的类型参数，不适用于只在函数结果中使用的类型参数或只在函数主体中使用的类型参数。例如，它不适用于像 <code>MakeT[T any]() T</code> 这样的函数，它只在结果中使用 <code>T</code> 。</p>
+<h3 id="约束类型推导"><a href="#约束类型推导" class="headerlink" title="约束类型推导"></a>约束类型推导</h3><p>Go 还支持另一种类型推导，即<em>约束类型推理</em>。为了描述这个，让我们从这个缩放整数切片的例子开始：</p>
+<pre><code class="go">// Scale 返回s中每个元素都乘以c的副本。
+// 这种实现方式有一个问题，后面将会看到。
+func Scale[E constraints.Integer](s []E, c E) []E &#123;
+    r := make([]E, len(s)
+    for i, v := range s &#123;
+        r[i] = v * c
+    &#125;
+    return r
+&#125;
+</code></pre>
+<p>这是一个适用于任何整数类型切片的泛型函数。</p>
+<p>现在假设我们有一个多维的 <code>Point</code> 类型，其中每个 <code>Point</code> 都是一个给出了点的坐标的简单整数列表。当然，这个类型有一些方法。</p>
+<pre><code class="go">type Point []int32
+
+func (p Point) String() string &#123;
+    // Details not important.
+&#125;
+</code></pre>
+<p>有时候，我们想对一个 <code>Point</code> 进行缩放。因为一个 <code>Point</code> 只是一个整数切片，我们可以使用我们之前写的 <code>Scale</code> 函数：</p>
+<pre><code class="go">// ScaleAndPrint 将一个 Point 翻倍，并且打印。
+func ScaleAndPrint(p Point) &#123;
+    r := Scale(p, 2)
+    fmt.Println(r.String()) // 无法编译
+&#125;
+</code></pre>
+<p>然而，这并没有被编译，而是出现了这样的错误 <code>r.String undefined (type []int32 has no field or method String)</code>.</p>
+<p>问题是 <code>Scale</code> 函数返回了一个 <code>[]E</code> 类型的值，其中 <code>E</code> 是参数切片的元素类型。当我们用一个 <code>Point</code> 类型的值调用 <code>Scale</code> 时，其底层类型是 <code>[]int32</code> ，我们得到的是 <code>[]int32</code> 类型的值，而不是 <code>Point</code> 类型。这是由泛型编程的写法决定的，但这不是我们想要的。</p>
+<p>为了解决这个问题，我们必须改变 <code>Scale</code> 函数，使用一个类型参数来表示分片类型。</p>
+<pre><code class="go">// Scale 返回s中每个元素都乘以c的副本。
+func Scale[S ~[]E, E constraints.Integer](s S, c E) S &#123;
+    r := make(S, len(s)
+    for i, v := range s &#123;
+        r[i] = v * c
+    &#125;
+    return r
+&#125;
+</code></pre>
+<p>我们引入了一个新的类型参数 <code>S</code> ，它是分片参数的类型。我们对它进行了约束，使其底层类型是 <code>S</code> 而不是 <code>[]E</code> ，结果类型现在是 <code>S</code> 。由于 <code>E</code> 被限制为整数，其效果与之前相同：第一个参数必须是某个整数类型的片断。函数主体的唯一变化是，现在我们在调用 <code>make</code> 时传递 <code>S</code> ，而不是 <code>[]E</code> 。</p>
+<p>如果我们用一个普通的片断来调用它，新函数的作用和以前一样，但是如果我们用 <code>Point</code> 类型来调用它，我们现在得到一个 <code>Point</code> 类型的值。这就是我们想要的。有了这个版本的 <code>Scale</code> ，先前的 <code>ScaleAndPrint</code> 函数就会像我们期望的那样编译和运行。</p>
+<p>但是我们可以问：为什么写对 <code>Scale</code> 的调用可以不传递明确的类型参数？也就是说，为什么我们可以写 <code>Scale(p, 2)</code> ，没有类型参数，而不是必须写 <code>Scale[Point, int32](p, 2)</code> ？我们的新 <code>Scale</code> 函数有两个类型参数， <code>S</code> 和 <code>E</code> 。在调用 <code>Scale</code> 时没有传递任何类型参数，上面描述的函数参数类型推理让编译器推断出 <code>S</code> 的类型参数是 <code>Point</code> 。但是该函数也有一个类型参数 <code>E</code> 。编译器推断出 <code>E</code> 的类型参数是切片的元素类型的过程被称为<em>约束类型推理</em>。</p>
+<p>约束类型推理从类型参数约束中推断出类型参数。当一个类型参数有一个定义在另一个类型参数上的约束时，它就会被使用。当这些类型参数中的一个的类型参数是已知的，该约束被用来推断另一个的类型参数。</p>
+<p>通常适用的情况是，当一个约束对某些类型使用 <code>~ type</code> 的形式时，该类型是用其他类型参数写的。我们在 <code>Scale</code> 这个例子中看到了这一点。<code>S</code> 是 <code>~[]E</code> ，它是 <code>~</code> 后面有一个用另一个类型参数写的 <code>[]E</code> 类型。如果我们知道 <code>S</code> 的类型参数，我们可以推断出 <code>E</code> 的类型参数。<code>S</code> 是一个切片类型，<code>E</code> 是该切片的元素类型。</p>
+<p>这只是对约束类型推导的一个介绍。完整的细节请参见<a target="_blank" rel="noopener" href="https://go.googlesource.com/proposal/+/HEAD/design/43651-type-parameters.md">提案文档</a>文件或<a target="_blank" rel="noopener" href="https://go.dev/ref/spec">语言规范</a>。</p>
+<h3 id="类型推导实践"><a href="#类型推导实践" class="headerlink" title="类型推导实践"></a>类型推导实践</h3><p>类型推理的详细过程很复杂，但使用并不复杂：类型推理要么成功要么失败。如果它成功了，类型参数可以被省略，调用泛型函数看起来与调用普通函数没有什么不同。如果类型推理失败，编译器则会给出一个错误信息，在这种情况下，我们直接提供必要的类型参数就可以。</p>
+<p>在向语言添加类型推理时，我们在试图平衡推理能力和复杂性。我们希望确保当编译器推断出类型时，这些类型永远不会令人困惑。我们试图小心翼翼地站在未能推断出类型的一边，而不是站在推断出错误类型的一边。我们可能没有完全做到这一点，可能会在后续版本中继续完善它。其效果是，更多的代码可以在没有显式类型参数的情况下编写。当然，今天不需要类型参数的代码，明天也不会需要。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>泛型是 1.18 中一个很大的新语言特性。这些新的语言变化需要大量的新代码，这些代码还没有在生产环境中进行过大量的测试。这只会随着越来越多的人编写和使用泛型代码来进行。我们相信这个功能实现得很好，质量很高。然而，与 Go 的大多数方面不同，我们无法用现实的经验来支持这一信念。因此，虽然我们鼓励在有意义的地方使用泛型，但在生产中部署泛型代码时，请使用适当的谨慎措施。</p>
+<p>以外，我们也也很高兴能提供泛型，并希望能使 Go 程序员的工作更高效。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">March 24, 2022&nbsp;&nbsp;0:13:14</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2022-03-24-an-introduction-to-go-generic-programming.html">https://ismdeep.github.io/posts/2022-03-24-an-introduction-to-go-generic-programming.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Go/">#Go</a>
+                        
+                            <a href="/tags/Generic-Programming/">#Generic Programming</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
