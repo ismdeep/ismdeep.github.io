@@ -1,0 +1,298 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>软件推荐之 Ventoy | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">软件推荐之 Ventoy</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">软件推荐之 Ventoy</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>Ventoy （ 官网地址：<a target="_blank" rel="noopener" href="https://www.ventoy.net/">https://www.ventoy.net/</a> ） 是一个制作可启动U盘的开源工具。有了Ventoy你就无需反复地格式化U盘，你只需要把 ISO&#x2F;WIM&#x2F;IMG&#x2F;VHD(x)&#x2F;EFI 等类型的文件拷贝到U盘里面就可以启动了，无需其他操作。<br>你可以一次性拷贝很多个不同类型的镜像文件，Ventoy 会在启动时显示一个菜单来供你进行选择 (参见 <a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/screenshot.html">截图</a>)。<br>Ventoy 同时支持 x86 Legacy BIOS、IA32 UEFI、x86_64 UEFI 和 ARM64 UEFI 模式。支持大部分常见类型的操作系统 （Windows&#x2F;WinPE&#x2F;Linux&#x2F;Unix&#x2F;VMware&#x2F;Xen …）<br>目前已经测试了各类超过 <strong>600+</strong> 个ISO文件(<a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/isolist.html">列表</a>)。 支持 <a target="_blank" rel="noopener" href="https://distrowatch.com/dwres.php?resource=popularity">distrowatch.com</a> 网站上收录的 <strong>90%+</strong> 的操作系统(<a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/distrowatch.html">列表</a>)。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>可以安装在 U盘&#x2F;本地硬盘&#x2F;SSD&#x2F;NVMe&#x2F;SD卡等设备上</li>
+<li>直接从 ISO&#x2F;WIM&#x2F;IMG&#x2F;VHD(x)&#x2F;EFI 文件启动，无需解开</li>
+<li>ISO&#x2F;WIM&#x2F;IMG&#x2F;VHD(x)&#x2F;EFI 文件在磁盘上无需连续</li>
+<li>支持MBR和GPT分区格式</li>
+<li>同时支持 x86 Legacy BIOS、IA32 UEFI、x86_64 UEFI、ARM64 UEFI</li>
+<li>UEFI 模式支持安全启动 (Secure Boot) <a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/doc_secure.html">说明</a></li>
+<li>支持数据持久化 <a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/plugin_persistence.html">说明</a></li>
+<li>支持Windows系统的自动安装部署 <a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/plugin_autoinstall.html">说明</a></li>
+<li>支持 RHEL7&#x2F;8&#x2F;CentOS7&#x2F;8&#x2F;SUSE&#x2F;Ubuntu Server&#x2F;Debian 等Linux系统的自动安装部署 <a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/plugin_autoinstall.html">说明</a></li>
+<li>镜像分区支持 FAT32&#x2F;exFAT&#x2F;NTFS&#x2F;UDF&#x2F;XFS&#x2F;Ext2(3)(4) 文件系统</li>
+<li>支持超过4GB的ISO文件</li>
+<li>保留ISO原始的启动菜单风格(Legacy &amp; UEFI)</li>
+<li>支持大部分常见操作系统, 已测试600+ 个ISO文件</li>
+<li>不仅仅是启动，而是完整的安装过程</li>
+<li>菜单可以在列表模式和目录树模式之间实时、动态切换 <a target="_blank" rel="noopener" href="https://www.ventoy.net/cn/doc_treeview.html">说明</a></li>
+<li>提出 “Ventoy Compatible” 概念</li>
+<li>支持插件扩展</li>
+<li>Linux vDisk(vhd&#x2F;vdi&#x2F;raw…) 启动解决方案</li>
+<li>支持向运行环境中插入文件</li>
+<li>动态替换ISO文件中的原始启动配置文件</li>
+<li>高度可定制化的主题风格和菜单</li>
+<li>启动过程中支持U盘设置写保护</li>
+<li>不影响U盘日常普通使用</li>
+<li>版本升级时数据不会丢失</li>
+<li>无需跟随操作系统升级而升级Ventoy</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">January 19, 2021&nbsp;&nbsp;9:37:35</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2021-01-19-software-recommendation-ventoy.html">https://ismdeep.github.io/posts/2021-01-19-software-recommendation-ventoy.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Hacker/">#Hacker</a>
+                        
+                            <a href="/tags/Ubuntu/">#Ubuntu</a>
+                        
+                            <a href="/tags/Windows/">#Windows</a>
+                        
+                            <a href="/tags/Linux/">#Linux</a>
+                        
+                            <a href="/tags/Software/">#Software</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

@@ -1,0 +1,364 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>在 Ubuntu 上安装 Docker CE | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">在 Ubuntu 上安装 Docker CE</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%87%86%E5%A4%87"><span class="toc-text">一、准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%87%86%E5%A4%87-GPG-%E8%AF%81%E4%B9%A6"><span class="toc-text">2.1 准备 GPG 证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%86%99%E5%85%A5%E6%9B%B4%E6%96%B0%E6%BA%90"><span class="toc-text">2.2 写入更新源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85"><span class="toc-text">二、安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A3%80%E6%9F%A5"><span class="toc-text">三、检查</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%AE%89%E8%A3%85-docker-compose"><span class="toc-text">四、安装 docker-compose</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%99%84%E5%BD%95%E4%B8%80%E3%80%81%E5%85%B6%E4%BB%96%E5%8F%91%E8%A1%8C%E7%89%88%E6%9B%B4%E6%96%B0%E9%85%8D%E7%BD%AE%E6%BA%90"><span class="toc-text">附录一、其他发行版更新配置源</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">在 Ubuntu 上安装 Docker CE</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>本文主要以 Ubuntu 20.04 为例讲述如何在 Debian&#x2F;Ubuntu 系列 Linux 发行版上通过上游官方仓库安装 Docker CE，其他发行版的安装方式也类似，不同地方主要在源地址配置中。</p>
+<h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><h2 id="2-1-准备-GPG-证书"><a href="#2-1-准备-GPG-证书" class="headerlink" title="2.1 准备 GPG 证书"></a>2.1 准备 GPG 证书</h2><p>在 <code>root</code> 用户下执行以下命令写入仓库 GPG 证书。</p>
+<pre><code>$ sudo mkdir -p /etc/apt/keyrings/ &amp;&amp; \
+  curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/gpg | \
+  sudo gpg --dearmor --yes -o /etc/apt/keyrings/docker.gpg &amp;&amp; \
+  echo &quot;OK&quot;
+</code></pre>
+<h2 id="2-2-写入更新源"><a href="#2-2-写入更新源" class="headerlink" title="2.2 写入更新源"></a>2.2 写入更新源</h2><p>在 <code>/etc/apt/sources.list.d/docker.list</code> 文件中写入以下内容：</p>
+<pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu focal stable
+</code></pre>
+<p>其中：</p>
+<ol>
+<li><p><code>https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu</code> 为仓库地址，根据所在地区可以选取不同的地址。</p>
+<p>以下是一些常用镜像仓库地址：</p>
+<ul>
+<li><code>https://download.docker.com/linux/ubuntu</code></li>
+<li><code>https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu</code></li>
+<li><code>https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu</code></li>
+<li><code>https://mirrors.cloud.tencent.com/docker-ce/linux/ubuntu</code></li>
+<li><code>https://mirror.sjtu.edu.cn/docker-ce/linux/ubuntu</code></li>
+<li><code>https://mirrors.huaweicloud.com/docker-ce/linux/ubuntu</code></li>
+</ul>
+</li>
+<li><p><code>focal</code> 为 Ubuntu 发行版代号。</p>
+<p>以下是 Ubuntu 主要发行代号和版本号对应关系：</p>
+<ul>
+<li><code>focal</code>: Ubuntu 20.04</li>
+<li><code>jammy</code>: Ubuntu 22.04</li>
+<li><code>mantic</code>: Ubuntu 23.10</li>
+<li><code>noble</code>: Ubuntu 24.04</li>
+</ul>
+</li>
+</ol>
+<h1 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h1><p>在GPG证书和更新源配置都准备完成之后，执行以下命令更新仓库索引并安装 <code>docker-ce</code> 软件包：</p>
+<pre><code>$ sudo apt update
+$ sudo apt install -y docker-ce
+</code></pre>
+<h1 id="三、检查"><a href="#三、检查" class="headerlink" title="三、检查"></a>三、检查</h1><p>通过以下命令查看安装的 Docker CE 版本号：</p>
+<pre><code>$ sudo docker version
+</code></pre>
+<p>示例：</p>
+<pre><code>root@Lemuria:~# docker version
+Client: Docker Engine - Community
+ Version:           27.1.1
+ API version:       1.46
+ Go version:        go1.21.12
+ Git commit:        6312585
+ Built:             Tue Jul 23 19:56:56 2024
+ OS/Arch:           linux/amd64
+ Context:           default
+
+Server: Docker Engine - Community
+ Engine:
+  Version:          27.1.1
+  API version:      1.46 (minimum version 1.24)
+  Go version:       go1.21.12
+  Git commit:       cc13f95
+  Built:            Tue Jul 23 19:56:56 2024
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.7.19
+  GitCommit:        2bf793ef6dc9a18e00cb12efb64355c2c9d5eb41
+ runc:
+  Version:          1.7.19
+  GitCommit:        v1.1.13-0-g58aa920
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+root@Lemuria:~#
+</code></pre>
+<h1 id="四、安装-docker-compose"><a href="#四、安装-docker-compose" class="headerlink" title="四、安装 docker-compose"></a>四、安装 docker-compose</h1><p>通过以下命令将 Docker CE 自带的 docker-compose 插件安装至系统目录。</p>
+<pre><code>$ sudo cp /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
+</code></pre>
+<p>安装完成后通过以下命令查看版本号：</p>
+<pre><code>$ docker-compose version
+</code></pre>
+<p>示例：</p>
+<pre><code>root@Lemuria:~# docker-compose version
+Docker Compose version v2.29.1
+</code></pre>
+<h1 id="附录一、其他发行版更新配置源"><a href="#附录一、其他发行版更新配置源" class="headerlink" title="附录一、其他发行版更新配置源"></a>附录一、其他发行版更新配置源</h1><p>Debian 10</p>
+<pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable
+</code></pre>
+<p>Debian 11</p>
+<pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bullseye stable
+</code></pre>
+<p>Debian 12</p>
+<pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian bookworm stable
+</code></pre>
+<p>deepin v20, deepin v25, UOS Desktop V20</p>
+<pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable
+</code></pre>
+<p>Ubuntu 24.04</p>
+<pre><code>deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu noble stable
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">July 31, 2024&nbsp;&nbsp;12:36:14</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2024-07-31-install-docker-ce-on-ubuntu.html">https://ismdeep.github.io/posts/2024-07-31-install-docker-ce-on-ubuntu.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Docker/">#Docker</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

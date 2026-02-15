@@ -1,0 +1,398 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>快速排序 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">快速排序</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-sort-%E5%87%BD%E6%95%B0"><span class="toc-text">1. sort() 函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-partition-%E5%87%BD%E6%95%B0"><span class="toc-text">2. partition() 函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-text">3. 完整代码</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">快速排序</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F">快速排序</a>（英文：Quick Sort），也称为<strong>分区交换排序</strong>（Partition Exchange Sort），是一种排序算法。快速排序最早由 <strong>Tony Hoare</strong> 于 1961 年提出。其平均算法复杂度为 $O(n \log{n})$，然而最坏情况下算法复杂度为 $O(n^2)$，当然这种情况是非常极端的，大部分时候是不会发生这种事情的。</p>
+<p>快速排序的主要排序思想在于：<strong>选出一个基准值，然后将所有比这个值小的值放置在左边，比这个值大的放在右边。接下来对左右两边的数值继续执行这个过程。</strong></p>
+<p>比如：[5, 4, 2, 7, 3] 这组数字，假设我们选择基准为数字3，那么第一趟下来大致是这样的：[2, 3, 5, 4, 7]。那么在以 3 作为基准数字的一趟排序后，数组被分为了三个部分，[2], 3, 和 [5,4,7]. 3已经被确定下来位置了，那么接下来就继续使用以上操作分别对 [2] 和 [5,4,7] 进行排序即可。</p>
+<p>在快速排序算法中有两个核心函数：<code>sort()</code> 和 <code>partition()</code></p>
+<ul>
+<li><code>sort()</code> 从上述能看出，快速排序是一个具有递归结构的算法，我们在设计的时候可以设计成 <code>void sort(int a[], size_t n);</code> 表示对数组 <code>a[]</code> 进行排序，那么为什么还要 <code>size_t n</code> 这个参数呢？我们都知道，在 C 语言中，传递的一个数组变量那只是传递了这个数组的首地址，所以还需要传递数组的大小。这里有同学可能会说，那分区之后如何对分区后的左右两个部分进行排序呢？并不是所有的分区都是从 <code>a[]</code> 的首地址开始的呀。技巧就是：我们只需要进行地址偏移就可以了。</li>
+<li><code>partition()</code> 函数，对数组进行分区交换操作。设计的时候可以设计成 <code>size_t partition(int a[], size_t n);</code> 注意：这个函数是有返回值的。因为我们要告诉调用者分区最后基准值落在哪个位置，有了这个位置，就可以定位到分区之后被分成的左右两个部分，进而继续调用 <code>sort()</code> 函数进行排序了。</li>
+</ul>
+<h1 id="1-sort-函数"><a href="#1-sort-函数" class="headerlink" title="1. sort() 函数"></a>1. <code>sort()</code> 函数</h1><p> 实现上，首先判断一下 $n$ 的大小，没必要排序的情况下直接结束。然后接下来三个步骤：</p>
+<ol>
+<li>调用 <code>partition()</code> 函数进行分区，并获取基准值最后停下来的位置。</li>
+<li>对分区后左部分进行排序。</li>
+<li>对分区后右部分进行排序。</li>
+</ol>
+<p>这里需要注意的就是分区后左部分和右部分各自的起始地址和大小。</p>
+<pre><code class="c">void sort(int a[], size_t n) &#123;
+    if (n &lt;= 1) &#123;
+        return;
+    &#125;
+    size_t mid = partition(a, n);
+    sort(a, mid);
+    sort(a + mid + 1, n - mid - 1);
+&#125;
+</code></pre>
+<h1 id="2-partition-函数"><a href="#2-partition-函数" class="headerlink" title="2. partition() 函数"></a>2. <code>partition()</code> 函数</h1><p>分区函数，其实这才是快速排序最最核心的部分了。分区操作基准值选择需要分区的数组段最后一个值。首先将除去最后一个值的剩余部分分成左右两部分（左部分所有值小于基准值，右部分所有值大于基准值），然后将分区后右半部分的第一个与分区的数组段最后一个值（基准值）进行互换。这里其实有一个小操作，就是我们并不要着急去规定基准值最后的位置，毕竟咋也不知道具体多少个值是小于基准值的，多少个值是大于基准值的。而是我们直接将除了基准值剩下的分成两个部分，然后将右部分第一个与基准值换个地址就好了，反正这个值往右放并没有改变右边所有值都大于基准值的事实。</p>
+<pre><code class="c">size_t partition(int a[], size_t n) &#123;
+    if (n &lt;= 1) &#123;
+        return 0;
+    &#125;
+    size_t cursor_bottom = -1;
+    for (size_t i = 0; i &lt; n - 1; i++) &#123;
+        if (a[i] &lt; a[n - 1]) &#123;
+            cursor_bottom++;
+            swap(&amp;a[cursor_bottom], &amp;a[i]);
+        &#125;
+    &#125;
+    cursor_bottom++;
+    swap(&amp;a[cursor_bottom], &amp;a[n-1]);
+    return cursor_bottom;
+&#125;
+</code></pre>
+<h1 id="3-完整代码"><a href="#3-完整代码" class="headerlink" title="3. 完整代码"></a>3. 完整代码</h1><pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void print_arr(int a[], size_t n) &#123;
+    for (size_t i = 0; i &lt; n; i++) &#123;
+        printf(&quot;%2d &quot;, a[i]);
+    &#125;
+    printf(&quot;\n&quot;);
+&#125;
+
+void swap(int *a, int *b) &#123;
+    int tmp;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
+&#125;
+
+size_t partition(int a[], size_t n) &#123;
+    if (n &lt;= 1) &#123;
+        return 0;
+    &#125;
+    size_t cursor_bottom = -1;
+    for (size_t i = 0; i &lt; n - 1; i++) &#123;
+        if (a[i] &lt; a[n - 1]) &#123;
+            cursor_bottom++;
+            swap(&amp;a[cursor_bottom], &amp;a[i]);
+        &#125;
+    &#125;
+    cursor_bottom++;
+    swap(&amp;a[cursor_bottom], &amp;a[n - 1]);
+    return cursor_bottom;
+&#125;
+
+void sort(int a[], size_t n) &#123;
+    if (n &lt;= 1) &#123;
+        return;
+    &#125;
+    size_t mid = partition(a, n);
+    sort(a, mid);
+    sort(a + mid + 1, n - mid - 1);
+&#125;
+
+int main() &#123;
+    int a[] = &#123;4, 6, 3, 2, 7, 4, 2, 5, 6, 2&#125;;
+    print_arr(a, 10);
+    sort(a, 10);
+    print_arr(a, 10);
+    return EXIT_SUCCESS;
+&#125;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">December 29, 2020&nbsp;&nbsp;19:52:31</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2020-12-29-quick-sort.html">https://ismdeep.github.io/posts/2020-12-29-quick-sort.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Algorithm/">#Algorithm</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
