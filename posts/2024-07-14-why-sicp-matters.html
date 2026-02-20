@@ -1,0 +1,278 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>【译】为什么计算机程序的结构和解释很重要 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">【译】为什么计算机程序的结构和解释很重要</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">【译】为什么计算机程序的结构和解释很重要</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>原文：<a target="_blank" rel="noopener" href="https://people.eecs.berkeley.edu/~bh/sicp.html">https://people.eecs.berkeley.edu/~bh/sicp.html</a></p>
+<p>2011年，为庆祝麻省理工学院建校150周年，《波士顿环球报》列出了在 MIT 那里开发的最重要的创新。他们希望我能解释一下 SICP 的重要性，这是我发给他们的：</p>
+<p>SICP 在许多方面都是革命性的。最重要的是，它极大地提高了介绍性知识内容的标准计算机科学。在 SICP 之前，第一门 CS 课程几乎都是完全充满了学习某种编程语言的细节。 SICP 是关于从细节中退一步来学习大局的方法思考编程过程。它将注意力集中在抽象的中心思想——从具体中发现一般模式问题并构建体现每种模式的软件工具。它使大量使用函数作为数据的想法，这是一个很难学习的想法最初，但一旦学会就会非常强大。（这也是同样的想法，以不同的形式，这使得新生微积分变得非常困难，甚至对于在早期数学课程中表现良好的学生。）它符合第一门计算机科学课程三种不同的编程范例（函数式、面向对象和声明性），而大多数其他课程甚至没有真正讨论哪怕是一种范式。</p>
+<p>另一项革命是选择Scheme作为编程语言。直到今天，大多数计算机科学的介绍都使用当下的“热门”语言：从 Pascal 到 C 到 C++ 到 Java 到 Python。该方案从未在工业界得到广泛应用，但它是完美的 CS 简介语言。一方面，它有一个非常简单的，一切事物的统一符号。其他语言有一种表示法变量赋值，条件执行的另一种表示法，两个或另外三个用于循环，还有一个用于函数调用。课程教这些语言至少要花一半的时间来学习符号。在我在伯克利的基于 SICP 的课程中，我们花了第一个小时关于符号，这就是我们所需要的；在这个学期剩下的时间里，我们学习思想，而不是语法。此外，尽管（或由于）其简单性， Scheme是一种非常通用的语言，使我们能够检查这三种编程范式，特别是让我们看看如何 实现了面向对象编程，所以OOP语言似乎没有对我们的学生来说就像魔法一样。 Scheme 是 Lisp 的一种方言，所以它很棒将函数作为数据处理，但相比之下它是一个精简版本到更常用于专业编程的那些，最少的花哨的东西。阿贝尔森和萨斯曼非常勇敢以尽可能最好的教学语言教授他们的入门课程，而不注意所有工作都在进行中的抱怨其他一些语言。他们认为，一旦你了解了伟大的想法，这也是我的经验，学习另一种编程语言不是一件大事；这是周末的一件苦差事。我告诉我的学生，“语言你将在其中度过大部分工作生涯的方式尚未发明，所以我们无法教你。相反，我们必须为您提供您所需要的技能需要学习新语言的出现。</p>
+<p>最后，SICP对大学新生的未来充满信心预期完成。 SICP 学生编写编程解释器语言，通常被认为更适合大三或大四的学生。文本本身并不容易阅读；它没有侧边栏并且是彩色的盒子和有趣的图片代表了现代教科书的目标注意力持续时间低的学生。没有多余的练习；每个锻炼教会了一个重要的新观念。它使用大词。但它回报了细读；每句话都很重要。</p>
+<p>据统计，基于 SICP 的课程只占少数。但这本书其影响力超出了少数人。给后来的很多人带来了启发作者有意识地努力达到 SICP 标准的教科书。这方案作为学习者语言的使用已被其他人扩展了超过范围从中学到研究生。即使是比较主流的课程尽管大多数人对编程范式的想法变得敏感他们专注于面向对象的编程。计算机的想法科学应该是关于思想，而不是完全关于编程实践，此后扩大到包括有关背景和社会的非技术想法计算的影响。</p>
+<p>SICP 本身拥有悠久的历史，这对于入门 CS 来说是非常不寻常的教科书。通常，一本书的寿命取决于它所采用的语言的流行程度。被附上。 SICP 已强劲发展超过 25 年，且没有任何迹象绝版。在那段时间里，计算发生了巨大的变化，从巨型大型计算机到个人计算机到移动互联网电话。然而这些变化背后的重要理念仍然是一样的，而且 SICP 很好地捕获了这些信息。</p>
+<p>自 1987 年以来，我一直在教授基于 SICP 的课程。该课程已发生变化在此期间逐渐增加；我们添加了有关并行性、并发性的部分控制、用户界面设计和客户端&#x2F;服务器范例。但它是本质上仍然是相同的课程。每隔五年左右，就会有人教师建议我们的第一门课程应该使用 X 语言；每个那时，我说“当有人写出世界上最好的计算机科学书籍时使用 X 语言，那就没问题了”，到目前为止，教员们总是投票支持继续学习 SICP 课程。我们很快就会知道该课程是否可以度过我自己的退休生活。</p>
+<blockquote>
+<p>（脚注：不。伯克利大学新开设的第一门专业课程使用 Python，以及试图保留 SICP 的思想（和一些文本）的讲义。）</p>
+</blockquote>
+<p>最近的讨论更加激烈，因为麻省理工学院经历了一场重大的变革重新设计低年级 EECS 课程。麻省理工学院以外的人倾向于将重新设计总结为“麻省理工学院决定切换到 Python”，但这不是一个感性的描述。麻省理工学院决定放弃课程围绕主题组织（编程范例，然后是电路，然后是信号处理，然后是架构）到围绕应用程序组织的课程（让我们构建一个机器人并对其进行编程；让我们构建一个手机并对其进行编程）。他们课程的一切都必须重新组织；的选择编程语言是这些决定中最不重要的。他们的新方法是更难教；一方面，每门课程都需要合作伙伴电气工程学院和计算机科学学院。也许及时应用优先的方法将引发一场意义深远的革命这是 SICP 之后的事情，但还没有发生。</p>
+<p>根据我的经验，很少有学生意识到他们在我的课程中学到了多少有价值的内容。但是在调查所有的计算机科学专业的学生，SICP成为了最受欢迎的课程之一。回想起来，我经常收到早已离开的学生的邮件，告诉我他们是如何在工作中使用他们的想法的是学生时代不切实际的象牙塔观念。基于函数式编程里面发明的 MapReduce 软件在 Google 上用于数据并行处理帮助消除了象牙塔的声誉。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">July 14, 2024&nbsp;&nbsp;0:39:04</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2024-07-14-why-sicp-matters.html">https://ismdeep.github.io/posts/2024-07-14-why-sicp-matters.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Development/">#Development</a>
+                        
+                            <a href="/tags/Lisp/">#Lisp</a>
+                        
+                            <a href="/tags/Computer-Sciense/">#Computer Sciense</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

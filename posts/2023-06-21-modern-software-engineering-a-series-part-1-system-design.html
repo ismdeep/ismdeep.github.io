@@ -1,0 +1,368 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>【译】现代软件工程 - 第一部分：系统设计 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">【译】现代软件工程 - 第一部分：系统设计</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="toc-text">系统设计的重要性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-text">系统设计的组成部分</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%8E%9F%E5%88%99"><span class="toc-text">系统设计的原则</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7"><span class="toc-text">可扩展性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="toc-text">可靠性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E7%BB%B4%E6%8A%A4%E6%80%A7"><span class="toc-text">可维护性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E7%94%A8%E6%80%A7"><span class="toc-text">可用性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-text">安全性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%B0%E4%BB%A3%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-text">现代设计模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-text">微服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Serverless"><span class="toc-text">Serverless</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8"><span class="toc-text">事件驱动</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">【译】现代软件工程 - 第一部分：系统设计</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>在80年代末90年代初长大的我，对电脑的接触几乎仅限于游戏机（我认为是Atari 800和Commodore 64游戏机，因为我只看到过在它们上面运行的游戏）或早期的x86系统。直到2000年我上了大学，我才掌握了一台Sun Microsystems SPARC工作站、UNIX和我可以在家里Intel 486机器上安装的Slackware Linux.</p>
+<p>那时，软件开发主要是指在你的机器上本地运行的软件，或者，如果你有机会的话，在时间共享的计算机上运行的软件，其处理能力明显高于你，可以做商业相关的事情。我记得，在大学里听说过一个计算机科学家使用的程序，它需要一个多核处理器来生成数千个学生的课程表；生成和打印课程表需要数周时间。直到今天，我仍然不确定程序运行时间还是打印到纸上时间哪个更长。</p>
+<p>今天，大多数正在开发的软件要么在云上运行，要么在需要访问云的设备上运行，要么为同样在云上运行的其他软件提供动力。在密闭空间内工作的软件系统（如嵌入式软件系统），如果不能在其他地方获得更强大的计算平台，那是非常罕见的。会计系统现在压缩了大量的数据，这些数据被托管在公司内部或外部的数据仓库的服务器群中。销售系统现在由第三方管理客户关系，并由更多的第三方或内部开发人员开发插件。</p>
+<p>但是，今天这些软件系统是如何建立的，以服务数百到数百万的用户，同时还能保持我们对今天使用的软件所期望的性能和响应性？</p>
+<p>作为一个有20年之久的软件工程师，我见过许多系统从堆栈的每个层面被开发出来。从DOS时代的中断处理程序到JavaScript驱动的动画，甚至是无代码的报告生成。几周前，我甚至让ChatGPT-4根据我给它的一些描述来生成一些我想要的Python代码！但这是另一个故事！但这是另一个故事了。</p>
+<p>在这篇文章中，我写的是系统设计，它如何成为现代软件工程实践的一个关键部分，以及它将是人类软件工程师在中短期内仍能提供价值的关键领域之一。</p>
+<h1 id="系统设计的重要性"><a href="#系统设计的重要性" class="headerlink" title="系统设计的重要性"></a>系统设计的重要性</h1><p>很久以前，我是一家公司的软件工程师，这家公司在处理他们自己带来的成功的负荷方面存在问题。我把这家公司称为Friendster。当我加入这家公司时，我所负责的项目已经很晚了，而且有许多与内存管理有关的错误。他们的核心服务（是的，在2007年我们这样称呼它之前，它是一个微服务）是用C++编写的，但有内存泄漏，处理请求的时间太长，而且被设计为在自己的内存中缓存和提供数据。它需要是无状态的，但最后却变成了有状态的。</p>
+<p>在项目进行了几周后，我恳求高级工程领导层放弃这个服务的迭代，而是从头开始写一些符合要求的东西；这将是对现有实施的一个直接替换。我们有一个最后期限，因为该服务只能再处理几个月的增长，然后它就不能再以重新水化的方式处理缓存的大小。</p>
+<p>重新启动服务所花的时间比它能保持的时间还要长，直到内存泄漏使它瘫痪。这是一个 “赌上我的职业生涯 “的时刻，但我几乎没有这个时间。我们必须让它运转起来。</p>
+<p>系统设计开始了。我们做的第一件事是列出系统必须满足的要求，依赖服务（PHP前端代码）和这个核心服务之间的合同是什么，以及一个关于我们如何满足三个关键的非技术要求的计划：性能、效率和弹性。</p>
+<p>系统设计涉及到了解系统必须执行其功能的约束条件，所需的功能是什么，以及相对于所有其他属性而言，系统的哪些属性是重要的。一旦你有了这些定义，你就可以开始设计一个符合要求的系统，并系统地规划出解决方案的交付。</p>
+<h1 id="系统设计的组成部分"><a href="#系统设计的组成部分" class="headerlink" title="系统设计的组成部分"></a>系统设计的组成部分</h1><p>当我们谈及系统设计时，通常有几个组成部分：</p>
+<ul>
+<li>架构 —— 整体解决方案是什么样子的？它是否涉及多个子系统？是否有单独的组件组成一个整体？它们是如何相互作用的，以及它们之间的关系如何？</li>
+<li>拓扑结构 —— 解决方案是否有分层？如果这是一个分布式系统，组件服务在物理上或逻辑上的位置是什么？</li>
+<li>底层设计 —— 你定义了哪些接口，系统的不同部分通过这些接口进行交互？你是否有具体的算法来处理解决方案的关键部分（性能、效率、吞吐量、复原力等）？</li>
+</ul>
+<p>首先要了解一些事情，比如：系统是自成一体的（即：不会访问外部资源）还是分布式的？它是否会有一个用户界面，或者是非交互式的（例如，它是否会生成一份打印出来的报告，或者它在运行过程中是否需要来自人为或其他系统的输入？）它是否需要处理大量的流量？它是在任何时候只有十个人使用，还是在任何时候有千万个用户使用它？</p>
+<p>一旦你对其中一些问题有了答案，通过系统设计原则做出决定就会更容易。</p>
+<h1 id="系统设计的原则"><a href="#系统设计的原则" class="headerlink" title="系统设计的原则"></a>系统设计的原则</h1><p>在这个现代社会中，设计软件系统的几个关键原则直到系统需要扩展时才完全出现——从一个单用户系统到一个应该能够同时处理成千上万甚至数百万用户的系统。以下是我们将在本文中介绍的一些内容：</p>
+<ul>
+<li>可扩展性</li>
+<li>可靠性</li>
+<li>可维护性</li>
+<li>可利用性</li>
+<li>安全性</li>
+</ul>
+<h2 id="可扩展性"><a href="#可扩展性" class="headerlink" title="可扩展性"></a>可扩展性</h2><p>当一个系统可以在资源成比例增长的情况下被部署来处理负载的增长时，它就是可扩展的。一个系统的扩展系数被定义为服务于系统负载增长所需的资源量的增长。我们在软件系统中会遇到两种典型的扩展情况：垂直扩展和水平扩展。</p>
+<p>垂直扩展是指为软件系统提供更多的空间或单机资源以处理需求的增长。考虑一下网络附加存储设备的情况。你通过设备提供的存储越多，它能存储的数据就越多。如果你需要它处理更多的并发连接和I&#x2F;O操作（IOPs），你通常需要增加计算能力和网络接口来处理增加的负载。</p>
+<p>横向扩展是指用软件的副本复制一个系统或多台机器，以处理需求的增长。考虑一下隐藏在负载均衡器后面的静态网络内容服务器的情况。添加更多的服务器可以让更多的客户连接并从网络服务器上下载内容，当负载减弱后，网络服务器的数量可以缩减到适合当前需求的规模。</p>
+<p>有些系统可以处理混合或对角线的扩展。例如，一些分布式数据库架构允许分割计算和存储节点，这样，计算重的工作负载可以使用具有更多计算资源的节点。相反，IOPs的重度工作负载可以在存储+计算节点上运行。例如，流处理应用程序可能会分离出需要更多内存和计算的工作负载（例如，事件源或分析工作负载），并适当地扩展这些工作负载，并独立于IOPs的重型工作负载（例如，压缩和归档）。</p>
+<h2 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h2><p>当一个系统能够容忍部分故障和恢复而不严重降低服务质量时，它就是可靠的。一个系统的可靠性的一部分包括其在延迟、吞吐量和遵守商定的操作范围方面的可预测性。</p>
+<p>确保系统可靠性的通常方法包括以下内容：</p>
+<ul>
+<li>设置系统冗余以支持透明或最小中断的故障切换。</li>
+<li>在内部错误或输入引起的故障的情况下，建立容错机制。</li>
+<li>明确界定延迟、吞吐量和可用性的合同和目标。</li>
+<li>设置足够的备用容量，以满足负荷的突发和有机增长。</li>
+<li>服务质量保障措施，强制执行费率限制和客户&#x2F;业务隔离。</li>
+<li>在过载或灾难性故障的情况下，实施优雅的服务退化。</li>
+</ul>
+<p>构建可靠系统需要记住的关键一点是，以一种定义明确的方式处理潜在的故障，使依赖系统能够做出反应。这意味着如果有输入可能导致系统对所有人都可用，那么它就不是一个可靠的系统。同样地，如果系统依赖于另一个可能不可靠的系统，那么它应该用策略来处理不可靠的问题，以确保可靠性。</p>
+<h2 id="可维护性"><a href="#可维护性" class="headerlink" title="可维护性"></a>可维护性</h2><p>当以相应的努力来改变一个系统，并以最小的用户干扰来部署时，这个系统是可维护的。这就要求在实施系统的时候，假定需求会发生变化，并且系统有足够的灵活性来处理可预见的方向变化。这也意味着要确保代码的可读性，以便下一组维护者（可能是同一个团队，但在未来用新的眼光来看待它）能够维护软件，并使其进化以满足未来的需求。</p>
+<p>没有人愿意被困在维护那些僵化的、难以改变的、没有良好组织的、文件化程度低的、设计不良的、未经测试的、胡乱拼凑的软件。</p>
+<p>确保代码质量高是卓越工程的一部分，体现了专业精神和优秀的工艺。这不仅是一件好事，而且众所周知，它可以让高功能和高性能的工程团队提供可以改变和扩展的软件，以持续提供价值。</p>
+<h2 id="可用性"><a href="#可用性" class="headerlink" title="可用性"></a>可用性</h2><p>如果你的服务不可用，它可能不存在。</p>
+<p>系统设计应该解决一个系统应该如何保持可用性，以保持与客户和系统用户的相关性。这意味着：</p>
+<ul>
+<li>引入冗余机制处理基础系统故障。</li>
+<li>拥有备份和恢复方案和操作指南，使系统从硬故障中恢复过来。</li>
+<li>从系统中去除尽可能多的单点故障。</li>
+<li>除了横向可扩展性，还要有区域性的复制，并建立内容交付网络（在适当的地方），使你的数据可用。</li>
+<li>从客户的角度监测你的系统的可用性，以更好地了解你的系统是如何为客户服务的。</li>
+</ul>
+<p>在我职业生涯的早期，我了解到，一个不稳定和不可用的系统有时会成为失去客户信任的最大原因。一旦你失去了客户的信任，就很难重新获得信任。</p>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><p>系统设计应该把安全作为一个关键环节来解决，特别是在互联网连接系统的时代，安全威胁和漏洞会对我们的客户和系统的使用者造成实际伤害。构建安全软件的目标并不是要达到完美，而是要了解漏洞和攻击所涉及的风险。拥有一个适当的安全威胁模型和一个系统的方法来理解风险所在，以及哪些类型的威胁值得优先考虑和设计缓解措施，是安全设计和工程实践的开始。</p>
+<p>今天，随着我们的软件系统成为现代社会更多部分的关键任务服务的一部分，安全不再是可有可无的了。在我们设计的系统中，从一开始就认真对待安全问题，使我们更接近于能够更好地依赖我们所建立和部署的软件，以满足我们用户的需求。赢得客户的信任已经很不容易了，只需要一个漏洞就可以失去很好的一部分信任。</p>
+<h1 id="现代设计模式"><a href="#现代设计模式" class="headerlink" title="现代设计模式"></a>现代设计模式</h1><p>鉴于以上几个方面，现代分布式系统的一些模式已经出现，以不同的方式解决了这些方面的一些问题。让我们来探讨一下我们今天看到的关于系统设计的五个方面的一些比较流行的设计模式。</p>
+<h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><p>随着分布式系统的兴起，其重点是通过冗余建立可靠性和规模，通过横向扩展建立效率和性能，以及通过将系统的部分解耦为独立运行的服务来建立弹性，”微服务 “一词通过实现以下几点而得到普及：</p>
+<ul>
+<li>将独立服务的开发、部署、操作和维护与在更大的商业运作中拥有这些服务的团队联系起来。我们可以通过直接为外部客户提供服务或通过API间接为内部客户提供服务来做到这一点。</li>
+<li>允许微服务根据需求独立扩展。</li>
+<li>通过一个定义明确的合同提供服务，允许实施者发展成为一个独立的服务或一个服务系统。</li>
+</ul>
+<p>通过我们的方面来看，微服务有吸引人的特性，如果适用于用例的话，这使它成为一个好的模式：</p>
+<ul>
+<li>可扩展性：无状态的微服务通常被设计成可横向扩展的，也可以从纵向扩展中受益。在容器化协调环境（如Kubernetes集群）中部署微服务的情况下，微服务甚至可以在相同的节点上运行，从而更好地利用现有的硬件，并根据需求扩展可用的容量。一个缺点是，当一个微服务的规模和关键性在一个微服务图中增长时，部署的复杂性。</li>
+<li>可靠性：无状态的微服务通常被托管在负载平衡器后面，并在地理上分布，以避免区域性故障占用所有系统的容量。用无状态微服务建立可靠性的一个缺点是，存储系统通常需要和微服务的实现&#x2F;部署一样可靠，甚至比它更可靠。有状态的微服务就会受到两种方法中最糟糕的影响，可靠性的成本通常是以过度配置的形式来处理潜在的中断。</li>
+<li>可维护性：实现通过API提供的定义明确且稳定的合同的微服务，允许客户针对该API进行编程，并且实现可以独立发展。然而，协调API的变化涉及潜在的昂贵的客户端迁移和跨团队协调，引入了一个微服务拥有多个积极支持的版本的时期，直到最后的客户端从旧的实现中迁移出来。随着越来越多的客户开始与微服务互动，这种情况只会变得更糟。</li>
+<li>可用性：微服务通常依靠部署环境和外部基础设施来满足客户的可用性要求。这样做的坏处是依赖部署微服务的特定基础设施来提供高可用性解决方案。像服务网和软件负载平衡器这样的系统成为基础设施的关键部分，不再由实施者控制。这可能是一件好事，但也可能是一个持续的维护来源，因为这些系统也有更新周期和运营成本。</li>
+<li>安全性：认证、授权、身份管理和凭证管理可以委托给中间件或通过外部机制（如Kubernetes中的工作负载身份），微服务实施可以专注于整合相关的业务逻辑。与可用性一样，缺点是解决方案的这些外部部分成为基础设施的关键部分，在微服务实施的基础上带来自己的运营成本。</li>
+</ul>
+<p>微服务是分解大型应用的一个好方法，在这里可以确定需要自己的扩展和可靠性域的逻辑分区。不过，当从头开始时，从一开始就设计微服务是不太理想的，因为有可能将服务分解成太小的碎片。微服务之间的通信成本–通常为HTTP或gRPC请求–是很重要的，只有在必要时才应该产生。确定功能是否适合于一个服务的一个好方法是遵循领域驱动设计或功能分解这样的做法。</p>
+<h2 id="Serverless"><a href="#Serverless" class="headerlink" title="Serverless"></a>Serverless</h2><p>如同在基于微服务的解决方案中，使用无服务器实现进一步将服务请求的关键功能部分委托给底层基础设施。如果在微服务中，服务是由一个持久化进程提供的，那么无服务器解决方案通常只实现一个入口点，以处理对一个端点的请求（通常是通过HTTP或gRPC的URI）。在无服务器部署中，没有配置实际的服务器，而是由部署环境根据需要启动资源来处理进来的请求。有时，这些资源会停留一段时间，以摊销启动它们的成本，但这只是一个实施细节。</p>
+<p>让我们通过系统设计的各个方面来看看无服务器解决方案是如何叠加的：</p>
+<ul>
+<li>可扩展性：无服务器解决方案与微服务一样具有横向可扩展性，甚至更强，因为它们被设计为可按需调整规模。这种方法的缺点是需要更多的控制，并将扩展功能完全委托给底层无服务器基础设施。</li>
+<li>可靠性：无服务器的可靠性取决于水平扩展和网络流量路由的能力。这与微服务解决方案有相同的缺点。</li>
+<li>可维护性：无服务器的实现比微服务更易维护，因为它专注于处理请求的业务逻辑，并尽量减少模板。这与微服务所存在的API进化问题相同。</li>
+<li>可用性：无服务器部署的可用性与它们所部署的环境一样。这也有同样的问题，底层基础设施变得比解决方案本身更重要。</li>
+<li>安全性：无服务器的实现完全依赖于底层基础设施的安全配置。这也有同样的问题，底层基础设施变得比实际解决方案本身更关键。</li>
+</ul>
+<p>无服务器解决方案，或功能即服务，是一种非常有吸引力的方式，通过关注业务逻辑和价值，让底层基础设施处理服务的可扩展性、可靠性和可用性，来进行原型设计甚至部署生产级解决方案。这是一个典型的起点，可以让一个具有最小运营负担的解决方案启动和运行，对于大多数原型来说，这是一个证明我们假设的好方法。这也是一个典型的经验，一旦这些解决方案达到了扩展的极限，与运行这些相关的成本就变得足够高。这些都变成了根据所需规模调整的更优化的微服务实现。</p>
+<h2 id="事件驱动"><a href="#事件驱动" class="headerlink" title="事件驱动"></a>事件驱动</h2><p>然而，有些问题领域不需要在线交易处理，而微服务和无服务器的实现并不完全符合要求。考虑到可以在后台或在有资源的情况下处理事务的情况。另一种情况是后台处理活动，其结果不一定是互动的。</p>
+<p>事件驱动的系统遵循的模式是有一个事件源和事件汇，事件（消息）分别来自和被发送。处理是由订阅者和发布者分别对这些源和汇进行的。事件驱动系统的一个例子是一个聊天机器人，它可以参与许多对话（事件源和汇），并在它们进来时处理消息。</p>
+<p>分布式事件驱动系统可以有多个并发的消息处理程序在相同的源上等待，可能会发布太多的汇，作为其他消息处理程序的源。这种通过汇和源将处理器连锁起来的模式被称为事件管道。通常情况下，汇和源有一个单一的实现，提供一个消息队列接口，并根据通过系统的消息需求来进行扩展。许多分布式队列管理系统也可以有效地从对角线扩展中获益，比如Apache Kafka、RabbitMQ等。</p>
+<p>让我们通过我们的五个方面来研究分布式事件驱动系统：</p>
+<ul>
+<li>可扩展性：消息&#x2F;事件代理实现和消息处理程序都可以独立扩展。当处理太多的消息&#x2F;事件时，一些缺点就会出现，对事件代理的需求增长远远超过系统的可用容量。</li>
+<li>可靠性：好的消息代理实现提供高水平的可靠性，不创建自己的消息代理实现是个好主意。缺点是对满足可靠性需求的解决方案的依赖性（例如，处理金融交易与处理聊天室的即时信息路由有很大不同）。</li>
+<li>可维护性：如果你使用像协议缓冲区这样灵活的消息交换格式，那么在使用相同的数据描述语言的同时进化消息的写入者和读取者也是合理的。这仍然需要协调，但不像在实时交易处理系统中演变API合同那样繁琐（如在微服务和无服务器实现中）。</li>
+<li>可用性：由于消息通常存储在耐用介质中，事件驱动的系统通常更容易实现可用性，特别是由于它们通常是非交互式应用。可用性的代价可能来自陈旧的消息和无限制的队列处理延迟。</li>
+<li>安全性：事件驱动的系统必须管理独立于身份和证书的数据可用性。确保只有某些服务或消息处理器可以访问特定的消息队列或日志，这成为一项全职工作，因为更多不同的数据会通过系统被挖掘出来。</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>现代软件工程需要设计可扩展、可靠、可维护、可用和安全的系统。设计分布式系统需要非常严格的要求，因为现代系统的现实复杂性随着社会对更好的软件服务的需求而增长。我们回顾了分布式系统的三种现代设计模式，并研究了设计良好的系统的五个方面。</p>
+<p>作为软件工程师，我们负责设计系统，解决现代分布式系统的关键问题。</p>
+<p>在该系列的下一篇文章中，我将会写到测试及其在现代软件工程中的作用。</p>
+<p>【转自】 <a target="_blank" rel="noopener" href="https://betterprogramming.pub/modern-software-engineering-a-series-part-1-system-design-d689fabae772">https://betterprogramming.pub/modern-software-engineering-a-series-part-1-system-design-d689fabae772</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">June 21, 2023&nbsp;&nbsp;11:22:24</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2023-06-21-modern-software-engineering-a-series-part-1-system-design.html">https://ismdeep.github.io/posts/2023-06-21-modern-software-engineering-a-series-part-1-system-design.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Development/">#Development</a>
+                        
+                            <a href="/tags/Repost/">#Repost</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

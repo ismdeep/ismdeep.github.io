@@ -1,0 +1,444 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>谁去参赛？ | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">谁去参赛？</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">谁去参赛？</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>最近再次遇到一个很久以前就见过的一个编程题。当然，题目是非常简单的，很多参加算法竞赛的同学应该都见过这个问题。</p>
+<p>事情是这样的，在一个阳光还算明媚的下午，肖导给我发来一张图片。如下：</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/738908e89b8fd537b19a796b6e329a92-01db4e.JPG" alt="img"></p>
+<p>原来是肖导受到了关爱，要求写这样的一个程序。这个题目看上去就很简单，分成三个步骤：</p>
+<ol>
+<li><p>枚举所有可能的参赛组合情况</p>
+</li>
+<li><p>对每一个组合情况进行上诉判断</p>
+</li>
+<li><p>如果通过所有的判断则输出当前组合去参赛的同学名称</p>
+</li>
+</ol>
+<p>但是可达鸭眉头一皱，觉得问题并不简单。</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>A、B、C、D、E、F、G、H、I、J十名同学有可能参加本次竞赛，也有可能不参加。因为某种原因，他们是否参赛收到下列条件的约束：</p>
+<ol>
+<li>如果 A 参加，B 也参加；</li>
+<li>如果 C 不参加， D 也不参加；</li>
+<li>A 和 C 中只能有一人可以参加；</li>
+<li>B 和 D 有且只有一个人可以参加；</li>
+<li>D 、E 、F 、G 、H 五个人中至少有两个人参加；</li>
+<li>C 和 G 或者都参加，或者都不参加；</li>
+<li>C 、 E 、 G 、 I 中至多只能有两人参加；</li>
+<li>如果 E 参加，那么 F 和 G 也都参加；</li>
+<li>如果 F 参加，G 和 H 就不能参加；</li>
+<li>如果 I 和 J 都不参加，那么 H 必须参加。</li>
+</ol>
+<p>请编程实现判断这些同学哪些会参加本次竞赛，如果有多种可能，则输出所有可能情况。每种情况占一行。参赛同学按字母升序排列，之间用空格隔开。</p>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>如上述分析，只需三步。那么笔者觉得问题并不简单的考虑在于，如果按照上述方式来编写代码，其实很容易实现，但是写出来的代码可读性非常差。随手翻看了一下网上找到的几篇博客写的代码</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013091087/article/details/43793545">https://blog.csdn.net/u013091087/article/details/43793545</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wang263334857/article/details/9191215">https://blog.csdn.net/wang263334857/article/details/9191215</a></p>
+<p><a target="_blank" rel="noopener" href="http://bbs.bccn.net/thread-341841-1-1.html">http://bbs.bccn.net/thread-341841-1-1.html</a></p>
+<p>当然我这里并不是打算去 diss 谁，或者说是批评这些代码写得如何如何不好。</p>
+<p><strong>首先</strong>，分析一下遍历的过程，我大概看到最多的遍历就是 <code>for</code> 循环一层套一层，如下所示：</p>
+<pre><code class="c">for (int a = 0; a &lt;= 1; a++) &#123;
+    for (int b = 0; b &lt;= 1; b++) &#123;
+        for (int c = 0; c &lt;= 1; c++) &#123;
+            for (int d = 0; d &lt;= 1; d++) &#123;
+                ...
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>还有就是通过 DFS（Depth-First Search，深度优先搜索）的方式进行遍历所有的组合，如下所示：</p>
+<pre><code class="c">void dfs(int cur) &#123;
+    if (cur == 10) &#123;
+        Test();
+        return ;
+    &#125;
+    a[cur] = 1;
+    dfs(cur+1);
+    a[cur] = 0;
+    dfs(cur + 1);
+&#125;
+</code></pre>
+<p>都是可以实现的， 第一种方式通过层层 <code>for</code> 嵌套带来的问题就是代码太长，而且使用大量的变量；第二种方式通过 DFS 遍历带来的问题在于可读性会变差，而且这里还使用了全局变量。</p>
+<p>在编写程序时，需要尽量不使用全局变量，因为全局变量可能会带来变量冲突的问题。</p>
+<p>那么通过分析发现，其实这里每一位同学的参赛情况就是两种状态：参加、不参加。而十位同学的所有参赛状态组合，正好就是十位二进制的所有数字，即：数字0 ～ 数字1023的二进制表示。</p>
+<p>于是对于遍历就可以非常简单的变为：<code>for (int val = 0; val &lt;= 1023; val++)</code> 然后只需要将 <code>val</code> 展开成每位同学的参赛情况即可。</p>
+<p>展开代码如下：</p>
+<pre><code class="c">void extract_data(int val, bool data[]) &#123;
+    for (int i = 0; i &lt; STU_CNT; i++) &#123;
+        data[i] = val % 2;
+        val /= 2;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>其次</strong>，约束判断的写法也有考虑，通过对问题的分析发现所有的约束条件都可以写成：<strong>如果 p ，那么 q.</strong> 这样的形式。也就是说在 <code>p</code> 发生的条件下，<code>q</code> 必须要满足。言下之意，如果 <code>p</code> 不发生，那么就不需要去考虑 <code>q</code> 是否成立。</p>
+<p>于是笔者封装了如下函数：</p>
+<pre><code class="c">bool if_then (bool if_case, bool then_case) &#123;
+    if (if_case &amp;&amp; !then_case) &#123;
+        return false;
+    &#125;
+    return true;
+&#125;
+</code></pre>
+<p>至于判断是否满足约束时，则只需要设置好十个条件，一次判断并计数通过判断的个数，最后如果通过判断个数的计数器等于 10 ，则表明通过了所有的判断。</p>
+<p><strong>最后</strong>，输出参加比赛的学生列表。这里比较简单，就不过多去说了。</p>
+<pre><code class="c">void print_students(bool data[]) &#123;
+    for (int i = 0; i &lt; STU_CNT; i++) &#123;
+        if (data[i]) &#123;
+            printf(&quot;%C &quot;, &#39;A&#39; + i);
+        &#125;
+    &#125;
+    printf(&quot;\n&quot;);
+&#125;
+</code></pre>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define A 0
+#define B 1
+#define C 2
+#define D 3
+#define E 4
+#define F 5
+#define G 6
+#define H 7
+#define I 8
+#define J 9
+
+#define STU_CNT 10
+#define MAX_VAL (1&lt;&lt;STU_CNT)-1
+
+void extract_data(int val, bool data[]) &#123;
+    for (int i = 0; i &lt; STU_CNT; i++) &#123;
+        data[i] = val % 2;
+        val /= 2;
+    &#125;
+&#125;
+
+bool if_then (bool if_case, bool then_case) &#123;
+    if (if_case &amp;&amp; !then_case) &#123;
+        return false;
+    &#125;
+    return true;
+&#125;
+
+bool test_func (const bool data[]) &#123;
+    int passed = 0;
+    /* 1. 如果A参加，B也参加 */
+    passed += if_then(data[A], data[B]);
+    /* 2. 如果C不参加，D也不参加 */
+    passed += if_then(!data[C], !data[D]);
+    /* 3. A和C中只能有一人可以参加 */
+    passed += if_then(true, data[A] + data[C] &lt; 2);
+    /* 4. B和D有且只有一个人可以参加 */
+    passed += if_then(true, data[B] + data[D] == 1);
+    /* 5. D、E、F、G、H五个人中至少有两个人参加 */
+    passed += if_then(true, data[D] + data[E] + data[F] + data[G] + data[H] &gt;= 2);
+    /* 6. C与G或者都参加，或者都不参加 */
+    passed += if_then(true, data[C] + data[G] == 2 || data[C] + data[G] == 0);
+    /* 7. C、E、G、I中至多只能有两人都参加 */
+    passed += if_then(true, data[C] + data[E] + data[G] + data[I] &lt;= 2);
+    /* 8. 如果E参加，那么F和G也都参加 */
+    passed += if_then(data[E], data[F] &amp;&amp; data[G]);
+    /* 9. 如果F参加，G和H就不能参加 */
+    passed += if_then(data[F], !data[G] &amp;&amp; !data[H]);
+    /* 10. 如果I和J都不参加，那么H必须参加 */
+    passed += if_then(!data[I] &amp;&amp; !data[J], data[H]);
+
+    if (passed &lt; 10) &#123;
+        return false;
+    &#125;
+
+    return true;
+&#125;
+
+void print_students(bool data[]) &#123;
+    for (int i = 0; i &lt; STU_CNT; i++) &#123;
+        if (data[i]) &#123;
+            printf(&quot;%C &quot;, &#39;A&#39; + i);
+        &#125;
+    &#125;
+    printf(&quot;\n&quot;);
+&#125;
+
+int main() &#123;
+    bool *data = (bool*) malloc(sizeof(bool) * STU_CNT);
+    for (int val = 0; val &lt;= MAX_VAL; val++) &#123; /* 1. 遍历 */
+        extract_data(val, data);               /* 2. 展开 */
+        if (test_func(data)) &#123;                 /* 3. 约束判断 */
+            print_students(data);              /* 4. 输出 */
+        &#125;
+    &#125;
+    return 0;
+&#125;
+</code></pre>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>完整代码中宏定义是一个增强代码可读性的一个方法，通过宏定义设置 <code>A</code> 同学占用 <code>data[0]</code> ，依此类推。</li>
+<li>通过函数封装提高代码的可读性</li>
+<li>出现多个同属性的数据时应该考虑使用数组进行存储，如这里的十位同学是否参赛的数据。</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">April 12, 2020&nbsp;&nbsp;9:31:01</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2020-04-12-who-goto-the-contest-problem.html">https://ismdeep.github.io/posts/2020-04-12-who-goto-the-contest-problem.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/ACM-ICPC/">#ACM-ICPC</a>
+                        
+                            <a href="/tags/Easy/">#Easy</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

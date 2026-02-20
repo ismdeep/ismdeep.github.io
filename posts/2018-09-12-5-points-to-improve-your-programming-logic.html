@@ -1,0 +1,279 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>5点提升你的编程逻辑能力 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">5点提升你的编程逻辑能力</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%80%9D%E8%80%83%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98"><span class="toc-text">1.- 思考如何解决问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BB%83%E4%B9%A0"><span class="toc-text">2.- 练习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AD%A6%E4%B9%A0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E7%AE%97%E6%B3%95"><span class="toc-text">3.- 学习数据结构和算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A8%8B%E8%8C%83%E5%BC%8F"><span class="toc-text">4.- 学习编程范式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%98%85%E8%AF%BB%E4%BB%96%E4%BA%BA%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-text">5.- 阅读他人的代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0%E8%B5%84%E6%BA%90%EF%BC%9A"><span class="toc-text">练习资源：</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">5点提升你的编程逻辑能力</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>在编程中，逻辑能力是成为一个好的开发者的<strong>关键</strong>。或许，根据你的工作内容，你有可能会用到比较多的算法，也有可能比较少。如果你是个web设计者，或许你很少会处理复杂的算法。但是如果你是个前端开发者就会稍微有一些了。甚至如果你是个后端开发者将会更多。</p>
+<p>在这里，我列了5点我觉得还可以的，来帮你提高编程逻辑。</p>
+<p>这篇文章适用于<strong>任何人</strong>。如果我们打算培养好的逻辑思维的话，我们将<strong>能够比较自由地切换开发语言</strong>。<strong>尽量不要依赖于某种语言</strong>。</p>
+<h2 id="1-思考如何解决问题"><a href="#1-思考如何解决问题" class="headerlink" title="1.- 思考如何解决问题"></a>1.- 思考如何解决问题</h2><p>编程是关于解决问题的。一个好的技巧就是将大的问题分解成一个一个小的问题，于是可以专注于一个一个小的问题上。你可以在代码中或纸上写伪代码。</p>
+<h2 id="2-练习"><a href="#2-练习" class="headerlink" title="2.- 练习"></a>2.- 练习</h2><p>最重要的一点就是：<strong>练习</strong>。一个算法不过就是我们为了达到某个目标而找到解决某个问题的由一系列有序的有限指令操作。所以，尝试练习一些简单的问题。</p>
+<h2 id="3-学习数据结构和算法"><a href="#3-学习数据结构和算法" class="headerlink" title="3.- 学习数据结构和算法"></a>3.- 学习数据结构和算法</h2><p>学习数据结构能帮你更好的设计解决问题或设计高效软件的方法。</p>
+<h2 id="4-学习编程范式"><a href="#4-学习编程范式" class="headerlink" title="4.- 学习编程范式"></a>4.- 学习编程范式</h2><p>一个非常好的方式就是学习编程范式。或许最具有编程范式之一的就是<strong>面向对象范式(OOP)</strong>.编程范式就像是我们创建一个项目的蓝图。你可以学习函数式编程，在函数式编程下又有着不同的方式去开发程序和解决问题。</p>
+<h2 id="5-阅读他人的代码"><a href="#5-阅读他人的代码" class="headerlink" title="5.- 阅读他人的代码"></a>5.- 阅读他人的代码</h2><p>在编程中我们有很多不同的方法去解决问题，也许另一个人以最佳的最简单的方法解决了你遇到的问题。学习他人的思想对一个程序员的进步至关重要。你可以在<a target="_blank" rel="noopener" href="https://github/">GitHub</a>上看到非常多的好的项目。</p>
+<p><em>记住，你无法解决问题是完全正常的，但是你得知道从社区里能获得很多帮助。</em></p>
+<h4 id="练习资源："><a href="#练习资源：" class="headerlink" title="练习资源："></a>练习资源：</h4><p>◾ <a target="_blank" rel="noopener" href="https://www.codewars.com/">Codewars</a><br>◾ <a target="_blank" rel="noopener" href="https://codefights.com/">CodeFights</a><br>◾ <a target="_blank" rel="noopener" href="https://www.hackerrank.com/">HackerRank </a><br>◾ <a target="_blank" rel="noopener" href="https://www.codingame.com/start">CodinGame</a></p>
+<p>希望你能喜欢！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">September 12, 2018&nbsp;&nbsp;21:00:37</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2018-09-12-5-points-to-improve-your-programming-logic.html">https://ismdeep.github.io/posts/2018-09-12-5-points-to-improve-your-programming-logic.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Development/">#Development</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

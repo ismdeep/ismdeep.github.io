@@ -1,0 +1,340 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>【译】现代软件工程 - 第二部分：测试 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">【译】现代软件工程 - 第二部分：测试</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E6%B0%B4%E5%B9%B3"><span class="toc-text">测试水平</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91"><span class="toc-text">测试驱动开发</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B5%8B%E8%AF%95"><span class="toc-text">自动测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%B0%E4%BB%A3%E6%B5%8B%E8%AF%95%E6%8A%80%E6%9C%AF"><span class="toc-text">现代测试技术</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">【译】现代软件工程 - 第二部分：测试</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <blockquote>
+<p>“如果调试是清除软件缺陷的过程，那么编程一定是把它们放进去的行为”。—— Edsger Djikstra</p>
+</blockquote>
+<p>编写自动化软件测试就像和自己玩电话游戏–当你误解了信息是什么时，你是唯一可以责备的人。如果你为自己的代码写测试，这已经够难的了，但是考虑到你为别人写的代码写测试，而这些代码本来就没有被测试。现在，这就像试图理解一张在蓝色牛仔裤口袋里洗过的纸上的信息是什么……三次!</p>
+<p>这是在被测试的代码已经写完之后才写的测试。现在考虑一下先写测试的做法–这就像和自己玩高手过招，先写一些看似合理的规范或测试，以确保你要写的解决方案会 “做正确的事”。但是，如果你学过计算机科学，那么这听起来非常像解决停止问题–只是更糟糕，因为现在你不仅需要向自己证明，还需要向编译器&#x2F;解释器证明你希望它做的事情是正确的。</p>
+<p>那么，为什么在过去的20年里，测试一直是现代软件工程实践中不可或缺的一部分–无论是测试优先还是测试最后，我们专业的软件工程师仍然需要考虑如何测试和验证软件以满足需求。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>又到了故事时间。</p>
+<p>上次在第一部分中，我写到我是如何艰难地学会了如何设计系统以适应现代的扩展性、可靠性、可用性、可维护性和安全性要求。设计一个解决方案只能到此为止，因为到了最后，这个解决方案需要被实施–有时，它必须由一个团队或多个团队来完成。</p>
+<p>你可以想象，跨团队的协调工作将是问题的主要来源，但我们是否可以做些什么来减少这种负担？自动测试来了–特别是那种指定行为而不是测试实现的测试。</p>
+<p>当我在Friendster工作的时候，我可以知道我所从事的服务的客户端到底期望什么。然而，这并不是完全明确的–我们有一个我们所遵循的协议（这是在协议缓冲区流行之前）和一些被这些客户端调用的URI。语义并没有完全阐明，但我们有一个忠实的听众–我可以阅读客户端的代码，并从当前的实现中找出期望。</p>
+<p>这一点很重要–我们不是创建一个全新的协议或创建一个新的合同，而是从已知的需求开始，我们可以把这些需求写成自动测试。我首先要做的几件事之一是把这些测试变成我可以编程的规范，并逐步把实现带到满足要求的地步。这项工作产生了两个产品：</p>
+<ul>
+<li>C++网络库–一个性能相当好的HTTP客户端和服务器的C++实现，我正在重写的服务将在此基础上集成。</li>
+<li>memcache++库 - 一个性能合理的C++实现的memcache客户端，支持分片和虚拟节点池。</li>
+</ul>
+<p>这两个开源解决方案都是内部定义的技术要求的结果。我们从一个现有的系统开始，将其分解成各个组成部分，然后逐步实施这些解决方案，直到我们可以将非业务关键部分作为开源软件共享。</p>
+<p>你可能会问，为什么我需要从测试开始？因为测试允许我以一种渐进和可预测的方式来填充解决方案以满足需求。有了测试，我和审查我所写的代码的人就能理解需求是什么，并通过运行测试自动验证它们。这使我们能够逐步获得我们所需要的信心，我们得到了一个满足我们需求的解决方案。</p>
+<p>有了测试，我就可以专注于什么是必要的和足够的功能，同时让我有信心重构和改进解决方案，并快速验证我是否破坏了编码需求的测试。通过让测试涵盖需求，我已经能够捕捉到许多错误，并快速地交付功能，在此过程中无畏地进行重构。</p>
+<p>那是在2007-2008年左右，很多这些概念（如测试驱动开发和行为驱动开发）刚刚开始流行，但通常是在企业软件行业。在这里，我把其中一些好的想法应用到了微服务和水平可扩展的系统中!</p>
+<p>快进了几年，我们现在到了2023年，测试在某些圈子里已经变成了一个肮脏的词（TDD和BDD往往烧毁了很多人，主要是由于对原则的误解），并且已经成为一种事后的想法，我们要求我们的副驾驶为我们写的代码做单元测试。这有点可惜，因为采用正确测试的高性能软件工程团队在适应不断变化的需求和改进解决方案的实施方面的自由度是非常有价值的，那些没有及早投资的团队往往会在很晚的时候才意识到，测试本来可以拯救他们的重大故障，由于错误爬到生产中而导致的不眠之夜，或者由于解决方案质量差和速度低而失去业务。</p>
+<p>在这篇文章中，我将写更多关于测试在现代软件工程中的作用，以及如何正确地进行测试使你和你的团队在行业中取得成功。</p>
+<h1 id="测试水平"><a href="#测试水平" class="headerlink" title="测试水平"></a>测试水平</h1><p>在我们进一步讨论之前，最好先了解测试的不同级别或类别。如果你以前没有写过测试，知道有一个相当健全的测试术语分类法可能会有好处，这样你至少可以跟上围绕它们发生的讨论。</p>
+<ul>
+<li>用户验收测试 —— 通常是自动测试，确保软件系统符合终端用户的要求。模拟终端用户通常包括驱动软件的用户界面（基于浏览器的网络用户界面的自动测试，本地应用程序用户界面的应用程序驱动程序，API服务客户端等），以执行用户会做的事情，并观察这些行动的结果，看它是否符合软件的验收标准。这通常是最高级别的测试，涵盖了整个软件系统的所有内容。</li>
+<li>系统测试 —— 通常是对系统的功能和非功能属性进行测试的自动化测试。在这里，一个系统可以是一个完全集成的应用，也可以是一个带有相关组件的子系统。系统测试通常比用户验收测试（UATs）更全面。</li>
+<li>集成测试 —— 典型的自动化测试，测试在集成环境中作为子系统工作的多个组件的相互作用（通常是测试线束或应用程序支架），这有利于集成组件的布线和测试。集成测试通常是对一个完整解决方案的逻辑子系统进行测试，这些子系统一起工作以提供一组特定的功能。</li>
+<li>单元测试 —— 典型的自动化测试，对单个组件（不一定是单个类）的功能进行隔离测试。依赖关系可以由功能相当的实现来代替，以便于以受控的方式（有时是故意的）来模拟这些依赖关系。</li>
+</ul>
+<p>在某些情况下，你可能会遇到需要有人工或人类驱动的测试来覆盖一些不可预测的或组合巨大的可能性空间（考虑计算机游戏，人工智能模型，控制系统等）。这些在软件工程行业中仍然有很好的地位，但在这篇文章中，我将专注于自动化测试案例。</p>
+<p>现在我们有了一些定义，让我们深入了解一些现代软件工程的测试方法以及它是如何改变我们解决问题的方式的。</p>
+<h1 id="测试驱动开发"><a href="#测试驱动开发" class="headerlink" title="测试驱动开发"></a>测试驱动开发</h1><p>测试驱动开发或TDD是一种实现软件的方法论，首先将测试（或规范）写成可执行代码，看到测试失败（先是红色），实现一个解决方案以满足需求，看到测试成功（绿色），重构解决方案的可读性和灵活性，同时保持测试成功运行（保持绿色），并进行迭代。下面是对这个方法论中每个步骤的更多解释：</p>
+<ul>
+<li><strong>写一个失败的测试来代表一个需求。</strong> 这可能使用一个还不存在的类，或一个还没有实现的方法，或一个还没有被现有实现处理的情况，或一些系统还没有执行的新行为–不管新的需求是什么，写一个测试来代表这个需求，作为可执行的东西，并且最初失败。这一步让我们思考缺失的功能，以及它在任何层次上的使用方式–测试可以是UAT，系统测试，集成测试，或单元测试。</li>
+<li>实施解决方案以满足需求（绿色）。满足需求的初始实现可能是最简单的工作，或者是一个简单的 “返回测试期望的东西”（我知道，这感觉像是作弊，但相信这个过程……），只是为了让你看到测试 “变绿”。这一步迫使我们思考解决这个问题的最直接的方法，这样我们就可以进入下一步，重新做这个循环。</li>
+<li>无情地重构，同时保持测试的绿色（保持绿色）。不要在这里通过第2步，因为软件工程的肉发生在这一步，在这里我们可以看一下测试和实现中使用的接口，看看我们是否正在接近一个更可维护和灵活的解决方案，或者我们是否需要更多的测试来找到模式。你拥有的覆盖系统功能的测试越多，你就越需要重构，不仅是实现，还有测试–如果你也遵循领域驱动设计，这可以让你细化系统中的模型，这样你对解决方案的理解就会随着模型的变化而不断发展。</li>
+<li>迭代。当你在不同的层次（UATs，系统测试，集成测试，单元测试）覆盖了越来越多的系统功能和非功能需求时，你将不可避免地发现一些需求不再是需求，现有的需求由于新的业务需求而略有变化，你可能不得不从某些子系统重新开始。认识到什么时候去增加测试，删除测试，优化性能或效率，或者只是叫它完成并继续前进，是整个过程的一个重要部分。只要你还没有完成，就回到第1步。</li>
+</ul>
+<p>请注意，即使你已经有了一个没有测试的代码库，你也可以开始遵循TDD。你可以自上而下（从UATs到单元测试）或自下而上（从单元测试到UATs），并在此过程中开始重构你的接口，让你觉得更有信心代表逻辑组件或领域模型。</p>
+<p>从一开始就遵循TDD有很多好处：</p>
+<ul>
+<li>你在写测试的时候不得不考虑需求和设计。难以测试的代码通常意味着它没有遵循良好的设计实践。如果你发现你不能很好地表达测试，意味着你没有很好地理解需求，这迫使你在写测试之前首先要理解需求是什么。</li>
+<li>你有更多的信心，你所拥有的解决方案甚至在到达生产之前就能满足要求。提前发现问题可以使你免受生产中可预见的麻烦。它还允许你专注于解决已经存在的指导问题，而不是等了很久才知道你是否满足了需求，当它上线时。与其把时间花在调试上，不如把时间花在解决其他问题上，并自信地逐步交付价值。</li>
+<li>你有时间去整理，使之变得漂亮。TDD明确地将重构的时间作为开发过程的一部分–而不是推迟到以后的事情。如果你时间紧迫，需要推迟重构，那么它也可以在以后再进行，因为你的测试代表了需求的状态，而且实施质量可以作为过程的一部分得到改善。</li>
+</ul>
+<p>这也很好，但我们也需要承认TDD的成本和一些缺点。</p>
+<ul>
+<li>编写和运行自动化测试并不便宜。有些种类的测试比其他的更难写，而且它们也不是都能产生同样的价值。编写UATs可能需要特定测试框架的专业知识，或者在模拟生产部署时，需要使用不容易获得的特殊硬件（例如强大的GPU或FPGA）。有些需要全面部署多个服务，为测试目的而建立这些服务可能不符合成本效益，因此可能会走一些弯路。</li>
+<li>要显示测试代码的价值是很难的，特别是当它被看作是一种机会成本时。很多人仍然认为测试是浪费时间，因为重要的是运送工作的东西–如果他们在生产中失败了，我们就黑掉它，因为我们需要赚足够的钱，这样资金就不会用完。不幸的是，用运送代码到生产中来代替测试，意味着你每次部署代码和新功能时，都在为你的解决方案和业务的有效性冒险。尽管TDD是一个很好的做法，而且有大量的成功案例表明为什么遵循TDD是一个好主意，除非有效的测试覆盖率被看作是对未来故障和需求变化的保险政策，那么它将是一个难点。</li>
+<li>当你把有效的测试和100%的测试覆盖率混为一谈时，你会有一个糟糕的时间。TDD并不是要达到100%的测试覆盖率，而是专注于将需求表现为可执行的测试。只要你想，你可以有很多测试，只要它们能代表你正在构建的系统的重要内容。拥有100%的测试覆盖率并不代表你的测试在代表解决方案的重要内容方面有多有效。它可能是一个较小的测试集在确保你要解决的问题被解决方面得到了最好的价值。</li>
+</ul>
+<p>TDD并不是我们在这个世界上遇到的所有软件质量问题的万能药。然而，它是一种实践，可以帮助保持重要的焦点，以便我们可以有信心地设计满足需求的系统。</p>
+<h1 id="自动测试"><a href="#自动测试" class="headerlink" title="自动测试"></a>自动测试</h1><p>如果你已经遵循TDD，那很好。但如果你不这样做，你有可以在以下情况下自动运行的测试仍然很重要：</p>
+<ul>
+<li>在开发时，在 “内部开发者循环 “中。如果你不能在你的集成开发环境或你的工作站中运行测试，以快速验证你的解决方案正在做他们应该做的事情，那么你会有一个糟糕的时间。确保自动化测试能够快速构建&#x2F;运行，并且能够代表重要的需求，这是一个重要的生产力提升器，值得投资。如果你除了写自动化测试，开发人员可以在他们的工作站上运行，你已经达到了自动化测试的80%的好处。</li>
+<li>维护一个回归测试套件。每当提出或发现bug时，首先应该做的是用失败的测试来重现它。这样你就可以把修复错误的过程当作另一个需求来管理，把它表达为一个捕捉回归的测试（这意味着，软件不会表现出一个在过去已经被修复的错误）。你把越多的bug变成回归测试，你就越能更广泛地表达系统上的实际需求，并防止它们在未来反复出现。</li>
+<li>也要测试系统的非功能方面。非功能需求指的是与功能没有严格联系的系统质量–如吞吐量、延迟、资源消耗、最低负载要求，以及其他可观察的属性。自动化这些需求可以让你把它们变成设计和实现需求的一部分，这样在对系统进行修改的时候，它们总是被考虑在内。</li>
+</ul>
+<p>自动化测试正在成为提供具有竞争力和更高质量的软件系统的关键工具，特别是在我们今天看到的现代软件工程实践中。鉴于我们正在构建和部署的系统的复杂性和关键性，很难看到我们如何能够在没有自动化测试的情况下向前管理。</p>
+<h1 id="现代测试技术"><a href="#现代测试技术" class="headerlink" title="现代测试技术"></a>现代测试技术</h1><p>假设你已经实现了自动化测试，你有UATs、系统测试、集成测试和单元测试，你可以运行。你也有一个回归测试套件和非功能需求表达为自动化测试。你如何将你的测试实践带到现代软件工程时代？</p>
+<p>特别是对于那些在云中作为分布式系统开发和部署的软件，在像Kubernetes这样的环境中协调，控制平面分别管理工作负载和资源的放置和管理，公共云供应商为网络存在和地理多样性提供管理资源，应用程序的架构变得越来越复杂。测试这些应用程序变得非常困难和昂贵。</p>
+<p>以下是管理这种复杂性需要考虑的几件事，并确保你能跟上现代大规模全球可用服务的需求：</p>
+<ul>
+<li>投资于持续集成和持续交付。在你的软件投入生产之前进行测试，只能让你的测试达到一定程度，但生产的现实情况在开发中很少被预料到。有一种方法可以将在集成环境中测试过的代码以可控和安全的方式持续地运送到生产中，这是能够使你的解决方案适应生产的现实的关键。因为你已经投资了测试，你在生产中发现的错误可以被表述为失败的测试，并自动通过你的持续集成（CI）和持续部署（CD）管道运行。这减少了上市时间，缩短了工程团队的反馈周期。</li>
+<li>投资于模糊测试和自动故障查找。有大量的解决方案可以在你依赖的系统中自动注入故障，无论是远程API服务还是内部组件。Fuzzing是一种测试方法，它使用随机生成的输入来发现潜在的安全漏洞或意外问题。虽然不能取代手写的测试，但这些测试可以增强你为你的系统编写的需求驱动的测试，以便在开发过程的早期发现潜在的故障。</li>
+<li>使用尽可能多的生产暴露来测试你的系统。在生产中进行小规模的测试（也被称为金丝雀测试），可以让你的系统得到最真实的测试。将生产中的测试作为应用程序交付和部署管道中的一个关键环节。</li>
+<li>利用人工智能和LLMs来增加你的测试覆盖率。如果你能获得GitHub Copilot或类似的技术，考虑使用它们（在咨询了法律顾问关于这对你的公司和代码的影响后）来填补你现有系统的单元、集成和系统测试。或者，如果你开始使用TDD，考虑用AI自动化来减少内循环中开发这些测试的时间。毕竟，如果开发人员花在编码测试上的时间是一个问题，那么AI应该是减少这种成本的一个好方法。）</li>
+</ul>
+<p>随着系统变得越来越复杂，因为它们是分布式的，处理的规模也越来越大，自动化测试对于确保我们正在开发的各种交互式系统的质量和正确性只会更加重要。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>编写和维护有效的自动化测试，代表软件系统的关键要求，正成为今天软件工程专业人员的追求和重要技能。拥有测试专家的日子已经一去不复返了，就像现在每个人都是开发人员和运营工程师一样。现代软件工程要求每个软件工程从业者都知道并理解自动化测试的价值，它如何影响我们交付给客户的软件系统的稳健性、质量和有效性。</p>
+<p>在一天结束时，软件工程是关于建立正确的东西来解决正确的问题。知道解决这个问题的要求是什么，是能够有效解决这个问题的关键。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">July 2, 2023&nbsp;&nbsp;23:23:53</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2023-07-02-modern-software-engineering-part-2-testing.html">https://ismdeep.github.io/posts/2023-07-02-modern-software-engineering-part-2-testing.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Development/">#Development</a>
+                        
+                            <a href="/tags/Repost/">#Repost</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

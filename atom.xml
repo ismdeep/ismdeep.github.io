@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>ismdeep</title>
+  
+  <subtitle>Enjoy programming and build awesome stuff.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ismdeep.github.io/"/>
+  <updated>2026-02-20T14:13:26.902Z</updated>
+  <id>https://ismdeep.github.io/</id>
+  
+  <author>
+    <name>ismdeep</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>架构设计十大维度模型</title>
+    <link href="https://ismdeep.github.io/posts/2026-02-20-architecture-10-d-model.html"/>
+    <id>https://ismdeep.github.io/posts/2026-02-20-architecture-10-d-model.html</id>
+    <published>2026-02-20T14:08:04.000Z</published>
+    <updated>2026-02-20T14:13:26.902Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-业务维度（Business-Fit）"><a href="#1-业务维度（Business-Fit）" class="headerlink" title="1 业务维度（Business Fit）"></a>1 业务维度（Business Fit）</h1><h2 id="1️⃣-业务契合度"><a href="#1️⃣-业务契合度" class="headerlink" title="1️⃣ 业务契合度"></a>1️⃣ 业务契合度</h2><p><strong>核心问题：</strong></p><ul><li>是否真正解决业务痛点？</li><li>是否符合产品目标？</li><li>是否支持未来 3–5 年规划？</li></ul><p><strong>常见风险：</strong></p><ul><li>技术驱动，而不是业务驱动</li><li>为“炫技”而设计</li></ul><h1 id="2-功能结构维度（Functional-Structure）"><a href="#2-功能结构维度（Functional-Structure）" class="headerlink" title="2 功能结构维度（Functional Structure）"></a>2 功能结构维度（Functional Structure）</h1><h2 id="2️⃣-模块划分合理性"><a href="#2️⃣-模块划分合理性" class="headerlink" title="2️⃣ 模块划分合理性"></a>2️⃣ 模块划分合理性</h2><ul><li>是否职责清晰？</li><li>是否低耦合？</li><li>是否支持扩展？</li></ul><p>常见模式：</p><ul><li>分层架构</li><li>DDD 领域划分</li><li>插件式结构</li></ul><h1 id="3-非功能性维度（Quality-Attributes）"><a href="#3-非功能性维度（Quality-Attributes）" class="headerlink" title="3 非功能性维度（Quality Attributes）"></a>3 非功能性维度（Quality Attributes）</h1><p>这是架构的核心。</p><h2 id="3️⃣-性能（Performance）"><a href="#3️⃣-性能（Performance）" class="headerlink" title="3️⃣ 性能（Performance）"></a>3️⃣ 性能（Performance）</h2><ul><li>QPS &#x2F; 并发能力</li><li>P99 延迟</li><li>IO 模型</li><li>是否有缓存策略</li></ul><h2 id="4️⃣-可扩展性（Scalability）"><a href="#4️⃣-可扩展性（Scalability）" class="headerlink" title="4️⃣ 可扩展性（Scalability）"></a>4️⃣ 可扩展性（Scalability）</h2><ul><li>是否支持水平扩展？</li><li>是否无状态？</li><li>是否支持多实例部署？</li></ul><p>例如监控场景常用：</p><ul><li>Prometheus 的拉模型支持横向扩展</li></ul><h2 id="5️⃣-可用性（Availability）"><a href="#5️⃣-可用性（Availability）" class="headerlink" title="5️⃣ 可用性（Availability）"></a>5️⃣ 可用性（Availability）</h2><ul><li>是否存在单点？</li><li>是否支持故障转移？</li><li>是否自动恢复？</li></ul><h2 id="6️⃣-一致性与数据可靠性（Consistency）"><a href="#6️⃣-一致性与数据可靠性（Consistency）" class="headerlink" title="6️⃣ 一致性与数据可靠性（Consistency）"></a>6️⃣ 一致性与数据可靠性（Consistency）</h2><ul><li>强一致 or 最终一致？</li><li>是否支持幂等？</li><li>是否考虑数据丢失场景？</li></ul><h2 id="7️⃣-安全性（Security）"><a href="#7️⃣-安全性（Security）" class="headerlink" title="7️⃣ 安全性（Security）"></a>7️⃣ 安全性（Security）</h2><ul><li>认证（OAuth2 &#x2F; Token）</li><li>授权（RBAC）</li><li>传输加密（TLS）</li><li>密钥管理（如 HashiCorp Vault）</li></ul><h1 id="4-可执行性维度（Feasibility）"><a href="#4-可执行性维度（Feasibility）" class="headerlink" title="4 可执行性维度（Feasibility）"></a>4 可执行性维度（Feasibility）</h1><h2 id="8️⃣-可落地性"><a href="#8️⃣-可落地性" class="headerlink" title="8️⃣ 可落地性"></a>8️⃣ 可落地性</h2><p>包括：</p><ul><li>技术成熟度</li><li>团队能力匹配度</li><li>时间窗口</li><li>成本可控性</li><li>运维复杂度</li></ul><p>评估方式：</p><table><thead><tr><th>项目</th><th>低</th><th>中</th><th>高</th></tr></thead><tbody><tr><td>技术风险</td><td>✔</td><td></td><td></td></tr><tr><td>实施难度</td><td></td><td>✔</td><td></td></tr><tr><td>运维复杂度</td><td></td><td></td><td>✔</td></tr></tbody></table><h1 id="5-运维与运行维度（Operability）"><a href="#5-运维与运行维度（Operability）" class="headerlink" title="5 运维与运行维度（Operability）"></a>5 运维与运行维度（Operability）</h1><h2 id="9️⃣-可观测性-运维能力"><a href="#9️⃣-可观测性-运维能力" class="headerlink" title="9️⃣ 可观测性 &amp; 运维能力"></a>9️⃣ 可观测性 &amp; 运维能力</h2><ul><li>是否有日志？</li><li>是否有 metrics？</li><li>是否有 trace？</li><li>是否支持健康检查？</li></ul><p>常见组合：</p><ul><li>Grafana + Prometheus</li></ul><h1 id="6-演进与生命周期维度（Evolution）"><a href="#6-演进与生命周期维度（Evolution）" class="headerlink" title="6 演进与生命周期维度（Evolution）"></a>6 演进与生命周期维度（Evolution）</h1><h2 id="🔟-可演进能力"><a href="#🔟-可演进能力" class="headerlink" title="🔟 可演进能力"></a>🔟 可演进能力</h2><ul><li>是否支持灰度发布？</li><li>是否支持版本升级？</li><li>是否支持模块替换？</li><li>是否支持架构平滑升级？</li></ul><p>这是长期系统最重要的维度。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-业务维度（Business-Fit）&quot;&gt;&lt;a href=&quot;#1-业务维度（Business-Fit）&quot; class=&quot;headerlink&quot; title=&quot;1 业务维度（Business Fit）&quot;&gt;&lt;/a&gt;1 业务维度（Business Fit）&lt;/h1&gt;&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="System Design" scheme="https://ismdeep.github.io/tags/System-Design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【推荐】【转】挑战每秒百万请求：事情远比你想象的复杂</title>
+    <link href="https://ismdeep.github.io/posts/2026-02-15-repost-lets-handle-1-million-requests-per-second.html"/>
+    <id>https://ismdeep.github.io/posts/2026-02-15-repost-lets-handle-1-million-requests-per-second.html</id>
+    <published>2026-02-15T03:23:05.000Z</published>
+    <updated>2026-02-20T14:13:26.902Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.youtube.com/watch?v=W4EwfEU8CGA">https://www.youtube.com/watch?v=W4EwfEU8CGA</a></p><iframe width="560" height="315" src="https://www.youtube.com/embed/W4EwfEU8CGA?si=F9hhDyj4dyUaL8Em" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=W4EwfEU8CGA&quot;&gt;https://www.youtube.com/watch?v=W4EwfEU8CGA&lt;/a&gt;&lt;/p&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315
+      
+    
+    </summary>
+    
+    
+      <category term="System Design" scheme="https://ismdeep.github.io/tags/System-Design/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>想到什么就写什么</title>
+    <link href="https://ismdeep.github.io/posts/2026-02-13-just-write-whatever-comes-to-mind.html"/>
+    <id>https://ismdeep.github.io/posts/2026-02-13-just-write-whatever-comes-to-mind.html</id>
+    <published>2026-02-13T06:37:48.000Z</published>
+    <updated>2026-02-20T14:13:26.902Z</updated>
+    
+    <content type="html"><![CDATA[<p>我常常觉得，自己的大脑像一间没有门的仓库。风从四面八方吹进来，带着声音、气味、画面、问题，还有一些莫名其妙的念头。它们堆在一起，不分轻重缓急，也不讲逻辑顺序。于是我只能做一件事——想到什么，就写什么。</p><p>有人说我分享欲太强。</p><p>看到一片晚霞，我会拍下来发给朋友；读到一句喜欢的话，我会立刻摘抄下来，甚至配上自己的理解；遇到一个新奇的技术点，我会忍不住整理成笔记，恨不得讲给每一个愿意听的人。好像如果不说出来，那些想法就会在心里发酵、膨胀，最后挤得我喘不过气。</p><p>我确实有很多想法。</p><p>走在路上，我会想：如果路灯能根据人流自动调节亮度，是不是更节能？刷到一条新闻，我会想：这背后有没有更深层的结构性原因？听到别人争论，我会想：如果换一个视角，是不是问题本身就不存在了？</p><p>有时候我自己也觉得累。脑子像一直在运行的服务器，负载居高不下，CPU 风扇呼呼地转。可奇怪的是，我并不想让它停下来。因为正是这些纷乱的想法，让我感觉自己是真实地活着。</p><p>写作，对我来说，是一种整理。</p><p>想到什么就写什么，并不是毫无章法的倾倒，而是一种和自己对话的方式。那些看似零散的片段，在纸上慢慢排队，像被编号的文件；那些模糊的情绪，在句子里找到边界；那些飘忽的灵感，也因为被记录而获得重量。</p><p>分享，则是另一种确认。</p><p>当我把想法讲给别人听时，我并不是单纯地输出。我在等待回应——一个点头，一句反问，一次不同的视角。每一次交流，都像给原本单线程的思考增加了并发处理能力。原来我的想法并不孤单，它可以被扩展、被修正，甚至被推翻。那种被理解或被挑战的感觉，让我兴奋。</p><p>当然，也有人不理解。</p><p>他们觉得我太爱表达，太容易激动，太喜欢把一件小事上升到宏大的意义。但我慢慢学会接受这一点。分享欲强，不是缺点，它只是说明我对世界保持着好奇；想法多，不是负担，它只是证明我还愿意思考。</p><p>我也开始学着筛选。不是所有的念头都要立刻说出口，不是每一个灵感都需要观众。有些想法，适合在深夜的台灯下慢慢打磨；有些分享，只需要写给未来的自己。</p><p>想到什么就写什么，其实是一种勇气。</p><p>它意味着承认自己的混乱，也意味着相信自己的真实。哪怕不够完美，不够成熟，甚至不够严谨，我也愿意把那些未经修饰的思想拿出来，让它们在光下呼吸。</p><p>也许有一天，我的想法会变得更少、更沉稳。但在那之前，我愿意继续这样生活——</p><p>看到什么就思考，想到什么就记录，感受到什么就表达。</p><p>那么，想到什么就写什么吧。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我常常觉得，自己的大脑像一间没有门的仓库。风从四面八方吹进来，带着声音、气味、画面、问题，还有一些莫名其妙的念头。它们堆在一起，不分轻重缓急，也不讲逻辑顺序。于是我只能做一件事——想到什么，就写什么。&lt;/p&gt;
+&lt;p&gt;有人说我分享欲太强。&lt;/p&gt;
+&lt;p&gt;看到一片晚霞，我会拍下
+      
+    
+    </summary>
+    
+    
+      <category term="Thinking" scheme="https://ismdeep.github.io/tags/Thinking/"/>
+    
+      <category term="Life" scheme="https://ismdeep.github.io/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rocky Linux</title>
+    <link href="https://ismdeep.github.io/posts/2026-02-10-rocky-linux.html"/>
+    <id>https://ismdeep.github.io/posts/2026-02-10-rocky-linux.html</id>
+    <published>2026-02-10T12:03:55.000Z</published>
+    <updated>2026-02-20T14:13:26.902Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-安装-epel-源"><a href="#1-安装-epel-源" class="headerlink" title="1 安装 epel 源"></a>1 安装 epel 源</h1><pre><code>sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm</code></pre><h1 id="2-更新索引"><a href="#2-更新索引" class="headerlink" title="2 更新索引"></a>2 更新索引</h1><pre><code>sudo dnf clean all &amp;&amp; sudo dnf makecache</code></pre><h1 id="3-安装-dnf-plugins-core"><a href="#3-安装-dnf-plugins-core" class="headerlink" title="3 安装 dnf-plugins-core"></a>3 安装 dnf-plugins-core</h1><pre><code>sudo dnf install -y dnf-plugins-core</code></pre><h1 id="4-安装-htop"><a href="#4-安装-htop" class="headerlink" title="4 安装 htop"></a>4 安装 htop</h1><pre><code>sudo dnf install -y htop</code></pre><h1 id="5-安装-docker-ce"><a href="#5-安装-docker-ce" class="headerlink" title="5 安装 docker-ce"></a>5 安装 docker-ce</h1><pre><code>sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm &amp;&amp; \sudo dnf clean all &amp;&amp; sudo dnf makecache &amp;&amp; \sudo dnf install -y dnf-plugins-coresudo dnf config-manager --add-repo https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo &amp;&amp; \sudo sed \  -i \  &#39;s+https://download.docker.com/linux/centos+https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos+g&#39; \  /etc/yum.repos.d/docker-ce.repo &amp;&amp; \sudo dnf clean all &amp;&amp; sudo dnf makecache &amp;&amp; \sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin &amp;&amp; \sudo cp /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose &amp;&amp; \sudo systemctl enable docker --now</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-安装-epel-源&quot;&gt;&lt;a href=&quot;#1-安装-epel-源&quot; class=&quot;headerlink&quot; title=&quot;1 安装 epel 源&quot;&gt;&lt;/a&gt;1 安装 epel 源&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;sudo dnf install -y https:
+      
+    
+    </summary>
+    
+    
+      <category term="Rocky" scheme="https://ismdeep.github.io/tags/Rocky/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】什么是“中式逻辑”为什么中国社会充满诡辩？</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-30-repost-chinese-style-philosophy.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-30-repost-chinese-style-philosophy.html</id>
+    <published>2026-01-30T12:19:08.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.youtube.com/watch?v=napMI1FAJls">https://www.youtube.com/watch?v=napMI1FAJls</a></p><iframe width="560" height="315" src="https://www.youtube.com/embed/napMI1FAJls?si=Mc626QrSRTCJLOyM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=napMI1FAJls&quot;&gt;https://www.youtube.com/watch?v=napMI1FAJls&lt;/a&gt;&lt;/p&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315
+      
+    
+    </summary>
+    
+    
+      <category term="Thinking" scheme="https://ismdeep.github.io/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】为什么中国人总爱拿“辩证”来说事，中国人所谓的“辩证”，到底在解决问题，还是在和稀泥</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-30-repost-chinese-style-dialectical-thinking.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-30-repost-chinese-style-dialectical-thinking.html</id>
+    <published>2026-01-30T12:16:25.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.youtube.com/watch?v=MFn2J1kH7Oc">https://www.youtube.com/watch?v=MFn2J1kH7Oc</a></p><iframe width="560" height="315" src="https://www.youtube.com/embed/MFn2J1kH7Oc?si=y_-gNRBsRhGZ6M9H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=MFn2J1kH7Oc&quot;&gt;https://www.youtube.com/watch?v=MFn2J1kH7Oc&lt;/a&gt;&lt;/p&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315
+      
+    
+    </summary>
+    
+    
+      <category term="Thinking" scheme="https://ismdeep.github.io/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【推荐】【转】软件与人生的不可变法则</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-30-repost-the-immutable-laws-of-software-and-life.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-30-repost-the-immutable-laws-of-software-and-life.html</id>
+    <published>2026-01-30T00:57:12.000Z</published>
+    <updated>2026-02-20T14:13:26.902Z</updated>
+    
+    <content type="html"><![CDATA[<p>The Immutable Laws of Software and Life: Code Accordingly - Cory House - NDC Copenhagen 2025</p><p><a href="https://www.youtube.com/watch?v=QktFsc4LuoI">https://www.youtube.com/watch?v=QktFsc4LuoI</a></p><iframe width="560" height="315" src="https://www.youtube.com/embed/QktFsc4LuoI?si=C5nCye_9wpaLMXn_" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;The Immutable Laws of Software and Life: Code Accordingly - Cory House - NDC Copenhagen 2025&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watc
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+      <category term="Life" scheme="https://ismdeep.github.io/tags/Life/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DevOps 工程师推荐阅读清单</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-25-recommended-posts-for-devops-engineers.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-25-recommended-posts-for-devops-engineers.html</id>
+    <published>2026-01-25T12:30:45.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-视频"><a href="#1-视频" class="headerlink" title="1 视频"></a>1 视频</h1><ul><li><a href="https://www.youtube.com/watch?v=8PEsi2N1gc4">來聊 DevOps，DevOps 之父 Patrick 是如何定義 DevOps 的？</a></li><li><a href="https://www.youtube.com/watch?v=M13ayItNeCM">DevOps： 實作 Walking Skeleton 貫徹「工作三步法」來在 Day 1 開拓團隊成員的探索之心</a></li></ul><h1 id="2-书籍"><a href="#2-书籍" class="headerlink" title="2 书籍"></a>2 书籍</h1><ul><li><a href="https://www.amazon.com/DevOps-Handbook-World-Class-Reliability-Organizations/dp/1942788002">The DevOps Handbook</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-视频&quot;&gt;&lt;a href=&quot;#1-视频&quot; class=&quot;headerlink&quot; title=&quot;1 视频&quot;&gt;&lt;/a&gt;1 视频&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=8PEsi2N1gc4&quot;&gt;來聊
+      
+    
+    </summary>
+    
+    
+      <category term="DevOps" scheme="https://ismdeep.github.io/tags/DevOps/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】【一席】沈辛成：这些被应试教育筛选出来的能力，成了AI时代不重要的能力。</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-25-repost-yixi-shen-xincheng-exam-oriented-education-ai-era.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-25-repost-yixi-shen-xincheng-exam-oriented-education-ai-era.html</id>
+    <published>2026-01-25T12:27:31.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.youtube.com/watch?v=uVjmBVJvP8s">https://www.youtube.com/watch?v=uVjmBVJvP8s</a></p><iframe width="560" height="315" src="https://www.youtube.com/embed/uVjmBVJvP8s?si=6-JmH0hgr8EBJZfH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=uVjmBVJvP8s&quot;&gt;https://www.youtube.com/watch?v=uVjmBVJvP8s&lt;/a&gt;&lt;/p&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315
+      
+    
+    </summary>
+    
+    
+      <category term="AI" scheme="https://ismdeep.github.io/tags/AI/"/>
+    
+      <category term="Education" scheme="https://ismdeep.github.io/tags/Education/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转】一文读懂 Skills｜从概念到实操的完整指南</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-25-repost-bytedance-tech-team-introduction-to-skills.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-25-repost-bytedance-tech-team-introduction-to-skills.html</id>
+    <published>2026-01-25T12:16:28.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://mp.weixin.qq.com/s/Bl4ODUxvwO8pYu9nXVmjuQ">https://mp.weixin.qq.com/s/Bl4ODUxvwO8pYu9nXVmjuQ</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/Bl4ODUxvwO8pYu9nXVmjuQ&quot;&gt;https://mp.weixin.qq.com/s/Bl4ODUxvwO8pYu9nXVmjuQ&lt;/a&gt;&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="AI" scheme="https://ismdeep.github.io/tags/AI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2026年 AI 工程师发展路线图：AI 时代如何通往高级系统架构师</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-17-the-2026-ai-engineer-roadmap.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-17-the-2026-ai-engineer-roadmap.html</id>
+    <published>2026-01-17T11:41:06.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<p>AI行业的价值重心正从构建简单的API封装（“玩具”）迅速转向开发复杂的、生产级的自主系统。<br>目前市场充斥着基于大型语言模型的浅层应用，这些应用缺乏护城河，容易被大型科技公司取代。</p><p>为了在未来保持竞争力并获得高薪（报告中指出“提示工程师”与“系统架构师”之间存在15万美元的薪资差距），工程师必须深入理解并实践系统编排、内存管理和本地推理等核心能力。</p><p>该路线图提出了一个由五个难度递增的项目组成的实践蓝图，旨在帮助工程师构建一份能够证明其具备处理生产环境复杂性能力的强大作品集。<br>这些项目涵盖了从边缘AI和资源优化，到智能体循环、多模态AI集成，再到隐私优先的个人化AI助手和企业级的自主工作流编排。</p><p>真正的职业保障源于专业知识和构建真实系统的能力。成功的关键在于立即行动、公开构建并记录过程，而非停留在理论学习。<br>只有那些将知识转化为实际生产系统的人，才能成为未来企业迫切需要、不可替代的核心人才。</p><p>核心观点：从“封装者”到“架构师”的转变。<br>大多数开发者正在构建的只是“玩具”，而世界需要的是“系统”。为了实现职业上的突破，工程师必须摆脱“教程地狱”的舒适区，转向更具深度和复杂性的挑战。</p><p>五个生产级项目：通往大师之路<br>以下五个项目（内容较多，见评论区）按复杂性排序，旨在构建一个能够证明工程师具备驾驭生产级复杂性能力的作品集。</p><p>前进之路：从思考者到实践者</p><blockquote><p>2026年的残酷真相</p><ul><li>可替代者: 那些继续构建简单封装层的开发者。</li><li>不可替代者: 那些交付并部署自主系统的工程师。</li><li>两者之间的差距，仅仅是完成这五个项目的决心和行动。<br>立即行动</li><li>选择一个项目开始: 新手从项目一开始，经验丰富的工程师可以直接挑战项目五。关键在于“开始”。</li><li>立即构建: 利用周末时间开始构建，因为市场奖励的是交付成果，而不是学习过程。</li><li>完整记录: 记录架构决策、失败与恢复过程、自我修正循环以及生产部署的全部细节。</li><li>公开构建: 在公共平台上分享进展，这有助于建立个人品牌并获得反馈。<br>成果的差异</li><li>绝大多数人（90%）在阅读后将无所作为，继续构建相同的封装应用。</li><li>而另外10%的行动者将交付出真正的系统，他们将获得面试机会、工作录用和职业发展的主动权。</li></ul></blockquote><p>总之：<br>选择很简单：要么成为企业迫切需要聘请的架构师，要么被时代淘汰。<br>专业知识是唯一剩下的职业保障。生产系统是唯一重要的作品集。现在，去构建一个能在现实中存活下来的东西。</p><p>帖子：<a href="https://x.com/rohit4verse/status/2009663737469542875">https://x.com/rohit4verse/status/2009663737469542875</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;AI行业的价值重心正从构建简单的API封装（“玩具”）迅速转向开发复杂的、生产级的自主系统。&lt;br&gt;目前市场充斥着基于大型语言模型的浅层应用，这些应用缺乏护城河，容易被大型科技公司取代。&lt;/p&gt;
+&lt;p&gt;为了在未来保持竞争力并获得高薪（报告中指出“提示工程师”与“系统架构师”
+      
+    
+    </summary>
+    
+    
+      <category term="Development" scheme="https://ismdeep.github.io/tags/Development/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GPG 常用命令</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-06-gpg-commands.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-06-gpg-commands.html</id>
+    <published>2026-01-06T06:35:43.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-密钥管理"><a href="#1-密钥管理" class="headerlink" title="1 密钥管理"></a>1 密钥管理</h1><h2 id="1-1-生成密钥"><a href="#1-1-生成密钥" class="headerlink" title="1.1 生成密钥"></a>1.1 生成密钥</h2><p>交互式生成密钥：</p><pre><code>gpg --full-generate-key</code></pre><p>无交互式生成密钥（以 Ed25519 为例）：</p><pre><code>gpg --batch --yes \  --pinentry-mode loopback \  --passphrase &#39;&#39; \  --quick-generate-key &quot;Your Name &lt;you@example.com&gt;&quot; ed25519 sign 0</code></pre><p>无交互式生成密钥（以 RSA 4096 为例）：</p><pre><code>gpg --batch --yes \  --pinentry-mode loopback \  --passphrase &#39;&#39; \  --quick-generate-key &quot;Your Name &lt;you@example.com&gt;&quot; rsa4096 sign 0</code></pre><h2 id="1-2-查看密钥"><a href="#1-2-查看密钥" class="headerlink" title="1.2 查看密钥"></a>1.2 查看密钥</h2><p>查看公钥：</p><pre><code>gpg --list-keys</code></pre><p>查看私钥：</p><pre><code>gpg --list-secret-keys</code></pre><h2 id="1-3-删除密钥"><a href="#1-3-删除密钥" class="headerlink" title="1.3 删除密钥"></a>1.3 删除密钥</h2><p>删除私钥：</p><pre><code>gpg --delete-secret-keys &lt;KEY_ID&gt;</code></pre><p>删除私钥（无交互式）：</p><pre><code>gpg --batch --yes --delete-secret-keys &lt;KEY_ID&gt;</code></pre><p>删除公钥：</p><pre><code>gpg --delete-keys &lt;KEY_ID&gt;</code></pre><p>删除公钥（无交互式）：</p><pre><code>gpg --batch --yes --delete-keys &lt;KEY_ID&gt;</code></pre><h1 id="2-导入导出"><a href="#2-导入导出" class="headerlink" title="2 导入导出"></a>2 导入导出</h1><h2 id="2-1-导出公钥"><a href="#2-1-导出公钥" class="headerlink" title="2.1 导出公钥"></a>2.1 导出公钥</h2><pre><code>gpg --armor --export &lt;KEY_ID&gt;</code></pre><h2 id="2-2-导出私钥"><a href="#2-2-导出私钥" class="headerlink" title="2.2 导出私钥"></a>2.2 导出私钥</h2><pre><code>gpg --armor --export-secret-keys &lt;KEY_ID&gt;</code></pre><h2 id="2-3-导入公钥"><a href="#2-3-导入公钥" class="headerlink" title="2.3 导入公钥"></a>2.3 导入公钥</h2><pre><code>gpg --import gpg.public.txt</code></pre><h2 id="2-4-导入私钥"><a href="#2-4-导入私钥" class="headerlink" title="2.4 导入私钥"></a>2.4 导入私钥</h2><pre><code>gpg --import gpg.private.txt</code></pre><h1 id="3-信任与指纹"><a href="#3-信任与指纹" class="headerlink" title="3 信任与指纹"></a>3 信任与指纹</h1><h2 id="3-1-查看指纹"><a href="#3-1-查看指纹" class="headerlink" title="3.1 查看指纹"></a>3.1 查看指纹</h2><pre><code>gpg --fingerprint &lt;KEY_ID&gt;</code></pre><h2 id="3-2-设置密钥为“绝对信任”"><a href="#3-2-设置密钥为“绝对信任”" class="headerlink" title="3.2 设置密钥为“绝对信任”"></a>3.2 设置密钥为“绝对信任”</h2><pre><code>echo &#39;&lt;KEY_ID&gt;:6:&#39; | gpg --import-ownertrust</code></pre><h1 id="4-Git-场景"><a href="#4-Git-场景" class="headerlink" title="4 Git 场景"></a>4 Git 场景</h1><h2 id="4-1-配置-Git-使用-GPG"><a href="#4-1-配置-Git-使用-GPG" class="headerlink" title="4.1 配置 Git 使用 GPG"></a>4.1 配置 Git 使用 GPG</h2><pre><code>git config commit.gpgsign truegit config user.signingkey &lt;KEY_ID&gt;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-密钥管理&quot;&gt;&lt;a href=&quot;#1-密钥管理&quot; class=&quot;headerlink&quot; title=&quot;1 密钥管理&quot;&gt;&lt;/a&gt;1 密钥管理&lt;/h1&gt;&lt;h2 id=&quot;1-1-生成密钥&quot;&gt;&lt;a href=&quot;#1-1-生成密钥&quot; class=&quot;headerlink&quot; 
+      
+    
+    </summary>
+    
+    
+      <category term="GPG" scheme="https://ismdeep.github.io/tags/GPG/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>中国式「辩证看问题」</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-06-chinese-dialectical-thinking.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-06-chinese-dialectical-thinking.html</id>
+    <published>2026-01-05T16:44:54.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<p>很多中国人一开口讨论问题，几乎都会下意识加一句：</p><p><strong>“要辩证地看问题。”</strong></p><p>这句话听起来成熟、客观、见过世面，像是在提醒你不要极端、不要简单化。可我后来越来越警惕它，因为在现实语境里，它经常不是用来把问题讲清楚的，而是<strong>用来把问题重新讲糊的</strong>。</p><p>它不像一种思考方法，更像一种<strong>生存语言</strong>。</p><h1 id="一、真正的辩证"><a href="#一、真正的辩证" class="headerlink" title="一、真正的辩证"></a>一、真正的辩证</h1><p>真正的辩证并不高深，本质上只有四个动作：</p><ol><li><p><strong>把事情拆开说</strong></p><p>先搞清楚：你到底在讨论哪一件具体的事？不拆，问题就永远只能停留在情绪和宏观上。</p></li><li><p><strong>抓主要矛盾，排优先级</strong></p><p>现实中原因永远不止一个，但你必须回答：现在最关键、最能解释问题的是什么？</p></li><li><p><strong>下判断，划边界</strong></p><p>可以承认复杂，但必须回答：什么是对的？什么是错的？谁该负责？</p></li><li><p><strong>给可验证的标准</strong></p><p>怎么算改成了？多久算有效？没有标准，就没有复盘；没有复盘，就没有纠错。</p></li></ol><p>真正的辩证，是为了<strong>让问题可解决</strong>。</p><p>而很多中国语境下的“辩证”，恰恰相反。</p><h1 id="二、中国式“辩证”"><a href="#二、中国式“辩证”" class="headerlink" title="二、中国式“辩证”"></a>二、中国式“辩证”</h1><p>中国式“辩证”有一套非常稳定的使用方式：</p><ul><li>不拆问题，而是把所有因素混在一起。</li><li>不谈主次，而是说“都很重要”。</li><li>不下结论，而是说“都有道理”。</li><li>不设标准，而是说“情况复杂”。</li></ul><p>听上去很全面，实际上效果只有一个：</p><blockquote><p><strong>让任何人都不用负责，让任何改变都不必发生。</strong></p></blockquote><p>这不是思想问题，而是<strong>功能问题</strong>。</p><h1 id="三、为什么这种“辩证”在中国这么常见？"><a href="#三、为什么这种“辩证”在中国这么常见？" class="headerlink" title="三、为什么这种“辩证”在中国这么常见？"></a>三、为什么这种“辩证”在中国这么常见？</h1><p>它不是因为中国人逻辑差，也不是民族性问题，而是被环境长期训练出来的。我把它拆成三层。</p><h2 id="第一层：生存层——不确定环境下的自保本能"><a href="#第一层：生存层——不确定环境下的自保本能" class="headerlink" title="第一层：生存层——不确定环境下的自保本能"></a>第一层：生存层——不确定环境下的自保本能</h2><p>在一个变数多、风险高的环境里，人最先学会的不是讲真话，而是：</p><ul><li>话不要说死</li><li>立场不要站绝</li><li>判断不要落纸</li></ul><p>因为一旦说死，环境一变，你就成了那个被追责的人。</p><p>久而久之，这种自保会被包装成：<br><strong>成熟、圆融、辩证。</strong></p><h2 id="第二层：权责层——谁清晰，谁危险"><a href="#第二层：权责层——谁清晰，谁危险" class="headerlink" title="第二层：权责层——谁清晰，谁危险"></a>第二层：权责层——谁清晰，谁危险</h2><p>这是最关键的一层。</p><p>你想象一个环境：</p><ul><li>功劳可以共享</li><li>责任却会精准落人</li><li>甚至谁把问题说清楚，谁就成了“问题本身”</li></ul><p>在这种结构下，语言一定会发生变化——<br>它会自动向<strong>模糊</strong>演化。</p><p>模糊的好处只有一个：<br><strong>责任可以飘起来。</strong></p><p>而“辩证地看问题”，正是最安全、最体面的模糊方式。</p><h2 id="第三层：表达层——只训练姿态，不训练推理"><a href="#第三层：表达层——只训练姿态，不训练推理" class="headerlink" title="第三层：表达层——只训练姿态，不训练推理"></a>第三层：表达层——只训练姿态，不训练推理</h2><p>很多人从小被训练的是：</p><ul><li>不要极端</li><li>要全面</li><li>要顾全大局</li></ul><p>但很少被训练：</p><ul><li>如何拆问题</li><li>如何找主因</li><li>如何下可验证的判断</li></ul><p>于是表达变成了一种姿态管理，而不是推理过程。<br>话说得很像那么回事，但永远落不了地。</p><h1 id="四、一个典型场景：为什么“以前一直这样”这么好用？"><a href="#四、一个典型场景：为什么“以前一直这样”这么好用？" class="headerlink" title="四、一个典型场景：为什么“以前一直这样”这么好用？"></a>四、一个典型场景：为什么“以前一直这样”这么好用？</h1><p>我以前在厂里遇到过一个很典型的例子：标书。</p><p>标书是营销的核心交付物，却长期由行政部门“帮忙”完成。<br> 结果是：</p><ul><li>推进靠关系</li><li>延误找不到真正责任人</li><li>摩擦变成常态</li></ul><p>我提出机制问题，领导最常用的一句话是：</p><p><strong>“以前一直这样。”</strong></p><p>这句话表面在讲经验，实际上是一句极其高效的<strong>责任溶解话术</strong>。</p><p>它的真正含义是：<br>别动结构，动结构会产生冲突。</p><p>而中国式“辩证”，正是这句话的语言配套。</p><h1 id="五、为什么“会和稀泥”的人反而更吃香？"><a href="#五、为什么“会和稀泥”的人反而更吃香？" class="headerlink" title="五、为什么“会和稀泥”的人反而更吃香？"></a>五、为什么“会和稀泥”的人反而更吃香？</h1><p>因为在制度不承担责任的地方，<strong>系统最怕的不是效率低，而是冲突失控</strong>。</p><p>和稀泥的人：</p><ul><li>不拆雾</li><li>不点名</li><li>不追责</li><li>但能让事情继续“凑合运转”</li></ul><p>从系统角度看，他是润滑油。</p><p>于是奖励机制就变成：</p><ul><li>奖励模糊</li><li>惩罚清晰</li><li>奖励圆滑</li><li>惩罚较真</li></ul><p>久而久之，“辩证地看问题”就不再是一种方法，而变成了一种<strong>安全话术</strong>。</p><h1 id="六、中国式辩证的本质"><a href="#六、中国式辩证的本质" class="headerlink" title="六、中国式辩证的本质"></a>六、中国式辩证的本质</h1><p>它的核心功能不是解决问题，而是：</p><ul><li>降温</li><li>维稳</li><li>保护关系</li><li>让责任不落地</li></ul><p>所以我后来才意识到一个很重要的区分：</p><blockquote><p><strong>真正的辩证，是为了让系统纠错；<br>中国式辩证，往往是为了让系统继续不改。</strong></p></blockquote><h1 id="七、非常实用的判断标准"><a href="#七、非常实用的判断标准" class="headerlink" title="七、非常实用的判断标准"></a>七、非常实用的判断标准</h1><p>以后只要有人跟你说：</p><p><strong>“这个事情要辩证地看。”</strong></p><p>你心里直接过三问：</p><ol><li><strong>主要矛盾是什么？</strong></li><li><strong>责任链在哪里？</strong></li><li><strong>标准怎么验证？</strong></li></ol><p>三问答不上来——那不是辩证，是和稀泥；不是求真，是避险。</p><p>你能分清这一点，你就不会再轻易被这句话拖回雾里。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;很多中国人一开口讨论问题，几乎都会下意识加一句：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;“要辩证地看问题。”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这句话听起来成熟、客观、见过世面，像是在提醒你不要极端、不要简单化。可我后来越来越警惕它，因为在现实语境里，它经常不是用来把问题讲清楚的，而
+      
+    
+    </summary>
+    
+    
+      <category term="Thinking" scheme="https://ismdeep.github.io/tags/Thinking/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zero Omega 插件自动切换模式配置</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-04-zero-omega-auto-switch.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-04-zero-omega-auto-switch.html</id>
+    <published>2026-01-04T05:46:03.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><p>规则列表设置</p><pre><code>https://raw.githubusercontent.com/gfwlist/gfwlist/refs/heads/master/gfwlist.txt</code></pre></li><li><p>切换规则</p><p>规则列表规则：代理</p><p>默认情景模式：直接连接</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;规则列表设置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;https://raw.githubusercontent.com/gfwlist/gfwlist/refs/heads/master/gfwlist.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p
+      
+    
+    </summary>
+    
+    
+      <category term="Proxy" scheme="https://ismdeep.github.io/tags/Proxy/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Git 常用命令</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-04-git-commands.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-04-git-commands.html</id>
+    <published>2026-01-04T01:41:46.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><p>删除远程分支</p><p>以远程 <code>docs/wiki_patch_398272</code> 为例</p><pre><code>git push --progress --porcelain origin :refs/heads/docs/wiki_patch_398272</code></pre></li><li><p>从远程更新当前分支</p><pre><code>git pull --rebase</code></pre></li><li><p>查看记录（并显示签名）</p><pre><code>git log --show-signature</code></pre></li><li><p>查看分支树</p><p>最推荐（简洁又够用）：</p><pre><code>git log --graph --oneline --decorate</code></pre><p>极简版（只看结构）：</p><pre><code>git log --graph --oneline --decorate --all</code></pre><p>自定义格式（可读性最佳）：</p><pre><code>git log --graph --pretty=format:&#39;%C(yellow)%h%C(reset) %C(green)%d%C(reset) %s&#39; --all</code></pre><p>带时间但仍简洁：</p><pre><code>git log --graph --pretty=format:&#39;%C(yellow)%h%C(reset) %ad %C(green)%d%C(reset) %s&#39; --date=short</code></pre></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ol&gt;
+&lt;li&gt;&lt;p&gt;删除远程分支&lt;/p&gt;
+&lt;p&gt;以远程 &lt;code&gt;docs/wiki_patch_398272&lt;/code&gt; 为例&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git push --progress --porcelain origin :refs/heads/docs/
+      
+    
+    </summary>
+    
+    
+      <category term="Git" scheme="https://ismdeep.github.io/tags/Git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 Linux 发行版上编译并安装 Python3</title>
+    <link href="https://ismdeep.github.io/posts/2026-01-02-compile-python3-from-scratch-on-linux-distributions.html"/>
+    <id>https://ismdeep.github.io/posts/2026-01-02-compile-python3-from-scratch-on-linux-distributions.html</id>
+    <published>2026-01-02T09:46:19.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="1-准备"><a href="#1-准备" class="headerlink" title="1 准备"></a>1 准备</h1><h2 id="1-1-Debian-Ubuntu-系列环境"><a href="#1-1-Debian-Ubuntu-系列环境" class="headerlink" title="1.1 Debian&#x2F;Ubuntu 系列环境"></a>1.1 Debian&#x2F;Ubuntu 系列环境</h2><pre><code>$ sudo apt update &amp;&amp; \  sudo apt install -y \    build-essential \    bzip2 \    curl \    g++ \    gcc \    libbz2-dev \    libdb-dev \    libffi-dev \    libgdbm-dev \    liblzma-dev \    libncurses5-dev \    libnsl-dev \    libnss3-dev \    libreadline-dev \    libsqlite3-dev \    libssl-dev \    libtirpc-dev \    libzstd-dev \    make \    openssl \    pkg-config \    pv \    python3-tk \    tk-dev \    xz-utils \    zlib1g-dev \  &amp;&amp; echo &#39;OK&#39;</code></pre><h2 id="1-2-RHEL-CentOS-系列环境"><a href="#1-2-RHEL-CentOS-系列环境" class="headerlink" title="1.2 RHEL&#x2F;CentOS 系列环境"></a>1.2 RHEL&#x2F;CentOS 系列环境</h2><pre><code>$ sudo yum install -y \    bzip2-devel \    curl \    gcc \    gcc-c++ \    make \    gdbm-devel \    libffi-devel \    libnsl2-devel \    libuuid-devel \    make \    ncurses-devel \    openssl-devel \    pv \    readline-devel \    sqlite-devel \    tk-devel \    xz-devel \    zlib-devel \  &amp;&amp; echo &#39;OK&#39;</code></pre><h1 id="2-编译"><a href="#2-编译" class="headerlink" title="2 编译"></a>2 编译</h1><p>指定要安装的版本：</p><pre><code>$ export python_version=&#39;3.12.12&#39;</code></pre><p>下载源码并编译：</p><pre><code>$ command -v -V curl &amp;&amp; \  command -v -V make &amp;&amp; \  command -v -V pv &amp;&amp; \  command -v -V tar &amp;&amp; \  command -v -V xz &amp;&amp; \  tmpdir=&quot;$(mktemp -d)&quot; &amp;&amp; \  cd &quot;$&#123;tmpdir:?&#125;&quot; &amp;&amp; \    curl -fLO &quot;https://www.python.org/ftp/python/$&#123;python_version:?&#125;/Python-$&#123;python_version:?&#125;.tar.xz&quot; &amp;&amp; \    pv &quot;Python-$&#123;python_version:?&#125;.tar.xz&quot; | xz -cdk - | tar -x &amp;&amp; \  mkdir -p &quot;$&#123;HOME&#125;/Applications/Python-$&#123;python_version:?&#125;&quot; &amp;&amp; \  cd &quot;$&#123;tmpdir:?&#125;/Python-$&#123;python_version:?&#125;/&quot; &amp;&amp; \    ./configure \      --prefix=&quot;$&#123;HOME&#125;/Applications/Python-$&#123;python_version:?&#125;&quot; \      --enable-optimizations \      --enable-loadable-sqlite-extensions &amp;&amp; \    make -j8 build_all &amp;&amp; \    echo &quot;Compile process is finished, run command below to install.&quot; &amp;&amp; \    echo &quot;  $ make -j8 altinstall&quot;</code></pre><h1 id="3-安装"><a href="#3-安装" class="headerlink" title="3 安装"></a>3 安装</h1><pre><code>$ make -j8 altinstall</code></pre><h1 id="4-其他"><a href="#4-其他" class="headerlink" title="4 其他"></a>4 其他</h1><h2 id="4-1-配置国内更新源"><a href="#4-1-配置国内更新源" class="headerlink" title="4.1 配置国内更新源"></a>4.1 配置国内更新源</h2><pre><code>$ if [ ! -f &quot;$&#123;HOME&#125;/.pip/pip.conf&quot; ]; then \  mkdir -p &quot;$&#123;HOME&#125;/.pip/&quot; &amp;&amp; \  &#123; \    echo &#39;[global]&#39; &amp;&amp; \    echo &#39;index-url = https://mirrors.huaweicloud.com/repository/pypi/simple&#39; &amp;&amp; \    echo &#39;trusted-host = mirrors.huaweicloud.com&#39; &amp;&amp; \    echo &#39;timeout = 120&#39; &amp;&amp; \    true; &#125; | tee &quot;$&#123;HOME&#125;/.pip/pip.conf&quot;; \  else \    echo &#39;[WARN] $&#123;HOME&#125;/.pip/pip.conf: already exists&#39;; \  fi</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;1-准备&quot;&gt;&lt;a href=&quot;#1-准备&quot; class=&quot;headerlink&quot; title=&quot;1 准备&quot;&gt;&lt;/a&gt;1 准备&lt;/h1&gt;&lt;h2 id=&quot;1-1-Debian-Ubuntu-系列环境&quot;&gt;&lt;a href=&quot;#1-1-Debian-Ubuntu-系列环境&quot;
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://ismdeep.github.io/tags/Python/"/>
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>查看 CA 根证书信息</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-22-show-ca-crt.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-22-show-ca-crt.html</id>
+    <published>2025-12-22T01:33:24.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<p>可以用 <strong>openssl x509</strong> 来查看 <code>ca.crt</code>（CA 证书）的详细信息。</p><h1 id="一、查看证书的完整可读信息（最常用）"><a href="#一、查看证书的完整可读信息（最常用）" class="headerlink" title="一、查看证书的完整可读信息（最常用）"></a>一、查看证书的完整可读信息（最常用）</h1><pre><code>openssl x509 -in ca.crt -noout -text</code></pre><p>会看到包括：</p><ul><li>证书版本（Version）</li><li>序列号（Serial Number）</li><li>签名算法（Signature Algorithm）</li><li>颁发者（Issuer）</li><li>使用者（Subject）</li><li>有效期（Not Before &#x2F; Not After）</li><li>公钥信息</li><li>扩展字段（Key Usage、Basic Constraints、Subject Key Identifier 等）</li></ul><p>判断是否为 CA 证书，重点看：</p><pre><code>X509v3 Basic Constraints:    CA:TRUE</code></pre><h1 id="二、只看关键信息（简洁版）"><a href="#二、只看关键信息（简洁版）" class="headerlink" title="二、只看关键信息（简洁版）"></a>二、只看关键信息（简洁版）</h1><pre><code>openssl x509 -in ca.crt -noout \  -issuer \  -subject \  -dates \  -serial</code></pre><p>输出示例：</p><pre><code>issuer= /C=CN/O=Example CA/OU=Root CA/CN=Example Root CAsubject= /C=CN/O=Example CA/OU=Root CA/CN=Example Root CAnotBefore=Jan  1 00:00:00 2024 GMTnotAfter=Dec 31 23:59:59 2033 GMTserial=01A3F5</code></pre><h1 id="三、查看指纹（常用于比对）"><a href="#三、查看指纹（常用于比对）" class="headerlink" title="三、查看指纹（常用于比对）"></a>三、查看指纹（常用于比对）</h1><pre><code>openssl x509 -in ca.crt -noout -fingerprint -sha256</code></pre><p>SHA-1（旧系统可能还在用）</p><pre><code>openssl x509 -in ca.crt -noout -fingerprint</code></pre><h1 id="四、查看公钥信息"><a href="#四、查看公钥信息" class="headerlink" title="四、查看公钥信息"></a>四、查看公钥信息</h1><pre><code>openssl x509 -in ca.crt -noout -pubkey</code></pre><p>如果你想进一步分析公钥（如 RSA 位数）：</p><pre><code>openssl x509 -in ca.crt -noout -pubkey | openssl rsa -pubin -text -noout</code></pre><h1 id="五、判断是否为自签名-CA"><a href="#五、判断是否为自签名-CA" class="headerlink" title="五、判断是否为自签名 CA"></a>五、判断是否为自签名 CA</h1><pre><code>openssl x509 -in ca.crt -noout -issuer -subject</code></pre><p>如果 <strong>Issuer &#x3D;&#x3D; Subject</strong>，通常是 <strong>自签名根 CA</strong>。</p><h1 id="六、校验证书格式是否正常"><a href="#六、校验证书格式是否正常" class="headerlink" title="六、校验证书格式是否正常"></a>六、校验证书格式是否正常</h1><pre><code>openssl x509 -in ca.crt -noout</code></pre><p>无输出、无报错说明格式 OK。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;可以用 &lt;strong&gt;openssl x509&lt;/strong&gt; 来查看 &lt;code&gt;ca.crt&lt;/code&gt;（CA 证书）的详细信息。&lt;/p&gt;
+&lt;h1 id=&quot;一、查看证书的完整可读信息（最常用）&quot;&gt;&lt;a href=&quot;#一、查看证书的完整可读信息（最常用）&quot; clas
+      
+    
+    </summary>
+    
+    
+      <category term="Cryptography" scheme="https://ismdeep.github.io/tags/Cryptography/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSH 登录通知配置方法</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-17-ssh-login-notify.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-17-ssh-login-notify.html</id>
+    <published>2025-12-17T07:36:20.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、准备秘钥"><a href="#一、准备秘钥" class="headerlink" title="一、准备秘钥"></a>一、准备秘钥</h1><p>这里需要准备一个企业微信机器人密钥的密钥文件。</p><p>步骤一、创建目录 <code>/etc/secrets</code></p><pre><code>$ sudo mkdir -p /etc/secrets</code></pre><p>步骤二、写入密钥</p><pre><code>$ sudo vim /etc/secrets/ssh-login-notify-wecom-bot-key</code></pre><p>写入企业微信机器人密钥 Base64 编码内容。</p><h1 id="二、通知脚本"><a href="#二、通知脚本" class="headerlink" title="二、通知脚本"></a>二、通知脚本</h1><p>发送通知到企业微信机器人</p><pre><code>$ sudo vim /usr/libexec/ssh-login-notify.sh</code></pre><p>内容如下：</p><pre><code>#!/usr/bin/env bash### 1. Write WeCom bot key as base64 encoded content in /etc/secrets/ssh-login-notify-wecom-bot-key# 2. Write this script to /usr/libexec/ssh-login-notify.sh# 3. Run command: sudo chmod +x /usr/libexec/ssh-login-notify.sh# 4. Edit /etc/pam.d/sshd#   # SSH LOGIN NOTIFY#   session optional pam_exec.so /usr/libexec/ssh-login-notify.shset -edo_notify() &#123;  wecom_bot_key=&quot;$(&lt; /etc/secrets/ssh-login-notify-wecom-bot-key base64 -d)&quot;  pam_user=&quot;$&#123;PAM_USER:-&quot;&quot;&#125;&quot;  pam_rhost=&quot;$&#123;PAM_RHOST:-&quot;&quot;&#125;&quot;  pam_type=&quot;$&#123;PAM_TYPE:-&quot;&quot;&#125;&quot;  pam_service=&quot;$&#123;PAM_SERVICE:-&quot;&quot;&#125;&quot;  pam_tty=&quot;$&#123;PAM_TTY:-&quot;&quot;&#125;&quot;  event_date_time=$(TZ=Asia/Shanghai date &#39;+%F %T&#39;)  event_hostname=$(hostname)  msg=&quot;[SSH Session Notify] type: $&#123;pam_type&#125;, pam_service: $&#123;pam_service&#125;, pam_tty: $&#123;pam_tty&#125; user: $pam_user, from: $pam_rhost, host: $event_hostname, time: $event_date_time&quot;  # 1. 记录本地日志  echo &quot;$&#123;msg&#125;&quot; &gt;&gt; /var/log/ssh-login.log  # 2. 发送企业微信通知  curl &quot;https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$&#123;wecom_bot_key&#125;&quot; \    -H &#39;Content-Type: application/json&#39; \    -d &#39;&#123;&quot;msgtype&quot;: &quot;text&quot;, &quot;text&quot;: &#123;&quot;content&quot;: &quot;&#39;&quot;$&#123;msg&#125;&quot;&#39;&quot;&#125;&#125;&#39;&#125;do_notify &gt;/dev/null 2&gt;&amp;1 || true</code></pre><p>赋予可执行权限：</p><pre><code>$ sudo chmod +x /usr/libexec/ssh-login-notify.sh</code></pre><h1 id="三、编辑-etc-pam-d-sshd"><a href="#三、编辑-etc-pam-d-sshd" class="headerlink" title="三、编辑 &#x2F;etc&#x2F;pam.d&#x2F;sshd"></a>三、编辑 &#x2F;etc&#x2F;pam.d&#x2F;sshd</h1><p>修改 <code>/etc/pam.d/sshd</code> 配置文件：</p><pre><code>$ sudo vim /etc/pam.d/sshd</code></pre><p>增加内容如下：</p><pre><code># SSH LOGIN NOTIFYsession optional pam_exec.so /usr/libexec/ssh-login-notify.sh</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、准备秘钥&quot;&gt;&lt;a href=&quot;#一、准备秘钥&quot; class=&quot;headerlink&quot; title=&quot;一、准备秘钥&quot;&gt;&lt;/a&gt;一、准备秘钥&lt;/h1&gt;&lt;p&gt;这里需要准备一个企业微信机器人密钥的密钥文件。&lt;/p&gt;
+&lt;p&gt;步骤一、创建目录 &lt;code&gt;/etc/sec
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://ismdeep.github.io/tags/Linux/"/>
+    
+      <category term="SSH" scheme="https://ismdeep.github.io/tags/SSH/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Debian 系列环境安装 Sublime Text</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-13-install-sublime-text.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-13-install-sublime-text.html</id>
+    <published>2025-12-13T09:07:31.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><pre><code>$ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | \  gpg --dearmor | \  sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg &gt; /dev/null$ echo &quot;deb https://download.sublimetext.com/ apt/stable/&quot; | \  sudo tee /etc/apt/sources.list.d/sublime-text.list</code></pre><h1 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h1><pre><code>$ sudo apt-get update &amp;&amp; \  sudo apt-get install -y sublime-text</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、准备&quot;&gt;&lt;a href=&quot;#一、准备&quot; class=&quot;headerlink&quot; title=&quot;一、准备&quot;&gt;&lt;/a&gt;一、准备&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;$ wget -qO - https://download.sublimetext.com/sublimeh
+      
+    
+    </summary>
+    
+    
+      <category term="Sublime Text" scheme="https://ismdeep.github.io/tags/Sublime-Text/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Debian 软件包构建</title>
+    <link href="https://ismdeep.github.io/posts/2025-12-13-debian-package-build.html"/>
+    <id>https://ismdeep.github.io/posts/2025-12-13-debian-package-build.html</id>
+    <published>2025-12-13T08:33:25.000Z</published>
+    <updated>2026-02-20T14:13:26.901Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><pre><code>$ sudo apt update$ sudo apt build-dep -y .</code></pre><h1 id="二、打包"><a href="#二、打包" class="headerlink" title="二、打包"></a>二、打包</h1><pre><code>$ dpkg-buildpackage -us -uc</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;一、准备&quot;&gt;&lt;a href=&quot;#一、准备&quot; class=&quot;headerlink&quot; title=&quot;一、准备&quot;&gt;&lt;/a&gt;一、准备&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;$ sudo apt update
+$ sudo apt build-dep -y .
+&lt;/code&gt;&lt;/p
+      
+    
+    </summary>
+    
+    
+      <category term="Debian" scheme="https://ismdeep.github.io/tags/Debian/"/>
+    
+  </entry>
+  
+</feed>

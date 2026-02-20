@@ -1,0 +1,325 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>SSH 登录通知配置方法 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">SSH 登录通知配置方法</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%87%86%E5%A4%87%E7%A7%98%E9%92%A5"><span class="toc-text">一、准备秘钥</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E9%80%9A%E7%9F%A5%E8%84%9A%E6%9C%AC"><span class="toc-text">二、通知脚本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BC%96%E8%BE%91-etc-pam-d-sshd"><span class="toc-text">三、编辑 &#x2F;etc&#x2F;pam.d&#x2F;sshd</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">SSH 登录通知配置方法</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <h1 id="一、准备秘钥"><a href="#一、准备秘钥" class="headerlink" title="一、准备秘钥"></a>一、准备秘钥</h1><p>这里需要准备一个企业微信机器人密钥的密钥文件。</p>
+<p>步骤一、创建目录 <code>/etc/secrets</code></p>
+<pre><code>$ sudo mkdir -p /etc/secrets
+</code></pre>
+<p>步骤二、写入密钥</p>
+<pre><code>$ sudo vim /etc/secrets/ssh-login-notify-wecom-bot-key
+</code></pre>
+<p>写入企业微信机器人密钥 Base64 编码内容。</p>
+<h1 id="二、通知脚本"><a href="#二、通知脚本" class="headerlink" title="二、通知脚本"></a>二、通知脚本</h1><p>发送通知到企业微信机器人</p>
+<pre><code>$ sudo vim /usr/libexec/ssh-login-notify.sh
+</code></pre>
+<p>内容如下：</p>
+<pre><code>#!/usr/bin/env bash
+
+#
+#
+# 1. Write WeCom bot key as base64 encoded content in /etc/secrets/ssh-login-notify-wecom-bot-key
+# 2. Write this script to /usr/libexec/ssh-login-notify.sh
+# 3. Run command: sudo chmod +x /usr/libexec/ssh-login-notify.sh
+# 4. Edit /etc/pam.d/sshd
+#   # SSH LOGIN NOTIFY
+#   session optional pam_exec.so /usr/libexec/ssh-login-notify.sh
+
+set -e
+
+do_notify() &#123;
+  wecom_bot_key=&quot;$(&lt; /etc/secrets/ssh-login-notify-wecom-bot-key base64 -d)&quot;
+  pam_user=&quot;$&#123;PAM_USER:-&quot;&quot;&#125;&quot;
+  pam_rhost=&quot;$&#123;PAM_RHOST:-&quot;&quot;&#125;&quot;
+  pam_type=&quot;$&#123;PAM_TYPE:-&quot;&quot;&#125;&quot;
+  pam_service=&quot;$&#123;PAM_SERVICE:-&quot;&quot;&#125;&quot;
+  pam_tty=&quot;$&#123;PAM_TTY:-&quot;&quot;&#125;&quot;
+  event_date_time=$(TZ=Asia/Shanghai date &#39;+%F %T&#39;)
+  event_hostname=$(hostname)
+  msg=&quot;[SSH Session Notify] type: $&#123;pam_type&#125;, pam_service: $&#123;pam_service&#125;, pam_tty: $&#123;pam_tty&#125; user: $pam_user, from: $pam_rhost, host: $event_hostname, time: $event_date_time&quot;
+  # 1. 记录本地日志
+  echo &quot;$&#123;msg&#125;&quot; &gt;&gt; /var/log/ssh-login.log
+  # 2. 发送企业微信通知
+  curl &quot;https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=$&#123;wecom_bot_key&#125;&quot; \
+    -H &#39;Content-Type: application/json&#39; \
+    -d &#39;&#123;&quot;msgtype&quot;: &quot;text&quot;, &quot;text&quot;: &#123;&quot;content&quot;: &quot;&#39;&quot;$&#123;msg&#125;&quot;&#39;&quot;&#125;&#125;&#39;
+&#125;
+
+do_notify &gt;/dev/null 2&gt;&amp;1 || true
+</code></pre>
+<p>赋予可执行权限：</p>
+<pre><code>$ sudo chmod +x /usr/libexec/ssh-login-notify.sh
+</code></pre>
+<h1 id="三、编辑-etc-pam-d-sshd"><a href="#三、编辑-etc-pam-d-sshd" class="headerlink" title="三、编辑 &#x2F;etc&#x2F;pam.d&#x2F;sshd"></a>三、编辑 &#x2F;etc&#x2F;pam.d&#x2F;sshd</h1><p>修改 <code>/etc/pam.d/sshd</code> 配置文件：</p>
+<pre><code>$ sudo vim /etc/pam.d/sshd
+</code></pre>
+<p>增加内容如下：</p>
+<pre><code># SSH LOGIN NOTIFY
+session optional pam_exec.so /usr/libexec/ssh-login-notify.sh
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">December 17, 2025&nbsp;&nbsp;15:36:20</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2025-12-17-ssh-login-notify.html">https://ismdeep.github.io/posts/2025-12-17-ssh-login-notify.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Linux/">#Linux</a>
+                        
+                            <a href="/tags/SSH/">#SSH</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

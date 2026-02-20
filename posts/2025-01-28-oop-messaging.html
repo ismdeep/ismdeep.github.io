@@ -1,0 +1,318 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>面向对象编程的核心思想：消息传递 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">面向对象编程的核心思想：消息传递</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%EF%BC%9F"><span class="toc-text">什么是消息传递？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Alan-Kay-%E5%AF%B9%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">Alan Kay 对面向对象的定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7"><span class="toc-text">消息传递的重要性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="toc-text">消息传递的实际应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E4%B8%8E%E7%8E%B0%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E7%B1%BB%E6%AF%94"><span class="toc-text">消息传递与现实世界的类比</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="toc-text">消息传递与面向对象编程的未来</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text">结语</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">面向对象编程的核心思想：消息传递</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>在面向对象编程（Object-Oriented Programming，OOP）中，我们常常听到封装、继承、多态和抽象被描述为其核心原则。然而，对于真正理解OOP来说，有一个更深层次、更具哲学意味的核心思想常被忽略，那就是<strong>消息传递（Message Passing）</strong>。</p>
+<h1 id="什么是消息传递？"><a href="#什么是消息传递？" class="headerlink" title="什么是消息传递？"></a>什么是消息传递？</h1><p>消息传递指的是对象之间通过发送和接收消息进行交互。每个对象都拥有自己的状态（数据）和行为（方法），而消息传递是对象与对象之间沟通和协作的机制。简而言之，<strong>消息传递是OOP中实现对象之间互动的核心方式</strong>。</p>
+<p>在实际编程中，消息传递的体现通常是通过方法调用实现的。对象A向对象B发送一条消息，请求其执行某个操作（调用方法），对象B接收到这条消息后，根据其内部的逻辑和状态作出相应的反应。</p>
+<h1 id="Alan-Kay-对面向对象的定义"><a href="#Alan-Kay-对面向对象的定义" class="headerlink" title="Alan Kay 对面向对象的定义"></a>Alan Kay 对面向对象的定义</h1><p>Alan Kay，被誉为面向对象编程之父，曾这样定义OOP：</p>
+<blockquote>
+<p>“The big idea is ‘messaging’ — that is, the exchange of data by sending messages to objects. The key in making great and growable systems is much more to design how its modules communicate rather than what their internal properties and behaviors should be.”</p>
+</blockquote>
+<p>翻译：</p>
+<blockquote>
+<p>“核心理念是‘消息传递’——即通过向对象发送消息来交换数据。构建优秀且可扩展系统的关键，更在于设计模块之间如何通信，而不是关注它们的内部属性和行为。”</p>
+</blockquote>
+<h1 id="消息传递的重要性"><a href="#消息传递的重要性" class="headerlink" title="消息传递的重要性"></a>消息传递的重要性</h1><p>为什么说消息传递是面向对象编程的核心？它与OOP的其他原则紧密相连，共同支撑了面向对象的体系：</p>
+<ol>
+<li><strong>封装的基础</strong> 消息传递强调对象通过暴露有限的接口来接收消息，而不是直接让其他对象访问其内部数据。这种方式保证了对象内部实现的封装性，外部对象只需要知道如何发送消息，而不需要了解消息接收者的具体实现细节。</li>
+<li><strong>多态性的体现</strong> 多态性在消息传递中尤为关键。当多个对象能够响应相同的消息（方法调用）时，它们可以根据自己的类型和特性作出不同的反应。这种机制使得对象之间的交互更加灵活，支持动态行为的扩展。</li>
+<li><strong>松耦合设计</strong> 消息传递实现了对象之间的松耦合。一个对象不需要知道另一个对象的内部结构或实现细节，只需要知道如何向其发送消息。这样的设计增强了系统的模块化和可维护性。</li>
+</ol>
+<h1 id="消息传递的实际应用"><a href="#消息传递的实际应用" class="headerlink" title="消息传递的实际应用"></a>消息传递的实际应用</h1><p>以下是一个简单的例子，展示了消息传递的基本思想：</p>
+<pre><code>class Car:
+    def start_engine(self):
+        print(&quot;The engine is now running.&quot;)
+
+class Driver:
+    def start_car(self, car):
+        car.start_engine()  # 发送消息给 Car 对象
+
+# 使用示例
+car = Car()
+driver = Driver()
+driver.start_car(car)
+</code></pre>
+<p>在这个例子中：</p>
+<ul>
+<li><code>Driver</code> 对象通过调用 <code>start_car</code> 方法向 <code>Car</code> 对象发送一条消息（请求启动引擎）。</li>
+<li><code>Car</code> 对象接收到消息后，执行 <code>start_engine</code> 方法，完成引擎的启动。</li>
+</ul>
+<p>消息传递的核心思想在这里清晰可见：<strong>对象之间并不直接操作对方的内部状态，而是通过发送和接收消息实现交互。</strong></p>
+<h1 id="消息传递与现实世界的类比"><a href="#消息传递与现实世界的类比" class="headerlink" title="消息传递与现实世界的类比"></a>消息传递与现实世界的类比</h1><p>为了更好地理解消息传递，可以将其与现实生活中的通信进行类比。例如：</p>
+<ul>
+<li>当你向朋友发短信邀请他们共进晚餐时，你发送了一条消息。朋友可以根据自己的状态（是否有空、是否感兴趣）来决定是否接受邀请。这就像对象接收到消息后，依据自身逻辑决定执行什么操作。</li>
+<li>在公司中，一个部门（对象A）向另一个部门（对象B）发送邮件请求某项资源。部门B根据邮件内容和当前资源状况作出回应。这种协作完全依赖消息的传递，而不是直接干涉对方的日常运作。</li>
+</ul>
+<h1 id="消息传递与面向对象编程的未来"><a href="#消息传递与面向对象编程的未来" class="headerlink" title="消息传递与面向对象编程的未来"></a>消息传递与面向对象编程的未来</h1><p>随着软件复杂度的提高，消息传递的思想正在以更现代的形式演化。例如：</p>
+<ul>
+<li><strong>微服务架构</strong>：微服务之间通过消息队列（如 RabbitMQ、Kafka）或 HTTP 请求传递消息，彼此独立运行，体现了OOP的消息传递核心思想。</li>
+<li><strong>Actor 模型</strong>：在并发编程中，Actor 模型强调通过消息传递进行状态共享和任务分发，例如 Erlang 和 Akka。</li>
+<li><strong>事件驱动架构</strong>：系统通过发布和订阅事件（消息）实现松耦合的模块交互，如 JavaScript 的事件循环机制或消息总线架构。</li>
+</ul>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>面向对象编程的核心不仅仅是代码中的类与对象的设计，更是一种关于对象如何交互的哲学。<strong>消息传递</strong>作为OOP的灵魂，赋予了对象自足性和协作能力，使得复杂系统能够被优雅地设计和扩展。</p>
+<p>当我们在编写面向对象的代码时，不妨多思考对象之间如何通过消息传递有效地协作，而不仅仅是关注单个对象的实现细节。正是这种思想，让OOP成为现代软件开发的基石。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">January 28, 2025&nbsp;&nbsp;17:11:01</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2025-01-28-oop-messaging.html">https://ismdeep.github.io/posts/2025-01-28-oop-messaging.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/OOP/">#OOP</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

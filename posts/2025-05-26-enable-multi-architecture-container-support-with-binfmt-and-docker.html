@@ -1,0 +1,329 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>如何使用 Docker 安装 binfmt 支持多架构容器运行与构建 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">如何使用 Docker 安装 binfmt 支持多架构容器运行与构建</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-binfmt-misc%EF%BC%9F"><span class="toc-text">什么是 binfmt_misc？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85-binfmt-%E6%94%AF%E6%8C%81%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-text">快速安装 binfmt 支持的命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%EF%BC%9F"><span class="toc-text">如何验证是否安装成功？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A%E6%9E%84%E5%BB%BA%E5%A4%9A%E6%9E%B6%E6%9E%84-Docker-%E9%95%9C%E5%83%8F"><span class="toc-text">使用场景：构建多架构 Docker 镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%B2%A1%E6%9C%89%E5%BC%80%E5%90%AF-binfmt-misc-%E6%94%AF%E6%8C%81%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="toc-text">1. 没有开启 binfmt_misc 支持怎么办？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A6%82%E4%BD%95%E5%8D%B8%E8%BD%BD%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84%E8%A7%A3%E9%87%8A%E5%99%A8%EF%BC%9F"><span class="toc-text">2. 如何卸载已安装的解释器？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">如何使用 Docker 安装 binfmt 支持多架构容器运行与构建</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>在日常容器开发或镜像构建过程中，我们常常遇到这样的需求：<strong>在 x86 的主机上运行 ARM 架构的容器</strong>，或构建支持多架构（如 <code>amd64</code> 和 <code>arm64</code>）的镜像。这时候就需要借助 Linux 内核的 <code>binfmt_misc</code> 功能。</p>
+<p>本文将介绍如何通过一条 Docker 命令快速为宿主机安装 <code>binfmt</code>，以支持跨架构容器运行。</p>
+<h1 id="什么是-binfmt-misc？"><a href="#什么是-binfmt-misc？" class="headerlink" title="什么是 binfmt_misc？"></a>什么是 <code>binfmt_misc</code>？</h1><p><code>binfmt_misc</code>（Binary Format Miscellaneous）是 Linux 内核的一项功能，它允许用户为系统注册新的可执行文件格式。例如，当你尝试在 x86_64 的 Linux 上运行一个 ARM64 的二进制时，系统可以通过 <code>qemu-aarch64</code> 解释器将其运行，就像原生程序一样。</p>
+<p>这项机制的关键在于：</p>
+<ul>
+<li>需要内核开启 <code>binfmt_misc</code> 支持（大多数发行版默认启用）</li>
+<li>需要为目标架构注册对应的解释器（如 QEMU）</li>
+</ul>
+<h1 id="快速安装-binfmt-支持的命令"><a href="#快速安装-binfmt-支持的命令" class="headerlink" title="快速安装 binfmt 支持的命令"></a>快速安装 binfmt 支持的命令</h1><p>官方推荐使用 <code>tonistiigi/binfmt</code> 镜像，它是由 Docker 构建工具 <code>buildx</code> 的作者 Tonis Tiigi 提供的轻量级 binfmt 安装器。</p>
+<p>执行以下命令即可：</p>
+<pre><code>$ docker run --rm --privileged docker.1panel.live/tonistiigi/binfmt --install all
+</code></pre>
+<p><strong>命令说明：</strong></p>
+<ul>
+<li><code>--rm</code>：容器在执行后立即删除，保持系统干净。</li>
+<li><code>--privileged</code>：授予容器特权访问，允许其修改宿主机的内核设置。</li>
+<li><code>docker.1panel.live/tonistiigi/binfmt</code>：镜像地址（也可以使用 <code>tonistiigi/binfmt</code> 官方源）。</li>
+<li><code>--install all</code>：注册所有常用架构的 binfmt 支持，如：<ul>
+<li><code>arm</code></li>
+<li><code>arm64</code></li>
+<li><code>386</code></li>
+<li><code>s390x</code></li>
+<li><code>ppc64le</code></li>
+<li><code>riscv64</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="如何验证是否安装成功？"><a href="#如何验证是否安装成功？" class="headerlink" title="如何验证是否安装成功？"></a>如何验证是否安装成功？</h1><p>可以查看 <code>/proc/sys/fs/binfmt_misc/</code> 目录：</p>
+<pre><code>$ ls /proc/sys/fs/binfmt_misc/
+</code></pre>
+<p>如果看到如下输出：</p>
+<pre><code>qemu-aarch64
+qemu-arm
+qemu-ppc64le
+qemu-riscv64
+...
+</code></pre>
+<p>说明安装成功，你现在可以在 x86 机器上运行 arm64 镜像了！</p>
+<hr>
+<h1 id="使用场景：构建多架构-Docker-镜像"><a href="#使用场景：构建多架构-Docker-镜像" class="headerlink" title="使用场景：构建多架构 Docker 镜像"></a>使用场景：构建多架构 Docker 镜像</h1><p>配合 <code>docker buildx</code>，我们可以构建支持多平台的镜像：</p>
+<pre><code>$ docker buildx create --use
+$ docker buildx build --platform linux/amd64,linux/arm64 -t myimage:latest .
+</code></pre>
+<p>这样，你构建的镜像就可以在树莓派（ARM）和普通 PC（x86）上都能使用。</p>
+<hr>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="1-没有开启-binfmt-misc-支持怎么办？"><a href="#1-没有开启-binfmt-misc-支持怎么办？" class="headerlink" title="1. 没有开启 binfmt_misc 支持怎么办？"></a>1. 没有开启 <code>binfmt_misc</code> 支持怎么办？</h2><p>请确保你的内核支持该功能，并挂载了 <code>binfmt_misc</code>：</p>
+<pre><code>$ sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc
+</code></pre>
+<h2 id="2-如何卸载已安装的解释器？"><a href="#2-如何卸载已安装的解释器？" class="headerlink" title="2. 如何卸载已安装的解释器？"></a>2. 如何卸载已安装的解释器？</h2><p>可以通过以下命令逐个取消注册：</p>
+<pre><code>$ echo -1 &gt; /proc/sys/fs/binfmt_misc/qemu-aarch64
+</code></pre>
+<p>或者卸载整个挂载点：</p>
+<pre><code>$ sudo umount /proc/sys/fs/binfmt_misc
+</code></pre>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过执行一条简单的 Docker 命令：</p>
+<pre><code>$ docker run --rm --privileged docker.1panel.live/tonistiigi/binfmt --install all
+</code></pre>
+<p>你就可以为宿主机注册多架构支持，大大简化跨平台镜像构建与测试的流程。</p>
+<p>无论你是想让 x86 主机运行 ARM 镜像，还是想打造通用镜像，<code>binfmt_misc</code> 都是不可或缺的一步。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">May 26, 2025&nbsp;&nbsp;13:35:10</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2025-05-26-enable-multi-architecture-container-support-with-binfmt-and-docker.html">https://ismdeep.github.io/posts/2025-05-26-enable-multi-architecture-container-support-with-binfmt-and-docker.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Docker/">#Docker</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

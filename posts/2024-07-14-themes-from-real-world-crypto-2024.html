@@ -1,0 +1,315 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>【译】2024 年真实世界加密主题 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">【译】2024 年真实世界加密主题</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%8C%E4%B8%9A%E5%92%8C%E6%94%BF%E5%BA%9C%E5%A6%82%E4%BD%95%E8%90%BD%E5%9C%B0PQC"><span class="toc-text">行业和政府如何落地PQC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E5%A4%9A-PQC%EF%BC%9A%E5%85%88%E8%BF%9B%E7%9A%84%E6%99%B6%E6%A0%BC%E6%8A%80%E6%9C%AF"><span class="toc-text">更多 PQC：先进的晶格技术</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AB%AF%E5%88%B0%E7%AB%AF%E5%8A%A0%E5%AF%86%E5%92%8C%E5%AF%86%E9%92%A5%E9%80%8F%E6%98%8E%E5%BA%A6"><span class="toc-text">端到端加密和密钥透明度</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8D%A3%E8%AA%89%E5%A5%96"><span class="toc-text">荣誉奖</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2024-%E5%B9%B4-Levchin-%E5%A5%96%E8%8E%B7%E5%BE%97%E8%80%85"><span class="toc-text">2024 年 Levchin 奖获得者</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B1%95%E6%9C%9B"><span class="toc-text">展望</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">【译】2024 年真实世界加密主题</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>原文：<a target="_blank" rel="noopener" href="https://blog.trailofbits.com/2024/06/18/themes-from-real-world-crypto-2024/">https://blog.trailofbits.com/2024/06/18/themes-from-real-world-crypto-2024/</a></p>
+<p>三月，Trail of Bits 的工程师们前往了充满活力 (而且稍微有点冷) 的多伦多市，参加了为期三天的 Real World Crypto 2024 大会，该大会汇集了数百位密码学领域的杰出人才。 我们还参加了三个相关活动：Real World 后量子密码 (RWPQC) 研讨会、全同态加密 (FHE) 研讨会和开源密码学研讨会 (OSCW)。 经过回顾活动中的演讲和专家讨论，我们总结了一些突出的主题：</p>
+<ol>
+<li>政府、标准化组织和业界在推进后量子密码 (PQC) 标准化和落地方面取得了重大进展。</li>
+<li>在后量子密码标准之外，我们看到了利用基于格的结构进行更先进的后量子密码的创新。</li>
+<li>对端到端加密（E2EE）和密钥透明度的投资在多个组织中正变得越来越重要。</li>
+</ol>
+<p>还有一些值得一提的领域：</p>
+<ol>
+<li>全同态加密（FHE）是一个活跃的研究领域，并且变得越来越实用。</li>
+<li>带有关联数据的认证加密方案（AEAD）也是一个活跃的研究领域，并且正在进行许多改进。</li>
+</ol>
+<p>请继续阅读我们的完整想法！</p>
+<h1 id="行业和政府如何落地PQC"><a href="#行业和政府如何落地PQC" class="headerlink" title="行业和政府如何落地PQC"></a>行业和政府如何落地PQC</h1><p>自 25 年前开始（持续）努力用椭圆曲线加密取代 RSA 和 DSA 以来，社区正在为最大规模的加密迁移做准备。 PQ 专用 RWPQC 研讨会和 RWC 主要活动的讨论重点是标准化工作和大规模实际部署。谷歌、亚马逊和 Meta 报告称内部部署取得了初步成功。</p>
+<p>会谈的核心要点包括：</p>
+<ul>
+<li>国际社会已广泛接受 NIST 后量子算法作为标准。 Signal 等更高级别的协议正忙于整合新算法。</li>
+<li>先存储后解密攻击需要尽快转向后量子密钥交换协议。对于遵循良好密钥轮换实践的应用程序来说，后量子身份验证（签名方案）并不那么紧迫。</li>
+<li>后量子安全只是加密敏捷性的一方面。良好的加密库存和密钥轮换实践使 PQ 迁移更加顺利。</li>
+</ul>
+<p>RWPQC 收录了四个标准机构的演讲。这些会谈表明采用 PQC 的努力正在顺利进行。达斯汀·穆迪 (NIST) 强调，美国政府和美国工业界的目标是到 2035 年做好量子准备，而马修·坎帕尼亚 (ETSI) 则讨论了 60 多个国家的 850 多个组织之间的协调工作。 Stephanie Reinhardt (BSI) 警告称，与加密相关的量子计算机可能会在 2030 年代初上线，并分享了 BSI 的<a target="_blank" rel="noopener" href="https://www.bsi.bund.de/SharedDocs/Downloads/EN/BSI/Publications/TechGuidelines/TG02102/BSI-TR-02102-1.html">加密机制技术指南</a>。 Reinhardt 还警告不要依赖量子密钥分发，并列举了近 200 起针对 QKD 实施的已发布攻击。与更常见和谨慎的混合方法相比，NCSC 提倡单独使用 ML-KEM 和 ML-DSA。</p>
+<p>虽然所有标准机构都支持 FIPS 算法，但 BSI 还支持使用 NIST 竞赛决赛入围者 FrodoKEM 和 McEliece。</p>
+<p>Deidre Connelly 代表 IETF 的多个工作组，谈到了她一直在编写的 KEM 组合器指导文件以及围绕 <a target="_blank" rel="noopener" href="https://durumcrustulum.com/2024/02/24/how-to-hold-kems/">KEM 绑定属性</a>正在进行的讨论（来自 CFRG 工作组）。她还提到了 TLS 工作组的进展：PQC 将仅在 TLS v1.3 中进行，主要重点是完善各种关键协议规范。 LAMPS 工作组正在致力于将 PQC 算法纳入加密消息语法和互联网 X.509 PKI。最后，PQUIP 正在致力于在更多协议中引入 PQC 的操作和工程方面，MLS 工作组正在致力于在 MLS 中引入 PQC.</p>
+<p>行业视角同样富有洞察力，来自主要科技公司的代表分享了一些关键见解：</p>
+<ul>
+<li><strong>Signal</strong>：Rolfe Schmidt 介绍了 Signal 融合后量子密码学的幕后工作，例如他们最近开发后量子密钥协商协议 <a target="_blank" rel="noopener" href="https://signal.org/docs/specifications/pqxdh/">PQXDH</a> 的工作。他们前进的重点领域包括针对量子攻击者提供前向保密和妥协后的安全性，实现完全后量子安全的信号协议和匿名凭证。</li>
+<li><strong>Meta&#x2F;Facebook</strong>：Meta 通过宣布加入 PQC 联盟来展示其对 PQC 的承诺。他们的代表 Rafael Misoczki 还讨论了成功 PQC 迁移的先决条件：密码学库和应用程序必须支持 PQ 算法的轻松使用，明确阻止创建新的量子不安全密钥，并提供针对已知量子攻击的保护。此外，迁移必须是高性能且经济高效的。</li>
+<li><strong>谷歌</strong>：谷歌的 Sophie Schmieg 阐述了他们管理密钥轮换和加密敏捷性的方法，强调后量子迁移实际上是一个密钥轮换问题。如果您有一个良好的密钥轮换机制，并且您正确地将密钥指定为加密配置和原始密钥字节，而不仅仅是原始字节，那么您基本上就可以迁移到后量子。</li>
+<li>**Amazon&#x2F;Amazon Web Services (AWS)**：Matthew Campagna 总结了行业最新动态，并介绍了 AWS (AWS) 在保护其加密技术免受量子对手攻击方面所取得的进展。与大多数其他人一样，他们最关心的是“现在存储，稍后解密”攻击。</li>
+</ul>
+<h1 id="更多-PQC：先进的晶格技术"><a href="#更多-PQC：先进的晶格技术" class="headerlink" title="更多 PQC：先进的晶格技术"></a>更多 PQC：先进的晶格技术</h1><p>除了政府和行业团体都承诺采用最新的 PQC NIST 标准外，今年的 RWC 还展示了在 PQC 其他领域正在开展的大量工作。特别是，我们参加了两次关于使用格构建的新密码原语的有趣演讲：</p>
+<ul>
+<li>LaZer：LaZer 是一个有趣的库，它使用格来促进高效的零知识证明（ZKP）。对于某些指标，该证明系统比当前一些最先进的证明系统实现了更好的性能。然而，由于LaZer使用格，其算术与现有的R1CS和Plonkish证明系统完全不同。这意味着它无法与现有的开箱即用的电路编译器一起使用，因此将其推进到现实系统将需要额外的努力。</li>
+<li>Swoosh：另一个讨论集中在 Swoosh，这是一种为高效的基于格子的非交互式密钥交换而设计的协议。在我们必须依赖后量子密钥封装机制 (KEM) 而不是后量子 Diffie-Hellman 方案的时代，开发具有后量子质量的鲁棒密钥交换协议是向前迈出的一大步，也是一个有前途的研究领域。</li>
+</ul>
+<h1 id="端到端加密和密钥透明度"><a href="#端到端加密和密钥透明度" class="headerlink" title="端到端加密和密钥透明度"></a>端到端加密和密钥透明度</h1><p>端到端（E2E）加密和密钥透明度是会议的一个重要主题。几个亮点：</p>
+<ul>
+<li>关键透明度总体情况：Melissa Chase 对关键透明度的未决问题和最新进展进行了精彩的概述介绍。密钥透明度在端到端加密中发挥着至关重要的作用，允许用户在不依赖带外通信的情况下检测中间人攻击。</li>
+<li>确保 Zoom 的 E2EE 安全：研究员 Mang Zhu 分享了他们提高 Zoom E2EE 安全性的方法，特别是防止来自恶意服务器的窃听或假冒攻击。他们的策略在很大程度上依赖于密码验证密钥交换（PAKE）和关联数据验证加密（AEAD），为用户提供更安全的通信层。然后他们使用正式方法来证明他们的方法达到了目标。</li>
+<li>Meta 上的 E2EE 采用：Meta&#x2F;Facebook 逐步记录了他们在 Messenger 上推出 E2EE 的历程。用户在升级到 E2EE 时会遇到很大的阻力，因为他们突然需要采取行动，以确保在丢失设备时能够恢复数据。在某些情况下，例如贴纸搜索，Meta 决定优先考虑功能和隐私，因为在客户端存储整个贴纸库是令人望而却步的。</li>
+</ul>
+<h1 id="荣誉奖"><a href="#荣誉奖" class="headerlink" title="荣誉奖"></a>荣誉奖</h1><p><strong>AEAD</strong>：在对称密码学中，带有关联数据的身份验证加密方案 (AEAD) 是今年讨论的核心。围绕 Poly1305 和 AES-GCM 的深入对话表明了对改进这些加密工具的持续致力于。我们正在准备一篇专门的文章来介绍这些令人兴奋的进步，敬请期待！</p>
+<p><strong>FHE</strong>：FHE的突破证明了全同态加密的持续进步。研究人员提出了创新的理论进展，例如基于带舍入的环学习的新同态方案，该方案显示出在某些指标下相对于当前方案实现更好性能的迹象。另一场突破性的演讲重点介绍了 HEIR 编译器，这是一个加速 FHE 研究的工具链，有可能简化从理论到实际实现的过渡。</p>
+<h1 id="2024-年-Levchin-奖获得者"><a href="#2024-年-Levchin-奖获得者" class="headerlink" title="2024 年 Levchin 奖获得者"></a>2024 年 Levchin 奖获得者</h1><p>每年都有两个团队在 RWC 上获得 Levchin 奖，以表彰其对密码学及其实际应用的重大贡献。</p>
+<p>Al Cutter、Emilia Käsper、Adam Langley 和 Ben Laurie 因大规模创建和部署证书透明度而获得 Levchin 奖。证书透明度建立在相对简单的加密操作之上，但对互联网安全和隐私具有巨大的积极影响。</p>
+<p>Anna Lysyanskaya 和 Jan Camenisch 因开发高效的匿名凭证而获得了另一项 2024 年 Levchin 奖。随着越来越多的应用程序使用它们，他们 20 年前的开创性工作变得越来越重要。</p>
+<h1 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h1><p>Real World Crypto 2024 会议以及 FHE、RWPQC 和 OSCW 活动为密码学的最新技术和未来方向提供了丰富的见解。随着该领域的不断发展，随着政府、标准机构和行业参与者的合作，进一步了解加密世界的细微差别，我们期待在 PQC、E2EE、FHE 和许多其他令人兴奋的领域不断取得进步。这些进展反映了我们的集体使命，即确保安全的未来，并强调整个密码学界正在进行的研究、合作和参与的重要性。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">July 14, 2024&nbsp;&nbsp;0:11:17</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2024-07-14-themes-from-real-world-crypto-2024.html">https://ismdeep.github.io/posts/2024-07-14-themes-from-real-world-crypto-2024.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Cryptography/">#Cryptography</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

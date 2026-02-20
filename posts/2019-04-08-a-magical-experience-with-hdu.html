@@ -1,0 +1,510 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>记一次神奇的杭电刷题体验 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">记一次神奇的杭电刷题体验</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">记一次神奇的杭电刷题体验</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>先交代一下这次提交代码所用次数吧。一共显示我提交了77次。题号：HDU 2687</p>
+<p>具体事情就是每次提交的代码都会被截断，Chrome 浏览器下提交代码直接返回 <code>ERR_CONNECTION_RESET</code>, 多次提交总结：大部分时候截断的地方是一样的，略有几次截断地方不一样。仔细查看自己的代码并没有发现什么问题，而且也不算大吧。我记得杭电提交的代码限制是 65535B，于是考虑是不是本地网络的问题，切换代理提交，也是一样的效果。然而 vjudge 竟然可以提交，于是想起，是不是我被杭电针对了，切换小号提交代码，也是一样的，看样子是我想多了。然后尝试了一下其他题目，发现 HDU 1000 的 Java 代码是可以提交的。可能是因为代码量小的缘故吧。</p>
+<p>说了这么多，先上代码吧。</p>
+<pre><code class="java">import java.io.OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+/**
+ * Built using CHelper plug-in
+ * Actual solution is at the top
+ *
+ * @author ismdeep
+ */
+public class Main &#123;
+    public static void main(String[] args) &#123;
+        InputStream inputStream = System.in;
+        OutputStream outputStream = System.out;
+        Scanner in = new Scanner(inputStream);
+        PrintWriter out = new PrintWriter(outputStream);
+        HDU2687 solver = new HDU2687();
+        solver.solve(1, in, out);
+        out.close();
+    &#125;
+
+    static class HDU2687 &#123;
+        public static int[][] rotate(int a[][], int n) &#123;
+            int[][] b = new int[n][n];
+            for (int i = 0; i &lt; n; ++i) &#123;
+                for (int j = 0; j &lt; n; ++j) &#123;
+                    b[n - j - 1][i] = a[i][j];
+                &#125;
+            &#125;
+            return b;
+        &#125;
+
+        public void solve(int testNumber, Scanner in, PrintWriter out) &#123;
+            while (in.hasNext()) &#123;
+                int n = in.nextInt();
+                int[][] a = new int[n][n];
+                for (int i = 0; i &lt; n; ++i) &#123;
+                    for (int j = 0; j &lt; n; ++j) &#123;
+                        a[i][j] = in.nextInt();
+                    &#125;
+                &#125;
+                int k = in.nextInt();
+
+                int[][] b0 = a;
+                int[][] b1 = rotate(rotate(rotate(b0, n), n), n);
+                int[][] b2 = rotate(rotate(rotate(b1, n), n), n);
+                int[][] b3 = rotate(rotate(rotate(b2, n), n), n);
+
+                long[][] ans = new long[n][n];
+
+                for (int i = 0; i &lt; n; ++i) &#123;
+                    for (int j = 0; j &lt; n; ++j) &#123;
+                        ans[i][j] = b0[i][j] + b1[i][j] + b2[i][j] + b3[i][j];
+                        ans[i][j] *= ((k + 1) / 4);
+                    &#125;
+                &#125;
+
+                if ((k + 1) % 4 == 1) &#123;
+                    for (int i = 0; i &lt; n; ++i) &#123;
+                        for (int j = 0; j &lt; n; ++j) &#123;
+                            ans[i][j] += b0[i][j];
+                        &#125;
+                    &#125;
+                &#125;
+                if ((k + 1) % 4 == 2) &#123;
+                    for (int i = 0; i &lt; n; ++i) &#123;
+                        for (int j = 0; j &lt; n; ++j) &#123;
+                            ans[i][j] += b0[i][j] + b1[i][j];
+                        &#125;
+                    &#125;
+                &#125;
+                if ((k + 1) % 4 == 3) &#123;
+                    for (int i = 0; i &lt; n; ++i) &#123;
+                        for (int j = 0; j &lt; n; ++j) &#123;
+                            ans[i][j] += b0[i][j] + b1[i][j] + b2[i][j];
+                        &#125;
+                    &#125;
+                &#125;
+
+
+                for (int i = 0; i &lt; n; ++i) &#123;
+                    for (int j = 0; j &lt; n; ++j) &#123;
+                        if (j != 0) &#123;
+                            out.write(&quot; &quot;);
+                        &#125;
+                        out.write(Long.toString(ans[i][j]));
+                    &#125;
+                    out.write(&quot;\n\n&quot;);
+                &#125;
+            &#125;
+        &#125;
+
+    &#125;
+&#125;
+</code></pre>
+<p>后来想是不是浏览器的问题，于是开虚拟机，把 IE，FireFox 都尝试了也还是不能正常提交。这个时候基本上心态已经崩了。后来问了一下 Isun ，知道了 waf 的存在，很多学校都会有这么东西，类似一个入口的防火墙，在入口检测入侵攻击代码。可能是这个东西把我提交的代码数据当作入侵代码处理了。毕竟差不多 3KB，还是挺大的。</p>
+<p>当时当时还没有想着去缩小代码量，而是用python动手写了一个模拟登录并提交代码的小程序。果然并没有让我失望，还是没能提交成功。</p>
+<pre><code class="text">Traceback (most recent call last):
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py&quot;, line 600, in urlopen
+    chunked=chunked)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py&quot;, line 384, in _make_request
+    six.raise_from(e, None)
+  File &quot;&lt;string&gt;&quot;, line 2, in raise_from
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py&quot;, line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py&quot;, line 1321, in getresponse
+    response.begin()
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py&quot;, line 296, in begin
+    version, status, reason = self._read_status()
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py&quot;, line 257, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), &quot;iso-8859-1&quot;)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/socket.py&quot;, line 589, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 54] Connection reset by peer
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/adapters.py&quot;, line 449, in send
+    timeout=timeout
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py&quot;, line 638, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/util/retry.py&quot;, line 367, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/packages/six.py&quot;, line 685, in reraise
+    raise value.with_traceback(tb)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py&quot;, line 600, in urlopen
+    chunked=chunked)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py&quot;, line 384, in _make_request
+    six.raise_from(e, None)
+  File &quot;&lt;string&gt;&quot;, line 2, in raise_from
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py&quot;, line 380, in _make_request
+    httplib_response = conn.getresponse()
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py&quot;, line 1321, in getresponse
+    response.begin()
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py&quot;, line 296, in begin
+    version, status, reason = self._read_status()
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py&quot;, line 257, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), &quot;iso-8859-1&quot;)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/socket.py&quot;, line 589, in readinto
+    return self._sock.recv_into(b)
+urllib3.exceptions.ProtocolError: (&#39;Connection aborted.&#39;, ConnectionResetError(54, &#39;Connection reset by peer&#39;))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File &quot;/data/code-practice/python-practice/crawlers/hdu-submit.py&quot;, line 109, in &lt;module&gt;
+    main()
+  File &quot;/data/code-practice/python-practice/crawlers/hdu-submit.py&quot;, line 105, in main
+    submit_code(username, cookie, pid, langs[lang], open(code_path, &#39;r&#39;).read())
+  File &quot;/data/code-practice/python-practice/crawlers/hdu-submit.py&quot;, line 79, in submit_code
+    &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36&#39;
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/api.py&quot;, line 116, in post
+    return request(&#39;post&#39;, url, data=data, json=json, **kwargs)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/api.py&quot;, line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/sessions.py&quot;, line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/sessions.py&quot;, line 646, in send
+    r = adapter.send(request, **kwargs)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/adapters.py&quot;, line 498, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: (&#39;Connection aborted.&#39;, ConnectionResetError(54, &#39;Connection reset by peer&#39;))
+
+Process finished with exit code 1
+</code></pre>
+<p>于是接下来想着怎么缩小代码量，首当其冲的就是删除没用的空格和换行。</p>
+<pre><code class="java">import java.io.OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+public class Main &#123;
+public static void main(String[] args) &#123;InputStream inputStream = System.in;OutputStream outputStream = System.out;Scanner in = new Scanner(inputStream);PrintWriter out = new PrintWriter(outputStream);HDU2687 solver = new HDU2687();solver.solve(1, in, out);out.close();&#125;
+static class HDU2687 &#123;public static int[][] rotate(int a[][], int n) &#123;int[][] b = new int[n][n];for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;b[n - j - 1][i] = a[i][j];&#125;&#125;return b;&#125;
+public void solve(int testNumber, Scanner in, PrintWriter out) &#123;while (in.hasNext()) &#123;int n = in.nextInt();int[][] a = new int[n][n];for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;a[i][j] = in.nextInt();&#125;&#125;int k = in.nextInt();
+int[][] b0 = a;
+int[][] b1 = rotate(rotate(rotate(b0, n), n), n);
+int[][] b2 = rotate(rotate(rotate(b1, n), n), n);
+int[][] b3 = rotate(rotate(rotate(b2, n), n), n);
+long[][] ans = new long[n][n];
+for (int i = 0; i &lt; n; ++i) &#123;
+for (int j = 0; j &lt; n; ++j) &#123;
+ans[i][j] = b0[i][j] + b1[i][j] + b2[i][j] + b3[i][j];
+ans[i][j] *= ((k + 1) / 4);&#125;&#125;
+if ((k + 1) % 4 == 1) &#123;for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;ans[i][j] += b0[i][j];&#125;&#125;&#125;
+if ((k + 1) % 4 == 2) &#123;for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;ans[i][j] += b0[i][j] + b1[i][j];&#125;&#125;&#125;
+if ((k + 1) % 4 == 3) &#123;for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;ans[i][j] += b0[i][j] + b1[i][j] + b2[i][j];&#125;&#125;&#125;
+for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;if (j != 0) &#123;out.write(&quot; &quot;);&#125;out.write(Long.toString(ans[i][j]));&#125;out.write(&quot;\n\n&quot;);&#125;&#125;&#125;&#125;&#125;
+</code></pre>
+<p>这个时候代码量已经缩小到了 1705B 了，然而还是不能提交。发现代码竟然被截断到了 985 B，这个东西让我突发奇想：“其实我可以把代码量弄大再提交。只要截断部分保留我原有的代码就行。” 于是往结尾添加了大量的无用注释。再次提交，终于提交成功，让我看到了久违的 <code>Accepted</code>.</p>
+<pre><code class="java">import java.io.OutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+public class Main &#123;
+public static void main(String[] args) &#123;InputStream inputStream = System.in;OutputStream outputStream = System.out;Scanner in = new Scanner(inputStream);PrintWriter out = new PrintWriter(outputStream);HDU2687 solver = new HDU2687();solver.solve(1, in, out);out.close();&#125;
+static class HDU2687 &#123;public static int[][] rotate(int a[][], int n) &#123;int[][] b = new int[n][n];for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;b[n - j - 1][i] = a[i][j];&#125;&#125;return b;&#125;
+public void solve(int testNumber, Scanner in, PrintWriter out) &#123;while (in.hasNext()) &#123;int n = in.nextInt();int[][] a = new int[n][n];for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;a[i][j] = in.nextInt();&#125;&#125;int k = in.nextInt();
+int[][] b0 = a;
+int[][] b1 = rotate(rotate(rotate(b0, n), n), n);
+int[][] b2 = rotate(rotate(rotate(b1, n), n), n);
+int[][] b3 = rotate(rotate(rotate(b2, n), n), n);
+long[][] ans = new long[n][n];
+for (int i = 0; i &lt; n; ++i) &#123;
+for (int j = 0; j &lt; n; ++j) &#123;
+ans[i][j] = b0[i][j] + b1[i][j] + b2[i][j] + b3[i][j];
+ans[i][j] *= ((k + 1) / 4);&#125;&#125;
+if ((k + 1) % 4 == 1) &#123;for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;ans[i][j] += b0[i][j];&#125;&#125;&#125;
+if ((k + 1) % 4 == 2) &#123;for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;ans[i][j] += b0[i][j] + b1[i][j];&#125;&#125;&#125;
+if ((k + 1) % 4 == 3) &#123;for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;ans[i][j] += b0[i][j] + b1[i][j] + b2[i][j];&#125;&#125;&#125;
+for (int i = 0; i &lt; n; ++i) &#123;for (int j = 0; j &lt; n; ++j) &#123;if (j != 0) &#123;out.write(&quot; &quot;);&#125;out.write(Long.toString(ans[i][j]));&#125;out.write(&quot;\n\n&quot;);&#125;&#125;&#125;&#125;&#125;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">April 8, 2019&nbsp;&nbsp;23:03:10</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2019-04-08-a-magical-experience-with-hdu.html">https://ismdeep.github.io/posts/2019-04-08-a-magical-experience-with-hdu.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/ACM-ICPC/">#ACM-ICPC</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

@@ -1,0 +1,358 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>在 Linux 发行版上编译并安装 Python3 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">在 Linux 发行版上编译并安装 Python3</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%87%86%E5%A4%87"><span class="toc-text">1 准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-Debian-Ubuntu-%E7%B3%BB%E5%88%97%E7%8E%AF%E5%A2%83"><span class="toc-text">1.1 Debian&#x2F;Ubuntu 系列环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-RHEL-CentOS-%E7%B3%BB%E5%88%97%E7%8E%AF%E5%A2%83"><span class="toc-text">1.2 RHEL&#x2F;CentOS 系列环境</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%BC%96%E8%AF%91"><span class="toc-text">2 编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85"><span class="toc-text">3 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%85%B6%E4%BB%96"><span class="toc-text">4 其他</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E6%9B%B4%E6%96%B0%E6%BA%90"><span class="toc-text">4.1 配置国内更新源</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">在 Linux 发行版上编译并安装 Python3</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <h1 id="1-准备"><a href="#1-准备" class="headerlink" title="1 准备"></a>1 准备</h1><h2 id="1-1-Debian-Ubuntu-系列环境"><a href="#1-1-Debian-Ubuntu-系列环境" class="headerlink" title="1.1 Debian&#x2F;Ubuntu 系列环境"></a>1.1 Debian&#x2F;Ubuntu 系列环境</h2><pre><code>$ sudo apt update &amp;&amp; \
+  sudo apt install -y \
+    build-essential \
+    bzip2 \
+    curl \
+    g++ \
+    gcc \
+    libbz2-dev \
+    libdb-dev \
+    libffi-dev \
+    libgdbm-dev \
+    liblzma-dev \
+    libncurses5-dev \
+    libnsl-dev \
+    libnss3-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libtirpc-dev \
+    libzstd-dev \
+    make \
+    openssl \
+    pkg-config \
+    pv \
+    python3-tk \
+    tk-dev \
+    xz-utils \
+    zlib1g-dev \
+  &amp;&amp; echo &#39;OK&#39;
+</code></pre>
+<h2 id="1-2-RHEL-CentOS-系列环境"><a href="#1-2-RHEL-CentOS-系列环境" class="headerlink" title="1.2 RHEL&#x2F;CentOS 系列环境"></a>1.2 RHEL&#x2F;CentOS 系列环境</h2><pre><code>$ sudo yum install -y \
+    bzip2-devel \
+    curl \
+    gcc \
+    gcc-c++ \
+    make \
+    gdbm-devel \
+    libffi-devel \
+    libnsl2-devel \
+    libuuid-devel \
+    make \
+    ncurses-devel \
+    openssl-devel \
+    pv \
+    readline-devel \
+    sqlite-devel \
+    tk-devel \
+    xz-devel \
+    zlib-devel \
+  &amp;&amp; echo &#39;OK&#39;
+</code></pre>
+<h1 id="2-编译"><a href="#2-编译" class="headerlink" title="2 编译"></a>2 编译</h1><p>指定要安装的版本：</p>
+<pre><code>$ export python_version=&#39;3.12.12&#39;
+</code></pre>
+<p>下载源码并编译：</p>
+<pre><code>$ command -v -V curl &amp;&amp; \
+  command -v -V make &amp;&amp; \
+  command -v -V pv &amp;&amp; \
+  command -v -V tar &amp;&amp; \
+  command -v -V xz &amp;&amp; \
+  tmpdir=&quot;$(mktemp -d)&quot; &amp;&amp; \
+  cd &quot;$&#123;tmpdir:?&#125;&quot; &amp;&amp; \
+    curl -fLO &quot;https://www.python.org/ftp/python/$&#123;python_version:?&#125;/Python-$&#123;python_version:?&#125;.tar.xz&quot; &amp;&amp; \
+    pv &quot;Python-$&#123;python_version:?&#125;.tar.xz&quot; | xz -cdk - | tar -x &amp;&amp; \
+  mkdir -p &quot;$&#123;HOME&#125;/Applications/Python-$&#123;python_version:?&#125;&quot; &amp;&amp; \
+  cd &quot;$&#123;tmpdir:?&#125;/Python-$&#123;python_version:?&#125;/&quot; &amp;&amp; \
+    ./configure \
+      --prefix=&quot;$&#123;HOME&#125;/Applications/Python-$&#123;python_version:?&#125;&quot; \
+      --enable-optimizations \
+      --enable-loadable-sqlite-extensions &amp;&amp; \
+    make -j8 build_all &amp;&amp; \
+    echo &quot;Compile process is finished, run command below to install.&quot; &amp;&amp; \
+    echo &quot;  $ make -j8 altinstall&quot;
+</code></pre>
+<h1 id="3-安装"><a href="#3-安装" class="headerlink" title="3 安装"></a>3 安装</h1><pre><code>$ make -j8 altinstall
+</code></pre>
+<h1 id="4-其他"><a href="#4-其他" class="headerlink" title="4 其他"></a>4 其他</h1><h2 id="4-1-配置国内更新源"><a href="#4-1-配置国内更新源" class="headerlink" title="4.1 配置国内更新源"></a>4.1 配置国内更新源</h2><pre><code>$ if [ ! -f &quot;$&#123;HOME&#125;/.pip/pip.conf&quot; ]; then \
+  mkdir -p &quot;$&#123;HOME&#125;/.pip/&quot; &amp;&amp; \
+  &#123; \
+    echo &#39;[global]&#39; &amp;&amp; \
+    echo &#39;index-url = https://mirrors.huaweicloud.com/repository/pypi/simple&#39; &amp;&amp; \
+    echo &#39;trusted-host = mirrors.huaweicloud.com&#39; &amp;&amp; \
+    echo &#39;timeout = 120&#39; &amp;&amp; \
+    true; &#125; | tee &quot;$&#123;HOME&#125;/.pip/pip.conf&quot;; \
+  else \
+    echo &#39;[WARN] $&#123;HOME&#125;/.pip/pip.conf: already exists&#39;; \
+  fi
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">January 2, 2026&nbsp;&nbsp;17:46:19</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2026-01-02-compile-python3-from-scratch-on-linux-distributions.html">https://ismdeep.github.io/posts/2026-01-02-compile-python3-from-scratch-on-linux-distributions.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Python/">#Python</a>
+                        
+                            <a href="/tags/Linux/">#Linux</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

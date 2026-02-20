@@ -1,0 +1,547 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Maven | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Maven</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">一、常用命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81settings-xml"><span class="toc-text">二、settings.xml</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Maven</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>官网下载地址：<a target="_blank" rel="noopener" href="https://maven.apache.org/download.cgi">https://maven.apache.org/download.cgi</a></p>
+<h1 id="一、常用命令"><a href="#一、常用命令" class="headerlink" title="一、常用命令"></a>一、常用命令</h1><p>清理：</p>
+<pre><code>$ mvn --file pom.xml clean
+</code></pre>
+<p>清理并安装（指定 settings 文件）：</p>
+<pre><code>$ mvn --file pom.xml --settings maven-settings.xml clean install
+</code></pre>
+<h1 id="二、settings-xml"><a href="#二、settings-xml" class="headerlink" title="二、settings.xml"></a>二、settings.xml</h1><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+&quot;License&quot;); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+&quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+--&gt;
+
+&lt;!--
+ | This is the configuration file for Maven. It can be specified at two levels:
+ |
+ |  1. User Level. This settings.xml file provides configuration for a single user,
+ |                 and is normally provided in $&#123;user.home&#125;/.m2/settings.xml.
+ |
+ |                 NOTE: This location can be overridden with the CLI option:
+ |
+ |                 -s /path/to/user/settings.xml
+ |
+ |  2. Global Level. This settings.xml file provides configuration for all Maven
+ |                 users on a machine (assuming they&#39;re all using the same Maven
+ |                 installation). It&#39;s normally provided in
+ |                 $&#123;maven.conf&#125;/settings.xml.
+ |
+ |                 NOTE: This location can be overridden with the CLI option:
+ |
+ |                 -gs /path/to/global/settings.xml
+ |
+ | The sections in this sample file are intended to give you a running start at
+ | getting the most out of your Maven installation. Where appropriate, the default
+ | values (values used when the setting is not specified) are provided.
+ |
+ |--&gt;
+&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.2.0&quot;
+          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd&quot;&gt;
+  &lt;!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: $&#123;user.home&#125;/.m2/repository
+  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+  --&gt;
+
+  &lt;!-- interactiveMode
+   | This will determine whether maven prompts you when it needs input. If set to false,
+   | maven will use a sensible default value, perhaps based on some other setting, for
+   | the parameter in question.
+   |
+   | Default: true
+  &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;
+  --&gt;
+
+  &lt;!-- offline
+   | Determines whether maven should attempt to connect to the network when executing a build.
+   | This will have an effect on artifact downloads, artifact deployment, and others.
+   |
+   | Default: false
+  &lt;offline&gt;false&lt;/offline&gt;
+  --&gt;
+
+  &lt;!-- pluginGroups
+   | This is a list of additional group identifiers that will be searched when resolving plugins by their prefix, i.e.
+   | when invoking a command line like &quot;mvn prefix:goal&quot;. Maven will automatically add the group identifiers
+   | &quot;org.apache.maven.plugins&quot; and &quot;org.codehaus.mojo&quot; if these are not already contained in the list.
+   |--&gt;
+  &lt;pluginGroups&gt;
+    &lt;!-- pluginGroup
+     | Specifies a further group identifier to use for plugin lookup.
+    &lt;pluginGroup&gt;com.your.plugins&lt;/pluginGroup&gt;
+    --&gt;
+  &lt;/pluginGroups&gt;
+
+  &lt;!-- TODO Since when can proxies be selected as depicted? --&gt;
+  &lt;!-- proxies
+   | This is a list of proxies which can be used on this machine to connect to the network.
+   | Unless otherwise specified (by system property or command-line switch), the first proxy
+   | specification in this list marked as active will be used.
+   |--&gt;
+  &lt;proxies&gt;
+    &lt;!-- proxy
+     | Specification for one proxy, to be used in connecting to the network.
+     |
+    &lt;proxy&gt;
+      &lt;id&gt;optional&lt;/id&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;http&lt;/protocol&gt;
+      &lt;username&gt;proxyuser&lt;/username&gt;
+      &lt;password&gt;proxypass&lt;/password&gt;
+      &lt;host&gt;proxy.host.net&lt;/host&gt;
+      &lt;port&gt;80&lt;/port&gt;
+      &lt;nonProxyHosts&gt;local.net|some.host.com&lt;/nonProxyHosts&gt;
+    &lt;/proxy&gt;
+    --&gt;
+  &lt;/proxies&gt;
+
+  &lt;!-- servers
+   | This is a list of authentication profiles, keyed by the server-id used within the system.
+   | Authentication profiles can be used whenever maven must make a connection to a remote server.
+   |--&gt;
+  &lt;servers&gt;
+    &lt;!-- server
+     | Specifies the authentication information to use when connecting to a particular server, identified by
+     | a unique name within the system (referred to by the &#39;id&#39; attribute below).
+     |
+     | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are
+     |       used together.
+     |
+    &lt;server&gt;
+      &lt;id&gt;deploymentRepo&lt;/id&gt;
+      &lt;username&gt;repouser&lt;/username&gt;
+      &lt;password&gt;repopwd&lt;/password&gt;
+    &lt;/server&gt;
+    --&gt;
+
+    &lt;!-- Another sample, using keys to authenticate.
+    &lt;server&gt;
+      &lt;id&gt;siteServer&lt;/id&gt;
+      &lt;privateKey&gt;/path/to/private/key&lt;/privateKey&gt;
+      &lt;passphrase&gt;optional; leave empty if not used.&lt;/passphrase&gt;
+    &lt;/server&gt;
+    --&gt;
+  &lt;/servers&gt;
+
+  &lt;!-- mirrors
+   | This is a list of mirrors to be used in downloading artifacts from remote repositories.
+   |
+   | It works like this: a POM may declare a repository to use in resolving certain artifacts.
+   | However, this repository may have problems with heavy traffic at times, so people have mirrored
+   | it to several places.
+   |
+   | That repository definition will have a unique id, so we can create a mirror reference for that
+   | repository, to be used as an alternate download site. The mirror site will be the preferred
+   | server for that repository.
+   |--&gt;
+  &lt;mirrors&gt;
+    &lt;!-- mirror
+     | Specifies a repository mirror site to use instead of a given repository. The repository that
+     | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used
+     | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
+     |
+    &lt;mirror&gt;
+      &lt;id&gt;mirrorId&lt;/id&gt;
+      &lt;mirrorOf&gt;repositoryId&lt;/mirrorOf&gt;
+      &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;
+      &lt;url&gt;http://my.repository.com/repo/path&lt;/url&gt;
+    &lt;/mirror&gt;
+     --&gt;
+    &lt;mirror&gt;
+      &lt;id&gt;maven-default-http-blocker&lt;/id&gt;
+      &lt;mirrorOf&gt;external:http:*&lt;/mirrorOf&gt;
+      &lt;name&gt;Pseudo repository to mirror external repositories initially using HTTP.&lt;/name&gt;
+      &lt;url&gt;http://0.0.0.0/&lt;/url&gt;
+      &lt;blocked&gt;true&lt;/blocked&gt;
+    &lt;/mirror&gt;
+&lt;mirror&gt;
+    &lt;id&gt;alimaven&lt;/id&gt;
+    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+    &lt;name&gt;阿里云公共仓库&lt;/name&gt;
+    &lt;url&gt;https://maven.aliyun.com/repository/public&lt;/url&gt;
+&lt;/mirror&gt;
+  &lt;/mirrors&gt;
+
+  &lt;!-- profiles
+   | This is a list of profiles which can be activated in a variety of ways, and which can modify
+   | the build process. Profiles provided in the settings.xml are intended to provide local machine-
+   | specific paths and repository locations which allow the build to work in the local environment.
+   |
+   | For example, if you have an integration testing plugin - like cactus - that needs to know where
+   | your Tomcat instance is installed, you can provide a variable here such that the variable is
+   | dereferenced during the build process to configure the cactus plugin.
+   |
+   | As noted above, profiles can be activated in a variety of ways. One way - the activeProfiles
+   | section of this document (settings.xml) - will be discussed later. Another way essentially
+   | relies on the detection of a property, either matching a particular value for the property,
+   | or merely testing its existence. Profiles can also be activated by JDK version prefix, where a
+   | value of &#39;1.4&#39; might activate a profile when the build is executed on a JDK version of &#39;1.4.2_07&#39;.
+   | Finally, the list of active profiles can be specified directly from the command line.
+   |
+   | NOTE: For profiles defined in the settings.xml, you are restricted to specifying only artifact
+   |       repositories, plugin repositories, and free-form properties to be used as configuration
+   |       variables for plugins in the POM.
+   |
+   |--&gt;
+  &lt;profiles&gt;
+    &lt;!-- profile
+     | Specifies a set of introductions to the build process, to be activated using one or more of the
+     | mechanisms described above. For inheritance purposes, and to activate profiles via &lt;activatedProfiles/&gt;
+     | or the command line, profiles have to have an ID that is unique.
+     |
+     | An encouraged best practice for profile identification is to use a consistent naming convention
+     | for profiles, such as &#39;env-dev&#39;, &#39;env-test&#39;, &#39;env-production&#39;, &#39;user-jdcasey&#39;, &#39;user-brett&#39;, etc.
+     | This will make it more intuitive to understand what the set of introduced profiles is attempting
+     | to accomplish, particularly when you only have a list of profile id&#39;s for debug.
+     |
+     | This profile example uses the JDK version to trigger activation, and provides a JDK-specific repo.
+    &lt;profile&gt;
+      &lt;id&gt;jdk-1.4&lt;/id&gt;
+
+      &lt;activation&gt;
+        &lt;jdk&gt;1.4&lt;/jdk&gt;
+      &lt;/activation&gt;
+
+      &lt;repositories&gt;
+        &lt;repository&gt;
+          &lt;id&gt;jdk14&lt;/id&gt;
+          &lt;name&gt;Repository for JDK 1.4 builds&lt;/name&gt;
+          &lt;url&gt;http://www.myhost.com/maven/jdk14&lt;/url&gt;
+          &lt;layout&gt;default&lt;/layout&gt;
+          &lt;snapshotPolicy&gt;always&lt;/snapshotPolicy&gt;
+        &lt;/repository&gt;
+      &lt;/repositories&gt;
+    &lt;/profile&gt;
+    --&gt;
+
+    &lt;!--
+     | Here is another profile, activated by the property &#39;target-env&#39; with a value of &#39;dev&#39;, which
+     | provides a specific path to the Tomcat instance. To use this, your plugin configuration might
+     | hypothetically look like:
+     |
+     | ...
+     | &lt;plugin&gt;
+     |   &lt;groupId&gt;org.myco.myplugins&lt;/groupId&gt;
+     |   &lt;artifactId&gt;myplugin&lt;/artifactId&gt;
+     |
+     |   &lt;configuration&gt;
+     |     &lt;tomcatLocation&gt;$&#123;tomcatPath&#125;&lt;/tomcatLocation&gt;
+     |   &lt;/configuration&gt;
+     | &lt;/plugin&gt;
+     | ...
+     |
+     | NOTE: If you just wanted to inject this configuration whenever someone set &#39;target-env&#39; to
+     |       anything, you could just leave off the &lt;value/&gt; inside the activation-property.
+     |
+    &lt;profile&gt;
+      &lt;id&gt;env-dev&lt;/id&gt;
+
+      &lt;activation&gt;
+        &lt;property&gt;
+          &lt;name&gt;target-env&lt;/name&gt;
+          &lt;value&gt;dev&lt;/value&gt;
+        &lt;/property&gt;
+      &lt;/activation&gt;
+
+      &lt;properties&gt;
+        &lt;tomcatPath&gt;/path/to/tomcat/instance&lt;/tomcatPath&gt;
+      &lt;/properties&gt;
+    &lt;/profile&gt;
+    --&gt;
+  &lt;/profiles&gt;
+
+  &lt;!-- activeProfiles
+   | List of profiles that are active for all builds.
+   |
+  &lt;activeProfiles&gt;
+    &lt;activeProfile&gt;alwaysActiveProfile&lt;/activeProfile&gt;
+    &lt;activeProfile&gt;anotherAlwaysActiveProfile&lt;/activeProfile&gt;
+  &lt;/activeProfiles&gt;
+  --&gt;
+&lt;/settings&gt;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">November 8, 2025&nbsp;&nbsp;0:04:36</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2025-11-08-maven.html">https://ismdeep.github.io/posts/2025-11-08-maven.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Java/">#Java</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

@@ -1,0 +1,697 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>2020年蓝桥杯全国总决赛——皮亚诺曲线 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">2020年蓝桥杯全国总决赛——皮亚诺曲线</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-text">1. 问题描述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-text">2. 问题分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E7%9A%AE%E4%BA%9A%E8%AF%BA%E6%9B%B2%E7%BA%BF%E5%AE%9E%E7%8E%B0"><span class="toc-text">3. 皮亚诺曲线实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E9%97%AE%E9%A2%98%E6%B1%82%E8%A7%A3%E8%BF%87%E7%A8%8B"><span class="toc-text">4. 问题求解过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E8%A7%A3%E9%A2%98%E4%BB%A3%E7%A0%81"><span class="toc-text">5. 解题代码</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">2020年蓝桥杯全国总决赛——皮亚诺曲线</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>皮亚诺曲线（英语：Peano Curve，也称：希尔伯特曲线，Hilbert Curve）是一条能够填满正方形的曲线。在传统概念中，曲线的数维是1维，正方形是2维的。详细介绍见：<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-cn/%E7%9A%AE%E4%BA%9A%E8%AF%BA%E6%9B%B2%E7%BA%BF">维基百科：皮亚诺曲线</a></p>
+<h1 id="1-问题描述"><a href="#1-问题描述" class="headerlink" title="1. 问题描述"></a>1. 问题描述</h1><p>皮亚诺曲线是一条平面内的曲线，下图给出了皮亚诺曲线的 1 阶情形，它是从左下角出发，经过一个 3 × 3 的方格中的每一个格子，最终到达右上角的一条曲线。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/11/17/3f282b6c64756110753712d0f3cf5e81-f86fc3.png" alt="img"></p>
+<p>下图给出了皮亚诺曲线的 2 阶情形，它是经过一个 32 × 32 的方格中的每一个格子的一条曲线。它是将 1 阶曲线的每个方格由 1 阶曲线替换而成。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/11/17/e4756f6a8d6f793ea06b2d3e5fd364f1-028733.png" alt="img"></p>
+<p>下图给出了皮亚诺曲线的 3 阶情形，它是经过一个 33 × 33 的方格中的每一个格子的一条曲线。它是将 2 阶曲线的每个方格由 1 阶曲线替换而成。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/11/17/9f4c990545830ede819aca69522f9cf3-d44c33.png" alt="img"></p>
+<p>皮亚诺曲线总是从左下角开始出发，最终到达右上角。</p>
+<p><strong>问题：求给定阶数的皮亚诺曲线中任意两个相邻点数值差之和。</strong>比如：</p>
+<p>$1$ 阶皮亚诺曲线所有相邻点差值和为 $24$.</p>
+<p>$2$ 阶皮亚诺曲线所有相邻点差值和为 $816$.</p>
+<p>比赛中题目最后要求的是 $n &#x3D; 14$ ，即求 $14$ 阶皮亚诺曲线中任意两个相邻点数值差的和。</p>
+<h1 id="2-问题分析"><a href="#2-问题分析" class="headerlink" title="2. 问题分析"></a>2. 问题分析</h1><p>首先，如果通过暴力打表，然后将所有相邻点差值的和累加起来，当然是不现实的。想想空间复杂度和时间复杂度就明白了。这里我们能够很容易得到空间复杂度是 $O((3^n)^2)$，估算一下当 $n &#x3D; 14$ 时，内存至少需要 $170445$ GB.</p>
+<pre><code>&gt;&gt;&gt; (3 ** 14) ** 2 * 8.0 / 1024.0 / 1024.0 / 1024.0
+170445.38598478585
+</code></pre>
+<p>别做梦了，暴力杯并不是所有题都是可以暴力的。</p>
+<p>那这样的题目应该怎么做呢？虽然 $n &#x3D; 14$ 我们做不到，但是 $n$ 比较小的时候还是能够处理的嘛。比如：$n &#x3D; 1$， $n &#x3D; 2$ 这样的。先写一个模拟出来，再找找规律看看。（<em>其实这样的一个解题思路基本上是么得问题的。</em>）</p>
+<p>对于这个东西该怎么模拟呢，请先看下面两张图，分别为 $1$ 阶皮亚诺曲线和 $2$ 阶皮亚诺曲线大致走向示意图。</p>
+<img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/11/17/e2568c2d390c3517808ca11a71ff942d-057a40.jpg" alt="MnTOZP18TPSHNIm+aFmeRg_thumb_6b1" style="zoom: 25%;" />
+
+<img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/11/17/96a33f5d08d8b33cc722ed9696810538-411135.jpg" alt="yuQ3JrzlSnSezgL+XhF%Ag_thumb_6ae" style="zoom: 25%;" />
+
+<p>我们发现在所有的皮亚诺曲线中，大致走向只有四个方向：↗️、↖️、↘️、↙️，依次编号为1，2，3，4.</p>
+<ol>
+<li>↗️</li>
+<li>↖️</li>
+<li>↘️</li>
+<li>↙️</li>
+</ol>
+<p>而皮亚诺曲线升阶（比如1阶变到2阶）过程，就是对基阶皮亚诺曲线进行扩展操作。比如我们看 $1$ 阶升阶为 $2$ 阶就是对↗️走向扩展为 9 个走向↗️↖️↗️ ↘️↙️↘️ ↗️↖️↗️. 到这里如果都能看明白，其他对这个题目解题就很有帮助了。我们接下来要做的就是将四个方向扩展出来的方向列表搞出来，这个可以从二阶扩展到三阶的皮亚诺曲线中得到。</p>
+<ol>
+<li>↗️ 扩展为 ↗️↖️↗️ ↘️↙️↘️ ↗️↖️↗️ 对应编号为 <code>121 343 121</code></li>
+<li>↖️ 扩展为 ↖️↗️↖️ ↙️↘️↙️ ↖️↗️↖️ 对应编号为 <code>212 434 212</code></li>
+<li>↘️ 扩展为 ↘️↙️↘️ ↗️↖️↗️ ↘️↙️↘️ 对应编号为 <code>343 121 343</code></li>
+<li>↙️ 扩展为 ↙️↘️↙️ ↖️↗️↖️ ↙️↘️↙️ 对应编号为 <code>434 212 434</code></li>
+</ol>
+<p>到这里接下来就变得简单了，当然还有一点需要处理，那就是各个大致行走方向怎么接上的问题，比如：先↗️走，接下来需要↖️走，但是我应该怎样让↗️结束后的那个位置接上↖️开始的位置呢？</p>
+<p>那么我们对于所有可能的组合进行的表示（当然并不是所有的方向组合都在这个方向中的，比如↗️接下来就不可能是↙️）：</p>
+<img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/11/17/840fb3fcad1124b4846e5eb846c95113-fdd6e7.jpg" alt="J41Ora9ESyuBnG7xh9tvdg_thumb_6b7" style="zoom: 33%;" />
+
+<p>那对于大致方向与大致方向之间的连接关系我们也得到了。</p>
+<p>下来就是把大致方向（↗️、↖️、↘️、↙️）表示成详细的行走方向（⬆️、⬇️、⬅️、➡️）即可。</p>
+<h1 id="3-皮亚诺曲线实现"><a href="#3-皮亚诺曲线实现" class="headerlink" title="3. 皮亚诺曲线实现"></a>3. 皮亚诺曲线实现</h1><p><code>Dir.java</code> 详细行走方向类，后面需要用到。</p>
+<pre><code class="java">public class Dir &#123;
+    public int ic;
+    public int jc;
+
+    public Dir(int _ic_, int _jc_) &#123;
+        this.ic = _ic_;
+        this.jc = _jc_;
+    &#125;
+&#125;
+</code></pre>
+<p><code>DirUtil.java</code> 方向处理工具类，<strong>核心部分</strong>，用于升阶扩展操作，以及将大致行走方向表示成详细的行走方向。</p>
+<pre><code class="java">import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class DirUtil &#123;
+    private static final Dir UP = new Dir(1, 0);
+    private static final Dir DOWN = new Dir(-1, 0);
+    private static final Dir RIGHT = new Dir(0, 1);
+    private static final Dir LEFT = new Dir(0, -1);
+
+
+    public static Dir[] dir1 = new Dir[]&#123;
+            UP, UP, RIGHT, DOWN, DOWN, RIGHT, UP, UP
+    &#125;;
+
+
+    public static Dir[] dir2 = new Dir[]&#123;
+            UP, UP, LEFT, DOWN, DOWN, LEFT, UP, UP
+    &#125;;
+
+
+    public static Dir[] dir3 = new Dir[]&#123;
+            DOWN, DOWN, RIGHT, UP, UP, RIGHT, DOWN, DOWN
+    &#125;;
+
+
+    public static Dir[] dir4 = new Dir[]&#123;
+            DOWN, DOWN, LEFT, UP, UP, LEFT, DOWN, DOWN
+    &#125;;
+
+    public static Dir[] getDir(DirTester.Point s, DirTester.Point t) &#123;
+        if (s.x &lt; t.x &amp;&amp; s.y &lt; t.y) return dir1;
+        if (s.x &lt; t.x &amp;&amp; s.y &gt; t.y) return dir2;
+        if (s.x &gt; t.x &amp;&amp; s.y &lt; t.y) return dir3;
+        return dir4;
+    &#125;
+
+    public static Dir[] getDirById(int __id__) &#123;
+        switch (__id__) &#123;
+            case 1:
+                return dir1;
+            case 2:
+                return dir2;
+            case 3:
+                return dir3;
+            case 4:
+                return dir4;
+        &#125;
+        return null;
+    &#125;
+
+    // 升阶扩展操作
+    public static List&lt;Integer&gt; expandDirGroup(List&lt;Integer&gt; list) &#123;
+        List&lt;Integer&gt; expandedList = new ArrayList&lt;&gt;();
+
+        for (int item : list) &#123;
+            switch (item) &#123;
+                case 1:
+                    expandedList.addAll(Arrays.asList(1, 2, 1, 3, 4, 3, 1, 2, 1));
+                    break;
+                case 2:
+                    expandedList.addAll(Arrays.asList(2, 1, 2, 4, 3, 4, 2, 1, 2));
+                    break;
+                case 3:
+                    expandedList.addAll(Arrays.asList(3, 4, 3, 1, 2, 1, 3, 4, 3));
+                    break;
+                case 4:
+                    expandedList.addAll(Arrays.asList(4, 3, 4, 2, 1, 2, 4, 3, 4));
+                    break;
+            &#125;
+        &#125;
+
+        return expandedList;
+    &#125;
+
+    // 将大致行走方向展开为完整的行走方向
+    public static List&lt;Dir&gt; expandAsStepList(List&lt;Integer&gt; dirGroupList) &#123;
+        List&lt;Dir&gt; dirs = new ArrayList&lt;&gt;();
+
+        int prevDirId = 0;
+
+        for (int dirGroupId : dirGroupList) &#123;
+            Dir[] dirsTmp = getDirById(dirGroupId);
+            switch (prevDirId * 10 + dirGroupId) &#123;
+                case 12:
+                case 21:
+                    dirs.add(UP);
+                    break;
+                case 13:
+                case 31:
+                    dirs.add(RIGHT);
+                    break;
+                case 24:
+                case 42:
+                    dirs.add(LEFT);
+                    break;
+                case 34:
+                case 43:
+                    dirs.add(DOWN);
+                    break;
+            &#125;
+            assert dirsTmp != null;
+            dirs.addAll(Arrays.asList(dirsTmp));
+            prevDirId = dirGroupId;
+        &#125;
+
+        return dirs;
+    &#125;
+&#125;
+</code></pre>
+<p><code>HilbertCurveTester.java</code> 则是对曲线结果进行测试了。</p>
+<pre><code class="java">import java.util.*;
+
+public class HilbertCurveTester &#123;
+
+    static class Point &#123;
+        public int x, y;
+
+        public Point() &#123;
+        &#125;
+
+        public Point(int x, int y) &#123;
+            this.x = x;
+            this.y = y;
+        &#125;
+    &#125;
+
+
+    public static int[][] genMap(int level) &#123;
+        if (level &lt; 1) &#123;
+            return null;
+        &#125;
+
+        int mapSize = pow(3, level);
+        int[][] a = new int[mapSize][mapSize];
+
+
+        List&lt;Integer&gt; dirGroupList = new ArrayList&lt;&gt;();
+        dirGroupList.add(1);
+        for (int i = 2; i &lt;= level; i++) &#123;
+            dirGroupList = DirUtil.expandDirGroup(dirGroupList);
+        &#125;
+
+        List&lt;Dir&gt; dirList = DirUtil.expandAsStepList(dirGroupList);
+
+        int x = 0;
+        int y = 0;
+
+        int val = 1;
+        a[x][y] = val++;
+
+        for (Dir dir : dirList) &#123;
+            x += dir.ic;
+            y += dir.jc;
+            a[x][y] = val++;
+        &#125;
+
+        return a;
+    &#125;
+
+    public static int pow(int a, int n) &#123;
+        int ans = 1;
+        for (int i = 0; i &lt; n; i++) &#123;
+            ans *= a;
+        &#125;
+        return ans;
+    &#125;
+
+    public static void display(int[][] a) &#123;
+        for (int i = a.length - 1; i &gt;= 0; i--) &#123;
+            for (int j = 0; j &lt; a[i].length; j++) &#123;
+                System.out.printf(&quot;%2d &quot;, a[i][j]);
+            &#125;
+            System.out.println();
+        &#125;
+    &#125;
+
+    public static void main(String[] args) &#123;
+        System.out.print(&quot;[n] &gt; &quot;);
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[][] a = genMap(n);
+        int sum = 0;
+
+        assert a != null;
+
+        display(a);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="text">[n] &gt; 1
+ 3  4  9 
+ 2  5  8 
+ 1  6  7 
+</code></pre>
+<pre><code>[n] &gt; 2
+21 22 27 28 33 34 75 76 81 
+20 23 26 29 32 35 74 77 80 
+19 24 25 30 31 36 73 78 79 
+18 13 12 43 42 37 72 67 66 
+17 14 11 44 41 38 71 68 65 
+16 15 10 45 40 39 70 69 64 
+ 3  4  9 46 51 52 57 58 63 
+ 2  5  8 47 50 53 56 59 62 
+ 1  6  7 48 49 54 55 60 61 
+</code></pre>
+<h1 id="4-问题求解过程"><a href="#4-问题求解过程" class="headerlink" title="4. 问题求解过程"></a>4. 问题求解过程</h1><p>接下来我们就可以对生成的皮亚诺曲线进行找规律了，我们可以将所有距离都打了出来，形成一个 $(距离，个数)$ 表示形式。比如：</p>
+<pre><code class="text">[n] &gt; 1
+(1, 8)
+(5, 2)
+(3, 2)
+</code></pre>
+<p>与给的样例是一样的 $1 \times 8 + 5 \times 2 + 3 \times 2 &#x3D; 24$</p>
+<pre><code>[n] &gt; 2
+(1, 80)
+(3, 20)
+(5, 20)
+(11, 6)
+(13, 6)
+(31, 2)
+(33, 2)
+(35, 2)
+(37, 2)
+(39, 2)
+(41, 2)
+</code></pre>
+<p>这里与给的样例计算结果也是一样的。</p>
+<p>我发现接下去打表就更长了，规律不好找了。于是我突发奇想，我想着直接把同样个数的数值都给加起来看看。</p>
+<p>于是就有了以下关于不同 $n$ 的计算式子：</p>
+<pre><code>1 (24)        =&gt; 1*8      + 8*2
+2 (816)       =&gt; 1*80     + 8*20     + 24*6     + 216*2
+3 (23496)     =&gt; 1*728    + 8*182    + 24*60    + 216*20    + 648*6    + 5832*2
+4 (647520)    =&gt; 1*6560   + 8*1640   + 24*546   + 216*182   + 648*60   + 5832*20   + 17496*6   + 157464*2
+5 (17601144)  =&gt; 1*59048  + 8*14762  + 24*4920  + 216*1640  + 648*546  + 5832*182  + 17496*60  + 157464*20  + 472392*6  + 4251528*2
+6 (476293776) =&gt; 1*531440 + 8*132860 + 24*44286 + 216*14762 + 648*4920 + 5832*1640 + 17496*546 + 157464*182 + 472392*60 + 4251528*20  + 12754584*6 + 114791256*2
+</code></pre>
+<p>接下来就是快乐的找规律时间了。</p>
+<p>我们将乘法左右给拆分出来，分成两个列表 <code>list1</code> 和 <code>list2</code></p>
+<p><code>list1</code></p>
+<pre><code>1 (24)        =&gt; 1 8
+2 (816)       =&gt; 1 8 24 216
+3 (23496)     =&gt; 1 8 24 216 648 5832
+4 (647520)    =&gt; 1 8 24 216 648 5832 17496 157464
+5 (17601144)  =&gt; 1 8 24 216 648 5832 17496 157464 472392 4251528
+6 (476293776) =&gt; 1 8 24 216 648 5832 17496 157464 472392 4251528 12754584 114791256
+</code></pre>
+<p><code>list2</code></p>
+<pre><code>1 (24)        =&gt; 8      2
+2 (816)       =&gt; 80     20     6     2
+3 (23496)     =&gt; 728    182    60    20    6    2
+4 (647520)    =&gt; 6560   1640   546   182   60   20   6   2
+5 (17601144)  =&gt; 59048  14762  4920  1640  546  182  60  20  6  2
+6 (476293776) =&gt; 531440 132860 44286 14762 4920 1640 546 182 60 20 6 2
+</code></pre>
+<p>至此，规律就变得很容易找了。</p>
+<p>这里就不去过多赘述了。见下面的代码吧。</p>
+<h1 id="5-解题代码"><a href="#5-解题代码" class="headerlink" title="5. 解题代码"></a>5. 解题代码</h1><pre><code class="java">import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main &#123;
+
+    public static long pow(long a, int n) &#123;
+        long ans = 1;
+        for (int i = 0; i &lt; n; i++) &#123;
+            ans *= a;
+        &#125;
+        return ans;
+    &#125;
+
+
+    public static List&lt;Long&gt; genList1(int n) &#123;
+        if (n &lt; 1) &#123;
+            return new ArrayList&lt;&gt;();
+        &#125;
+
+        if (n == 1) &#123;
+            List&lt;Long&gt; result = new ArrayList&lt;&gt;();
+            result.add(1L);
+            result.add(8L);
+            return result;
+        &#125;
+
+        List&lt;Long&gt; prev = genList1(n - 1);
+        List&lt;Long&gt; result = new ArrayList&lt;&gt;(prev);
+
+        result.add(result.get(result.size() - 1) * 3);
+        result.add(result.get(result.size() - 1) * 9);
+
+        return result;
+    &#125;
+
+    public static List&lt;Long&gt; genList2(int n) &#123;
+        if (n &lt; 1) &#123;
+            return new ArrayList&lt;&gt;();
+        &#125;
+
+        if (n == 1) &#123;
+            List&lt;Long&gt; result = new ArrayList&lt;&gt;();
+            result.add(8L);
+            result.add(2L);
+            return result;
+        &#125;
+
+        List&lt;Long&gt; prev = genList2(n - 1);
+        List&lt;Long&gt; result = new ArrayList&lt;&gt;();
+
+        result.add(pow(9, n) - 1);
+        result.add(result.get(result.size()- 1) / 4L);
+        result.add(prev.get(1) * 3);
+        for (int i = 1; i &lt; prev.size(); i++) &#123;
+            result.add(prev.get(i));
+        &#125;
+
+        return result;
+    &#125;
+
+    public static void main(String[] args) &#123;
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        List&lt;Long&gt; list1 = genList1(n);
+        List&lt;Long&gt; list2 = genList2(n);
+
+        long ans = 0;
+        for (int i = 0; i &lt; n * 2; i++) &#123;
+            ans += list1.get(i) * list2.get(i);
+        &#125;
+
+        System.out.println(ans);
+
+    &#125;
+&#125;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">November 17, 2020&nbsp;&nbsp;18:42:55</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2020-11-17-hilbert-curve.html">https://ismdeep.github.io/posts/2020-11-17-hilbert-curve.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Algorithm/">#Algorithm</a>
+                        
+                            <a href="/tags/Math/">#Math</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

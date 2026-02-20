@@ -1,0 +1,372 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>VirtualBox 安装 Debian 13 指南（仅主机模式 + XFCE + 无 root 密码） | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">VirtualBox 安装 Debian 13 指南（仅主机模式 + XFCE + 无 root 密码）</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA-VirtualBox-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">1. 创建 VirtualBox 虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E6%96%B0%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">1.1 新建虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C%EF%BC%88Host-Only%EF%BC%89"><span class="toc-text">1.2 配置网络（Host-Only）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%90%AF%E5%8A%A8-Debian-13-%E5%AE%89%E8%A3%85"><span class="toc-text">2. 启动 Debian 13 安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E5%85%B3%E9%94%AE%E9%80%89%E9%A1%B9"><span class="toc-text">3. 安装过程关键选项</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%9C%B0%E5%8C%BA%E3%80%81%E8%AF%AD%E8%A8%80%E3%80%81%E9%94%AE%E7%9B%98"><span class="toc-text">3.1 地区、语言、键盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">3.2 网络配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E7%94%A8%E6%88%B7%E4%B8%8E%E5%AF%86%E7%A0%81"><span class="toc-text">3.3 用户与密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E8%BD%AF%E4%BB%B6%E9%80%89%E6%8B%A9%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">3.4 软件选择（重要）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E5%AE%89%E8%A3%85-GRUB"><span class="toc-text">3.5 安装 GRUB</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90%E5%90%8E%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">4. 系统安装完成后的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E8%AE%BE%E7%BD%AE%E5%9B%BA%E5%AE%9A-IP-%E5%9C%B0%E5%9D%80%EF%BC%88192-168-56-101%EF%BC%89"><span class="toc-text">4.1 设置固定 IP 地址（192.168.56.101）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E5%88%A0%E9%99%A4-etc-apt-sources-list-%E4%B8%AD-CD-ROM-%E6%BA%90"><span class="toc-text">4.2 删除 &#x2F;etc&#x2F;apt&#x2F;sources.list 中 CD-ROM 源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E5%AE%8C%E6%88%90"><span class="toc-text">5. 完成</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">VirtualBox 安装 Debian 13 指南（仅主机模式 + XFCE + 无 root 密码）</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>本文档描述如何在 VirtualBox 中安装 Debian 13，并配置仅主机（Host-Only）网络、XFCE 桌面环境、SSH Server、不设置 root 密码，以及安装完成后配置固定 IP 地址和清理无用源。</p>
+<p>系统镜像：debian-13.1.0-amd64-DVD-1.iso</p>
+<h1 id="1-创建-VirtualBox-虚拟机"><a href="#1-创建-VirtualBox-虚拟机" class="headerlink" title="1. 创建 VirtualBox 虚拟机"></a>1. 创建 VirtualBox 虚拟机</h1><h2 id="1-1-新建虚拟机"><a href="#1-1-新建虚拟机" class="headerlink" title="1.1 新建虚拟机"></a>1.1 新建虚拟机</h2><ol>
+<li>VirtualBox → <strong>新建</strong></li>
+<li>配置：<ul>
+<li>名称：<code>Debian13-XFCE</code></li>
+<li>类型：Linux</li>
+<li>版本：Debian (64-bit)</li>
+</ul>
+</li>
+<li>内存：<strong>4GB</strong>（或更多）</li>
+<li>硬盘：VDI → 动态分配 → <strong>20GB+</strong></li>
+</ol>
+<h2 id="1-2-配置网络（Host-Only）"><a href="#1-2-配置网络（Host-Only）" class="headerlink" title="1.2 配置网络（Host-Only）"></a>1.2 配置网络（Host-Only）</h2><ol>
+<li>虚拟机 → <strong>设置</strong></li>
+<li><strong>网络</strong><ul>
+<li>网卡 1 → 勾选 <strong>启用网络连接</strong></li>
+<li>“连接方式”选：<strong>仅主机（Host-Only Adapter）</strong></li>
+<li>适配器名称一般为：<code>VirtualBox Host-Only Ethernet Adapter</code></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h1 id="2-启动-Debian-13-安装"><a href="#2-启动-Debian-13-安装" class="headerlink" title="2. 启动 Debian 13 安装"></a>2. 启动 Debian 13 安装</h1><p>加载 Debian 13 ISO 后选择：</p>
+<p>→ <strong>Graphical Install</strong></p>
+<hr>
+<h1 id="3-安装过程关键选项"><a href="#3-安装过程关键选项" class="headerlink" title="3. 安装过程关键选项"></a>3. 安装过程关键选项</h1><h2 id="3-1-地区、语言、键盘"><a href="#3-1-地区、语言、键盘" class="headerlink" title="3.1 地区、语言、键盘"></a>3.1 地区、语言、键盘</h2><p>按需求选择即可。</p>
+<h2 id="3-2-网络配置"><a href="#3-2-网络配置" class="headerlink" title="3.2 网络配置"></a>3.2 网络配置</h2><p>Host-Only 网络通常无 DHCP，可在安装时跳过 IP 配置（后续再设）。</p>
+<h2 id="3-3-用户与密码"><a href="#3-3-用户与密码" class="headerlink" title="3.3 用户与密码"></a>3.3 用户与密码</h2><ul>
+<li><strong>root 密码留空</strong>（系统将禁用 root 登录）</li>
+<li>创建管理员用户：<ul>
+<li>全名：<code>debian</code></li>
+<li>用户名：<code>debian</code></li>
+<li>用户密码：自定义设置</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-4-软件选择（重要）"><a href="#3-4-软件选择（重要）" class="headerlink" title="3.4 软件选择（重要）"></a>3.4 软件选择（重要）</h2><p>请按以下选择：</p>
+<ul>
+<li>GNOME</li>
+<li>Xfce</li>
+<li>SSH server</li>
+<li>Standard system utilities</li>
+</ul>
+<p>确保不选 GNOME。</p>
+<h2 id="3-5-安装-GRUB"><a href="#3-5-安装-GRUB" class="headerlink" title="3.5 安装 GRUB"></a>3.5 安装 GRUB</h2><p>安装至默认硬盘 <code>/dev/sda</code>。</p>
+<hr>
+<h1 id="4-系统安装完成后的配置"><a href="#4-系统安装完成后的配置" class="headerlink" title="4. 系统安装完成后的配置"></a>4. 系统安装完成后的配置</h1><hr>
+<h2 id="4-1-设置固定-IP-地址（192-168-56-101）"><a href="#4-1-设置固定-IP-地址（192-168-56-101）" class="headerlink" title="4.1 设置固定 IP 地址（192.168.56.101）"></a>4.1 设置固定 IP 地址（192.168.56.101）</h2><p><strong>方法：使用系统设置 GUI 完成</strong></p>
+<ol>
+<li>打开 <strong>Settings → Network</strong></li>
+<li>选择 <strong>Wired Connection</strong></li>
+<li>进入 <strong>IPv4</strong></li>
+<li><strong>Method</strong>：选择 <strong>Manual</strong></li>
+<li>地址配置如下：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Address</td>
+<td><strong>192.168.56.101</strong></td>
+</tr>
+<tr>
+<td>Netmask</td>
+<td><strong>255.255.255.0</strong></td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td><strong>192.168.56.1</strong></td>
+</tr>
+<tr>
+<td>DNS Servers</td>
+<td><strong>192.168.56.1</strong></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>说明：<br> VirtualBox Host-Only 适配器默认网关与 DNS 均为 <code>192.168.56.1</code>，可保证主机与虚拟机互通。</p>
+</blockquote>
+<ol>
+<li>保存并重启网络。</li>
+</ol>
+<p><strong>测试</strong></p>
+<pre><code>ip a
+ping 192.168.56.1
+</code></pre>
+<hr>
+<h2 id="4-2-删除-etc-apt-sources-list-中-CD-ROM-源"><a href="#4-2-删除-etc-apt-sources-list-中-CD-ROM-源" class="headerlink" title="4.2 删除 &#x2F;etc&#x2F;apt&#x2F;sources.list 中 CD-ROM 源"></a>4.2 删除 &#x2F;etc&#x2F;apt&#x2F;sources.list 中 CD-ROM 源</h2><p>安装后系统通常包含类似：</p>
+<pre><code>deb cdrom:[Debian GNU/Linux 13 ...]/
+</code></pre>
+<p>请手动删除或注释：</p>
+<pre><code>sudo nano /etc/apt/sources.list
+</code></pre>
+<p>删除 <code>deb cdrom:</code> 开头的行即可。</p>
+<blockquote>
+<p>注意：环境为纯内网环境，不需要执行 <code>apt update</code>。</p>
+</blockquote>
+<h1 id="5-完成"><a href="#5-完成" class="headerlink" title="5. 完成"></a>5. 完成</h1><p>你的 Debian 13 + XFCE + Host-Only + SSH 系统现已安装完毕，可从宿主机访问：</p>
+<pre><code>ssh debian@192.168.56.101
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">December 5, 2025&nbsp;&nbsp;17:43:30</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2025-12-05-install-debian-13-with-xfce4-on-virtualbox.html">https://ismdeep.github.io/posts/2025-12-05-install-debian-13-with-xfce4-on-virtualbox.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Debian/">#Debian</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

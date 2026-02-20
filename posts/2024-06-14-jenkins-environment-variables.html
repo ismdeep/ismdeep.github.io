@@ -1,0 +1,304 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Jenkins Environment Variables | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Jenkins Environment Variables</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Jenkins Environment Variables</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <pre><code>BRANCH_NAME=develop/snipe
+BUILD_DISPLAY_NAME=#3
+BUILD_ID=3
+BUILD_NUMBER=3
+BUILD_TAG=jenkins-hello-world-develop%2Fsnipe-3
+BUILD_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/
+CI=true
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus
+DOCKER_CLI_EXPERIMENTAL=enabled
+EXECUTOR_NUMBER=1
+GIT_BRANCH=develop/snipe
+GIT_COMMIT=fb060e3833b2d5db61b15fca806489b626a89418
+GIT_PREVIOUS_COMMIT=e8b2fdcdc39aadca2c4b0991fa1a00564447a0f0
+GIT_PREVIOUS_SUCCESSFUL_COMMIT=7771ab2ab9f82f49d3dc691a99129e0a5c4b1877
+GIT_URL=https://gitlabwh.uniontech.com/wuhan/web/adp/deploy/hello-world.git
+HUDSON_COOKIE=4e6c6e79-cd1b-4486-9aff-c17eac8c636d
+HUDSON_HOME=/var/jenkins_home
+HUDSON_SERVER_COOKIE=35002450c7ddd0e1
+HUDSON_URL=http://10.20.30.40:8080/
+JENKINS_HOME=/var/jenkins_home
+JENKINS_NODE_COOKIE=f6922b98-89e8-49cf-b18d-89e2daa0da96
+JENKINS_SERVER_COOKIE=durable-b97afb9a3dcb4f29b70420af66d83169bbf7a090e119ae1ec795572fce2fd846
+JENKINS_URL=http://10.20.30.40:8080/
+JOB_BASE_NAME=develop%2Fsnipe
+JOB_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/display/redirect
+JOB_NAME=hello-world/develop%2Fsnipe
+JOB_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/
+LANGUAGE=zh_CN
+LANG=zh_CN.UTF-8
+NODE_LABELS=anunnaki3
+NODE_NAME=anunnaki3
+OLDPWD=/data/jenkins-workspace/workspace/hello-world_develop_snipe
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PWD=/data/jenkins-workspace/workspace/hello-world_develop_snipe
+RUN_ARTIFACTS_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=artifacts
+RUN_CHANGES_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=changes
+RUN_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect
+RUN_TESTS_DISPLAY_URL=http://10.20.30.40:8080/job/hello-world/job/develop%252Fsnipe/3/display/redirect?page=tests
+WORKSPACE=/data/jenkins-workspace/workspace/hello-world_develop_snipe
+WORKSPACE_TMP=/data/jenkins-workspace/workspace/hello-world_develop_snipe@tmp
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">June 14, 2024&nbsp;&nbsp;10:28:32</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2024-06-14-jenkins-environment-variables.html">https://ismdeep.github.io/posts/2024-06-14-jenkins-environment-variables.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/DevOps/">#DevOps</a>
+                        
+                            <a href="/tags/Jenkins/">#Jenkins</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

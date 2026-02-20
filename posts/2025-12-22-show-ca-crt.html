@@ -1,0 +1,315 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>查看 CA 根证书信息 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">查看 CA 根证书信息</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%9F%A5%E7%9C%8B%E8%AF%81%E4%B9%A6%E7%9A%84%E5%AE%8C%E6%95%B4%E5%8F%AF%E8%AF%BB%E4%BF%A1%E6%81%AF%EF%BC%88%E6%9C%80%E5%B8%B8%E7%94%A8%EF%BC%89"><span class="toc-text">一、查看证书的完整可读信息（最常用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%8F%AA%E7%9C%8B%E5%85%B3%E9%94%AE%E4%BF%A1%E6%81%AF%EF%BC%88%E7%AE%80%E6%B4%81%E7%89%88%EF%BC%89"><span class="toc-text">二、只看关键信息（简洁版）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%9F%A5%E7%9C%8B%E6%8C%87%E7%BA%B9%EF%BC%88%E5%B8%B8%E7%94%A8%E4%BA%8E%E6%AF%94%E5%AF%B9%EF%BC%89"><span class="toc-text">三、查看指纹（常用于比对）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%9F%A5%E7%9C%8B%E5%85%AC%E9%92%A5%E4%BF%A1%E6%81%AF"><span class="toc-text">四、查看公钥信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E4%B8%BA%E8%87%AA%E7%AD%BE%E5%90%8D-CA"><span class="toc-text">五、判断是否为自签名 CA</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%A0%A1%E9%AA%8C%E8%AF%81%E4%B9%A6%E6%A0%BC%E5%BC%8F%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8"><span class="toc-text">六、校验证书格式是否正常</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">查看 CA 根证书信息</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>可以用 <strong>openssl x509</strong> 来查看 <code>ca.crt</code>（CA 证书）的详细信息。</p>
+<h1 id="一、查看证书的完整可读信息（最常用）"><a href="#一、查看证书的完整可读信息（最常用）" class="headerlink" title="一、查看证书的完整可读信息（最常用）"></a>一、查看证书的完整可读信息（最常用）</h1><pre><code>openssl x509 -in ca.crt -noout -text
+</code></pre>
+<p>会看到包括：</p>
+<ul>
+<li>证书版本（Version）</li>
+<li>序列号（Serial Number）</li>
+<li>签名算法（Signature Algorithm）</li>
+<li>颁发者（Issuer）</li>
+<li>使用者（Subject）</li>
+<li>有效期（Not Before &#x2F; Not After）</li>
+<li>公钥信息</li>
+<li>扩展字段（Key Usage、Basic Constraints、Subject Key Identifier 等）</li>
+</ul>
+<p>判断是否为 CA 证书，重点看：</p>
+<pre><code>X509v3 Basic Constraints:
+    CA:TRUE
+</code></pre>
+<h1 id="二、只看关键信息（简洁版）"><a href="#二、只看关键信息（简洁版）" class="headerlink" title="二、只看关键信息（简洁版）"></a>二、只看关键信息（简洁版）</h1><pre><code>openssl x509 -in ca.crt -noout \
+  -issuer \
+  -subject \
+  -dates \
+  -serial
+</code></pre>
+<p>输出示例：</p>
+<pre><code>issuer= /C=CN/O=Example CA/OU=Root CA/CN=Example Root CA
+subject= /C=CN/O=Example CA/OU=Root CA/CN=Example Root CA
+notBefore=Jan  1 00:00:00 2024 GMT
+notAfter=Dec 31 23:59:59 2033 GMT
+serial=01A3F5
+</code></pre>
+<h1 id="三、查看指纹（常用于比对）"><a href="#三、查看指纹（常用于比对）" class="headerlink" title="三、查看指纹（常用于比对）"></a>三、查看指纹（常用于比对）</h1><pre><code>openssl x509 -in ca.crt -noout -fingerprint -sha256
+</code></pre>
+<p>SHA-1（旧系统可能还在用）</p>
+<pre><code>openssl x509 -in ca.crt -noout -fingerprint
+</code></pre>
+<h1 id="四、查看公钥信息"><a href="#四、查看公钥信息" class="headerlink" title="四、查看公钥信息"></a>四、查看公钥信息</h1><pre><code>openssl x509 -in ca.crt -noout -pubkey
+</code></pre>
+<p>如果你想进一步分析公钥（如 RSA 位数）：</p>
+<pre><code>openssl x509 -in ca.crt -noout -pubkey | openssl rsa -pubin -text -noout
+</code></pre>
+<h1 id="五、判断是否为自签名-CA"><a href="#五、判断是否为自签名-CA" class="headerlink" title="五、判断是否为自签名 CA"></a>五、判断是否为自签名 CA</h1><pre><code>openssl x509 -in ca.crt -noout -issuer -subject
+</code></pre>
+<p>如果 <strong>Issuer &#x3D;&#x3D; Subject</strong>，通常是 <strong>自签名根 CA</strong>。</p>
+<h1 id="六、校验证书格式是否正常"><a href="#六、校验证书格式是否正常" class="headerlink" title="六、校验证书格式是否正常"></a>六、校验证书格式是否正常</h1><pre><code>openssl x509 -in ca.crt -noout
+</code></pre>
+<p>无输出、无报错说明格式 OK。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">December 22, 2025&nbsp;&nbsp;9:33:24</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2025-12-22-show-ca-crt.html">https://ismdeep.github.io/posts/2025-12-22-show-ca-crt.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Cryptography/">#Cryptography</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
