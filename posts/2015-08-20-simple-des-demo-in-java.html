@@ -1,0 +1,369 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Java DES简单实现 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Java DES简单实现</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Java DES简单实现</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>&nbsp;</p>
+<span id="more"></span>
+
+<pre><code class="java">package com.lemox.security;
+
+import java.security.SecureRandom;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.SecretKey;
+import javax.crypto.Cipher;
+
+/**
+ * DES加密介绍 DES是一种对称加密算法，所谓对称加密算法即：加密和解密使用相同密钥的算法。DES加密算法出自IBM的研究，
+ * 后来被美国政府正式采用，之后开始广泛流传，但是近些年使用越来越少，因为DES使用56位密钥，以现代计算能力，
+ * 24小时内即可被破解。虽然如此，在某些简单应用中，我们还是可以使用DES加密算法，本文简单讲解DES的JAVA实现 。
+ * 注意：DES加密和解密过程中，密钥长度都必须是8的倍数
+ */
+public class DES
+&#123;
+    public DES()
+    &#123;
+    &#125;
+
+    // 测试
+    public static void main(String args[])
+    &#123;
+        // 待加密内容
+        String str = &quot;测试内容&quot;;
+        // 密码，长度要是8的倍数
+        String password = &quot;958802882010913257074332531189842634785729877354946875887501857953775777216308447887369944730603446620061641196057412243405946910023589270273686087290124712345600&quot;;
+        byte[] result = DES.encrypt(str.getBytes(), password);
+        System.out.println(&quot;加密后：&quot; + new String(result));
+        // 直接将如上内容解密
+        try
+        &#123;
+            byte[] decryResult = DES.decrypt(result, password);
+            System.out.println(&quot;解密后：&quot; + new String(decryResult));
+        &#125; catch (Exception e1)
+        &#123;
+            e1.printStackTrace();
+        &#125;
+    &#125;
+
+    /**
+     * 加密
+     * 
+     * @param datasource
+     *            byte[]
+     * @param password
+     *            String
+     * @return byte[]
+     */
+    public static byte[] encrypt(byte[] datasource, String password)
+    &#123;
+        try
+        &#123;
+            SecureRandom random = new SecureRandom();
+            DESKeySpec desKey = new DESKeySpec(password.getBytes());
+            // 创建一个密匙工厂，然后用它把DESKeySpec转换成
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);
+            SecretKey securekey = keyFactory.generateSecret(desKey);
+            // Cipher对象实际完成加密操作
+            Cipher cipher = Cipher.getInstance(&quot;DES&quot;);
+            // 用密匙初始化Cipher对象
+            cipher.init(Cipher.ENCRYPT_MODE, securekey, random);
+            // 现在，获取数据并加密
+            // 正式执行加密操作
+            return cipher.doFinal(datasource);
+        &#125; catch (Throwable e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+        return null;
+    &#125;
+
+    /**
+     * 解密
+     * 
+     * @param src
+     *            byte[]
+     * @param password
+     *            String
+     * @return byte[]
+     * @throws Exception
+     */
+    public static byte[] decrypt(byte[] src, String password) throws Exception
+    &#123;
+        // DES算法要求有一个可信任的随机数源
+        SecureRandom random = new SecureRandom();
+        // 创建一个DESKeySpec对象
+        DESKeySpec desKey = new DESKeySpec(password.getBytes());
+        // 创建一个密匙工厂
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);
+        // 将DESKeySpec对象转换成SecretKey对象
+        SecretKey securekey = keyFactory.generateSecret(desKey);
+        // Cipher对象实际完成解密操作
+        Cipher cipher = Cipher.getInstance(&quot;DES&quot;);
+        // 用密匙初始化Cipher对象
+        cipher.init(Cipher.DECRYPT_MODE, securekey, random);
+        // 真正开始解密操作
+        return cipher.doFinal(src);
+    &#125;
+&#125;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">August 20, 2015&nbsp;&nbsp;8:57:09</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2015-08-20-simple-des-demo-in-java.html">https://ismdeep.github.io/posts/2015-08-20-simple-des-demo-in-java.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Cryptography/">#Cryptography</a>
+                        
+                            <a href="/tags/Algorithm/">#Algorithm</a>
+                        
+                            <a href="/tags/Java/">#Java</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

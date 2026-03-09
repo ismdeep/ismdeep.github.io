@@ -1,0 +1,397 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Python 设计模式之抽象工厂模式 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Python 设计模式之抽象工厂模式</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Python 设计模式之抽象工厂模式</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>每一个<a href="/posts/2019-11-24-python-design-pattern.html">设计模式</a>都是针对一定问题的解决方案。抽象工厂模式与<a href="/posts/2019-11-24-python-design-pattern-factory-method.html">工厂方法模式</a>的最大区别在于：工厂方法模式针对的是一个产品等级结构，而抽象工厂模式则需要面对多个产品等级结构。</p>
+<p>在学习抽象工厂具体实例之前，应该明白两个重要的概念：<strong>产品族</strong>和<strong>产品等级</strong>。</p>
+<p>所谓<strong>产品族</strong>是指位于不同产品等级结构中，功能相关联的产品组成的家族。比如 AMD 的主板、芯片组、CPU组成一个家族。Intel 的主板、芯片组、CPU 组成一个家族。而这两个家族都来自于三个产品等级：主板、芯片组、CPU。一个等级结构是由相同的结构的产品组成。示意图如下：</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/28c2e98c1a659f41ecf4ee14badff5a8-b27476.jpg" alt="photo_2019-11-24_20-45-12"></p>
+<p>显然，每一个产品族中含有产品的数目，与产品等级结构的数目是相等的。产品的等级结构与产品族将产品按照不同方向划分，形成一个二维的坐标系。横轴表示产品的等级结构，纵轴表示产品族，上图共有两个产品族，分布于三个不同的产品等级结构中。只要指明一个产品所处的产品族以及它所属的等级结构，就可以唯一的确定这个产品。</p>
+<p>上面所给出的三个不同的等级结构具有平行的结构。因此，如果采用工厂方法模式，就势必要使用三个独立的工厂等级结构来对付这三个产品等级结构。由于这三个产品等级结构的相似性，会导致三个平行的工厂等级结构。随着产品等级结构的数目增加，工厂方法模式所给出的工厂等级结构的数目也会随之增加。如下图：</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/67f284db9ac02ffbefb79e2758c469a5-385a18.jpg" alt="photo_2019-11-24_20-45-15"></p>
+<p>那么，是否可以使用同一个工厂等级结构来对付这些相同或者极为相似的产品等级结构呢？当然可以的，而且这就是抽象工厂模式的好处。同一个工厂等级结构负责三个不同产品等级结构中的产品对象的创建。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/9a5b0abb6467a2721f705b636cedde0d-629667.jpg" alt="photo_2019-11-24_20-48-51"></p>
+<p>可以看出，一个工厂等级结构可以创建出分属于不同产品等级结构的一个产品族中的所有对象。显然，这时候抽象工厂模式比简单工厂模式、工厂方法模式更有效率。对应于每一个产品族都有一个具体工厂。而每一个具体工厂负责创建属于同一个产品族，但是分属于不同等级结构的产品。</p>
+<p>抽象工厂模式是对象的创建模式，它是<a href="/posts/2019-11-24-python-design-pattern-factory-method.html">工厂方法模式</a>的进一步推广。</p>
+<p>假设一个子系统需要一些产品对象，而这些产品又属于一个以上的产品等级结构。那么为了将消费这些产品对象的责任和创建这些产品对象的责任分割开来，可以引进抽象工厂模式。这样的话，消费产品的一方不需要直接参与产品的创建工作，而只需要向一个公用的工厂接口请求所需要的产品。</p>
+<p>通过使用抽象工厂模式，可以处理具有相同（或者相似）等级结构中的多个产品族中的产品对象的创建问题。如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/b58a5b81d9f05b3e5ba066c78ff6e17a-be87fb.jpg" alt="photo_2019-11-24_20-55-55"></p>
+<p>由于这两个产品族的等级结构相同，因此使用同一个工厂族也可以处理两个产品族的创建问题，这就是抽象工厂模式。</p>
+<p>根据产品角色的结构图，就不难给出工厂角色的结构设计图。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/2a833501cbc8c92ca56075a0d4bebf24-0653fc.jpg" alt="photo_2019-11-24_20-57-47"></p>
+<p>可以看出，每一个工厂角色都有两个工厂方法，分别负责创建分属于不同产品等级结构的产品对象。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/ccb04bfcbe2bbf4b6048fc016175f475-c659ff.jpg" alt="photo_2019-11-24_21-00-03"></p>
+<p>抽象工厂的功能是为一系列相关对象或相互依赖的对象创建一个接口。一定要注意，这个接口的方法不是任意堆砌的，而是一系列相关或相互依赖的方法。比如上面例子中的主板和 CPU ，都是为了组装一台电脑的相关对象。不同的装机方案，代表一种具体的电脑系列。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/244df69053b24c964f05bcb2647b3ca9-46eade.jpg" alt="photo_2019-11-24_21-03-52"></p>
+<p>由于抽象工厂定义的一系列对象通常是相关的相互依赖的，这些产品对象就构成了一个产品族，也就是抽象工厂定义了一个产品族。</p>
+<p>这就带来非常大的灵活性，切换产品族的时候，只要提供不同的抽象工厂实现就可以了，也就是说现在是以一个产品族作为一个整体被切换。</p>
+<p><img src="https://raw.githubusercontent.com/ismdeep/upload/main/images/2020/08/07/910ba6ac7f013ebd00c411e4587424ff-6476c2.jpg" alt="photo_2019-11-24_21-07-09"></p>
+<p><strong>在什么情况下应当使用抽象工厂模式</strong></p>
+<ol>
+<li>一个系统不应当依赖于产品类实例如何被创建、组合和表达的细节，这对于所有形态的工厂模式都是重要的。</li>
+<li>这个系统的产品有多于一个的产品族，而系统只消费其中某一族的产品。</li>
+<li>同属于同一个产品族的产品是在一起使用的，这一约束必须在系统的设计中体现出来。（比如：Intel 主板必须使用 Intel CPU、Intel 芯片组）</li>
+<li>系统提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于实现。</li>
+</ol>
+<p><strong>抽象工厂模式的起源</strong></p>
+<p>抽象工厂模式的起源或者最早的应用，是用于创建分属于不同操作系统的视窗构建。比如：命令按键（Button）与文字框（Text）都是视窗构建。在 UNIX 操作系统的视窗环境和 Windows 操作系统的视窗环境中，这两个构建有不同的本地实现，它们的细节有所不同。</p>
+<p>在每一个操作系统中，都有一个视窗构建组成的构建家族。在这里就是 Button 和 Text 组成的产品族。而每一个视窗构建都构成自己的等级结构，由一个抽象角色给出抽象的功能描述，而由具体子类给出不同操作系统下的具体实现。</p>
+<p><strong>抽象工厂模式的优点</strong></p>
+<ul>
+<li><p>分离接口和实现</p>
+<p>  客户端使用抽象工厂来创建需要的对象，而客户端根本就不知道具体的实现是谁，客户端只是面向产品的接口编程而已，也就是说，客户端从具体的产品实现中解耦。</p>
+</li>
+<li><p>使切换产品族变得容易</p>
+<p>  因为一个具体的工厂实现代表的是一个产品族，比如上面例子的从 Intel 系列到 AMD 系列只需要切换一下具体工厂。</p>
+</li>
+</ul>
+<p><strong>抽象工厂模式的缺点</strong></p>
+<ul>
+<li><p>不太容易扩展新的产品</p>
+<p>  如果需要给整个产品族添加一个新的产品，那么 就需要修改抽象工厂，这样就会导致修改所有的工厂实现类。</p>
+</li>
+</ul>
+<pre><code class="python">class AbstractCPU(object):
+    series_name = &#39;&#39;
+
+
+class AbstractFactory(object):
+    computer_name = &quot;&quot;
+
+    def createCPU(self):
+        raise NotImplementedError
+
+    def createMainBoard(self):
+        raise NotImplementedError
+
+
+class AbstractMainBoard(object):
+    series_name = &#39;&#39;
+
+
+class AMDCPU(AbstractCPU):
+    def __init__(self, series):
+        self.series_name = series
+
+
+class AMDMainBoard(AbstractMainBoard):
+    def __init__(self, series):
+        self.series_name = series
+
+
+class AMDFactory(AbstractFactory):
+    computer_name = &#39;AMD 4 computer&#39;
+
+    def createCPU(self):
+        return AMDCPU(&#39;amd444&#39;)
+
+    def createMainBoard(self):
+        return AMDMainBoard(&#39;amd400&#39;)
+
+
+class IntelCPU(AbstractCPU):
+    def __init__(self, series):
+        self.series_name = series
+
+
+class IntelMainBoard(AbstractMainBoard):
+    def __int__(self):
+        pass
+
+    def __init__(self, series):
+        self.series_name = series
+
+
+class IntelFactory(AbstractFactory):
+    computer_name = &#39;Intel I7-series computer&#39;
+
+    def createCPU(self):
+        return IntelCPU(&#39;I7-6500&#39;)
+
+    def createMainBoard(self):
+        return IntelMainBoard(&#39;Intel-6000&#39;)
+
+
+class ComputerEngineer(object):
+    def makeComputer(self, factory_obj):
+        self.prepareHardwares(factory_obj)
+
+    def prepareHardwares(self, factory_obj):
+        self.cpu = factory_obj.createCPU()
+        self.mainboard = factory_obj.createMainBoard()
+
+        info = &quot;&quot;&quot;-------------- computer %s info:\ncpu: %s\nmainboard: %s&quot;&quot;&quot; % (
+            factory_obj.computer_name, self.cpu.series_name, self.mainboard.series_name
+        )
+        print(info)
+
+
+if __name__ == &#39;__main__&#39;:
+    engineer = ComputerEngineer()
+    intel_factory = IntelFactory()
+    engineer.makeComputer(intel_factory)
+
+    amd_factory = AMDFactory()
+    engineer.makeComputer(amd_factory)
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">November 24, 2019&nbsp;&nbsp;18:37:48</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2019-11-24-python-design-pattern-abstract-factory.html">https://ismdeep.github.io/posts/2019-11-24-python-design-pattern-abstract-factory.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Java/">#Java</a>
+                        
+                            <a href="/tags/Python/">#Python</a>
+                        
+                            <a href="/tags/Design-Pattern/">#Design Pattern</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
