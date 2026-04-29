@@ -1,0 +1,350 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Deploy IPFS with Nginx in Docker | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Deploy IPFS with Nginx in Docker</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Create-files"><span class="toc-text">Create files</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Init-IPFS-Data"><span class="toc-text">Init IPFS Data</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Set-IPFS-config"><span class="toc-text">Set IPFS config</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Start-IPFS"><span class="toc-text">Start IPFS</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Deploy IPFS with Nginx in Docker</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>This post is mainly to help reader to deploy an IPFS service with nginx proxy which provides basic authorizations.</p>
+<p>A quick start is the following steps.</p>
+<p>Some basic requirements:</p>
+<ul>
+<li>Docker should already be installed on your computer.</li>
+<li>Basic Linux terminal skills.</li>
+</ul>
+<h1 id="Create-files"><a href="#Create-files" class="headerlink" title="Create files"></a>Create files</h1><ol>
+<li><p>Create folder</p>
+<pre><code>$ mkdir ipfs
+$ cd ipfs
+</code></pre>
+</li>
+<li><p>Create <code>docker-compose.yaml</code></p>
+<pre><code>version: &#39;3&#39;
+
+services:
+  ipfs:
+    container_name: ipfs
+    image: ipfs/kubo:latest
+    volumes:
+      - ./data/:/data/ipfs/
+    ports:
+      - &#39;8080:8080&#39;
+    restart: always
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - &#39;5001:5001&#39;
+    volumes:
+      - &#39;./default.conf:/etc/nginx/conf.d/default.conf:ro&#39;
+      - &#39;./htpasswd:/htpasswd:ro&#39;
+    restart: always
+</code></pre>
+</li>
+<li><p>Create <code>htpasswd</code></p>
+<pre><code>ljiang:$apr1$nShUpvO7$hizri44cnQwto/zQ0y3Ka0
+</code></pre>
+</li>
+<li><p>Create <code>default.conf</code></p>
+<pre><code>server &#123;
+    listen 5001;
+    server_name _;
+    client_max_body_size 2048000m;
+    location / &#123;
+        proxy_pass http://ipfs:5001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        auth_basic           &quot;Administrator’s Area&quot;;
+        auth_basic_user_file /htpasswd;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
+<h1 id="Init-IPFS-Data"><a href="#Init-IPFS-Data" class="headerlink" title="Init IPFS Data"></a>Init IPFS Data</h1><ol>
+<li><p>Make data folder</p>
+<pre><code>$ mkdir -p ./data/
+</code></pre>
+</li>
+<li><p>Init data</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs init
+</code></pre>
+</li>
+</ol>
+<h1 id="Set-IPFS-config"><a href="#Set-IPFS-config" class="headerlink" title="Set IPFS config"></a>Set IPFS config</h1><ol>
+<li><p>Set Addresses</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.API &#39;&quot;/ip4/0.0.0.0/tcp/5001&quot;&#39;
+$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json Addresses.Gateway &#39;&quot;/ip4/0.0.0.0/tcp/8080&quot;&#39;
+</code></pre>
+</li>
+<li><p>Set API</p>
+<pre><code>$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin &#39;[&quot;*&quot;]&#39;
+$ IPFS_PATH=&quot;$(pwd)/data/&quot; ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods &#39;[&quot;GET&quot;, &quot;PUT&quot;, &quot;POST&quot;]&#39;
+</code></pre>
+</li>
+</ol>
+<h1 id="Start-IPFS"><a href="#Start-IPFS" class="headerlink" title="Start IPFS"></a>Start IPFS</h1><pre><code>$ docker-compose up -d
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">March 19, 2024&nbsp;&nbsp;19:29:23</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html">https://ismdeep.github.io/posts/2024-03-19-deploy-ipfs-with-nginx-in-docker.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/IPFS/">#IPFS</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

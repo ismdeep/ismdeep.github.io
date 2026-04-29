@@ -1,0 +1,308 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>【译】什么是 DevOps 工程师以及 DevOps 工程师做什么？ | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">【译】什么是 DevOps 工程师以及 DevOps 工程师做什么？</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-DevOps-%E5%B7%A5%E7%A8%8B%E5%B8%88%EF%BC%9F"><span class="toc-text">什么是 DevOps 工程师？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DevOps-%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%81%9A%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-text">DevOps 工程师做什么的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DevOps-%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%B8%B8%E8%A7%81%E8%81%8C%E8%B4%A3%E5%8C%85%E6%8B%AC%EF%BC%9A"><span class="toc-text">DevOps 工程师的常见职责包括：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%90%E4%B8%BA-DevOps-%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9C%80%E8%A6%81%E5%93%AA%E4%BA%9B%E6%8A%80%E8%83%BD%EF%BC%9F"><span class="toc-text">成为 DevOps 工程师需要哪些技能？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E7%BB%99-DevOps-%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E6%8A%80%E8%83%BD%E5%8C%85%E6%8B%AC%EF%BC%9A"><span class="toc-text">推荐给 DevOps 工程师的技能包括：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E6%8A%80%E8%83%BD"><span class="toc-text">软技能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E6%8A%80%E8%83%BD"><span class="toc-text">技术技能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DevOps-%E5%B7%A5%E7%A8%8B%E5%B8%88%E4%BD%BF%E7%94%A8%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%EF%BC%9F"><span class="toc-text">DevOps 工程师使用哪些工具？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%90%E4%B8%BA%E4%B8%80%E5%90%8D-DevOps-%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="toc-text">成为一名 DevOps 工程师</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">【译】什么是 DevOps 工程师以及 DevOps 工程师做什么？</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>DevOps 工程师优化组织的软件交付流程以实现协作和创新。继续阅读以了解有关 DevOps 工程师的工作以及他们依赖的技能的更多信息。</p>
+<h1 id="什么是-DevOps-工程师？"><a href="#什么是-DevOps-工程师？" class="headerlink" title="什么是 DevOps 工程师？"></a>什么是 DevOps 工程师？</h1><p>DevOps 工程师是管理组织的开发人员运营 (DevOps) 的 IT 专业人员，其中包括组织用于创建和管理软件的所有实践和工具。</p>
+<p>DevOps 工程师在弥合传统上孤立的部门之间的差距方面发挥着至关重要的作用，以实现更高的一致性和有效的协作。它们通常充当开发团队和 IT 运营团队之间的纽带，帮助统一、优化和自动化软件开发生命周期中的流程。由于团队有不同的技能和目标，DevOps 工程师的工作是平衡所有团队的需求和目标，并找到使每个人都能做到最好的解决方案。</p>
+<h1 id="DevOps-工程师做什么的？"><a href="#DevOps-工程师做什么的？" class="headerlink" title="DevOps 工程师做什么的？"></a>DevOps 工程师做什么的？</h1><p>DevOps 工程师的角色可能因组织而异，但 DevOps 工程师的职责通常涉及使用各种 DevOps 工具和策略来配置和管理基础设施、自动化流程、执行系统管理和管理安全性。 DevOps 工程师的其他职责可能包括编码、自动化、安全和基础设施管理。</p>
+<h1 id="DevOps-工程师的常见职责包括："><a href="#DevOps-工程师的常见职责包括：" class="headerlink" title="DevOps 工程师的常见职责包括："></a>DevOps 工程师的常见职责包括：</h1><ul>
+<li>沟通与协作：DevOps 工程师通常充当多个团队（包括开发和运营团队）之间的主要协作者。 DevOps 工程师的职责是确保每个团队传达快速、无缝地实施应用程序更改所需的内容，而不会产生可靠性和安全问题。</li>
+<li>基础设施管理：DevOps 工程师专注于配置和管理系统管理以及部署和维护托管应用程序的服务器。他们还维护存储和网络资源，如物理服务器、存储设备、交换机和虚拟化软件。在混合设置中，DevOps 工程师还可以一起管理这些本地组件和基于云的组件的虚拟实例。</li>
+<li>自动化：大多数 DevOps 工程师对自动化以及如何将自动化作为持续集成&#x2F;持续交付 (CI&#x2F;CD) 工具的一部分实施有深入的了解。 DevOps 工程师通常负责为其开发和 IT 运营团队开发自动化流程或修改现有自动化流程。</li>
+<li>数据管理：除了为其部门构建基础设施和自动化流程之外，DevOps 工程师还负责这些结构中的实际内容和数据。 DevOps 工程师设计数据收集、存储和使用的流程。他们还管理它的访问方式以及谁有权访问它。</li>
+<li>持续集成：DevOps 工程师对其组织的软件执行持续集成，其中包括确保定期构建、测试和验证新的代码更改，然后将其合并到 GitHub 等共享存储库以供组织的其他部分使用。此过程确保新代码在持续交付阶段发送到生产之前，通过单元和集成测试自动测试错误。</li>
+<li>持续交付：DevOps 工程师还负责持续交付，这是一个自动发布经过测试和验证的生产代码的过程。这些经过验证和测试的代码通常会发送到一个存储库，所有开发和运营团队都可以访问该存储库，以便相对轻松地将应用程序部署到生产环境。</li>
+<li>持续部署：DevOps 工程师还负责 CI&#x2F;CD 管道的最后阶段（称为持续部署）。此过程是持续交付过程的扩展，其中经过验证的代码会自动直接进入应用程序生产，而不是进入存储库。如果清除了所有错误和安全漏洞测试，此过程可以让新代码在几分钟内向公众发布。</li>
+<li>质量保证：DevOps 工程师可能负责监督质量保证 (QA) 团队，以确保新代码没有缺陷。 QA 团队主要专注于冒烟测试、回归测试和集成测试。冒烟测试可确保应用程序代码不会立即引起问题，而回归和集成测试可确保新代码不会破坏现有功能或与其他现有功能发生冲突。</li>
+<li>监控和日志记录：DevOps 工程师可能负责监控和记录部署到公众的代码每次迭代的性能。监控和记录的信息为 CI&#x2F;CD 流程创建即时反馈，以通知创建更新的迭代和应用程序的改进。</li>
+<li>安全性：DevOps 工程师必须将安全性纳入其组织的 IT 生命周期中。实施安全措施的实践通常称为开发安全操作，重点是查找可能影响应用程序用户和组织的软件漏洞。优秀的 DevOps 工程师会找到在所有开发阶段和交付过程中实现安全自动化的方法。</li>
+</ul>
+<h1 id="成为-DevOps-工程师需要哪些技能？"><a href="#成为-DevOps-工程师需要哪些技能？" class="headerlink" title="成为 DevOps 工程师需要哪些技能？"></a>成为 DevOps 工程师需要哪些技能？</h1><p>大多数 DevOps 工程师都拥有强大的软件开发或 IT 运营背景，以及来自其他学科的其他技术技能和软技能。这些技能可能包括编程语言知识、自动化工具熟练程度、人际交往能力和分析问题解决能力。</p>
+<h1 id="推荐给-DevOps-工程师的技能包括："><a href="#推荐给-DevOps-工程师的技能包括：" class="headerlink" title="推荐给 DevOps 工程师的技能包括："></a>推荐给 DevOps 工程师的技能包括：</h1><h2 id="软技能"><a href="#软技能" class="headerlink" title="软技能"></a>软技能</h2><ul>
+<li>沟通和协作：DevOps 工程师最重要的技能之一是了解如何确保所有部门之间一致的沟通和协作。他们的人际交往能力帮助他们引导生产进入稳定、自动化的流程，并具有强大的反馈循环。</li>
+<li>人际关系和管理技能：优秀的 DevOps 工程师知道如何在所有团队之间委派任务，以实现高效的生产和绩效。他们提供一致且清晰的反馈，帮助开发人员更有效、更高效地生成代码。他们还利用对不同学科和测试方法的广泛知识来担任团队的教练。</li>
+<li>分析和解决问题的能力：DevOps 工程师必须知道如何解决出现的问题。由于他们横跨开发和运营团队的流程，因此他们需要知道如何实时解决安全漏洞等问题，并且必须能够找到自动执行重复性日常任务的方法，以便所有部门及时生产。</li>
+</ul>
+<h2 id="技术技能"><a href="#技术技能" class="headerlink" title="技术技能"></a>技术技能</h2><ul>
+<li>编程语言：DevOps 工程师通常精通至少一种或多种编程语言来进行编码和脚本编写，例如 PHP、Java、Ruby、Python、C++、PowerShell 或 Bash。 DevOps 工程师应该知道如何使用这些编程语言编写自动化脚本，但他们也应该知道如何在流程中实施敏捷开发实践（例如：代码审查和源代码控制）。</li>
+<li>自动化工具：DevOps 工程师应该具有维护自动化测试套件或使用 GitHub Actions 等自动化工具来帮助自动化 CI&#x2F;CD 管道中的流程工作流的经验。尽管某些组织可能还拥有自动化工程师来满足其自动化需求，但知道如何与自动化专家合作的 DevOps 工程师可以进一步帮助加强自动化流程。</li>
+<li>云计算平台：DevOps 工程师通常具有使用 Microsoft Azure、Amazon Web Services 和 Google Cloud Platform 等云计算平台的经验。他们还应该知道如何平衡和自动化在本地或混合工作模型情况下完成的工作流程。</li>
+<li>容器化：DevOps 工程师通常具有使用 Docker 和 Kubernetes 等容器化服务的经验，可以将应用程序代码及其运行时环境捆绑到同一个映像中。这有助于减少传统配置管理工具的必要性，因为传统配置管理工具会降低整体生产和效率。</li>
+<li>系统架构和配置：DevOps 工程师应该了解如何设计、配置和管理系统架构和基础设施，包括基于云的和本地结构。 DevOps 工程师还应该了解基础设施即代码的知识，这是一种将 DevOps 软件开发的最佳实践应用到云基础设施管理的 IT 管理流程。</li>
+</ul>
+<h1 id="DevOps-工程师使用哪些工具？"><a href="#DevOps-工程师使用哪些工具？" class="headerlink" title="DevOps 工程师使用哪些工具？"></a>DevOps 工程师使用哪些工具？</h1><p>DevOps 工程师使用来自所有学科和方法论的各种工具来帮助维护开发和运营团队之间一致的工作流程。这些工具帮助他们解决出现的问题，并通过简单的自动化帮助防止某些问题。</p>
+<p>DevOps 工程师工具的类型：</p>
+<ul>
+<li>配置管理：大多数 DevOps 工程师都有使用 Chef 或 Puppet 等配置管理工具的经验，可以帮助他们自动执行系统管理任务，例如应用安全补丁或部署新系统。</li>
+<li>CI&#x2F;CD：如前所述，CI&#x2F;CD 涉及持续集成、持续交付和持续部署管道。许多 DevOps 工程师都有在 GitHub Actions 等项目中工作的经验，可以帮助他们在 CI&#x2F;CD 管道中自动化构建、测试和部署应用程序软件的流程。</li>
+<li>基础设施自动化和监控：DevOps 工程师使用各种自动化工具进行基础设施配置、系统管理和基础设施监控。 DevOps 工程师用于这些流程的一些工具包括 Terraform、Pulumi 和 Vagrant。</li>
+<li>容器编排：DevOps 工程师通常必须在整个组织中打包和交付应用程序代码。它们通常在 Docker、Podman、Buildah 和 Kubernetes 等程序中工作，以容器化和传输这些代码。每种工具在可扩展性、安全性以及部署或维护的简易性方面都有所不同，因此 DevOps 工程师通常会熟悉多个容器编排工具，并根据项目的需求使用不同的工具。</li>
+</ul>
+<h1 id="成为一名-DevOps-工程师"><a href="#成为一名-DevOps-工程师" class="headerlink" title="成为一名 DevOps 工程师"></a>成为一名 DevOps 工程师</h1><p>组织依靠 DevOps 工程师在整个应用程序开发生命周期中提供指导和领导。尽管许多 DevOps 工程师的职业生涯是从软件开发人员或 IT 管理专业人员开始的，但他们通常也会在此过程中从其他类似学科中学习新的技能、方法和策略。因此，DevOps 工程师通常是组织中经验最丰富的专业人士，DevOps 工程师可能需要很多年才能获得成功所需的所有技能。</p>
+<p>有抱负的 DevOps 工程师可以在线访问资源，学习如何成为 DevOps 工程师或探索 DevOps 工程师的道路。有兴趣将 DevOps 工程师引入其团队的组织还可以找到有关如何加入 DevOps 工程师的资源。</p>
+<p>原文：<a target="_blank" rel="noopener" href="https://github.com/resources/articles/devops/what-is-a-devops-engineer">https://github.com/resources/articles/devops/what-is-a-devops-engineer</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">September 18, 2024&nbsp;&nbsp;22:24:03</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2024-09-18-what-is-a-devops-engineer.html">https://ismdeep.github.io/posts/2024-09-18-what-is-a-devops-engineer.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/DevOps/">#DevOps</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

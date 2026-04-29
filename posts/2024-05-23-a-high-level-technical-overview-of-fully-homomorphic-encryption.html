@@ -1,0 +1,450 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>【译】全同态加密的高级技术概述 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">【译】全同态加密的高级技术概述</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E9%AB%98%E5%B1%82%E6%AC%A1%E7%9A%84%E8%A7%86%E8%A7%92"><span class="toc-text">最高层次的视角</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#FHE%E6%96%B9%E6%A1%88%E7%9A%84%E5%85%B1%E5%90%8C%E7%82%B9"><span class="toc-text">FHE方案的共同点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LWE-%E5%92%8C-RLWE"><span class="toc-text">LWE 和 RLWE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%92%8C%E5%A4%84%E7%90%86%E5%99%AA%E5%A3%B0"><span class="toc-text">基本操作和处理噪声</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AE%8B%E4%BD%99%E6%95%B0%E7%B3%BB%E7%BB%9F"><span class="toc-text">残余数系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E9%87%8DCRT-Double-CRT"><span class="toc-text">双重CRT(Double-CRT)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E7%BD%AE%E5%88%86%E8%A7%A3%E6%B3%95"><span class="toc-text">装置分解法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%A0%E4%B8%AAFHE%E6%96%B9%E6%A1%88"><span class="toc-text">几个FHE方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#BFV-%E5%92%8C-BGV-%EF%BC%88%E6%95%B4%E6%95%B0-%E5%AE%9A%E7%82%B9%E7%AE%97%E6%9C%AF%EF%BC%89"><span class="toc-text">BFV 和 BGV （整数&#x2F;定点算术）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CKKS%EF%BC%88%E8%BF%91%E4%BC%BC%E7%AE%97%E6%9C%AF%EF%BC%89"><span class="toc-text">CKKS（近似算术）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CGGI%EF%BC%88%E5%B8%83%E5%B0%94-%E7%9F%AD%E6%95%B4%E6%95%B0%E8%BF%90%E7%AE%97%EF%BC%89"><span class="toc-text">CGGI（布尔&#x2F;短整数运算）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B6%85%E8%B6%8A%E6%96%B9%E6%A1%88"><span class="toc-text">超越方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F"><span class="toc-text">硬件加速</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6"><span class="toc-text">软件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BC%96%E5%86%99-FHE-%E7%A8%8B%E5%BA%8F"><span class="toc-text">编写 FHE 程序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E4%B8%8E"><span class="toc-text">参与</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%B4%E8%B0%A2"><span class="toc-text">致谢</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">【译】全同态加密的高级技术概述</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <p>原文：<a target="_blank" rel="noopener" href="https://www.jeremykun.com/2024/05/04/fhe-overview/">https://www.jeremykun.com/2024/05/04/fhe-overview/</a></p>
+<p>大约两年前，我在谷歌换了团队，开始专注于全同态加密（简称FHE，有时也称为HE）。从那时起，我参与了许多有趣的项目，并在此过程中学习了后量子密码学、编译器设计以及全同态加密的方方面面。</p>
+<p>如果你听说过全同态加密（FHE）并且是软件行业的人，你可能听说过两点：它允许在不解密的情况下直接对加密数据运行程序；但它仍然太慢，无法用于任何实际用途。除此之外，很少有资源能比40页的研究论文更易于理解地对这一领域进行概述（如果你想要这样的资源，<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2022/1602">这里有一篇2022年的论文</a>）。本文将提供这样一个概述——技术性但仍然足够高层次，使你能够更好地了解这一技术的工作原理以及该领域的发展方向。另外，FHE.org上还有一篇不错的<a target="_blank" rel="noopener" href="https://fhe.org/history/">FHE研究简史</a>。</p>
+<p><strong>免责声明</strong>：由于我在这个领域只有两年的经验，我觉得有必要提醒你，我并不是专家。我没有在全同态加密（FHE）方面发表过任何原创研究，并且我的知识中存在相当大的空白。然而，我进入这个领域的目的是将尽可能多的有用技术整合到我目前的主要项目中： <a target="_blank" rel="noopener" href="https://heir.dev/">HEIR 编译器工具链</a>。因此，我对任何特定的FHE方法都没有偏见。我也不会包括出版物的时间线或增量改进的引用图。相反，我将专注于从我的角度来看处于该领域前沿的一部分技术。</p>
+<h1 id="最高层次的视角"><a href="#最高层次的视角" class="headerlink" title="最高层次的视角"></a>最高层次的视角</h1><p>我在午餐时间向我的软件工程师同事们解释同态加密的说法。</p>
+<p>同态加密让你可以以一种特殊的方式加密数据，使得你可以在不解密数据的情况下运行程序。这意味着运行程序的计算机在运行程序时无法访问底层数据——无论是通过中间计算值，还是通过最终结果。特别是，如果一个不法分子能够访问计算机的原始内存，他们仍然无法获取任何关于底层数据的信息（前提是密码学没有被破解）。用户向程序发送加密输入，当程序完成后，加密结果会被发送回用户，由用户进行解密。</p>
+<p>在加密数据上运行程序听起来像是魔法。它的实现是通过选择一种加密方案，使其在以下意义上与加法和乘法“兼容”：</p>
+<ul>
+<li>对密文进行加法运算会得到底层明文之和的加密。</li>
+<li>将两个密文相乘会得到底层明文之积的加密。</li>
+</ul>
+<p>有了这种能力，你可以逐位加密你的数据，将你的程序表示为一个布尔电路——XOR门是加法，AND门是乘法——然后模拟这个电路。由于XOR和AND形成了布尔逻辑的通用基础，你总是可以这样分解一个电路。<a target="_blank" rel="noopener" href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:1">1</a></p>
+<p>为了进一步阐述FHE理论上如何处理通用计算的观点，人们已经在FHE中实现了<a target="_blank" rel="noopener" href="https://medium.com/optalysys/fully-homomorphic-encryption-and-the-game-of-life-d7c37d74bbaf">康威的生命游戏</a>以及<a target="_blank" rel="noopener" href="https://www.usenix.org/system/files/sec21summer_matsuoka.pdf">完整的处理器架构</a>。</p>
+<p>这其中有四个主要的注意事项。首先，仅仅使用布尔电路并不足以完成计算机能够完成的所有任务。电路总是会终止，因此如果不采取其他措施，你无法编写无限循环的程序。像正弦和指数函数这样的超越函数也有它们自己的挑战，因为用位运算模拟它们通常是不可行的，原因如下所述。</p>
+<p>第二，模拟电路很慢，特别是考虑到为每个门进行加密解密的开销。慷慨地说，一个现代布尔门FHE实现需要大约1毫秒的时间来评估单个门，而没有任何特殊的硬件加速。将其与运行频率为2 GHz且每个（32位！）指令需要4个时钟周期的老式CPU进行比较，这相当于每个操作约1纳秒。如果你只是简单地将电路分解，运行FHE在CPU上至少比相应的未加密程序慢一百万倍。<a target="_blank" rel="noopener" href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:2">2</a></p>
+<p>第三，加密保证意味着对可以使用的优化方法有所限制（即使你没有使用布尔电路方法），因为实现该优化必然会破坏加密。例如，不可能编写一个FHE程序，其使用的指令数量少于程序的最坏情况输入。这样做会暴露出输入不是最坏情况的信息，这与加密的安全性相矛盾。相反，一个FHE程序必须急切地计算所有if语句的分支，然后使用select语句决定应该使用哪个结果。相同的推理适用于循环：所有循环必须执行其最大迭代次数，实际上这意味着所有循环必须具有静态已知的上界。</p>
+<p>第四，存在带宽问题。FHE加密方案通常会增加被加密数据的大小，用户还必须向服务器发送一组特殊的加密密钥来启用计算，这些密钥也相对较大。这些特殊密钥只需要生成和发送一次，就可以用于所有未来的计算，但它们的大小可能轻松达到几十GB。在一个具有轻量级密钥的FHE方案中的一个例子中，加密单个整数的密文大约为25 KB，而特殊密钥大约为0.5 GB。在其他方案中，可以将16000个或更多的整数打包到一个大小相似的单个密文中，但密钥可能会达到数十GB。</p>
+<p>在后面的部分，我将描述FHE方案如何与或克服这些限制。</p>
+<h1 id="FHE方案的共同点"><a href="#FHE方案的共同点" class="headerlink" title="FHE方案的共同点"></a>FHE方案的共同点</h1><p>本节将对支撑FHE的加密方案的工作原理进行稍微技术性的概述。下一节将提供更具体的细节，介绍特定的FHE方案及其不同的功能。</p>
+<h2 id="LWE-和-RLWE"><a href="#LWE-和-RLWE" class="headerlink" title="LWE 和 RLWE"></a>LWE 和 RLWE</h2><p>所有现代的FHE方案都使用了实质上相同的加密基础：一个带有噪声的点积。在FHE方案中实际使用的最简单版本称为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Learning_with_errors">学习有误差问题</a>，或LWE。</p>
+<p>LWE加密支持通过将这些位放置在机器字的最高有效位来加密小位宽的整数。为了简单起见，假设它是一个4位整数，位于32位整数的最高位，其他所有位初始化为零，并将整个编码的明文称为 𝑚。秘密密钥 𝑠 是一个随机的长度为 𝑛 的二进制向量，选择的目的是实现一定的安全性——假设 𝑛&#x3D;800。然后进行加密，采样一个长度为 𝑛 的32位整数向量 𝑎，与秘密密钥 𝑠 做点积，加上消息 𝑚，然后加上来自与方案安全性密切相关的精心选择的分布的一些随机噪声。加密值既是随机选择的样本，也是噪声掩盖的结果，即 (𝑎, 𝑎⋅𝑠+𝑚+noise)。更准确地说，代码中表现为:</p>
+<pre><code class="python">def encrypt(m, s, a, noise):
+  # the 28 below would realistically
+  # come from a config
+  clean_product = np.dot(a, s) + (m &lt;&lt; 28)
+  obfuscated_product = clean_product + noise
+  return np.append(a, obfuscated_product)
+</code></pre>
+<p>噪声分布是最神秘的部分，我在这里不会详细介绍，但在大多数情况下，它被视为对称的整数值高斯分布，以零为中心，具有可调的方差。较大的方差意味着更高的安全性，但正如我稍后将讨论的那样，它会减少可以应用的同态操作的数量，直到底层消息被损坏，这反过来会影响性能，因为需要进行昂贵的清理操作来从高噪声密文中恢复。<a target="_blank" rel="noopener" href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:3">3</a></p>
+<p>LWE解密然后将这个过程反转：重新计算点积，并从加密输出中减去它。但最后需要应用一个舍入步骤来移除加密过程中添加的噪声。因为消息位于消息的最高有效位中（假设是位28-31），而且添加的噪声并不是很大，所以将其舍入到最接近的 2^28 的倍数就可以移除它。</p>
+<pre><code class="python">def decrypt(ciphertext, secret_key):
+  obfuscated_plaintext = \
+    ciphertext[-1] - np.dot(
+        ciphertext[:-1],
+        secret_key)
+  return round_to_power_of_2(
+      obfuscated_plaintext, 28)
+</code></pre>
+<p>加密保证的是，对于使用相同的秘密密钥进行大量消息加密的样本，不存在任何非平凡概率高于随机猜测的情况下能够推断出秘密密钥或底层消息。这实际上是一个困难的机器学习问题：尝试从由 𝑠 和 𝑚 参数化的可能函数族中学习一个固定函数 𝑓(𝑎)&#x3D;𝑎⋅𝑠+𝑚。学习者可以均匀地采样输入-输出对，但输出值与其真实值略有偏差。如果没有这种偏差，这个问题等同于解一个线性系统，而且会很容易。但是由于这种偏差，没有人知道如何在多项式时间内解决它。关于为什么LWE（或<a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007/978-3-642-27660-6_9">甚至更简单的问题</a>）很难解决，有着广泛的文献。<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2015/046">这里是关于已知最佳攻击的调查报告</a>。</p>
+<p>LWE是CGGI密码系统所使用的前端加密，稍后会更详细地描述，但大多数其他FHE方案使用的是对LWE进行泛化到多项式算术的一种称为<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ring_learning_with_errors">环形学习有误差</a>（RLWE）的方法。</p>
+<p>在RLWE中，LWE中的标量乘法和加法被升级为多项式乘法和加法。操作不再是模机器字大小，而是模“多项式模数”进行的，并且该模数对方案的安全性至关重要。</p>
+<p>更详细地说，我们首先选择一个多项式环。我们选择一个多项式的次数作为最大次数（比如，$N &#x3D; 1024$），系数始终是某个选定模数 𝑞 的整数（它可以是机器字大小或某个大素数），最后我们选择一个多项式，通常是 $x^N+1$，并将每个操作的结果表示为除以该多项式的余数。在数学符号中，这组多项式将被表示为 𝑍&#x2F;𝑞𝑍[𝑥]&#x2F;(𝑥^𝑁+1)。规范要求的 𝑞、𝑁 和多项式模数的选择因方案而异。模数 $x^N+1$ 是标准的，因为它通过离散傅里叶变换（DFT）或数论变换（NTT）实现了高效的多项式乘法。参见我的<a target="_blank" rel="noopener" href="https://jeremykun.com/2022/12/09/negacyclic-polynomial-multiplication/">早期文章</a>，了解如何实现这些特殊的多项式乘法，尽管我还没有写过关于NTT的文章。</p>
+<p>为了加密，一个或多个小整数消息会以某种与方案相关的方式编码成多项式（我写了一篇<a target="_blank" rel="noopener" href="https://jeremykun.com/2023/09/18/encoding-schemes-in-fhe/">关于这个的整篇文章</a>）。秘密密钥是一个具有二进制系数的随机多项式列表，样本是具有均匀随机模 $𝑞$ 系数的随机多项式。然后进行点积运算，加上消息，并添加一个类似的“噪声多项式”以掩盖结果。</p>
+<p>因为多项式比整数更“困难”（有关更多细节，请参阅<a target="_blank" rel="noopener" href="https://jeremykun.com/2022/12/28/estimating-the-security-of-ring-learning-with-errors-rlwe/">这篇文章</a>），在RLWE中，向量大小 𝑛，即我在LWE示例中设定为800的值，通常被设置为1。换句话说，LWE中的“点积”被替换为单个多项式乘积。如果你考虑一下，多项式乘积很像<a target="_blank" rel="noopener" href="https://jeremykun.com/2022/12/09/negacyclic-polynomial-multiplication/">卷积</a>，它是更简单的点积的变体。多项式的次数取代了LWE向量的维度，用于扩展安全性。尽管如此，一些方案使用两个或更多多项式来获得安全性和性能的不同权衡。</p>
+<p>使用RLWE而不是LWE的主要优势在于，你可以将许多消息打包到单个多项式中，并且你所应用的同态操作适用于所有消息。这与<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Single_instruction,_multiple_data">SIMD</a>的优势类似，但对于这些打包消息可用的SIMD操作存在更多限制，我将在后面的部分讨论。</p>
+<p>最后，许多人已经观察到整数只是一个次数为0的多项式。由于RLWE始终将向量维度设置为1，你可以将这两个参数（向量维度和多项式次数）结合起来，得到一个单一的母问题，其中两个参数都可以是可变的。这个母问题称为“模LWE”，它超出了本文的范围。</p>
+<h2 id="基本操作和处理噪声"><a href="#基本操作和处理噪声" class="headerlink" title="基本操作和处理噪声"></a>基本操作和处理噪声</h2><p>在LWE和RLWE加密中，两个密文的加法自然对应于底层消息的加法。获得同态乘法更加困难，而且方法通常依赖于方案，但是是可能的。你可能已经注意到，LWE和RLWE支持“小位宽整数”，而不是我之前提到的单个位。实际上，现代FHE从业者利用了这一点，并根据低位宽算术操作来表示他们的电路，或者利用固定宽度的表示来支持十进制计算。根据计算的不同，这可能比纯布尔电路的表示方式具有显著的优势。</p>
+<p>除了对底层消息进行操作外，同态加法还将两个操作数中的加密噪声添加到结果密文中。同样，同态乘积大致上会将两个密文中的噪声相乘。这显然是不可持续的。一旦噪声超过分配给它的约 28 位空间，解密将失败，并且程序的结果实际上变成了随机噪声。</p>
+<p>举例来说，在我最近参与的一个FHE程序中，我在32位LWE明文的顶部使用了3位消息。我设置的密码参数使得我的初始程序具有大约12位噪声的有效限制（这可能对于实际应用来说不够安全）。一次加法会增加一位噪声，而乘法会使噪声翻倍。因此，我们最多可以进行一次乘法，然后进行大约五次或更多次加法，否则噪声太大而无法继续进行下去。</p>
+<p>几乎所有FHE的复杂性都基于如何避免噪声增长或在程序中间如何减少噪声。后者被称为<em>引导</em>，它值得特别关注。引导的概念有点神奇。它的技术细节超出了本文的范围，但我可以总结其主要思想：您可以<em>在不看到底层消息的情况下对FHE密文进行同态解密，并在新的秘密密钥下重新加密</em>。这样做，导致的密文的噪声被“重置”为较小的值。但要使其工作，用户必须向服务器提供用户秘密密钥的特殊加密，这增加了一个额外的安全假设，称为循环安全性，或<a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/1943513.1943516">key-dependent message security</a>。通过引导，您可以无限扩展FHE程序。缺点是引导可能很昂贵，在某些方案中需要几毫秒，在其他方案中可能需要几秒钟到几分钟。</p>
+<p>如果您不想进行引导，则只能对噪声增长设置一个硬限制。这通常被称为<em>分级同态加密</em>，因为噪声增长被离散化为级别，并且程序被禁止超过最大级别。这两种技术大致将FHE社区一分为二。</p>
+<p>其中一方通俗地被称为“布尔FHE”，它代表了一类专注于较小加密和高效引导的FHE实现族群。它擅长于需要随机访问特定位的程序，例如字符串处理或具有大量比较运算符的程序。它在实现大位宽乘法的程序方面表现不佳，因为（在某种程度上）这归结为模拟一个大型电路，在每个门处进行引导。布尔FHE通常是计算密集型的，而在这个领域中的引导方法往往需要顺序累积许多多项式乘法。</p>
+<p>另一方通俗地被称为“算术FHE”。这些方案将程序表示为算术电路（不是解释为位操作的加法和乘法），并且几乎禁止引导操作，因为没有人找出如何使它们快速的方法。相反，它们增加参数，使噪声上限足够高（想象成数百位），并使用技巧减少电路的深度，以便永远不会达到噪声上限。更具体地说，它们希望减少电路的乘法深度——从输入到输出的最长路径上的乘法操作数的数量。乘法引入的噪声比加法多得多，并且由加法引入的噪声可以大部分忽略。因为算术电路只能正式计算多项式，算术FHE用户（或在我这种情况下，编译器）还必须考虑如何将非多项式操作表示为多项式。例如，在神经网络中，ReLU激活函数可能被近似为一个3次多项式。然后，您必须考虑该近似引入的误差，加上密文噪声。但是，尽管有所有这些麻烦，算术FHE在进行大量的SIMD算术方面表现出色（将许多消息打包成一个密文），这对于机器学习应用通常效果很好。为此付出的代价之一是，算术FHE具有更大的密文、更多的“特殊密钥”需要管理，并且除了计算密集型之外，还倾向于受到内存限制。</p>
+<p>在这一部分中我想提及的最后一件事是，类似于LWE的问题通常支持额外的密码学技巧，这些技巧成为FHE方案的关键实现细节。其中最重要的一个是同态地切换加密密钥。也就是说，给定一个特殊的密钥切换密钥，它使用另一个密钥 𝑠2 加密密钥 𝑠1，您可以将使用 𝑠1 的 LWE 或 RLWE 加密的消息 𝑚 转换为使用 𝑠2 的加密，而无需解密和重新加密（噪声也不像引导中那样重置）。这需要用户提供额外的加密密钥。其他构建块包括同态地改变加密方案系数的模数，应用RLWE密文底层环的自同构（例如，旋转密文中编码的消息的位置），以及将LWE和RLWE之间的密文进行打包或解包。</p>
+<h2 id="残余数系统"><a href="#残余数系统" class="headerlink" title="残余数系统"></a>残余数系统</h2><p>在所有这些方案中，都会遇到一个问题，即希望使用比加密系统限制更大的数字。这可能是因为您希望加密的消息（例如，32位整数）比加密函数的输入限制（例如，对于您选择的参数，它是8位整数）要大，或者因为加密消息的系数不适合机器字并且您不想产生多精度整数运算的开销。后一种情况在算术FHE中很常见，其中一个会放大方案的参数以避免引导。</p>
+<p>在这种情况下，FHE方案通常转向残余数系统的概念。这基于中国剩余定理（CRT，也称为孙子定理），它大致说明一个大数 $x$ 可以表示为一个数字元组 $(x_1,\dots,x_k)$ ，其中每个 𝑥𝑖≡𝑥mod𝑛𝑖，对于一些 𝑛𝑖 的选择（它们必须互质，并且它们的乘积必须大于 $x$ ）。您可以从元组中重构出原始的 $x$ ，并且残余数系统以其“剩余”（模元组）的形式表示数字。这类似地适用于多项式商环，这些环分解为更小的商环的直积形式。</p>
+<p>残余数系统的惊人之处在于您仍然可以对它们进行计算。逐个对元组进行加法或乘法（然后在每个条目中进行相关的模归约）等效于对原始数字进行加法或乘法。</p>
+<p>在FHE中，这意味着我们可以将一个大密文分解为RNS，并在RNS中进行所有后续的计算。当您的硬件具有大量的SIMD并行性可用时，这是一个很好的折衷方案，而另一种选择将涉及多精度数字，就像前面提到的算术FHE中的800位数字一样。</p>
+<p>RNS 最突出地用于具有 RLWE 的算术 FHE 方案中，因为算术 FHE 方案已经施加了类似 SIMD 的计算模型，我稍后将在本文中更详细地讨论。然而，它也用于布尔方案，以整洁地表示高精度算术和低精度基础消息。</p>
+<h2 id="双重CRT-Double-CRT"><a href="#双重CRT-Double-CRT" class="headerlink" title="双重CRT(Double-CRT)"></a>双重CRT(Double-CRT)</h2><p>RNS&#x2F;CRT在编码过程中的另一种方式是在编码过程中出现。两个多项式的加法自然对应于它们系数的和，但两个多项式的乘法对应于它们系数的<em>卷积</em>。在上述RLWE编码中，消息可以在加密前编码在多项式的系数中。然而，最常见的RLWE编码将消息编码为多项式在某些点上的<em>评估</em>。这可以被视为DFT&#x2F;NTT反演，多项式插值或底层多项式环的CRT分解的几种等效方式之一。所有这些方式都涉及从“评估域”转换到“系数域”。</p>
+<p>当将此技巧与算术FHE方案结合使用以支持大型输入消息时，编码通常称为<em>双重CRT</em>。有关更多详细信息，请参阅我的<a target="_blank" rel="noopener" href="https://jeremykun.com/2023/09/18/encoding-schemes-in-fhe/">深入研究编码</a>。</p>
+<h2 id="装置分解法"><a href="#装置分解法" class="headerlink" title="装置分解法"></a>装置分解法</h2><p>另一种管理增长的常规方法是所谓的 <em>装置分解</em> 想法（我讨厌这个名字，因为它毫无意义）。这经常作为特定方案的实现细节出现，对方案的用户来说是不可见的，但对确保 FHE 构建模块操作（如密钥切换）可以在不超出噪声预算的情况下实现至关重要。我写了一篇<a target="_blank" rel="noopener" href="https://www.jeremykun.com/2021/12/11/the-gadget-decomposition-in-fhe/">文章</a>描述了它的工作原理，但主要思想是，当您可能要将两个数字 𝑎,𝑏 相乘时，实际上您将 𝑎 乘以 𝑏 的各个位，然后将它们相加并适当地缩放。当两个参数的噪声增长不对称时，这是非常有用的，因此基本上您会将噪声重的部分尽可能地减小，并将2的幂移动到另一侧。</p>
+<h1 id="几个FHE方案"><a href="#几个FHE方案" class="headerlink" title="几个FHE方案"></a>几个FHE方案</h1><p>现在我将对当前研究前沿的主要FHE方案进行广泛概述。它们通过作者的缩写命名：BFV、BGV、CKKS和CGGI。</p>
+<h2 id="BFV-和-BGV-（整数-定点算术）"><a href="#BFV-和-BGV-（整数-定点算术）" class="headerlink" title="BFV 和 BGV （整数&#x2F;定点算术）"></a>BFV 和 BGV （整数&#x2F;定点算术）</h2><p><a target="_blank" rel="noopener" href="https://eprint.iacr.org/2011/277.pdf">BGV</a> 和 BFV（两篇论文 <a target="_blank" rel="noopener" href="https://eprint.iacr.org/2012/078">B</a> 和 <a target="_blank" rel="noopener" href="https://eprint.iacr.org/2012/144">FV</a>）是“算术FHE”系列中的两种方案。自2011年&#x2F;2012年首次发表以来的十年里，BGV和BFV已经进行了调整和重新分析，并被确定为基本上是等效的，其在实现、效率和噪声传播方面存在细微差异，因不同参数选择而异。这个方案的许多高级技巧和考虑也被用于CKKS，因此本节将更长以解释这一点。</p>
+<p>这两种方案都使用RLWE的一种版本来加密消息向量，都使用RLWE的一种类型，其中仅涉及两个多项式的点积（当我讨论下一个关键基础概念时，这将是相关的）。尽管如此，它们的首个显而易见的差异在于，BGV将明文编码为多项式系数的<em>最</em>低有效位中存储消息，而BFV将其存储在<em>最</em>高有效位中。BGV&#x2F;BFV可能通常使用16位消息。在这16位中，可以表示16位整数，或者各种适合同样位数的固定点数。</p>
+<p>BGV和BFV都使用标准的RLWE加法，尽管它们在处理乘法方面有所不同，但它们的乘法例程都依赖于密钥切换，原因如下。它们将密文视为在密钥 𝑠 中的“一次多项式”。也就是说，一个密文是一对 $(c_0,c_1)$，其解密的第一步是计算 𝑐0⋅1+𝑐1⋅𝑠。𝑐𝑖 是这个线性多项式的系数，但当我们看到密文之间的乘法 (𝑐0,𝑐1) 和 (𝑏0,𝑏1) 被定义为：</p>
+<p>(𝑐0,𝑐1)⋅(𝑏0,𝑏1)&#x3D;(𝑐0𝑏0,𝑐0𝑏1+𝑐1𝑏0,𝑐1𝑏1)</p>
+<p>这是一个有效的密文，但仅当您将其视为关于 𝑠 的二次多项式时，即， 𝑐0𝑏0⋅1+(𝑐0𝑏1+𝑐1𝑏0)𝑠+𝑐1𝑏1𝑠2。另一种表述方式是，我们谈论的不是关于 𝑠 的多项式，而是存在一个“密钥基础”，其起始为 (1,𝑠)，而乘法将基础更改为 (1,𝑠,𝑠2)（然后我们不是计算多项式，而是与基础进行点积）。</p>
+<p>请注意，上面的乘法公式是一个简化。BGV和BFV在如何确保上述操作保持在适当的系数模内方面存在差异，调整这些细节是少数学术论文的主要目标。我主要想强调的是密钥基础的变化，因为它造成了一些障碍。你可以继续在这个二次密钥基础上进行FHE操作，但这会更加计算昂贵，并且再次进行乘法运算会使基础变为三次或更高次。</p>
+<p>因此，BGV&#x2F;BFV方案使用一种称为<em>重新线性化</em>的技术将从二次基础转换回一次基础。这需要将密钥交换作为子程序，并额外加密 𝑠2 以支持它。重新线性化是乘法的瓶颈，对于BGV和BFV来说是相同的子程序，而且还会略微增加密文的噪声。</p>
+<p>BGV还使用一种称为“模切换”的技术来减少电路评估过程中的噪声增长。作为提醒，BGV和BFV都采取了“算术FHE”方法，通过增加参数大小来避免引导。这种模切换技术是通过具有大参数可以让人们以这种方式欺骗性能死亡的具体方法：模切换的行为使参数变小同时减少噪声，因此参数越大，减少噪声的空间就越大。</p>
+<p>具体而言，BGV的参数包括一组称为“模数”𝑄0,𝑄1,…,𝑄𝐿的数字集，其中每个𝑄𝑖都可以整除𝑄𝑖+1。通常，它们是通过取𝑄𝑖+1&#x3D;𝑝𝑖+1𝑄𝑖构造的，其中𝑝𝑖是一些32位或64位素数。这些模数实际上是RLWE密文的多项式环的系数模，但在抽象上，它们被认为是“级别”。一个密文从顶级𝑄&#x3D;𝑄𝐿开始，一旦到达𝑄0，就不能再进行更多的乘法运算。每次乘法后，输出密文的系数都会通过模切换操作进行重新缩放，将其系数从mod 𝑄𝑖+1转换为mod 𝑄𝑖。这涉及将密文的系数按𝑄𝑖&#x2F;𝑄𝑖+1进行重新缩放，但需要一些细节上的处理才能正确实现。这会导致噪声以相同的因子进行重新缩放。特别是，如果没有这个技巧，密文的噪声会随着乘法操作的数量呈二次增长，这意味着您只能评估log2(𝐿)次乘法。有了这个技巧，你可以做𝐿次乘法。𝐿通常高达128并不罕见。</p>
+<p>BFV也使用模数切换，但它隐藏在乘法操作内部，并将“尺度不变性”作为其公共API的一部分（在乘法操作之外），而BGV则暴露了模数，用户必须确保仅对具有相同模数的密文进行组合操作。</p>
+<p>模数切换问题很重要，因为它影响了你如何设置方案的参数。对于BGV，参数取决于您想要评估的电路。当人们谈论“分级”同态加密时，这就是他们的意思：选择更大的参数，以便您拥有足够的级别来避免引导。有乘法深度吗？您需要更多的质数。一位FHE工程师向我提到，由于需要将它们用于RNS分解和模数切换，他们实际上已经“用完了”32位质数（根据<a target="_blank" rel="noopener" href="https://homes.cerias.purdue.edu/~ssw/shortage.pdf">这篇论文</a> ，大约有6000万个，或0.25 GiB），因此不得不将其基础类型切换为64位。与此同时，BFV的类似参数与电路无关。作为对这种复杂性的交换，对于更大的模数 𝑄（即，更深的电路），BGV比BFV快20-50％，尽管这取决于应用的特定其他技巧的子集。</p>
+<p>BGV和BFV在更大的计算范式中的位置是我想提及的最后一点。虽然人们关注改善微基准测试（如重新线性化、密钥切换或来自单个乘法的噪声增长），但还有一个挑战是在BGV&#x2F;BFV计算模型中表达程序。因为虽然你可以进行诸如添加和乘以密文之类的SIMD操作，但其他与SIMD架构（如AVX）常见的操作却不存在。忘记密文是一个多项式，只把它当作底层消息的向量。AVX等工具允许你对向量元素应用任意排列，将它们重新排列以便后续的SIMD操作更好地对齐。在FHE中，我们受到了更大的限制。有一种有限的支持排列的子集，对应于向量的循环旋转。在多项式领域，这些是通过底层环的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Frobenius_endomorphism">Frobenius自同构</a>实现的，这些自同构将 𝑥 ↦ 𝑥𝑘，其中 𝑘 是某个数。</p>
+<p>将这个扩展到任意排列需要构造一个对数深度的<em>置换网络</em>。我不知道在实际的FHE方面是否有人真正这样做，他们转而进行了一些可以用现有旋转表达的计算，比如简单的循环和矩阵-向量乘积。然而，这些自同构需要它们自己的特殊密钥材料，每个支持的旋转移位都需要一个，而且相对于它们所做的事情来说，它们的代价是昂贵的。因此，自然而然地，人们希望尽量减少它们的使用，在表达一个不是手工定制为适应算术FHE模型的程序时，这可能是一个挑战。</p>
+<p>旋转之所以昂贵，部分原因是它们需要一个密钥切换操作，这既需要额外的加密密钥材料，又与BGV&#x2F;BFV中的其他（非引导）操作相比计算密集。有关BGV、BFV及其差异和优化技巧的更深入的学术讨论，请参阅Kim、Polyakov和Zucca的论文。</p>
+<p>最近有一些关于优化BFV&#x2F;BGV方案的引导技术的工作，但据我所知，这些方案中最好的引导运行时仍需要几分钟才能完成，或者如果摊销，每条消息需要几秒钟。</p>
+<h2 id="CKKS（近似算术）"><a href="#CKKS（近似算术）" class="headerlink" title="CKKS（近似算术）"></a>CKKS（近似算术）</h2><p>CKKS是同态加密中最新发明的方案之一，它的核心观察是，注入到同态加密密文中的误差可以被吸收到浮点运算的误差中。CKKS利用了这一点，既可以扩展允许的输入空间，又可以在方案中更积极地降低噪声。具体来说，CKKS使用一种称为<em>重新缩放</em>的操作，类似于BGV&#x2F;BFV中的模量切换，用于减少乘法引起的噪声增长，但在这个过程中，会从消息的最低有效位中丢失一些精度。</p>
+<p>与BGV和BFV相似，CKKS也使用RLWE来加密消息，并且擅长SIMD风格的编程。它与BGV和BFV一样使用残数系统技巧来加速多项式乘法，强调通过“分层”的方式避免引导，并且类似地使用重新线性化、旋转和密钥切换。</p>
+<p>CKKS方案支持任意实数或复数作为输入消息，前提是需要理解精度会有所损失。它在通过泰勒级数多项式近似计算超越函数方面表现出色。因此，CKKS被认为最适合允许有限精度损失的SIMD风格计算，例如机器学习推断任务，这类任务需要使用某些超越函数但并不频繁。特别是，在找到近似某一局部邻域内函数的小度数多项式方面，CKKS可以比BGV&#x2F;BFV做得更好。这依赖于具有连续的消息空间：如果将消息空间设置为单位区间，则多项式近似可以假定输入在该范围内。</p>
+<p>然而，CKKS的性能提升是以可用性为代价的。除了需要关注同态操作导致的FHE密文噪声增长，还需跟踪多项式近似非多项式函数所引入的近似误差，在CKKS中，还必须跟踪其他操作（例如重新缩放）所导致的精度损失。即使是加密并立即解密消息（没有任何同态操作），也无法还原原始消息。无法组合具有不同缩放比例的两个密文，与BGV类似，这在CKKS的“公共”API中有所体现，但它与CKKS中的正确程序输出关系更密切，因此比BGV的模量切换更难隐藏。</p>
+<p>在所有四种FHE方案中，我个人对CKKS的理解最少，但我越深入研究并与同事讨论，越觉得CKKS与BGV&#x2F;BFV之间的区别越来越小。特别是，CKKS的许多特性很快就被移植到BGV&#x2F;BFV，反之亦然。</p>
+<h2 id="CGGI（布尔-短整数运算）"><a href="#CGGI（布尔-短整数运算）" class="headerlink" title="CGGI（布尔&#x2F;短整数运算）"></a>CGGI（布尔&#x2F;短整数运算）</h2><p>CGGI方案支持使用LWE加密方式对小位宽整数（1到约6位）进行加密。它利用LWE的天然加法操作，但不像BGV&#x2F;BFV那样有明显的乘法操作。相反，CGGI专注于两个关键组件：<strong>快速</strong>引导（每个密文的引导时间小于10毫秒），并通过一种称为<strong>可编程引导</strong>的技术在引导期间对密文进行额外的（免费）计算。</p>
+<p>普通的引导操作将加密消息 $m$ 的密文作为输入，并生成另一个具有较低噪声的 $m$ 加密密文。可编程引导允许在降低噪声的同时计算基础消息的任意（单变量）函数。由于消息是 $m$ 位整数，“任意函数”以一个具有 $2^m$ 项的查找表形式呈现。基于函数引导的工作原理，随着 $m$ 的增加，引导效率会迅速下降（你需要指数级增长的数据大小参数）。因此，查找表通常是硬编码的。</p>
+<p>借助这种能力，可以实现平方函数 $x \mapsto x^2$ ，并结合加法和密文-常量乘法，可以实现密文-密文乘法：</p>
+<p>$$x \cdot y &#x3D; \frac{(x + y)^2 - (x - y)^2}{4}$$</p>
+<p>通过这种方式，即使没有明显的乘法操作，也可以利用平方函数和其他基本运算实现密文间的乘法操作。</p>
+<p>一旦你有了可编程的引导，乘法就不再是核心功能了。你可以直接实现任意布尔门、比较操作、位运算、最大&#x2F;最小值，以及你想要的（非常低精度的）定点运算。然后，你可以通过找到巧妙的方式将逻辑表达为低精度查找表来优化你的程序。你也可以通过将两个输入的位并排放置来挤入双变量函数，前提是你有足够的精度。</p>
+<p>在CGGI中，一次引导操作相对于BGV&#x2F;BFV&#x2F;CKKS来说是比较便宜的。领先的CPU实现可以在大约8毫秒内运行引导操作，并且可以并行运行许多引导操作，具有将相同查找表同时应用于许多密文的特殊版本。这使得频繁运行引导操作变得更加可行，以至于一些实现在FHE程序中的每个非加法门后都盲目地运行引导操作，这被称为“门引导”。但是，引导操作仍然是CGGI中的主要瓶颈，占据了总计算量的90%以上。</p>
+<p>可编程引导的实现可以被视为一个黑匣子，但是稍微看一下内部，它是通过在一个RLWE密文中表示查找表，并通过加密的消息进行“盲旋转”（在加密时进行同态评估，对自同构𝑥↦𝑥𝑚）。这实际上涉及大量（~800）的顺序矩阵-向量多项式乘法。然后，它必须跟随一个RLWE到LWE的转换和一个密钥交换，相比于盲旋转步骤，这两个步骤都是次要的。</p>
+<p>一些CGGI的扩展（比如<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2021/729">这个</a>）包括了BFV式的乘法和重线性化，将更大的函数分解成查找表树，并向CGGI添加了其他功能。</p>
+<p>因此，由于这种灵活性，CGGI可以被认为更适合具有大量分支评估和相对低宽度电路的程序。不过，请参阅下面的“超越方案”部分以获取更多信息。但无论如何，其组件较算术方案要少。</p>
+<p>有时你会看到CGGI被称为其他几个名称，比如“TFHE”（“Torus” FHE，CGGI的作者给它的名称），<a target="_blank" rel="noopener" href="https://www.jeremykun.com/2024/05/04/fhe-overview/?continueFlag=fcaae36dd48c80ea2eea4df19d1409c2#fn:5">5</a>“FHEW”代表“Fastest HE in the West”（向其使用“Fastest Fourier Transform in the West”算法致敬；FHEW是CGGI方案的重要前身），或者“DM”代表FHEW的两位作者的首字母缩写。</p>
+<p>最近的工作已经在<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2024/181">BFV</a>中展示了对功能性引导的支持。CKKS也有引导操作，尽管其初始版本需要几秒钟（每个消息摊销）才能运行。针对CKKS设计了某些特殊化的引导程序，它们运行速度更快，但假设输入的密文是单个比特。</p>
+<p>要深入了解CGGI，请参阅Daniel Lowengrub的<a target="_blank" rel="noopener" href="https://www.daniellowengrub.com/blog/2024/01/03/fully-homomorphic-encryption">这篇实现文章</a>，或者Marc Joye的<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2021/1402">这篇论文长度解释</a>。</p>
+<h1 id="超越方案"><a href="#超越方案" class="headerlink" title="超越方案"></a>超越方案</h1><p>在本文的前面，我描述了一种将算术方案和布尔方案之间的墙壁，将研究社区划分开来的情况。近年来的一个有趣的发展是能够将一个FHE方案的密文转换为另一个的能力。这被称为“方案切换”。它始于CHIMERA论文，该论文证明了在CGGI、BFV和CKKS之间进行切换是可能的。后续的一篇名为PEGASUS的论文改进了从CKKS到CGGI的转换。最近的一个研究编译器证明，可以静态分析一个程序来决定哪些部分应该用CKKS实现，哪些部分应该用CGGI实现，而得到的混合方案比任何一个方案单独实现的速度都要快。</p>
+<p>这是一个很有趣的发展！自定义的CKKS启动程序针对CKKS加密单比特消息的特殊情况进行了设计，该研究声称，如果同时有超过150个密文需要启动，那么CKKS的启动速度（摊销）比CGGI的启动速度更快。因此，您可以将这个与方案切换结合起来，将大批量的CGGI密文转换为CKKS，进行启动，然后再转换回来，以实现更快的启动。</p>
+<p>这强调了我在过去两年里看到的FHE的主要研究趋势：FHE方案之间的区别变得不那么明显了。CKKS、BGV和BFV正在合并成一个原始方案，其细节主要在于明文编码以及它们在高层次上共享的各个操作的变化。如果最近的研究结果持续下去，可编程启动将在BFV中可用，并且很可能很快也会在CKKS和BGV中实现。而方案切换意味着最初选择的FHE方案可能并不那么具有约束力。</p>
+<h1 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h1><p>FHE研究的一个重要方面是设计定制硬件来加速FHE操作。有许多项目，但让我简要总结一下我比较熟悉的几个。</p>
+<p>最突出的项目群体是一个名为DPRIVE的DARPA计划的一部分。简而言之，DARPA正在资助FHE硬件设计者，挑战他们尽快在FHE中执行逻辑回归、CNN推断和CNN训练。目前有四个参与者：</p>
+<ul>
+<li>英特尔，其加速器被称为 <a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.1145/3560810.3565290">HERACLES</a>.</li>
+<li><a target="_blank" rel="noopener" href="https://dualitytech.com/">Duality</a>，其加速器被称为 <a target="_blank" rel="noopener" href="https://eprint.iacr.org/2023/521">TREBUCHET</a>.</li>
+<li><a target="_blank" rel="noopener" href="https://www.sri.com/press/story/sri-dprive-teams-fhe-accelerator-design-strengthens-security-of-outsourced-data-processing/">SRI International</a>，其加速器称为为 <a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/3470496.3527393">CraterLake</a>.</li>
+<li><a target="_blank" rel="noopener" href="https://niobiummicrosystems.com/">Niobium Microsystems</a>，其加速器被称为 <a target="_blank" rel="noopener" href="https://eprint.iacr.org/2022/657">BASALISC</a>.</li>
+</ul>
+<p>DPRIVE的所有参与者都在研发能加速算术全同态加密方案（如BFV&#x2F;BGV和CKKS）的ASIC芯片，并且它们在通向制造的过程中处于不同的阶段。它们的初始性能声明基于仿真，但为了赞扬这些参与者中的佼佼者，Niobium的<a target="_blank" rel="noopener" href="https://tches.iacr.org/index.php/TCHES/article/view/11157">初始论文</a>声称，在处理1024个样本、10个特征的数据集的逻辑回归时，估计只需40秒，而在CPU上则需要60小时。对我来说，这是硬件加速的一个下限。在这些加速器的核心是对相关多项式环中的数论变换（NTT）和其他多项式运算的加速。据我所知，这些加速器的难点在于将足够的RAM集成到其中，以便它们可以存储所有的密文和辅助密钥材料，并获得良好的内存局部性。</p>
+<p>我熟悉的另一个项目是基于FPGA的CGGI加速方法，名为<a target="_blank" rel="noopener" href="https://eprint.iacr.org/2022/1635">FPT</a>，来自<a target="_blank" rel="noopener" href="https://www.esat.kuleuven.be/cosic/">比利时鲁汶大学KU Leuven的COSIC研究实验室</a>。他们使用<a target="_blank" rel="noopener" href="https://www.xilinx.com/products/boards-and-kits/alveo/u280.html">Alveo U280</a>，并且通过对16个密文进行功能性引导，以实现每35微秒1个引导的吞吐量。我见过他们的实时演示，在演示中，他们在CGGI中运行康威生命游戏，动画效果几乎是实时的。与DPRIVE计划中的NTT运算机不同，FPT是一个FFT运算机。当然，该项目从TFHE-rs API开始，用于CGGI。</p>
+<p>有一些方法我了解较少。英特尔的团队有一个名为<a target="_blank" rel="noopener" href="https://github.com/intel/hexl">HEXL项目</a>的项目，专注于使用AVX和类似的现代CPU技术来针对英特尔CPU。此外，<a target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/accelerated-encrypted-execution-of-general-purpose-applications/">NVIDIA的团队</a>正在研究GPU加速，而<a target="_blank" rel="noopener" href="https://heaan.it/">HEaaN库</a>（CKKS）也支持GPU加速。还有一家名为<a target="_blank" rel="noopener" href="https://optalysys.com/">Optalysys</a>的公司正在为FHE构建一款光学计算芯片。其想法是通过使用通过透过透镜（或者说纳米级等效物）的光的干涉模式，可以“以光速”计算傅里叶变换，并通过这种方式加速引导。</p>
+<p>最后，我正在研究自己的硬件加速方法：在<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Tensor_Processing_Unit">TPU</a>上运行CGGI。这是一个名为<a target="_blank" rel="noopener" href="https://github.com/google/jaxite">jaxite</a>的开源库（因为它是用<a target="_blank" rel="noopener" href="https://github.com/google/jax">JAX</a>编写的）。目前性能还不值得太过夸耀，但我希望如果我能将性能提高到比CPU快10-100倍，那么我就可以利用谷歌已经大规模部署了TPU的事实，在更强大的硬件加速规模准备好之前推出一些FHE产品。</p>
+<p>关于这些以及我了解较少的其他加速器的更多细节，请参阅这篇<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2212.01713">论文，“SoK: Fully Homomorphic Encryption Accelerators”</a>。</p>
+<h1 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h1><p>FHE有很多软件支持，从核心加密的实现到编译器和更高级别的框架。要获取详尽的列表，请查看Jonathan Schneider的<a target="_blank" rel="noopener" href="https://github.com/jonaschn/awesome-he">Awesome FHE</a>。我将在这里介绍一些我喜欢的。</p>
+<p>OpenFHE是所有主要FHE方案的实现，包括方案切换，主要由<a target="_blank" rel="noopener" href="https://dualitytech.com/">Duality</a>维护。它取代了之前的<a target="_blank" rel="noopener" href="https://palisade-crypto.org/">PALISADE</a>项目，该项目已不再维护。据我所知，这是唯一支持方案切换的库，也是DPRIVE参与者作为硬件入口的主要API。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/snucrypto/HEAAN">HEaaN</a> 是 CKKS 的经典实现，当作者们开始了以盈利为目的的研究实验室 <a target="_blank" rel="noopener" href="https://www.cryptolab.co.kr/en/about-us-en/company-history/">CryptoLab</a> 后，它被收回了闭源。<a target="_blank" rel="noopener" href="https://github.com/snucrypto/HEAAN">最后的开源版本仍然在 GitHub 上</a>。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/zama-ai/tfhe-rs">TFHE-rs</a> 是领先的 CGGI 实现，用 Rust 编写，由营利性公司 <a target="_blank" rel="noopener" href="https://www.zama.ai/">Zama</a> 开发&#x2F;维护。它基于 <a target="_blank" rel="noopener" href="https://github.com/tfhe/tfhe">原始的 CGGI 实现</a>（也称为 TFHE），后者是用 C++ 编写的，已不再维护。Zama 还在 TFHE-rs 上构建了各种高级库，包括一个名为 <a target="_blank" rel="noopener" href="https://github.com/zama-ai/concrete">concrete</a> 的编译器和一个名为 <a target="_blank" rel="noopener" href="https://github.com/zama-ai/concrete-ml">concrete-ml</a> 的 scikit-learn API 镜像。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/tuneinsight/lattigo">Lattigo</a> 是 CKKS 的纯 Go 实现，同时还包括 BGV&#x2F;BFV&#x2F;CGGI 实现，最初由 <a target="_blank" rel="noopener" href="https://jeanphilippebossuat.ch/">Jean-Philippe Bossuat</a> 开发，现由 <a target="_blank" rel="noopener" href="https://tuneinsight.com/">Tune Insight</a> 维护。</p>
+<p>据我所知，其他所有的FHE实现库要么没有得到广泛使用，要么已不再积极开发。其中两个值得注意的例子包括：</p>
+<ul>
+<li>微软的SEAL支持BGV&#x2F;BFV以及一些CKKS，附带有关联的EVA编译器（也不再积极开发）。</li>
+<li>HELib是IBM开发的BGV和CKKS实现。</li>
+</ul>
+<p>有几个正在积极开发的其他FHE工具值得一提。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ibm.github.io/helayers/">HELayers</a> 是IBM的FHE编译器，专门用于找到良好的打包方案。</li>
+<li><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/3591228">HEaaN.mlir</a> 是CryptoLab的编译器，针对HEaaN，但据我所知，它并不是开源的。</li>
+<li>正如上文所提到的，<a target="_blank" rel="noopener" href="https://github.com/zama-ai/concrete">Concrete</a> 和 <a target="_blank" rel="noopener" href="https://github.com/zama-ai/concrete-ml">Concrete-ML</a> 是一对通过TFHE-rs为CGGI进行机器学习编译器&#x2F;前端。</li>
+<li><a target="_blank" rel="noopener" href="https://heir.dev/">HEIR</a> 是一个FHE编译器，也是我的主要项目，旨在支持所有主要的FHE方案和硬件后端。截至目前，它支持将CGGI导出到TFHE-rs，以用于CPU和FPT FPGA，以及将BGV导出到OpenFHE（并准备用于DPRIVE加速器）。</li>
+</ul>
+<p>还有<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2101.07078">各种其他研究级别的编译器</a>，虽然它们没有得到维护，但它们在当前FHE编译器中使用了许多创新的想法。</p>
+<h1 id="编写-FHE-程序"><a href="#编写-FHE-程序" class="headerlink" title="编写 FHE 程序"></a>编写 FHE 程序</h1><p>在所有的加密算法和软件工具都准备就绪之后，编写同态加密程序实际是什么样子的？这是一个非常有趣的话题，未来我也很想写更多关于它的内容。</p>
+<p>然而，简单来说，编写同态加密程序目前仍然突显出算术&#x2F;布尔运算的分界线。虽然有一些专门的库（如 <a target="_blank" rel="noopener" href="https://github.com/zama-ai/concrete-ml">Concrete-ML</a>）在特定任务中表现出色，但通用的FHE编程仍然是一个高度手动的过程，有点类似于编写自定义图形内核，你需要非常清楚如何在“硬件”中正确实现某个功能。而在我们的情况下，这个“硬件”就是FHE受限的计算模型。</p>
+<p>对于算术同态加密（FHE）而言，这意味着你必须避免使用非多项式运算或者无法通过低阶多项式轻松逼近的运算。这排除了即使是简单的比较、最大值&#x2F;最小值和分支操作。大量的研究专注于寻找精确的符号函数（<code>1 if x &gt; 0 else -1</code>）的多项式近似。而选择“正确”的多项式近似方案在很大程度上取决于程序的语义。因此，大多数算术FHE领域的研究都集中在神经网络推理上，因为神经网络的主要工作在于计算矩阵乘法，而在FHE中实现这一点的难点主要在于处理超越激活函数。一个包含太多不连续函数且对误差容忍度低的程序在算术FHE中将会非常慢，因为它需要不断进行引导操作。例如，我见过的最令人印象深刻的算术FHE程序是<a target="_blank" rel="noopener" href="https://proceedings.mlr.press/v162/lee22e.html">在CKKS中实现的ResNet</a>，这是一种深度神经网络架构，堆叠了带有ReLU激活的卷积层。ReLU需要高阶多项式近似，这消耗了所有可用的乘法深度，因此在每个卷积层之后都需要进行一次CKKS引导操作。</p>
+<p>据我所知，目前最先进的实现是上面链接的论文，该论文报告了一次推理（在包含50张图像的打包密文上）大约需要一小时（每张图像大约一分钟，摊销）。[6] 那篇论文还实现了ResNet-110，推理延迟为每次6小时。与此同时，ResNet-50 CPU 推理的摊销延迟约为每毫秒处理一张图像，这是几乎慢了100,000倍的数量级。</p>
+<p>根据我的了解，除了使用特定技巧编译预训练的神经网络外，所有实际的算术全同态加密程序都是由专家手工编写的，他们手动选择逼近方法和批处理方案。</p>
+<p>对于布尔全同态加密，非多项式操作要便宜得多，但你会遇到与位宽相关的其他问题。具体来说，大位宽的加法和乘法操作变得非常昂贵，因为布尔全同态加密方案只支持相对较小的位宽消息，必须通过大型功能性启动操作树来有效地模拟大型加法器&#x2F;乘法器电路。因此，布尔全同态加密在<em>量化</em>上付出了很多努力，即尽可能减少位宽。对于神经网络，像Brevitas和TFLite这样的库非常有用，Zama公司充分利用了这一点，结合其他剪枝技巧，在CPU上实现了像VGG这样的网络，每张图像的<a target="_blank" rel="noopener" href="https://github.com/zama-ai/concrete-ml/issues/658#issuecomment-2082088997">推断时间约为40秒</a>。它比上面的ResNet示例慢（而且VGG是一个更小的网络），但这种方法的好处是你也可以做决策树等在算术全同态加密中可能不太实用的事情，并且其中很少有手工制作的部分，正如Zama的concrete-ml库所示，它隐藏了许多细节。布尔全同态加密模型的另一个好处是你可以针对这个问题投入更多的现成硬件优化工具，因为布尔全同态加密电路看起来更像传统的组合电路，而不像算术全同态加密那样。</p>
+<h1 id="参与"><a href="#参与" class="headerlink" title="参与"></a>参与</h1><p>如果你对FHE感兴趣并希望参与其中，有几种不错的方式可以开始。由Zama牵头的<a target="_blank" rel="noopener" href="https://fhe.org/">FHE.org</a>组织每周举办<a target="_blank" rel="noopener" href="https://fhe.org/meetups/">FHE研究研讨会系列</a>，并且有一个活跃的<a target="_blank" rel="noopener" href="https://fhe.org/community">Discord社区</a>（披露：我是管理员，HEIR项目有一个频道）。FHE.org还主办每年三月举办的<a target="_blank" rel="noopener" href="https://fhe.org/conferences/conference-2024/">年度会议</a>。</p>
+<p>OpenFHE项目拥有一个活跃的<a target="_blank" rel="noopener" href="https://openfhe.discourse.group/">Discourse论坛</a>，维护者们会在这里回答关于OpenFHE和FHE的相关问题。</p>
+<p><a target="_blank" rel="noopener" href="https://homomorphicencryption.org/">FHE标准化联盟</a>正在积极组织FHE的ISO标准化工作，并且还举办了<a target="_blank" rel="noopener" href="https://homomorphicencryption.org/workshops/">研究研讨会</a>。</p>
+<p>最后，我们的HEIR项目每月两次举办<a target="_blank" rel="noopener" href="https://heir.dev/community/">开放设计会议</a>，欢迎任何有兴趣做出贡献的人参加。</p>
+<h1 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h1><p>感谢Seonhong Min、Johannes Mono、<a target="_blank" rel="noopener" href="https://github.com/inbelic">Finn Plummer</a>和<a target="_blank" rel="noopener" href="https://www.linkedin.com/in/jeffrey-sorensen-8a2b15191/">Jeffrey Sorensen</a>对本文提供的反馈。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">May 23, 2024&nbsp;&nbsp;11:36:58</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2024-05-23-a-high-level-technical-overview-of-fully-homomorphic-encryption.html">https://ismdeep.github.io/posts/2024-05-23-a-high-level-technical-overview-of-fully-homomorphic-encryption.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Cryptography/">#Cryptography</a>
+                        
+                            <a href="/tags/Math/">#Math</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
