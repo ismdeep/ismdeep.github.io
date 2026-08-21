@@ -1,0 +1,382 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>架构设计十大维度模型 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">架构设计十大维度模型</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%B8%9A%E5%8A%A1%E7%BB%B4%E5%BA%A6%EF%BC%88Business-Fit%EF%BC%89"><span class="toc-text">1 业务维度（Business Fit）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%B8%8F%E2%83%A3-%E4%B8%9A%E5%8A%A1%E5%A5%91%E5%90%88%E5%BA%A6"><span class="toc-text">1️⃣ 业务契合度</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%8A%9F%E8%83%BD%E7%BB%93%E6%9E%84%E7%BB%B4%E5%BA%A6%EF%BC%88Functional-Structure%EF%BC%89"><span class="toc-text">2 功能结构维度（Functional Structure）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%B8%8F%E2%83%A3-%E6%A8%A1%E5%9D%97%E5%88%92%E5%88%86%E5%90%88%E7%90%86%E6%80%A7"><span class="toc-text">2️⃣ 模块划分合理性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E9%9D%9E%E5%8A%9F%E8%83%BD%E6%80%A7%E7%BB%B4%E5%BA%A6%EF%BC%88Quality-Attributes%EF%BC%89"><span class="toc-text">3 非功能性维度（Quality Attributes）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3%EF%B8%8F%E2%83%A3-%E6%80%A7%E8%83%BD%EF%BC%88Performance%EF%BC%89"><span class="toc-text">3️⃣ 性能（Performance）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%EF%B8%8F%E2%83%A3-%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7%EF%BC%88Scalability%EF%BC%89"><span class="toc-text">4️⃣ 可扩展性（Scalability）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%EF%B8%8F%E2%83%A3-%E5%8F%AF%E7%94%A8%E6%80%A7%EF%BC%88Availability%EF%BC%89"><span class="toc-text">5️⃣ 可用性（Availability）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%EF%B8%8F%E2%83%A3-%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%8F%AF%E9%9D%A0%E6%80%A7%EF%BC%88Consistency%EF%BC%89"><span class="toc-text">6️⃣ 一致性与数据可靠性（Consistency）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7%EF%B8%8F%E2%83%A3-%E5%AE%89%E5%85%A8%E6%80%A7%EF%BC%88Security%EF%BC%89"><span class="toc-text">7️⃣ 安全性（Security）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%80%A7%E7%BB%B4%E5%BA%A6%EF%BC%88Feasibility%EF%BC%89"><span class="toc-text">4 可执行性维度（Feasibility）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#8%EF%B8%8F%E2%83%A3-%E5%8F%AF%E8%90%BD%E5%9C%B0%E6%80%A7"><span class="toc-text">8️⃣ 可落地性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E8%BF%90%E7%BB%B4%E4%B8%8E%E8%BF%90%E8%A1%8C%E7%BB%B4%E5%BA%A6%EF%BC%88Operability%EF%BC%89"><span class="toc-text">5 运维与运行维度（Operability）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9%EF%B8%8F%E2%83%A3-%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7-%E8%BF%90%E7%BB%B4%E8%83%BD%E5%8A%9B"><span class="toc-text">9️⃣ 可观测性 &amp; 运维能力</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%BC%94%E8%BF%9B%E4%B8%8E%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%BB%B4%E5%BA%A6%EF%BC%88Evolution%EF%BC%89"><span class="toc-text">6 演进与生命周期维度（Evolution）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%9F-%E5%8F%AF%E6%BC%94%E8%BF%9B%E8%83%BD%E5%8A%9B"><span class="toc-text">🔟 可演进能力</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">架构设计十大维度模型</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <h1 id="1-业务维度（Business-Fit）"><a href="#1-业务维度（Business-Fit）" class="headerlink" title="1 业务维度（Business Fit）"></a>1 业务维度（Business Fit）</h1><h2 id="1️⃣-业务契合度"><a href="#1️⃣-业务契合度" class="headerlink" title="1️⃣ 业务契合度"></a>1️⃣ 业务契合度</h2><p><strong>核心问题：</strong></p>
+<ul>
+<li>是否真正解决业务痛点？</li>
+<li>是否符合产品目标？</li>
+<li>是否支持未来 3–5 年规划？</li>
+</ul>
+<p><strong>常见风险：</strong></p>
+<ul>
+<li>技术驱动，而不是业务驱动</li>
+<li>为“炫技”而设计</li>
+</ul>
+<h1 id="2-功能结构维度（Functional-Structure）"><a href="#2-功能结构维度（Functional-Structure）" class="headerlink" title="2 功能结构维度（Functional Structure）"></a>2 功能结构维度（Functional Structure）</h1><h2 id="2️⃣-模块划分合理性"><a href="#2️⃣-模块划分合理性" class="headerlink" title="2️⃣ 模块划分合理性"></a>2️⃣ 模块划分合理性</h2><ul>
+<li>是否职责清晰？</li>
+<li>是否低耦合？</li>
+<li>是否支持扩展？</li>
+</ul>
+<p>常见模式：</p>
+<ul>
+<li>分层架构</li>
+<li>DDD 领域划分</li>
+<li>插件式结构</li>
+</ul>
+<h1 id="3-非功能性维度（Quality-Attributes）"><a href="#3-非功能性维度（Quality-Attributes）" class="headerlink" title="3 非功能性维度（Quality Attributes）"></a>3 非功能性维度（Quality Attributes）</h1><p>这是架构的核心。</p>
+<h2 id="3️⃣-性能（Performance）"><a href="#3️⃣-性能（Performance）" class="headerlink" title="3️⃣ 性能（Performance）"></a>3️⃣ 性能（Performance）</h2><ul>
+<li>QPS &#x2F; 并发能力</li>
+<li>P99 延迟</li>
+<li>IO 模型</li>
+<li>是否有缓存策略</li>
+</ul>
+<h2 id="4️⃣-可扩展性（Scalability）"><a href="#4️⃣-可扩展性（Scalability）" class="headerlink" title="4️⃣ 可扩展性（Scalability）"></a>4️⃣ 可扩展性（Scalability）</h2><ul>
+<li>是否支持水平扩展？</li>
+<li>是否无状态？</li>
+<li>是否支持多实例部署？</li>
+</ul>
+<p>例如监控场景常用：</p>
+<ul>
+<li>Prometheus 的拉模型支持横向扩展</li>
+</ul>
+<h2 id="5️⃣-可用性（Availability）"><a href="#5️⃣-可用性（Availability）" class="headerlink" title="5️⃣ 可用性（Availability）"></a>5️⃣ 可用性（Availability）</h2><ul>
+<li>是否存在单点？</li>
+<li>是否支持故障转移？</li>
+<li>是否自动恢复？</li>
+</ul>
+<h2 id="6️⃣-一致性与数据可靠性（Consistency）"><a href="#6️⃣-一致性与数据可靠性（Consistency）" class="headerlink" title="6️⃣ 一致性与数据可靠性（Consistency）"></a>6️⃣ 一致性与数据可靠性（Consistency）</h2><ul>
+<li>强一致 or 最终一致？</li>
+<li>是否支持幂等？</li>
+<li>是否考虑数据丢失场景？</li>
+</ul>
+<h2 id="7️⃣-安全性（Security）"><a href="#7️⃣-安全性（Security）" class="headerlink" title="7️⃣ 安全性（Security）"></a>7️⃣ 安全性（Security）</h2><ul>
+<li>认证（OAuth2 &#x2F; Token）</li>
+<li>授权（RBAC）</li>
+<li>传输加密（TLS）</li>
+<li>密钥管理（如 HashiCorp Vault）</li>
+</ul>
+<h1 id="4-可执行性维度（Feasibility）"><a href="#4-可执行性维度（Feasibility）" class="headerlink" title="4 可执行性维度（Feasibility）"></a>4 可执行性维度（Feasibility）</h1><h2 id="8️⃣-可落地性"><a href="#8️⃣-可落地性" class="headerlink" title="8️⃣ 可落地性"></a>8️⃣ 可落地性</h2><p>包括：</p>
+<ul>
+<li>技术成熟度</li>
+<li>团队能力匹配度</li>
+<li>时间窗口</li>
+<li>成本可控性</li>
+<li>运维复杂度</li>
+</ul>
+<p>评估方式：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>低</th>
+<th>中</th>
+<th>高</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>技术风险</td>
+<td>✔</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>实施难度</td>
+<td></td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td>运维复杂度</td>
+<td></td>
+<td></td>
+<td>✔</td>
+</tr>
+</tbody></table>
+<h1 id="5-运维与运行维度（Operability）"><a href="#5-运维与运行维度（Operability）" class="headerlink" title="5 运维与运行维度（Operability）"></a>5 运维与运行维度（Operability）</h1><h2 id="9️⃣-可观测性-运维能力"><a href="#9️⃣-可观测性-运维能力" class="headerlink" title="9️⃣ 可观测性 &amp; 运维能力"></a>9️⃣ 可观测性 &amp; 运维能力</h2><ul>
+<li>是否有日志？</li>
+<li>是否有 metrics？</li>
+<li>是否有 trace？</li>
+<li>是否支持健康检查？</li>
+</ul>
+<p>常见组合：</p>
+<ul>
+<li>Grafana + Prometheus</li>
+</ul>
+<h1 id="6-演进与生命周期维度（Evolution）"><a href="#6-演进与生命周期维度（Evolution）" class="headerlink" title="6 演进与生命周期维度（Evolution）"></a>6 演进与生命周期维度（Evolution）</h1><h2 id="🔟-可演进能力"><a href="#🔟-可演进能力" class="headerlink" title="🔟 可演进能力"></a>🔟 可演进能力</h2><ul>
+<li>是否支持灰度发布？</li>
+<li>是否支持版本升级？</li>
+<li>是否支持模块替换？</li>
+<li>是否支持架构平滑升级？</li>
+</ul>
+<p>这是长期系统最重要的维度。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">February 20, 2026&nbsp;&nbsp;22:08:04</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2026-02-20-architecture-10-d-model.html">https://ismdeep.github.io/posts/2026-02-20-architecture-10-d-model.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/System-Design/">#System Design</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/tweets">只言片语</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/tweets">只言片语</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>

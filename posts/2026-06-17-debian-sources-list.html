@@ -1,0 +1,863 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>Debian Sources List | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">Debian Sources List</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%91%E8%A1%8C%E7%89%88%E4%BB%A3%E5%8F%B7"><span class="toc-text">发行版代号</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-jessie"><span class="toc-text">8 jessie</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-stretch"><span class="toc-text">9 stretch</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-buster"><span class="toc-text">10 buster</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-bullseye"><span class="toc-text">11 bullseye</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-bookworm"><span class="toc-text">12 bookworm</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13-trixie"><span class="toc-text">13 trixie</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-%E9%95%9C%E5%83%8F"><span class="toc-text">Docker 镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BB%93%E5%BA%93%E5%AE%98%E6%96%B9%E6%BA%90"><span class="toc-text">系统仓库官方源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BB%93%E5%BA%93%E5%9B%BD%E5%86%85%E6%BA%90"><span class="toc-text">系统仓库国内源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BB%93%E5%BA%93-wk-%E6%BA%90"><span class="toc-text">系统仓库 wk 源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-%E5%AE%98%E6%96%B9%E6%BA%90"><span class="toc-text">Docker 官方源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-%E5%9B%BD%E5%86%85%E6%BA%90"><span class="toc-text">Docker 国内源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-wk-%E6%BA%90"><span class="toc-text">Docker wk 源</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">Debian Sources List</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <h1 id="发行版代号"><a href="#发行版代号" class="headerlink" title="发行版代号"></a>发行版代号</h1><table>
+<thead>
+<tr>
+<th>Debian 版本</th>
+<th>代号（Codename）</th>
+<th>发布日期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Debian 15</td>
+<td>Duke（开发中）</td>
+<td>未发布</td>
+</tr>
+<tr>
+<td>Debian 14</td>
+<td>Forky（Testing）</td>
+<td>未发布</td>
+</tr>
+<tr>
+<td>Debian 13</td>
+<td>Trixie</td>
+<td>2025-08-09</td>
+</tr>
+<tr>
+<td>Debian 12</td>
+<td>Bookworm</td>
+<td>2023-06-10</td>
+</tr>
+<tr>
+<td>Debian 11</td>
+<td>Bullseye</td>
+<td>2021-08-14</td>
+</tr>
+<tr>
+<td>Debian 10</td>
+<td>Buster</td>
+<td>2019-07-06</td>
+</tr>
+<tr>
+<td>Debian 9</td>
+<td>Stretch</td>
+<td>2017-06-17</td>
+</tr>
+<tr>
+<td>Debian 8</td>
+<td>Jessie</td>
+<td>2015-04-25</td>
+</tr>
+<tr>
+<td>Debian 7</td>
+<td>Wheezy</td>
+<td>2013-05-04</td>
+</tr>
+<tr>
+<td>Debian 6</td>
+<td>Squeeze</td>
+<td>2011-02-06</td>
+</tr>
+<tr>
+<td>Debian 5</td>
+<td>Lenny</td>
+<td>2009-02-14</td>
+</tr>
+<tr>
+<td>Debian 4</td>
+<td>Etch</td>
+<td>2007-04-08</td>
+</tr>
+<tr>
+<td>Debian 3.1</td>
+<td>Sarge</td>
+<td>2005-06-06</td>
+</tr>
+<tr>
+<td>Debian 3.0</td>
+<td>Woody</td>
+<td>2002-07-19</td>
+</tr>
+<tr>
+<td>Debian 2.2</td>
+<td>Potato</td>
+<td>2000-08-15</td>
+</tr>
+<tr>
+<td>Debian 2.1</td>
+<td>Slink</td>
+<td>1999-03-09</td>
+</tr>
+<tr>
+<td>Debian 2.0</td>
+<td>Hamm</td>
+<td>1998-07-24</td>
+</tr>
+<tr>
+<td>Debian 1.3</td>
+<td>Bo</td>
+<td>1997-07-02</td>
+</tr>
+<tr>
+<td>Debian 1.2</td>
+<td>Rex</td>
+<td>1996-12-12</td>
+</tr>
+<tr>
+<td>Debian 1.1</td>
+<td>Buzz</td>
+<td>1996-06-17</td>
+</tr>
+</tbody></table>
+<h1 id="8-jessie"><a href="#8-jessie" class="headerlink" title="8 jessie"></a>8 jessie</h1><p>官方镜像：</p>
+<pre><code>debian:8
+</code></pre>
+<pre><code>sudo docker run --rm -it debian:8 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1ms.run/library/debian:8 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1panel.live/library/debian:8 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it hub.deepin.com/library/debian:8 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.wk/library/debian:8 bash
+</code></pre>
+<p>官方源：</p>
+<pre><code>deb [trusted=yes] http://archive.debian.org/debian          jessie         main contrib non-free
+deb [trusted=yes] http://archive.debian.org/debian-security jessie/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;&#39;&#39;
+deb [trusted=yes] http://archive.debian.org/debian          jessie         main contrib non-free
+deb [trusted=yes] http://archive.debian.org/debian-security jessie/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<p>国内源：</p>
+<pre><code>deb [trusted=yes] http://mirrors.cloud.tencent.com/debian-archive/debian          jessie         main contrib non-free
+deb [trusted=yes] http://mirrors.cloud.tencent.com/debian-archive/debian-security jessie/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;&#39;&#39;
+deb [trusted=yes] http://archive.debian.org/debian          jessie         main contrib non-free
+deb [trusted=yes] http://archive.debian.org/debian-security jessie/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+apt-get update &amp;&amp; \
+apt-get install -y ca-certificates apt-transport-https &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;&#39;&#39;
+deb [trusted=yes] https://mirrors.cloud.tencent.com/debian-archive/debian          jessie         main contrib non-free
+deb [trusted=yes] https://mirrors.cloud.tencent.com/debian-archive/debian-security jessie/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<h1 id="9-stretch"><a href="#9-stretch" class="headerlink" title="9 stretch"></a>9 stretch</h1><p>官方镜像：</p>
+<pre><code>debian:9
+</code></pre>
+<pre><code>sudo docker run --rm -it debian:9 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1ms.run/library/debian:9 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1panel.live/library/debian:9 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it hub.deepin.com/library/debian:9 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.wk/library/debian:9 bash
+</code></pre>
+<p>官方源：</p>
+<pre><code>deb http://archive.debian.org/debian          stretch         main contrib non-free
+deb http://archive.debian.org/debian-security stretch/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://archive.debian.org/debian          stretch         main contrib non-free
+deb http://archive.debian.org/debian-security stretch/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<p>国内源：</p>
+<pre><code>deb https://mirrors.cloud.tencent.com/debian-archive/debian          stretch         main contrib non-free
+deb https://mirrors.cloud.tencent.com/debian-archive/debian-security stretch/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://archive.debian.org/debian          stretch         main contrib non-free
+deb http://archive.debian.org/debian-security stretch/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+apt-get update &amp;&amp; \
+apt-get install -y ca-certificates apt-transport-https &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;&#39;&#39;
+deb https://mirrors.cloud.tencent.com/debian-archive/debian          stretch         main contrib non-free
+deb https://mirrors.cloud.tencent.com/debian-archive/debian-security stretch/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<h1 id="10-buster"><a href="#10-buster" class="headerlink" title="10 buster"></a>10 buster</h1><p>官方镜像：</p>
+<pre><code>debian:10
+</code></pre>
+<pre><code>sudo docker run --rm -it debian:10 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1ms.run/library/debian:10 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1panel.live/library/debian:10 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it hub.deepin.com/library/debian:10 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.wk/library/debian:10 bash
+</code></pre>
+<p>官方源：</p>
+<pre><code>deb http://archive.debian.org/debian          buster         main contrib non-free
+deb http://archive.debian.org/debian-security buster/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;
+deb http://archive.debian.org/debian          buster         main contrib non-free
+deb http://archive.debian.org/debian-security buster/updates main contrib non-free
+&#39; | sudo tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+sudo apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<p>国内源：</p>
+<pre><code>deb https://mirrors.cloud.tencent.com/debian-archive/debian          buster         main contrib non-free
+deb https://mirrors.cloud.tencent.com/debian-archive/debian-security buster/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;
+deb http://archive.debian.org/debian          buster         main contrib non-free
+deb http://archive.debian.org/debian-security buster/updates main contrib non-free
+&#39; | sudo tee /etc/apt/sources.list &amp;&amp; \
+sudo apt-get update &amp;&amp; \
+sudo apt-get install -y ca-certificates apt-transport-https &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+echo &#39;
+deb https://mirrors.cloud.tencent.com/debian-archive/debian          buster         main contrib non-free
+deb https://mirrors.cloud.tencent.com/debian-archive/debian-security buster/updates main contrib non-free
+&#39; | sudo tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+sudo apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<p>Docker 官方源：</p>
+<pre><code>deb [trusted=yes] https://download.docker.com/linux/debian buster stable
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list.d/docker.list ...&quot; &amp;&amp; \
+echo &#39;
+deb [trusted=yes] https://download.docker.com/linux/debian buster stable
+&#39; | \
+  sudo tee /etc/apt/sources.list.d/docker.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install docker-ce ...&quot; &amp;&amp; \
+sudo apt install -y docker-ce &amp;&amp; \
+sudo docker ps &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot;
+</code></pre>
+<p>Docker 国内源：</p>
+<pre><code>deb [trusted=yes] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list.d/docker.list ...&quot; &amp;&amp; \
+echo &#39;
+deb [trusted=yes] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian buster stable
+&#39; | \
+  sudo tee /etc/apt/sources.list.d/docker.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install docker-ce ...&quot; &amp;&amp; \
+sudo apt install -y docker-ce &amp;&amp; \
+sudo docker ps &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot;
+</code></pre>
+<h1 id="11-bullseye"><a href="#11-bullseye" class="headerlink" title="11 bullseye"></a>11 bullseye</h1><p>官方镜像：</p>
+<pre><code>debian:11
+</code></pre>
+<pre><code>sudo docker run --rm -it debian:11 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1ms.run/library/debian:11 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1panel.live/library/debian:11 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it hub.deepin.com/library/debian:11 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.wk/library/debian:11 bash
+</code></pre>
+<p>官方源：</p>
+<pre><code>deb http://deb.debian.org/debian          bullseye                  main contrib non-free
+deb http://deb.debian.org/debian          bullseye-updates          main contrib non-free
+deb http://deb.debian.org/debian-security bullseye-security         main contrib non-free
+deb http://deb.debian.org/debian-security bullseye-security/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+rm -rf /etc/apt/sources.list.d/debian.sources &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://deb.debian.org/debian          bullseye                  main contrib non-free
+deb http://deb.debian.org/debian          bullseye-updates          main contrib non-free
+deb http://deb.debian.org/debian-security bullseye-security         main contrib non-free
+deb http://deb.debian.org/debian-security bullseye-security/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<p>国内源：</p>
+<pre><code>deb http://mirrors.ustc.edu.cn/debian          bullseye                  main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian          bullseye-updates          main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian-security bullseye-security         main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian-security bullseye-security/updates main contrib non-free
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+rm -rf /etc/apt/sources.list.d/debian.sources &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://mirrors.ustc.edu.cn/debian          bullseye                  main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian          bullseye-updates          main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian-security bullseye-security         main contrib non-free
+deb http://mirrors.ustc.edu.cn/debian-security bullseye-security/updates main contrib non-free
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<h1 id="12-bookworm"><a href="#12-bookworm" class="headerlink" title="12 bookworm"></a>12 bookworm</h1><p>官方镜像：</p>
+<pre><code>debian:12
+</code></pre>
+<pre><code>sudo docker run --rm -it debian:12 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1ms.run/library/debian:12 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1panel.live/library/debian:12 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it hub.deepin.com/library/debian:12 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.wk/library/debian:12 bash
+</code></pre>
+<p>官方源：</p>
+<pre><code>deb http://deb.debian.org/debian          bookworm                  main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian          bookworm-updates          main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security bookworm-security         main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security bookworm-security/updates main contrib non-free non-free-firmware
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+rm -rf /etc/apt/sources.list.d/debian.sources &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://deb.debian.org/debian          bookworm                  main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian          bookworm-updates          main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security bookworm-security         main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security bookworm-security/updates main contrib non-free non-free-firmware
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates build-essential debhelper &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<p> 国内源：</p>
+<pre><code>deb http://mirrors.ustc.edu.cn/debian          bookworm                  main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian          bookworm-updates          main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security bookworm-security         main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security bookworm-security/updates main contrib non-free non-free-firmware
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+rm -rf /etc/apt/sources.list.d/debian.sources &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://mirrors.ustc.edu.cn/debian          bookworm                  main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian          bookworm-updates          main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security bookworm-security         main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security bookworm-security/updates main contrib non-free non-free-firmware
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates build-essential debhelper &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<h1 id="13-trixie"><a href="#13-trixie" class="headerlink" title="13 trixie"></a>13 trixie</h1><h2 id="Docker-镜像"><a href="#Docker-镜像" class="headerlink" title="Docker 镜像"></a>Docker 镜像</h2><pre><code>debian:13
+</code></pre>
+<pre><code>sudo docker run --rm -it debian:13 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1ms.run/library/debian:13 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.1panel.live/library/debian:13 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it hub.deepin.com/library/debian:13 bash
+</code></pre>
+<pre><code>sudo docker run --rm -it docker.wk/library/debian:13 bash
+</code></pre>
+<h2 id="系统仓库官方源"><a href="#系统仓库官方源" class="headerlink" title="系统仓库官方源"></a>系统仓库官方源</h2><pre><code>deb http://deb.debian.org/debian          trixie                  main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian          trixie-updates          main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security trixie-security         main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security trixie-security/updates main contrib non-free non-free-firmware
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+rm -rf /etc/apt/sources.list.d/debian.sources &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://deb.debian.org/debian          trixie                  main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian          trixie-updates          main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security trixie-security         main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian-security trixie-security/updates main contrib non-free non-free-firmware
+&#39;&#39;&#39; | tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+apt-get update &amp;&amp; \
+apt-get upgrade -y &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+apt-get install -y curl git vim ca-certificates build-essential debhelper &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<h2 id="系统仓库国内源"><a href="#系统仓库国内源" class="headerlink" title="系统仓库国内源"></a>系统仓库国内源</h2><pre><code>deb http://mirrors.ustc.edu.cn/debian          trixie                  main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian          trixie-updates          main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security trixie-security         main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security trixie-security/updates main contrib non-free non-free-firmware
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+rm -rf /etc/apt/sources.list.d/debian.sources &amp;&amp; \
+echo &#39;&#39;&#39;
+deb http://mirrors.ustc.edu.cn/debian          trixie                  main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian          trixie-updates          main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security trixie-security         main contrib non-free non-free-firmware
+deb http://mirrors.ustc.edu.cn/debian-security trixie-security/updates main contrib non-free non-free-firmware
+&#39;&#39;&#39; | sudo tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+sudo apt-get install -y curl vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check via curl ...&quot; &amp;&amp; \
+curl -fsSL https://www.baidu.com/ &gt;/dev/null 2&gt;&amp;1 &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<h2 id="系统仓库-wk-源"><a href="#系统仓库-wk-源" class="headerlink" title="系统仓库 wk 源"></a>系统仓库 wk 源</h2><pre><code>deb http://mirror.wk/debian          trixie                  main contrib non-free non-free-firmware
+deb http://mirror.wk/debian          trixie-updates          main contrib non-free non-free-firmware
+deb http://mirror.wk/debian-security trixie-security         main contrib non-free non-free-firmware
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/hosts ...&quot; &amp;&amp; \
+if [ &quot;$(grep -c &#39;mirror.wk&#39; /etc/hosts)&quot; == &quot;0&quot; ]; then echo &#39;10.20.52.2 mirror.wk&#39; | sudo tee -a /etc/hosts; fi &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list ...&quot; &amp;&amp; \
+rm -rf /etc/apt/sources.list.d/debian.sources &amp;&amp; \
+echo &#39;
+deb http://mirror.wk/debian          trixie                  main contrib non-free non-free-firmware
+deb http://mirror.wk/debian          trixie-updates          main contrib non-free non-free-firmware
+deb http://mirror.wk/debian-security trixie-security         main contrib non-free non-free-firmware
+&#39; | sudo tee /etc/apt/sources.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt-get update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install tools ...&quot; &amp;&amp; \
+sudo apt-get install -y curl vim ca-certificates &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot; &amp;&amp; \
+true
+</code></pre>
+<h2 id="Docker-官方源"><a href="#Docker-官方源" class="headerlink" title="Docker 官方源"></a>Docker 官方源</h2><pre><code>deb [trusted=yes] https://download.docker.com/linux/debian trixie stable
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list.d/docker.list ...&quot; &amp;&amp; \
+echo &#39;
+deb [trusted=yes] https://download.docker.com/linux/debian trixie stable
+&#39; | \
+  sudo tee /etc/apt/sources.list.d/docker.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install docker-ce ...&quot; &amp;&amp; \
+sudo apt install -y docker-ce &amp;&amp; \
+sudo cp /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check docker status ...&quot; &amp;&amp; \
+sudo systemctl status --no-pager docker &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] + sudo docker ps ...&quot; &amp;&amp; \
+sudo docker ps &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] + sudo docker-compose ls ...&quot; &amp;&amp; \
+sudo docker-compose ls &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot;
+</code></pre>
+<h2 id="Docker-国内源"><a href="#Docker-国内源" class="headerlink" title="Docker 国内源"></a>Docker 国内源</h2><pre><code>deb [signed-by=/etc/apt/keyrings/docker.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian trixie stable
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] download signed gpg ...&quot; &amp;&amp; \
+sudo mkdir -p /etc/apt/keyrings &amp;&amp; \
+sudo curl -fsSL --output /etc/apt/keyrings/docker.gpg \
+  https://download.docker.com/linux/debian/gpg &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list.d/docker.list ...&quot; &amp;&amp; \
+echo &#39;
+deb [trusted=yes] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian trixie stable
+&#39; | \
+  sudo tee /etc/apt/sources.list.d/docker.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install docker-ce ...&quot; &amp;&amp; \
+sudo apt install -y docker-ce &amp;&amp; \
+sudo cp /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check docker status ...&quot; &amp;&amp; \
+sudo systemctl status --no-pager docker &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] + sudo docker ps ...&quot; &amp;&amp; \
+sudo docker ps &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] + sudo docker-compose ls ...&quot; &amp;&amp; \
+sudo docker-compose ls &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot;
+</code></pre>
+<h2 id="Docker-wk-源"><a href="#Docker-wk-源" class="headerlink" title="Docker wk 源"></a>Docker wk 源</h2><pre><code>deb [signed-by=/etc/apt/keyrings/docker.gpg] http://mirror.wk/docker-ce/linux/debian trixie stable
+</code></pre>
+<pre><code>dateh() &#123; TZ=Asia/Shanghai date &#39;+%Y-%m-%d %H:%M:%S %z&#39;; &#125; &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/hosts ...&quot; &amp;&amp; \
+if [ &quot;$(grep -c &#39;mirror.wk&#39; /etc/hosts)&quot; == &quot;0&quot; ]; then echo &#39;10.20.52.2 mirror.wk&#39; | sudo tee -a /etc/hosts; fi &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] download signed gpg ...&quot; &amp;&amp; \
+sudo mkdir -p /etc/apt/keyrings &amp;&amp; \
+sudo curl -fsSL --output /etc/apt/keyrings/docker.gpg \
+  http://mirror.wk/docker-ce/linux/debian/gpg &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] write /etc/apt/sources.list.d/docker.list ...&quot; &amp;&amp; \
+echo &#39;
+deb [signed-by=/etc/apt/keyrings/docker.gpg] http://mirror.wk/docker-ce/linux/debian trixie stable
+&#39; | sudo tee /etc/apt/sources.list.d/docker.list &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] update list ...&quot; &amp;&amp; \
+sudo apt update &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] install docker-ce ...&quot; &amp;&amp; \
+sudo apt install -y docker-ce &amp;&amp; \
+sudo cp /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] check docker status ...&quot; &amp;&amp; \
+sudo systemctl status --no-pager docker &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] + sudo docker ps ...&quot; &amp;&amp; \
+sudo docker ps &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] + sudo docker-compose ls ...&quot; &amp;&amp; \
+sudo docker-compose ls &amp;&amp; \
+echo &quot;$(dateh) [ INFO ] finished.&quot;
+</code></pre>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">June 17, 2026&nbsp;&nbsp;8:32:42</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2026-06-17-debian-sources-list.html">https://ismdeep.github.io/posts/2026-06-17-debian-sources-list.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/Debian/">#Debian</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/tweets">只言片语</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/tweets">只言片语</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
