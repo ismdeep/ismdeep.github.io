@@ -1,0 +1,591 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="ismdeep">
+<meta name="author" content="ismdeep">
+<meta name="subtitle" content="Enjoy programming and build awesome stuff.">
+
+
+
+
+<title>系统设计原则 | ismdeep</title>
+
+
+
+<link rel="icon" href="/hacker.svg">
+
+
+
+<style>
+/* 立即隐藏侧边栏和顶部栏，防止闪烁 */
+#column-one, #p-personal {
+    visibility: hidden;
+    opacity: 0;
+}
+
+/* 页面加载完成后显示 */
+body.loaded #column-one,
+body.loaded #p-personal {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 确保在JavaScript未执行时也能正常显示（降级方案） */
+.no-js #column-one,
+.no-js #p-personal {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+</style>
+
+
+<script>
+(function() {
+    // 立即添加loaded类，不等待DOM加载
+    document.documentElement.className += ' no-js';
+    
+    function showElements() {
+        document.body.className = (document.body.className + ' loaded').trim();
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '').trim();
+    }
+    
+    // 尝试多种方式确保元素显示
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showElements);
+        // 备用方案：在短延迟后也执行
+        setTimeout(showElements, 100);
+    } else {
+        showElements();
+    }
+    
+    // 最后的保障：在窗口加载完成后也执行
+    window.addEventListener('load', showElements);
+})();
+</script>
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script src="/js/script.js"></script>
+<script src="/js/tocbot.min.js"></script>
+
+
+
+    
+    
+        
+    
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+
+  <body class="mediawiki ltr sitedir-ltr mw-underline-never mw-hide-empty-elt ns-0 ns-subject mw-editable skin-monobook action-view skin--responsive">
+    <div id="globalWrapper">
+      <div id="column-content">
+        <div id="content" class="mw-body ve-init-mw-desktopArticleTarget-targetContainer" role="main">
+          <a id="top"></a>
+
+          
+            <h1 id="firstHeading" class="firstHeading mw-first-heading" lang="zh-Hans-CN" dir="ltr">
+              <span class="mw-page-title-main">系统设计原则</span>
+            </h1>
+          
+
+          <div id="bodyContent" class="monobook-body">
+            <div id="contentSub" lang="zh-Hans-CN" dir="ltr">
+              <div id="mw-content-subtitle" lang="zh-Hans-CN" dir="ltr"></div>
+            </div>
+            <!-- start content -->
+            <div id="mw-content-text" class="mw-body-content">
+              <div class="mw-content-ltr mw-parser-output" lang="zh-Hans-CN" dir="ltr">
+                <div id="noteTA-cab67cdc" class="noteTA">
+                  <div class="noteTA-group">
+                    <div data-noteta-group-source="module" data-noteta-group="USState"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="PresidentsUS"></div>
+                    <div data-noteta-group-source="module" data-noteta-group="People"></div>
+                  </div>
+                </div>
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%A0%87%E5%87%86%E5%8D%8F%E8%AE%AE"><span class="toc-text">1 标准协议</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%AE%80%E5%8D%95"><span class="toc-text">2 简单</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BC%98%E5%85%88%E9%99%8D%E4%BD%8E%E8%80%A6%E5%90%88"><span class="toc-text">3 优先降低耦合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E6%98%BE%E5%BC%8F"><span class="toc-text">4 显式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E5%8F%AF%E8%A7%82%E6%B5%8B"><span class="toc-text">5 可观测</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E5%8F%AF%E6%BC%94%E8%BF%9B"><span class="toc-text">6 可演进</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E5%A4%B1%E8%B4%A5%E5%8F%AF%E6%8E%A7"><span class="toc-text">7 失败可控</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-%E6%95%B0%E6%8D%AE%E8%AE%BE%E8%AE%A1"><span class="toc-text">8 数据设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-%E6%80%BB%E7%BB%93"><span class="toc-text">9 总结</span></a></li></ol>
+    </div>
+</div>
+
+    
+
+    
+    <article class="post-wrap">
+<!--         <header class="post-header"> -->
+<!--             <h1 class="post-title">系统设计原则</h1> -->
+<!--         </header> -->
+
+        <div class="post-content">
+            <h1 id="1-标准协议"><a href="#1-标准协议" class="headerlink" title="1 标准协议"></a>1 标准协议</h1><p>通信协议优先使用 HTTP、gRPC、WebSocket、MQTT 这些标准协议，自研协议的维护成本远高于第一版开发成本。</p>
+<p>数据格式优先使用 JSON、Protobuf、MessagePack、CSV，不要随便搞 <code>xxx.json2</code>、<code>xxx.bin</code> 这种只有自己认识的格式。</p>
+<p>加密解密直接使用 TLS、AES、ChaCha20、SHA-256、Ed25519 等成熟方案，不要自己发明加密算法、Hash、签名算法。</p>
+<p>各领域基础设施已经有非常多成熟的方案，例如：Nginx、Redis、MySQL、MinIO等等。</p>
+<h1 id="2-简单"><a href="#2-简单" class="headerlink" title="2 简单"></a>2 简单</h1><p><strong>不要为了未来设计不存在的需求。</strong></p>
+<blockquote>
+<p>YAGNI, You Aren’t Gonna Need It.</p>
+</blockquote>
+<p>例如，现在只有</p>
+<pre><code>user_id
+name
+</code></pre>
+<p>不要因为“以后可能需要多租户、国际化、ABAC、组织树”，第一版就设计成：</p>
+<pre><code>tenant_id
+organization_id
+region_id
+locale
+namespace
+scope
+policy
+...
+</code></pre>
+<p>未来真的需要多话，再演进。</p>
+<p><strong>不要过度抽象。</strong></p>
+<p>例如，当前</p>
+<pre><code>func CreateUser()
+func CreateOrder()
+func CreateProduct()
+</code></pre>
+<p>不要立刻设计</p>
+<pre><code>AbstractEntityService
+GenericDomainManager
+BaseBusinessProcessor
+UniversalCRUDService
+</code></pre>
+<p>重复不一定是坏事，错误的抽象才是。</p>
+<p><strong>不要过早微服务化。</strong></p>
+<p>如果一个单体代码量可能就那么 1000 行代码，不要设计成多个微服务运行。微服务解决的是组织规模、部署隔离、扩展性等问题，不是代码多了就拆。</p>
+<h1 id="3-优先降低耦合"><a href="#3-优先降低耦合" class="headerlink" title="3 优先降低耦合"></a>3 优先降低耦合</h1><p><strong>模块之间尽量依赖接口，而不是具体实现。</strong>替换实现、测试和演进都会容易很多。</p>
+<p><strong>不要让业务层依赖基础设施细节。</strong>业务真正关心的是缓存数据，而不是我必须对接Redis。</p>
+<p><strong>不要让模块共享太多内部状态。</strong>避免使用全局变量，不然任何一个模块修改状态都会产生蝴蝶效应。</p>
+<h1 id="4-显式"><a href="#4-显式" class="headerlink" title="4 显式"></a>4 显式</h1><p><strong>不要依赖魔法</strong></p>
+<p>例如：</p>
+<pre><code>config.Get(&quot;xxx&quot;)
+</code></pre>
+<p>到处偷偷读取全局变量。</p>
+<p>更推荐：</p>
+<pre><code>NewService(cfg)
+</code></pre>
+<p>依赖是什么，一眼就能看到。</p>
+<p><strong>不要让函数产生隐藏副作用。</strong></p>
+<p>例如：</p>
+<pre><code>func LoadConfig() &#123;
+  ...
+&#125;
+</code></pre>
+<p>执行的时候：至于加载了配置写到哪里去了，还得看内部细节。</p>
+<p><strong>不要依赖隐式顺序。</strong></p>
+<p>不要假设</p>
+<pre><code>A 一定先启动
+B 一定后启动
+C 一定已经初始化
+</code></pre>
+<p>系统应该尽可能明确表达依赖关系。</p>
+<p>这在 Kubernetes、systemd、微服务中尤其重要。</p>
+<h1 id="5-可观测"><a href="#5-可观测" class="headerlink" title="5 可观测"></a>5 可观测</h1><p><strong>任何关键操作都应该能够回答。</strong></p>
+<pre><code>发生了什么？
+什么时候发生？
+谁发起的？
+处理了多久？
+为什么失败？
+影响了谁？
+</code></pre>
+<p>所以系统设计阶段就应该考虑：</p>
+<ul>
+<li>日志</li>
+<li>Metrics</li>
+<li>Trace</li>
+<li>Request ID</li>
+<li>Audit Log</li>
+<li>Error Code</li>
+</ul>
+<p>而不是上线以后才补。</p>
+<p><strong>错误不要只返回“失败”</strong></p>
+<p>不推荐：</p>
+<pre><code>ERROR
+</code></pre>
+<p>至少应该能够区分：</p>
+<pre><code>INVALID_ARGUMENT
+NOT_FOUND
+TIMEOUT
+PERMISSION_DENIED
+CONFLICT
+INTERNAL_ERROR
+</code></pre>
+<p><strong>错误是系统 API 的一部分。</strong></p>
+<h1 id="6-可演进"><a href="#6-可演进" class="headerlink" title="6 可演进"></a>6 可演进</h1><p>API 一旦发布，就把它当成长期契约</p>
+<p>例如：</p>
+<pre><code>/api/v1/users
+</code></pre>
+<p>不要轻易修改：</p>
+<pre><code>&#123;
+  &quot;name&quot;: &quot;张三&quot;
+&#125;
+</code></pre>
+<p>变成：</p>
+<pre><code>&#123;
+  &quot;username&quot;: &quot;张三&quot;
+&#125;
+</code></pre>
+<p>然后要求所有客户端同时升级。</p>
+<p>更好的方式是：</p>
+<pre><code>V1
+ ↓
+V2
+ ↓
+逐步迁移
+ ↓
+废弃 V1
+</code></pre>
+<p><strong>数据库 Schema 要考虑向后兼容</strong></p>
+<p>特别是线上系统。</p>
+<p>推荐：</p>
+<pre><code>增加字段
+ ↓
+发布代码
+ ↓
+新代码开始使用
+ ↓
+旧字段逐渐废弃
+ ↓
+最后删除
+</code></pre>
+<p>而不是：</p>
+<pre><code>ALTER TABLE
+删除字段
+ ↓
+然后发现旧版本还在访问
+ ↓
+生产事故
+</code></pre>
+<p><strong>不要让一个版本升级必须“全世界同时升级”</strong></p>
+<p>理想状态：</p>
+<pre><code>Client V1 ───┐
+             ├── Server V2
+Client V2 ───┘
+</code></pre>
+<p>而不是：</p>
+<pre><code>Client V1 × Server V2
+Client V2 × Server V1
+</code></pre>
+<p>这叫做<strong>兼容性设计</strong>，也是为什么协议设计非常重要。</p>
+<h1 id="7-失败可控"><a href="#7-失败可控" class="headerlink" title="7 失败可控"></a>7 失败可控</h1><p><strong>系统一定会失败，要设计失败模式。</strong></p>
+<p>不要问：</p>
+<blockquote>
+<p>“怎么保证 Redis 永远不会挂？”</p>
+</blockquote>
+<p>而应该问：</p>
+<blockquote>
+<p>“Redis 挂了以后系统怎么办？”</p>
+</blockquote>
+<p>例如：</p>
+<pre><code>Redis 挂掉
+ ↓
+缓存失效
+ ↓
+是否降级？
+ ↓
+数据库是否被打爆？
+ ↓
+是否限流？
+ ↓
+是否熔断？
+</code></pre>
+<p><strong>不要让局部故障扩散成全局故障</strong></p>
+<p>这是分布式系统非常重要的原则：</p>
+<pre><code>服务 A 故障
+   ↓
+服务 B 等待
+   ↓
+服务 C 等待
+   ↓
+线程池耗尽
+   ↓
+整个系统雪崩
+</code></pre>
+<p>应该设计：</p>
+<pre><code>Timeout
+Retry
+Circuit Breaker
+Bulkhead
+Rate Limit
+Fallback
+</code></pre>
+<p><strong>重试必须谨慎</strong></p>
+<p>很多人认为：</p>
+<blockquote>
+<p>请求失败 → retry</p>
+</blockquote>
+<p>但如果：</p>
+<pre><code>请求支付
+ ↓
+服务端已经扣款
+ ↓
+响应丢失
+ ↓
+客户端 retry
+ ↓
+再次扣款
+</code></pre>
+<p>就出事故了。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>重试 + 幂等，是一对必须一起设计的东西。</strong></p>
+</blockquote>
+<h1 id="8-数据设计"><a href="#8-数据设计" class="headerlink" title="8 数据设计"></a>8 数据设计</h1><p><strong>不要让多个系统同时成为同一份数据的“主人”</strong></p>
+<p>例如：</p>
+<pre><code>A → user 表
+B → user 表
+C → user 表
+</code></pre>
+<p>最后：</p>
+<blockquote>
+<p>到底谁说了算？</p>
+</blockquote>
+<p>更好的设计是明确：</p>
+<pre><code>User Service
+    ↓
+User 数据唯一事实来源
+</code></pre>
+<p>即 <strong>Single Source of Truth</strong>。</p>
+<hr>
+<p><strong>不要为了性能过早引入缓存</strong></p>
+<p>先：</p>
+<pre><code>Database
+</code></pre>
+<p>发现：</p>
+<pre><code>QPS 不够
+</code></pre>
+<p>再：</p>
+<pre><code>Database
+    ↑
+   Cache
+</code></pre>
+<p>否则你马上获得一个新问题：</p>
+<blockquote>
+<p>数据库里的数据和缓存里的数据到底哪个是真的？</p>
+</blockquote>
+<hr>
+<p><strong>不要把一致性当成免费的</strong></p>
+<p>你选择：</p>
+<pre><code>强一致
+</code></pre>
+<p>通常意味着：</p>
+<pre><code>性能 ↓
+可用性 ↓
+复杂度 ↑
+</code></pre>
+<p>选择：</p>
+<pre><code>最终一致
+</code></pre>
+<p>则意味着：</p>
+<pre><code>性能 ↑
+可用性 ↑
+业务处理复杂度 ↑
+</code></pre>
+<p><strong>一致性是架构决策，不是数据库默认行为。</strong></p>
+<h1 id="9-总结"><a href="#9-总结" class="headerlink" title="9 总结"></a>9 总结</h1><table>
+<thead>
+<tr>
+<th>原则</th>
+<th>核心思想</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Don’t reinvent the wheel</strong></td>
+<td>不重复造轮子</td>
+</tr>
+<tr>
+<td><strong>YAGNI</strong></td>
+<td>不为不存在的需求设计</td>
+</tr>
+<tr>
+<td><strong>KISS</strong></td>
+<td>能简单就不要复杂</td>
+</tr>
+<tr>
+<td><strong>Avoid premature optimization</strong></td>
+<td>不要过早优化</td>
+</tr>
+<tr>
+<td><strong>Prefer standard</strong></td>
+<td>优先标准方案</td>
+</tr>
+<tr>
+<td><strong>Explicit over implicit</strong></td>
+<td>显式优于隐式</td>
+</tr>
+<tr>
+<td><strong>Loose coupling</strong></td>
+<td>降低耦合</td>
+</tr>
+<tr>
+<td><strong>Backward compatibility</strong></td>
+<td>保证向后兼容</td>
+</tr>
+<tr>
+<td><strong>Fail gracefully</strong></td>
+<td>优雅处理失败</td>
+</tr>
+<tr>
+<td><strong>Observability first</strong></td>
+<td>系统必须可观测</td>
+</tr>
+</tbody></table>
+<p>但如果只让我选<strong>三个最高级的原则</strong>，我会选：</p>
+<p><strong>① 不要重新解决已经被解决的问题。</strong><br><strong>② 不要为尚不存在的问题增加复杂度。</strong><br><strong>③ 永远假设依赖会失败、数据会异常、需求会变化。</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <div>
+                        <span>Author:</span>
+                        <span>ismdeep</span>
+                    </div>
+                
+                
+                    <div>
+                    Date: <a href="#">September 4, 2026&nbsp;&nbsp;8:50:53</a>
+                    </div>
+                
+                
+                    <div>
+                        <span>Permalink:</span>
+                        <span><a href="https://ismdeep.github.io/posts/2026-09-04-principles-of-system-design.html">https://ismdeep.github.io/posts/2026-09-04-principles-of-system-design.html</a></span>
+                    </div>
+                
+                
+                    <div>
+                        <span>License:</span>
+                        <span>Copyright (c) 2025 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </div>
+                
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                        
+                            <a href="/tags/System-Design/">#System Design</a>
+                        
+                    
+                </span>
+            </div>
+        </section>
+
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+        <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+        <script src="/js/md5.js"></script>
+        <div style="margin-top: 2rem" id="gitalk-container"></div>
+        <script>
+          const gitalk = new Gitalk({
+            clientID: 'fbdbc0d8c335f558f9b7',
+            clientSecret: 'ee8a5301d43b6a7334ac0f34081006c097f75aa9',
+            repo: 'ismdeep.github.io',
+            owner: 'ismdeep',
+            admin: ['ismdeep'],
+            id: md5(location.pathname),
+            language: 'en'
+          })
+          gitalk.render('gitalk-container')
+        </script>
+
+
+    </article>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="visualClear"></div>
+      </div>
+      <div id="column-one" lang="zh-Hans-CN" dir="ltr">
+        <div role="navigation" class="portlet" id="p-personal" aria-labelledby="p-personal-label">
+          <div class="pBody" style="margin-top: 4px;">
+            <ul lang="zh-Hans-CN" dir="ltr">
+              <li>
+                <a href="/">首页</a>
+              </li>
+              <li>
+                <a href="/archives/">文章列表</a>
+              </li>
+              <li>
+                <a href="/tags/">分类索引</a>
+              </li>
+              <li>
+                <a href="/posts/resource.html">资源列表</a>
+              </li>
+              <li>
+                <a href="/tweets">只言片语</a>
+              </li>
+              <li>
+                <a href="/about/">关于我</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="portlet" id="p-logo" role="banner">
+          <a href="/" class="mw-wiki-logo"></a>
+        </div>
+        <div id="sidebar">
+          <div role="navigation" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+            <h3 id="p-navigation-label" lang="zh-Hans-CN" dir="ltr">导航</h3>
+            <div class="pBody">
+              <ul lang="zh-Hans-CN" dir="ltr">
+                <li id="n-mainpage-description" class="mw-list-item">
+                  <a href="/">首页</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/archives/">文章列表</a>
+                </li>
+                <li id="n-indexpage" class="mw-list-item">
+                  <a href="/tags/">分类索引</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/posts/resource.html">资源列表</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/tweets">只言片语</a>
+                </li>
+                <li id="n-Featured_content" class="mw-list-item">
+                  <a href="/about/">关于我</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer" class="mw-footer" role="contentinfo" lang="zh-Hans-CN" dir="ltr">
+        <ul id="f-list">
+          <li id="about">
+            <a href="/about/">关于我</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </body>
+  <div id="immersive-translate-browser-popup" style="all: initial"></div>
+
+</html>
